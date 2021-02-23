@@ -7,7 +7,7 @@ use Illuminate\Container\Container;
 $capsule = new Capsule;
 
 $capsule->addConnection([
-    "driver"    => "mysql",
+    "driver"    => DB_DRIVER,
     'host'      => DB_HOST,
     'database'  => DB_NAME,
     'username'  => DB_USER,
