@@ -1,0 +1,17 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "require": {
+        "jenssegers/blade": "^1.4",
+        "vlucas/phpdotenv": "^5.2",
+        "illuminate/database": "^8.22",
+        "laminas/laminas-diactoros": "^2.5",
+        "illuminate/events": "^8.22",
+        "phpmailer/phpmailer": "^6.2",
+        "miladrahimi/phprouter": "5.*",
+        "ext-json": "*"
+    }
+}

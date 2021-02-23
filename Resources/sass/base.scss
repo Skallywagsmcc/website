@@ -1,0 +1,118 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+@import "auth.scss";
+
+.container-wrapper {
+  /* this is used to fix the footer issue do not remove */
+  @include setheight(95vh);
+}
+
+@font-face {
+  font-family: 'carnivalee_freakshowregular';
+  src: url('public_html/fonts/carnevalee_freakshow-webfont.woff2') format('woff2'),
+  url('public_html/fonts/carnevalee_freakshow-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body, html {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  color: $secondary-text;
+  font-family: "carnivalee_freakshowregular" Tahoma;
+  background-color: $body;
+}
+
+.col-md-6 img, .col-lg-3 img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+}
+
+.logo_wrapper {
+  background-color: $primarybg;
+  @include setborder(solid, 5px, $secondarybg, top);
+  @include setborder(solid, 5px, $secondarybg, bottom);
+}
+
+.navbar-brand img {
+  height: 50px;
+  width: 50px;
+}
+
+
+.logo_wrapper {
+  img {
+    height: 140px;
+    width: 160px;
+  }
+}
+
+#navbar {
+
+  @media (max-width: 991.98px) {
+    background-color: $primarybg;
+
+    .navbar-toggler
+    {
+      color: white;
+    }
+
+
+  }
+
+
+
+
+@include dropdown();
+  a {
+    color: white;
+
+    @media (max-width:991.98px) {
+      text-indent: 5px;
+      padding:5px 0px;
+    }
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+
+
+
+#form
+{
+  background-color: #f1f1f1;
+  border:solid 1px yellow;
+  color:black;
+  padding:10px 5px;
+
+  .form-group
+  {
+    .form-group
+    {
+      color:black;
+    }
+
+  }
+
+  .form-control,.btn-save{
+    background-color: $body;
+    color:white;
+    height: 50px;
+    padding:15px 5px;
+  }
+}
+
+
+.footer {
+  background-color: $primarybg;
+  color: $secondary-text;
+  @include setheight(5vh);
+}

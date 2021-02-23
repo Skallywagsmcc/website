@@ -1,0 +1,129 @@
+/*i will come back to this file this will be used to design the authentication Layout */
+#authcontainer {
+  background-color: red;
+}
+
+.container-wrapper {
+  /* this is used to fix the footer issue do not remove */
+  min-height: 95vh;
+}
+
+@font-face {
+  font-family: "carnivalee_freakshowregular";
+  src: url("public_html/fonts/carnevalee_freakshow-webfont.woff2") format("woff2"), url("public_html/fonts/carnevalee_freakshow-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+body, html {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  color: #fff;
+  font-family: "carnivalee_freakshowregular" Tahoma;
+  background-color: #263238;
+}
+
+.col-md-6 img, .col-lg-3 img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+}
+
+.logo_wrapper {
+  background-color: #00247d;
+  border-top: solid 5px #ce1126;
+  border-bottom: solid 5px #ce1126;
+}
+
+.navbar-brand img {
+  height: 50px;
+  width: 50px;
+}
+
+.logo_wrapper img {
+  height: 140px;
+  width: 160px;
+}
+
+@media (max-width: 991.98px) {
+  #navbar {
+    background-color: #00247d;
+  }
+  #navbar .navbar-toggler {
+    color: white;
+  }
+}
+@media (max-width: 991.98px) {
+  #navbar .dropdown .dropdown-menu {
+    background-color: #00247d;
+    color: white;
+    padding: 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-item {
+    background-color: #00247d;
+    color: white;
+    border: none;
+    text-indent: 10px;
+    padding: 5px 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-divider {
+    background-color: #00247d;
+    color: #00247d;
+  }
+}
+@media (min-width: 992px) {
+  #navbar .dropdown .dropdown-menu {
+    background-color: #263238;
+    color: white;
+    padding: 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-item {
+    background-color: #263238;
+    color: white;
+    border: none;
+    text-indent: 10px;
+    padding: 5px 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-divider {
+    background-color: #263238;
+    color: #263238;
+  }
+}
+#navbar a {
+  color: white;
+}
+@media (max-width: 991.98px) {
+  #navbar a {
+    text-indent: 5px;
+    padding: 5px 0px;
+  }
+}
+#navbar a:hover {
+  text-decoration: underline;
+}
+
+#form {
+  background-color: #f1f1f1;
+  border: solid 1px yellow;
+  color: black;
+  padding: 10px 5px;
+}
+#form .form-group .form-group {
+  color: black;
+}
+#form .form-control, #form .btn-save {
+  background-color: #263238;
+  color: white;
+  height: 50px;
+  padding: 15px 5px;
+}
+
+.footer {
+  background-color: #00247d;
+  color: #fff;
+  min-height: 5vh;
+}
+
+/*# sourceMappingURL=base.css.map */
