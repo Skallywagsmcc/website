@@ -1,6 +1,6 @@
 *.map
 *Zone.Identifier
+bootstrap/config.php
 .idea
 .env
 vendor
-Backup

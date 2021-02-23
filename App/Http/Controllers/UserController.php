@@ -11,10 +11,10 @@ class UserController
 
     public function index()
     {
-        $users = User::all();
+        $users = User::where("status","complete")->get();
         foreach ($users as $user)
         {
-            echo $user->username;
+            echo $user->email;
         }
     }
 

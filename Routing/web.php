@@ -1,11 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\AdminAuthMiddleware;
-use App\Http\Packages\SqlInstaller\Base;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Router;
 
@@ -13,8 +8,13 @@ use MiladRahimi\PhpRouter\Router;
 
 $router = Router::create();
 // Index controller
-$router->get("/",function(){
-    echo "Welcome to the site";
+$router->get("/",[UserController::class,'index']);
+
+$router->group(["prefix"=>"/auth"],function(Router $router)
+{
+    $router->get("/register",[App\Http\Controllers\RegisterController::class,'index']);
+    $router->post("/register",[App\Http\Controllers\RegisterController::class,'store']);
+    $router->post("/register/validate",[App\Http\Controllers\PasswordController::class,'store']);
 });
 
 try {
