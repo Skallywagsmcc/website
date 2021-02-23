@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection("content"); ?>
     <h2>Registration : Create Your Password</h2>
     <form action="/auth/register/validate" method="post">

@@ -11,10 +11,10 @@ class UserController
 
     public function index()
     {
-        $users = User::where("status","complete")->get();
+        $users = User::where("status","pending")->get();
         foreach ($users as $user)
         {
-            echo $user->email;
+            echo $user->email . " | <a href='/auth/register/delete/".$user->id."'>Delete User</a><br>";
         }
     }
 

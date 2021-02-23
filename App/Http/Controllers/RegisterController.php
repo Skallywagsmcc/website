@@ -14,8 +14,10 @@ class RegisterController
 
     public function index()
     {
-        echo BladeEngine::View("Pages.Auth.Register");
+        echo BladeEngine::View("Pages.Auth.Register.index");
     }
+
+
     public function store()
     {
         $validate = new Validate();
@@ -23,10 +25,9 @@ class RegisterController
         $user->username = $validate->Required("username")->Post();
         $user->email = $validate->Required("email")->Post();
         $user->password = $validate->Required("password")->Post();
-        $confirm = $validate->Required("confirm")->Post();
+        $confirm = $validate->Required("confirm")->Post(); 
         if($validate->data == false)
         {
-
             Register::ValidateEmail($user->email)->View("Pages.Auth.Register.Passwords",["id"=>Register::$id]);
             if(Register::$ValidEmail == true)
             {
@@ -37,7 +38,10 @@ class RegisterController
         }
     }
 
-
+    public function delete($id)
+    {
+        $users = User::find($id)->delete();
+    }
 
 
 
