@@ -14,21 +14,7 @@ class Passwords
     public static $ValidPassword;
 
 
-    public static function CheckStrength($password)
-    {
-// Validate password strength
-        $uppercase = preg_match('@[A-Z]@', $password);
-        $lowercase = preg_match('@[a-z]@', $password);
-        $number = preg_match('@[0-9]@', $password);
-//        $specialChars = preg_match('@[^\w]@', $password);
 
-        if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
-            self::$ValidPassword = false;
-        } else {
-            self::$password = $password;
-            self::$ValidPassword = true;
-        }
-    }
 
     public  function ManagaePassword($id)
     {

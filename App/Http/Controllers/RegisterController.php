@@ -7,8 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Models\User;
-use App\Http\Packages\Authentication\Register;
-
+use App\Http\Libraries\Authentication\Authenticate;
 class RegisterController
 {
 
@@ -23,9 +22,37 @@ class RegisterController
         $validate = new Validate();
         $user = new User();
         $user->email = $validate->Required("email")->Post();
-        $user->password = $validate->Required("password")->Post();
+        $user->password  = $validate->Required("password")->Post();
+        $user->confirm = $validate->Required("confirm")->Post();
+        $validate->HasStrongPassword($user->password);
+        if(Authenticate::ValidateEmail($user->email) == 1)
+        {
+            $errmessage = "The Email you are registering already Exiists";
+        }
+        else
+        {
+//            start
+            if($user->password == $user->confirm)
+            {
+                if(Validate::$ValidPassword == true)
+                {
+                    Authenticate::Auth()->WithEmail($user->email)->WithPassword($user->password)->Register()->EmailConfirmation($user->email);
+                }
+                else
+                {
+                    $errmessage = "The Password you have entered doesnt fit the requirments";
+                    echo Validate::$ShowRequirments;
+                }
+            }
+            else
+            {
+                $errmessage = "The PAsswords do not match";
+            }
 
-    Register::ValidateEmail($user->email)->GeneratePassword($password)->EmailConfirmation()->Redirect("/auth/login");
+//            end
+        }
+        echo BladeEngine::View("Pages.Auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage]);
+
     }
 
     public function delete($id)

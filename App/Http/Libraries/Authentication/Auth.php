@@ -1,49 +1,18 @@
 <?php
 
 
-namespace App\Http\Packages\Authentication;
+namespace App\Http\Libraries\Authentication;
 
 
 use App\Http\Functions\BladeEngine;
-use App\Http\Models\User;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-class Register
+class Auth
 {
-    public static $id;
-    public static $ValidEmail;
-    public static $ValidPassword;
-    public static $ValidUser;
 
-    protected static $username;
-    protected static $password;
-    protected static $confirm;
-    protected static $email;
-
-    public static function ValidateEmail($email)
-    {
-//        We will validate the email address  here
-        $users = User::where("email", $email)->get();
-        if ($users->count() == 1) {
-            self::$ValidEmail = true;
-        } else {
-            self::$ValidEmail == false;
-//           Save Data to database
-            $user = new User();
-            $user->tfa = true;
-            $user->email = $email;
-            $user->status = "pending";
-            $user->expires = time() + 3600;
-            $user->save();
-            self::$email = $email;
-            self::$id = $user->id;
-        }
-        return new static();
-    }
-
-    public function EmailConfirmation()
+    public function EmailConfirmation($email)
     {
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
@@ -67,7 +36,7 @@ class Register
 
             //Recipients
             $mail->setFrom('No-Reply@skallywags.club', 'No reply');
-            $mail->addAddress(self::$email);     //Add a recipient
+            $mail->addAddress($email);     //Add a recipient
 //    $mail->addAddress('ellen@example.com');               //Name is optional
 //    $mail->addReplyTo('info@example.com', 'Information');
 //    $mail->addCC('cc@example.com');
@@ -80,43 +49,14 @@ class Register
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'This account has been created';
-            $mail->Body    = BladeEngine::View("Templates.newuser",["email"=>self::$email]);
+            $mail->Body    = BladeEngine::View("Templates.newuser",["email"=>$email]);
 
             $mail->send();
             echo 'Message has been sent';
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
-return $this;
-    }
-
-
-
-
-    public function GeneratePassword($password, $id = null )
-    {
-        if ((is_null($id)) || ($id == null)) {
-            $id = self::$id;
-        }
-
-        if(self::$ValidEmail == 1)
-        {
-            header("location:/auth/register");
-        }
-        elseif(self::$ValidEmail == false)
-        {
-            $user = User::find($id);
-            $user->password = $password;
-            $user->save();
-        }
-
         return $this;
     }
-
-    public function Redirect($location)
-    {
-        return header("location: $location");
-    }
-
 
 }
