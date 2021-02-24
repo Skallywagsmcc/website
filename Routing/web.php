@@ -15,7 +15,6 @@ $router->group(["prefix"=>"/auth"],function(Router $router)
     $router->get("/register",[App\Http\Controllers\RegisterController::class,'index']);
     $router->post("/register",[App\Http\Controllers\RegisterController::class,'store']);
     $router->post("/register/validate",[App\Http\Controllers\PasswordController::class,'store']);
-    $router->get("/register/delete/{id}",[App\Http\Controllers\RegisterController::class,'delete']);
 });
 
 try {

@@ -22,25 +22,23 @@ class RegisterController
     {
         $validate = new Validate();
         $user = new User();
-        $user->username = $validate->Required("username")->Post();
         $user->email = $validate->Required("email")->Post();
         $user->password = $validate->Required("password")->Post();
-        $confirm = $validate->Required("confirm")->Post(); 
-        if($validate->data == false)
-        {
-            Register::ValidateEmail($user->email)->View("Pages.Auth.Register.Passwords",["id"=>Register::$id]);
-            if(Register::$ValidEmail == true)
-            {
-                $register = new Register();
-                $register->redirect("/auth/login");
-            }
 
-        }
+    Register::ValidateEmail($user->email)->GeneratePassword($password)->EmailConfirmation()->Redirect("/auth/login");
     }
 
     public function delete($id)
     {
-        $users = User::find($id)->delete();
+        $user = User::where("id",$id);
+            if($user->get()->count() == 1)
+        {
+            $user->delete();
+        }
+            else
+        {
+            echo "User cannot be found";
+        }
     }
 
 

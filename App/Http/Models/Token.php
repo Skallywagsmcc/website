@@ -14,27 +14,6 @@ class Token extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function install()
-    {
-        if(Capsule::schema()->hasTable("tokens"))
-        {
-            echo "table exists";
-        }
-        else
-        {
-            Capsule::schema()->create("tokens",function ($table)
-            {
-                $table->id();
-                $table->foreignId('user_id')
-                    ->constrained()
-                    ->onUpdate('cascade')
-                    ->onDelete('cascade');
-                $table->string("key");
-                $table->timestamps();
-            });
-        }
-
-    }
 
 
 }

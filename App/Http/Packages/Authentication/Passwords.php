@@ -4,17 +4,15 @@
 namespace App\Http\Packages\Authentication;
 
 
+use App\Http\Models\User;
+
 class Passwords
 {
 
-    public static $IsValid;
-    public static $hash;
-    public static $IsValidPassword;
+    public static $password;
+    public static $username;
+    public static $ValidPassword;
 
-    public static function ConfirmPwd($password, $confirm)
-    {
-        return $password == $confirm ? self::CheckStrength($password) : false;
-    }
 
     public static function CheckStrength($password)
     {
@@ -25,20 +23,20 @@ class Passwords
 //        $specialChars = preg_match('@[^\w]@', $password);
 
         if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
-//            Password error
+            self::$ValidPassword = false;
         } else {
-            self::HashPwd($password);
+            self::$password = $password;
+            self::$ValidPassword = true;
         }
     }
 
-    public static function HashPwd($password)
+    public  function ManagaePassword($id)
     {
-        $hash = password_hash($password, PASSWORD_DEFAULT);
-        if ($hash) {
-            self::$hash = $hash;
-            self::$IsValidPassword = true;
-        } else {
-            self::$IsValidPassword = false;
-        }
+      if(self::$ValidPassword == true)
+      {
+          $user = User::find($id);
+          $user->password = password_hash(self::$password,PASSWORD_DEFAULT);
+          $user->save();
+      }
     }
 }
