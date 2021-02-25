@@ -9,34 +9,8 @@ use App\Http\Models\User;
 
 class login
 {
-    public $username;
-    public $password;
-
-    public $user;
-    public $count;
-    public $ValidUser;
-    public $ValidPassword;
-
-    public function __construct($username, $password)
-    {
-        $this->username = $username;
-        $this->password = $password;
-
-        $this->IsValidUser();
-
-    }
 
 
-
-
-    public function IsValidUser()
-    {
-        $results = User::where("username", $this->username)->orwhere("email", $this->username)->get();
-        $this->user = $results->first();
-        $this->count = $results->count();
-        return $this;
-
-    }
 
 
 
@@ -54,25 +28,6 @@ class login
     }
 
 
-    public function authenticate()
-    {
-        if ($this->count == 1) {
-            if ($this->VerifyPw() == true) {
-                $this->ProcessLogin();
-            } else {
-                echo "Passwords do not match";
-            }
-
-        } else {
-            echo "user not found";
-        }
-        return $this;
-    }
-
-    public function VerifyPw()
-    {
-        return password_verify($this->password, $this->user->password);
-    }
 
 
 //Verify password exisits

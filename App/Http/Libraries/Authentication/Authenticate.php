@@ -15,14 +15,31 @@ class Authenticate extends Auth
     private static $withuser;
     private static $withemail;
     private static $withpassword;
+    public static $errmessage;
 
 //Get post requests
     private static $username;
     private static $email;
     private static $password;
+//end requests
+
+//    Pre validation
+
+    public static function ValidateEmail($email)
+    {
+        return User::where("email",$email)->get()->count();
+    }
 
 
-// end requests
+    public static function ValidateUser($username)
+    {
+        return User::where("username",$username)->get()->count();
+    }
+
+
+//End Prevalidation
+
+// Registration
 
     public static function Auth()
     {
@@ -56,7 +73,7 @@ class Authenticate extends Auth
     }
 
 
-// Registration
+
 
     public function Register($redirect = null)
     {
@@ -74,27 +91,13 @@ class Authenticate extends Auth
           $user->password = self::$password;
       }
         $user->save();
-//        if ((is_null($redirect)) || ($redirect == null)) {
-//            header("location:/auth/register/success");
-//        } else {
-//            header("location:$redirect");
-//        }
-        ¬
+        if ((is_null($redirect)) || ($redirect == null)) {
+            header("location:/auth/register/success");
+        } else {
+            header("location:$redirect");
+        }
         return $this;
     }
-
-
-    public static function ValidateEmail($email)
-    {
-        return User::where("email",$emaiil)->get()->count();
-    }
-
-    public static function ValidateUser($username)
-    {
-        return User::where("username",$username)->get()->count();
-    }
-
-
 
 
 
@@ -103,8 +106,41 @@ class Authenticate extends Auth
 
 //    Login section
 
+
+public function Redirect($value)
+{
+    header("locatipn:$value");
+    return $this;
+}
+
+
     public function Login()
     {
+        $users = User::where("username",self::$username)->orwhere("email",self::$username)->get();
+        $user = $users->first();
+        if($users->count() == 1)
+        {
+//          Create the session
+
+//            Create csrf token
+
+//            Check for 2factor auth and redirect
+        else
+        {
+            self::$errmessage = "user Doesnt exisit";
+        }
+        return $this;
+/*what is needed
+)
+
+ Validate the users
+ Search for the user information and pull it from the database
+ verify the password witht he database
+ create a csrf token
+ allow it to accept csrf code and create a session or cookie
+if 2fa is not enabled then just create a session or cookie
+
+*/
 
     }
 
