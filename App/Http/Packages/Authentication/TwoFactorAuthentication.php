@@ -23,13 +23,12 @@ class TwoFactorAuthentication
     public function RequestTfa($id)
     {
         $tfa = tfa::find($id)->get()->first();
-        echo BladeEngine::View("Pages.Authentication.TwoFactorAuth")
+        echo BladeEngine::View("Pages.Authentication.TwoFactorAuth");
     }
 
   public function generate2fa($id)
   {
 
-      return new static();
   }
 
 

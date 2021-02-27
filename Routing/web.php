@@ -3,12 +3,14 @@
 use App\Http\Controllers\UserController;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Router;
+use App\Http\Libraries\SqlInstaller;
 
 //Instantiate
 
 $router = Router::create();
 // Index controller
 $router->get("/",[UserController::class,'index']);
+$router->get("/install",[SqlInstaller\Base::class,'index']);
 
 $router->group(["prefix"=>"/auth"],function(Router $router)
 {

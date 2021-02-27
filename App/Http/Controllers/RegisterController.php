@@ -40,13 +40,13 @@ class RegisterController
                 }
                 else
                 {
-                    $errmessage = "The Password you have entered doesnt fit the requirments";
+                    $errmessage = "Sorry You Have not met the Secure Password Requirments";
                     echo Validate::$ShowRequirments;
                 }
             }
             else
             {
-                $errmessage = "The PAsswords do not match";
+                $errmessage = "Sorry The Passwords you have entered do not match, Please try again";
             }
 
 //            end

@@ -14,4 +14,10 @@ class User extends Controller
         return $this->hasOne(Token::class);
     }
 
+    public function TwoFactorAuth()
+    {
+        return $this->hasOne(TwoFactorAuth::class);
+    }
+
+
 }
