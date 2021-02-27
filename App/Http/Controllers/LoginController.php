@@ -8,6 +8,7 @@ use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\User;
+use App\Http\Libraries\Email;
 
 class LoginController
 {

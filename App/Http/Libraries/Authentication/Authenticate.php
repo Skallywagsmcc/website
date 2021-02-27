@@ -2,7 +2,7 @@
 
 
 namespace App\Http\Libraries\Authentication;
-
+use App\Http\Libraries\Emails\Authentication;
 
 use App\Http\Models\User;
 
@@ -131,6 +131,12 @@ class Authenticate
         return $this;
     }
 
+    public function SendEmail($classname)
+    {
+        echo __NAMESPACE__;
+        return $this;
+    }
+
     public function Login($username = null, $password = null)
     {
 
@@ -157,6 +163,8 @@ class Authenticate
 //                Send The TFA Login to the email;
                 $results = TwoFactorAuth::CountAuths($user->id);
                 $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
+                Authentication::TwoFactor($user->email);
+
 
 
             }

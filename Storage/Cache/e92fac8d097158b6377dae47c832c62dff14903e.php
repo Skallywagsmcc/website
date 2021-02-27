@@ -1,4 +1,3 @@
-
 <?php $__env->startSection("content"); ?>
 
     <h2>Message : <?php if(isset($errmessage)): ?><?php echo e($errmessage); ?><?php endif; ?></h2>
