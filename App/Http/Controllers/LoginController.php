@@ -31,7 +31,7 @@ class LoginController
 //        } else {
 //            Authenticate::$errmessage = "Username or email could not be found Please Consider Registering for an account";
 //        }
-        Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password);
+        Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/auth/tfa");
         echo BladeEngine::View("Pages.Auth.Login.index", ["user" => $user, "errmessage" => Authenticate::$errmessage]);
     }
 }

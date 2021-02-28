@@ -7,6 +7,8 @@ namespace App\Http\Libraries\Authentication;
 class TwoFactorAuth
 {
 
+    private static $code;
+
 
     public static function GenerateCode($user_id)
     {
@@ -14,20 +16,28 @@ class TwoFactorAuth
         $tfa->user_id = $user_id;
         $tfa->hex = bin2hex(random_bytes(32));
         $tfa->code = rand(000000, 999999);
-        $tfa->expire = time() + 1800;
+        $tfa->expire = time() + 56;
         $tfa->save();
+        self::$code = $tfa->code;
 //        Delete any tfa Request
 //        Sessions::Destroy("tfa");
 //        Create new Request
 //        Sessions::Create("tfa", false);
     }
 
+    public static function __getCode()
+    {
+        return self::$code;
+    }
+
     public static function UpdateTwoFactorAuth($id)
     {
         $tfa = \App\Http\Models\TwoFactorAuth::find($id);
         $tfa->hex = bin2hex(random_bytes(32));
-        $tfa->code = rand(000000, 999999);
+        $tfa->code = rand(000000, 999999);#
         $tfa->save();
+
+        self::$code = $tfa->code;
     }
 
     public static function CountAuths($id)

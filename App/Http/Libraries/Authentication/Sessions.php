@@ -10,13 +10,14 @@ class Sessions
 
     public static function Create($name, $value)
     {
-        self::$name = $name;
-        self::$value = $value;
+        $_SESSION[$name] = $value;
+        return new static();
     }
 
     public static function Destroy($name)
     {
         unset($_SESSION[$name]);
+        return new static();
     }
 
     public static function Read($name = null)

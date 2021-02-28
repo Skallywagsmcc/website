@@ -5,6 +5,8 @@ namespace App\Http\Libraries\Authentication;
 use App\Http\Libraries\Emails\Authentication;
 
 use App\Http\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 
 class Authenticate
 {
@@ -131,15 +133,32 @@ class Authenticate
         return $this;
     }
 
-    public function SendEmail($classname)
+    public static function InsertTwoFactorAuth($code)
     {
-        echo __NAMESPACE__;
-        return $this;
+
+        isset($_SESSION['id']) ? $auth = $_SESSION['id'] : $auth =  $_COOKIE['id'];
+        $user = \App\Http\Models\User::where("id",$auth)->get()->first();
+
+        echo $code . "  " . $user->TwoFactorAuth->code;
+            if($code == $user->TwoFactorAuth->code)
+            {
+                Sessions::Create("tfa",true);
+                self::Redirect("/profile");
+            }
+            else
+            {
+                self::$errmessage = "The Code you entered is incorrect";
+            }
+
+
+
     }
+
+
 
     public function Login($username = null, $password = null)
     {
-
+        echo $_SESSION['id'];
         $users = User::where("username", $username)->orwhere("email", $username)->get();
         $user = $users->first();
         if ($users->count() == 1) {
@@ -163,7 +182,7 @@ class Authenticate
 //                Send The TFA Login to the email;
                 $results = TwoFactorAuth::CountAuths($user->id);
                 $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
-                Authentication::TwoFactor($user->email);
+                Authentication::TwoFactor($user->email,TwoFactorAuth::__getCode());
 
 
 

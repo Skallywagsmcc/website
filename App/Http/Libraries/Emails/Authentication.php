@@ -11,12 +11,8 @@ use PHPMailer\PHPMailer\Exception;
 class Authentication
 {
 
-    public function sayhi()
-    {
-        echo "Hello world";
-    }
 
-    public static function TwoFactor($email)
+    public static function TwoFactor($email,$code)
     {
 //Instantiation and passing `true` enables exceptions
 $mail = new PHPMailer(true);
@@ -39,7 +35,7 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Your Two Facotr auth code';
-    $mail->Body    = 'This is the HTML message body <b>in bold! your code is</b>';
+    $mail->Body    = 'This is the HTML message body <b>in bold! your code is'. $code.'</b>';
 
     $mail->send();
     echo 'Message has been sent';

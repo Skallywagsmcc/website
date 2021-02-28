@@ -20,6 +20,9 @@ $router->group(["prefix"=>"/auth"],function(Router $router)
 
     $router->get("/login",[\App\Http\Controllers\LoginController::class,'index']);
     $router->post("/login",[\App\Http\Controllers\LoginController::class,'store']);
+
+    $router->get("/tfa",[App\Http\Controllers\Auth\TwoFactorAuth::class,'index']);
+    $router->post("/tfa/approve",[App\Http\Controllers\Auth\TwoFactorAuth::class,'store']);
 });
 
 try {
