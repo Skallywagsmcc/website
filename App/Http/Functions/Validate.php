@@ -58,8 +58,7 @@ class Validate
             self::$ValidPassword = true;
             self::$ShowRequirments = false;
         }
-
+/*This scrip works as a standalone however i need to fix it to support chainloading conventsion*/
 //        return $this;
-    }
 }
 
