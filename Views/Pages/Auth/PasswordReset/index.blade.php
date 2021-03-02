@@ -1,8 +1,8 @@
 @extends("Layouts.main")
 
-@section("Content")
+@section("content")
     <form action="/auth/reset-password" method="post">
         <input type="email" name="email">
-        <button>Reset Password</button>
+        <button>Send Request</button>
     </form>
 @endsection

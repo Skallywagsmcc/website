@@ -2,11 +2,9 @@
 
 
 namespace App\Http\Libraries\Authentication;
-use App\Http\Libraries\Emails\Authentication;
 
+use App\Http\Libraries\Emails\Authentication;
 use App\Http\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
 
 class Authenticate
 {
@@ -19,6 +17,7 @@ class Authenticate
     private static $withemail;
     private static $withpassword;
     private static $username;
+    public static $ResetApproved;
 
 //Get post requests
     private static $email;
@@ -59,12 +58,62 @@ class Authenticate
         return new static();
     }
 
+    public static function InsertTwoFactorAuth($code)
+    {
+
+        isset($_SESSION['id']) ? $auth = $_SESSION['id'] : $auth = $_COOKIE['id'];
+        $user = User::where("id", $auth)->get()->first();
+
+        echo $code . "  " . $user->TwoFactorAuth->code;
+        if ($code == $user->TwoFactorAuth->code) {
+            Sessions::Create("tfa", true);
+            self::Redirect("/profile");
+        } else {
+            self::$errmessage = "The Code you entered is incorrect";
+        }
+
+
+    }
+
+    public function Redirect($value)
+    {
+        header("location:$value");
+        return $this;
+    }
+
+    public function ResetPassword($id,$hex)
+    {
+
+        $result = User::where("id",$id)->get();
+        $user = $result->first();
+        $count = $result->count();
+        if($count == 1)
+        {
+            if($user->TwoFactorAuth->hex == $hex)
+            {
+                self::$ResetApproved = true;
+            }
+        }
+        else
+        {
+            echo "no user found";
+        }
+        return $this;
+    }
+
     public function WithUser($username)
     {
         self::$withuser = true;
         self::$username = $username;
         return $this;
     }
+
+
+
+//    end registration script
+
+
+//    Login section
 
     public function WithEmail($email)
     {
@@ -80,7 +129,6 @@ class Authenticate
         self::$password = password_hash($password, PASSWORD_DEFAULT);
         return $this;
     }
-
 
     public function Register($redirect = null)
     {
@@ -104,57 +152,11 @@ class Authenticate
         return $this;
     }
 
-
-
-//    end registration script
-
-
-//    Login section
-
-
-    public function PasswordVerify($password, $hash = null)
-    {
-        if (is_null($hash)) {
-            $hash = self::$password;
-        }
-        return password_verify($password, $hash);
-    }
-
-
-    public function Redirect($value)
-    {
-        header("location:$value");
-        return $this;
-    }
-
     public function AllowRemember($remmember)
     {
         $this->remmeber = $remmember;
         return $this;
     }
-
-    public static function InsertTwoFactorAuth($code)
-    {
-
-        isset($_SESSION['id']) ? $auth = $_SESSION['id'] : $auth =  $_COOKIE['id'];
-        $user = \App\Http\Models\User::where("id",$auth)->get()->first();
-
-        echo $code . "  " . $user->TwoFactorAuth->code;
-            if($code == $user->TwoFactorAuth->code)
-            {
-                Sessions::Create("tfa",true);
-                self::Redirect("/profile");
-            }
-            else
-            {
-                self::$errmessage = "The Code you entered is incorrect";
-            }
-
-
-
-    }
-
-
 
     public function Login($username = null, $password = null)
     {
@@ -165,16 +167,15 @@ class Authenticate
 
 //            Check if the password matches the database password
 
-            if($this->PasswordVerify($password,$user->password))
-            {
+            if ($this->PasswordVerify($password, $user->password)) {
 //                Generate the cookies;
                 if ($this->remmeber == 1) {
                     Sessions::Destroy("id");
-                    Cookies::Create("id",$user->id)->Days(7)->Http(true)->Save();
+                    Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
                 } else {
 //                We Instantiate session id
                     Cookies::Destroy("id")->Days(365)->Save();
-                    Sessions::Create("id",$user->id);
+                    Sessions::Create("id", $user->id);
                 }
 //               Generate CSRF Token
                 Csrf::GenerateToken($user->id);
@@ -182,13 +183,10 @@ class Authenticate
 //                Send The TFA Login to the email;
                 $results = TwoFactorAuth::CountAuths($user->id);
                 $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
-                Authentication::TwoFactor($user->email,TwoFactorAuth::__getCode());
+                Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
 
 
-
-            }
-            else
-            {
+            } else {
                 self::$errmessage = "Whoa!! :( it Looks Like the Password you types doesnt match our Records";
             }
 //            Return user doesnt exisit
@@ -204,5 +202,11 @@ class Authenticate
 
 //    Reset Passwords
 
-
+    public function PasswordVerify($password, $hash = null)
+    {
+        if (is_null($hash)) {
+            $hash = self::$password;
+        }
+        return password_verify($password, $hash);
+    }
 }

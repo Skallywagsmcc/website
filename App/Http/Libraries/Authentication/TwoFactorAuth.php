@@ -9,20 +9,26 @@ class TwoFactorAuth
 
     private static $code;
 
+    private static function bin2hexGen()
+    {
+       return base64_encode(bin2hex(random_bytes(32)));
+    }
+
+    public static function ObtainHex($user_id)
+    {
+        return  \App\Http\Models\TwoFactorAuth::where("user_id",$user_id)->get()->first();
+    }
+
 
     public static function GenerateCode($user_id)
     {
         $tfa = new \App\Http\Models\TwoFactorAuth();
         $tfa->user_id = $user_id;
-        $tfa->hex = bin2hex(random_bytes(32));
+        $tfa->hex = self::bin2hexGen();
         $tfa->code = rand(000000, 999999);
         $tfa->expire = time() + 56;
         $tfa->save();
         self::$code = $tfa->code;
-//        Delete any tfa Request
-//        Sessions::Destroy("tfa");
-//        Create new Request
-//        Sessions::Create("tfa", false);
     }
 
     public static function __getCode()
@@ -33,7 +39,7 @@ class TwoFactorAuth
     public static function UpdateTwoFactorAuth($id)
     {
         $tfa = \App\Http\Models\TwoFactorAuth::find($id);
-        $tfa->hex = bin2hex(random_bytes(32));
+        $tfa->hex = self::bin2hexGen();
         $tfa->code = rand(000000, 999999);#
         $tfa->save();
 
