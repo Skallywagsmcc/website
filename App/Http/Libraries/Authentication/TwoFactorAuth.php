@@ -54,15 +54,15 @@ class TwoFactorAuth
 
     public static function GetTwoFactorAuth()
     {
-        $tfas = \App\Http\Models\TwoFactorAuth::where("user_id",$_SESSION['id'])->get();
-        $count = $tfas->count();
-        if($count == 1)
-        {
-            echo "We Found the code we need";
-        }
-        else
-        {
-            Authenticate::$errmessage = "Sorry the user cannot be found";
+        if(isset($_SESSION['id'])) {
+            $tfas = \App\Http\Models\TwoFactorAuth::where("user_id", $_SESSION['id'])->get();
+            $count = $tfas->count();
+            if ($count == 1) {
+                echo "We Found the code we need";
+            } else {
+                Authenticate::$errmessage = "Sorry the user cannot be found";
+            }
         }
     }
+
 }

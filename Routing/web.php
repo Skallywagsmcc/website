@@ -12,6 +12,7 @@ use MiladRahimi\PhpRouter\Router;
 $router = Router::create();
 // Index controller
 $router->get("/", [UserController::class, 'index']);
+$router->post("/", [UserController::class, 'index']);
 $router->get("/install", [SqlInstaller\Base::class, 'index']);
 
 $router->group(["prefix" => "/auth"], function (Router $router) {
@@ -29,6 +30,7 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/reset-password", [PasswordController::class, 'index']);
     $router->get("/reset-password/request/{id}/{hex}", [PasswordController::class, 'retrieve']);
     $router->post("/reset-password", [PasswordController::class, 'request']);
+    $router->post("/reset-password/update", [PasswordController::class, 'store']);
 
 });
 

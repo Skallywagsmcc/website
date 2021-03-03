@@ -11,10 +11,7 @@ class UserController
 
     public function index()
     {
-
-        $user = User::find(8);
-        echo $user->username;
-        echo "Csrf token is : " . $user->Token->key;
+        echo BladeEngine::View("Pages.index");
     }
 
 

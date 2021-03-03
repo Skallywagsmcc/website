@@ -3,16 +3,8 @@
     Home
     @endsection
 @section("content")
-    Welcome tot the site this is the homepage
+    <form action="/" method="post">
+        {{csrf()}}
+        <button>test</button>
+    </form>
 @endsection
-
-<?php
-
-        if(isset($_COOKIE['id']))
-            {
-                echo "you are logged in";
-            }
-        else
-            {
-                echo "You Are not logged in";
-            }

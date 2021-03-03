@@ -13,11 +13,12 @@ class Authenticate
     public static $id;
     public static $ValidateEmail;
     public static $errmessage;
+    public static $ResetApproved;
+    public static $redirect;
     private static $withuser;
     private static $withemail;
     private static $withpassword;
     private static $username;
-    public static $ResetApproved;
 
 //Get post requests
     private static $email;
@@ -77,25 +78,24 @@ class Authenticate
 
     public function Redirect($value)
     {
-        header("location:$value");
+        if (Authenticate::$redirect == true) {
+            header("location:$value");
+        } else {
+        }
         return $this;
     }
 
-    public function ResetPassword($id,$hex)
+    public function ResetPassword($id, $hex)
     {
 
-        $result = User::where("id",$id)->get();
+        $result = User::where("id", $id)->get();
         $user = $result->first();
         $count = $result->count();
-        if($count == 1)
-        {
-            if($user->TwoFactorAuth->hex == $hex)
-            {
+        if ($count == 1) {
+            if ($user->TwoFactorAuth->hex == $hex) {
                 self::$ResetApproved = true;
             }
-        }
-        else
-        {
+        } else {
             echo "no user found";
         }
         return $this;
@@ -184,8 +184,7 @@ class Authenticate
                 $results = TwoFactorAuth::CountAuths($user->id);
                 $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
                 Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
-
-
+                Authenticate::$redirect = true;
             } else {
                 self::$errmessage = "Whoa!! :( it Looks Like the Password you types doesnt match our Records";
             }
