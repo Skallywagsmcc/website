@@ -37,27 +37,14 @@ class Csrf
 
     public function Token()
     {
-        $id = $_SESSION['id'];
-        $csrf = $_POST['csrf'];
-        $valid = $_SESSION['valid'];
-        $result = User::where("id", $id)->get();
-        $user = $result->first();
-        $count = $result->count();
-        if($_SESSION['Valid'] == true)
-        {
-            if((isset($csrf)) && ($csrf == $user->Token->key) )
-            {
-                echo "Its a match";
-                Sessions::Destroy("Valid");
-                header("location:/");
-            }
-            echo "logged in";
-        }
-        else
-        {
-            echo "not logged in";
-          Sessions::Create("Valid",true);
-        }
+        /*
+         * innistial code will be created when user is logged in
+         * also need to create a  new coloum on table called expire
+         * 1. check if it is logged in
+         * 2. check if there is an expiration for 5 mins  300ms
+         * 3. if expired then generate a new code
+         * 4. check against and verify post csrf code with  database code.
+         */
     }
 
     public static function Key()
