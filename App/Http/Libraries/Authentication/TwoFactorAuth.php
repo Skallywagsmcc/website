@@ -4,21 +4,34 @@
 namespace App\Http\Libraries\Authentication;
 
 
+use App\Http\Models\User;
+
 class TwoFactorAuth
 {
 
     private static $code;
 
-    private static function bin2hexGen()
-    {
-       return base64_encode(bin2hex(random_bytes(32)));
-    }
-
     public static function ObtainHex($user_id)
     {
-        return  \App\Http\Models\TwoFactorAuth::where("user_id",$user_id)->get()->first();
+        return \App\Http\Models\TwoFactorAuth::where("user_id", $user_id)->get()->first();
     }
 
+    public static function CheckStatus()
+    {
+//        This needsx to be middleware rather than a  function
+        $user = User::where("id",$_SESSION['id'])->get()->first();
+        if ($user->two_factor_auth == 1) {
+            if ((isset($_SESSION['RequireTfa'])) && ($_SESSION['RequireTfa'] == true)) {
+                header("location:/auth/tfa");
+            } else {
+                echo "Two Factor Authentication has been approved and you can carry on";
+            }
+        }
+        else
+        {
+            Sessions::Destroy("RequireTfa");
+        }
+    }
 
     public static function GenerateCode($user_id)
     {
@@ -29,6 +42,11 @@ class TwoFactorAuth
         $tfa->expire = time() + 56;
         $tfa->save();
         self::$code = $tfa->code;
+    }
+
+    private static function bin2hexGen()
+    {
+        return base64_encode(bin2hex(random_bytes(32)));
     }
 
     public static function __getCode()
@@ -48,13 +66,13 @@ class TwoFactorAuth
 
     public static function CountAuths($id)
     {
-        return \App\Http\Models\TwoFactorAuth::where("user_id",$id)->get()->count();
+        return \App\Http\Models\TwoFactorAuth::where("user_id", $id)->get()->count();
     }
 
 
     public static function GetTwoFactorAuth()
     {
-        if(isset($_SESSION['id'])) {
+        if (isset($_SESSION['id'])) {
             $tfas = \App\Http\Models\TwoFactorAuth::where("user_id", $_SESSION['id'])->get();
             $count = $tfas->count();
             if ($count == 1) {

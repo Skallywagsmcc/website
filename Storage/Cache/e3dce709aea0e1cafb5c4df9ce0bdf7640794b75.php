@@ -6,7 +6,7 @@
     <form action="/" method="post">
         <?php echo e(csrf()); ?>
 
-        <button>test</button>
+        <button>Save</button>
     </form>
 <?php $__env->stopSection(); ?>
 

@@ -64,11 +64,10 @@ class Authenticate
 
         isset($_SESSION['id']) ? $auth = $_SESSION['id'] : $auth = $_COOKIE['id'];
         $user = User::where("id", $auth)->get()->first();
-
-        echo $code . "  " . $user->TwoFactorAuth->code;
         if ($code == $user->TwoFactorAuth->code) {
-            Sessions::Create("tfa", true);
-            self::Redirect("/profile");
+            Sessions::Create("RequireTfa", false);
+            header("location:/profile");
+            echo  "Approved";
         } else {
             self::$errmessage = "The Code you entered is incorrect";
         }
@@ -82,7 +81,6 @@ class Authenticate
             header("location:$value");
         } else {
         }
-        return $this;
     }
 
     public function ResetPassword($id, $hex)
@@ -181,12 +179,24 @@ class Authenticate
                 Csrf::GenerateToken($user->id);
 
 //                Send The TFA Login to the email;
-                $results = TwoFactorAuth::CountAuths($user->id);
-                $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
-                Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
-                Authenticate::$redirect = true;
+                if($user->two_factor_auth == 1)
+                {
+                    $results = TwoFactorAuth::CountAuths($user->id);
+                    $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
+                    Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
+                    Sessions::Create("RequireTfa",true);
+                    Authenticate::$redirect = true;
+                }
+                else
+                {
+                    Sessions::Create("RequireTfa",false);
+                    self::$redirect = true;
+                }
+
+
+
             } else {
-                self::$errmessage = "Whoa!! :( it Looks Like the Password you types doesnt match our Records";
+                self::$errmessage = "Whoa!! :( it Looks Like the Password you typed doesnt match our Records";
             }
 //            Return user doesnt exisit
         } else {

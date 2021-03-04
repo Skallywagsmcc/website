@@ -18,6 +18,5 @@ function Csrf()
 $validate = new \App\Http\Functions\Validate();
 //$validate->Post("csrf");
 $csrf = new \App\Http\Libraries\Authentication\Csrf();
-$csrf->Token();
 
 require_once ROOT ."/Routing/web.php";

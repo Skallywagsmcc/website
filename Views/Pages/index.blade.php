@@ -4,7 +4,7 @@
     @endsection
 @section("content")
     <form action="/" method="post">
-        {{csrf()}}
-        <button>test</button>
+        {{ csrf() }}
+        <button>Save</button>
     </form>
 @endsection

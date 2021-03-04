@@ -5,9 +5,49 @@ namespace App\Http\Libraries\Authentication;
 
 use App\Http\Models\Token;
 use App\Http\Models\User;
+use DateTime;
 
 class Csrf
 {
+
+    public function __construct()
+    {
+        self::Token();
+    }
+
+    public function Token()
+    {
+        $id = $_SESSION['id'];
+        $result = User::where("id", $id)->get();
+        $user = $result->first();
+        $count = $result->count();
+        if (isset($id)) {
+            $result = User::where("id", $id)->get();
+            $user = $result->first();
+            $count = $result->count();
+//            check for expiration
+            $current = new DateTime();
+            $expires = new DateTime($user->Token->expires);
+            if ($current->format("d/m/Y H:i:s") > $expires->format("d/m/Y H:i:s")) {
+//                After 2 minutes it will regernerate a new code.
+                self::GenerateToken($id);
+            } else {
+                if (isset($_POST['csrf'])) {
+                    if ($_POST['csrf'] === $user->Token->key) {
+//                    generate a new code on submit
+                        echo "Match";
+                    } else {
+                        exit("invalid Token");
+                    }
+                }
+                else
+                {
+                }
+
+            }
+        }
+    }
+
     public static function GenerateToken($user_id)
     {
 //     generate a new token
@@ -24,7 +64,16 @@ class Csrf
     {
         $token = Token::where("id", $id)->get()->first();
         $token->key = $key;
+        $token->expires = self::GenerateExpire();
         $token->save();
+    }
+
+    public static function GenerateExpire()
+    {
+//        Will link Settings to this section allowing people to add there own settings to the expiration
+//        the lower the number the more chance of expiration.
+        $date = new DateTime();
+        return $date->modify("+ 30 min")->format("Y-m-d H:i:s");
     }
 
     public static function NewToken($user_id, $key)
@@ -32,19 +81,8 @@ class Csrf
         $token = new Token();
         $token->user_id = $user_id;
         $token->key = $key;
+        $token->expires = self::GenerateExpire();
         $token->save();
-    }
-
-    public function Token()
-    {
-        /*
-         * innistial code will be created when user is logged in
-         * also need to create a  new coloum on table called expire
-         * 1. check if it is logged in
-         * 2. check if there is an expiration for 5 mins  300ms
-         * 3. if expired then generate a new code
-         * 4. check against and verify post csrf code with  database code.
-         */
     }
 
     public static function Key()
@@ -54,7 +92,7 @@ class Csrf
         $user = $result->first();
         $count = $result->count();
         if ($count == 1) {
-            echo "<input type='text' name='csrf' value='" . $user->Token->key . "' id='csrf'>";
+            echo "<input type='text' readonly name='csrf' value='" . $user->Token->key . "' id='csrf'>";
         }
     }
 }

@@ -14,6 +14,7 @@ $router = Router::create();
 $router->get("/", [UserController::class, 'index']);
 $router->post("/", [UserController::class, 'index']);
 $router->get("/install", [SqlInstaller\Base::class, 'index']);
+$router->get("/profile",[\App\Http\Controllers\ProfileController::class,'index']);
 
 $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/register", [App\Http\Controllers\RegisterController::class, 'index']);
@@ -31,7 +32,6 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/reset-password/request/{id}/{hex}", [PasswordController::class, 'retrieve']);
     $router->post("/reset-password", [PasswordController::class, 'request']);
     $router->post("/reset-password/update", [PasswordController::class, 'store']);
-
 });
 
 try {
