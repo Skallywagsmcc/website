@@ -29,7 +29,7 @@ try {
     $mail->Port       = $_ENV['SMTP_PORT'];                             //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
     //Recipients
-    $mail->setFrom('No-reply@skallywagsmcc.club',"no Rely");
+    $mail->setFrom($_ENV['REPLY_EMAIL'],$_ENV['REPLY_NAME']);
     $mail->addAddress($email);     //Add a recipient
 
     //Content

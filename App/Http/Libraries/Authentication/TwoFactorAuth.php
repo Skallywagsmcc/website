@@ -9,6 +9,26 @@ use App\Http\Models\User;
 class TwoFactorAuth
 {
 
+//Add a back location to go backward  and forwards locations
+    public static function TfaCheck($back,$forward)
+    {
+        if(User::where("id",$_SESSION['id'])->get()->count() == 0)
+        {
+            redirect($back);
+        }
+        else
+        {
+            if(!isset($_SESSION['RequireTfa']) || $_SESSION['RequireTfa'] == true)
+            {
+                redirect($back);
+            }
+            else
+            {
+                redirect($forward);
+            }
+        }
+    }
+
     private static $code;
 
     public static function ObtainHex($user_id)

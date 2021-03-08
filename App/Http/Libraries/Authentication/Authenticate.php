@@ -3,8 +3,12 @@
 
 namespace App\Http\Libraries\Authentication;
 
+use App\Http\Functions\BladeEngine;
 use App\Http\Libraries\Emails\Authentication;
 use App\Http\Models\User;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 
 class Authenticate
 {
@@ -75,6 +79,42 @@ class Authenticate
 
     }
 
+    public function SendEmail($email,$name,$subject,$page,$array)
+    {
+//        Must have page and name otherwise nothing
+        if(!empty($page) || !empty($array))
+        {
+            $mail = new PHPMailer(true);
+
+            try {
+                //Server settings
+                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->isSMTP();                                            //Send using SMTP
+                $mail->Host       = $_ENV['SMTP_HOST'];                     //Set the SMTP server to send through
+                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+                $mail->Username   = $_ENV['SMTP_USERNAME'];                     //SMTP username
+                $mail->Password   = $_ENV['SMTP_PASSWORD'];                               //SMTP password
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+                $mail->Port       = $_ENV['SMTP_PORT'];                             //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+                //Recipients
+                $mail->setFrom('No-reply@skallywagsmcc.club',"no Reply");
+                $mail->addAddress($email,$name);     //Add a recipient
+
+                //Content
+                $mail->isHTML(true);                                  //Set email format to HTML
+                $mail->Subject = $subject;
+                $mail->Body = BladeEngine::View($page,$array);
+
+                $mail->send();
+                echo 'Message has been sent';
+            } catch (Exception $e) {
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            }
+        }
+
+    }
+
     public function Redirect($value)
     {
         if (Authenticate::$redirect == true) {
@@ -132,7 +172,7 @@ class Authenticate
     {
         $user = new User();
         if (self::$withuser == true) {
-            $user->name = self::$username;
+            $user->username = self::$username;
         }
         if (self::$withemail == true) {
             $user->email = self::$email;
@@ -142,11 +182,11 @@ class Authenticate
         }
         $user->two_factor_auth = 1;
         $user->save();
-        if ((is_null($redirect)) || ($redirect == null)) {
-            header("location:/auth/register/success");
-        } else {
-            header("location:$redirect");
-        }
+//        if ((is_null($redirect)) || ($redirect == null)) {
+//            header("location:/auth/register/success");
+//        } else {
+//            header("location:$redirect");
+//        }
         return $this;
     }
 
@@ -179,21 +219,21 @@ class Authenticate
                 Csrf::GenerateToken($user->id);
 
 //                Send The TFA Login to the email;
-                if($user->two_factor_auth == 1)
-                {
-                    $results = TwoFactorAuth::CountAuths($user->id);
-                    $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
-                    Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
-                    Sessions::Create("RequireTfa",true);
-                    Authenticate::$redirect = true;
-                }
-                else
-                {
-                    Sessions::Create("RequireTfa",false);
-                    self::$redirect = true;
-                }
-
-
+//                if($user->two_factor_auth == 1)
+//                {
+//                    $results = TwoFactorAuth::CountAuths($user->id);
+//                    $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
+//                    Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
+//                    Sessions::Create("RequireTfa",true);
+//                    Authenticate::$redirect = true;
+//                }
+//                else
+//                {
+//                    Sessions::Create("RequireTfa",false);
+//                    self::$redirect = true;
+//                }
+                redirect("/profile");
+                Authenticate::$redirect == true;
 
             } else {
                 self::$errmessage = "Whoa!! :( it Looks Like the Password you typed doesnt match our Records";

@@ -1,7 +1,10 @@
 @extends("Layouts.main")
+
+
 @section("title")
-    Home
-    @endsection
+    Admin Panel
+@endsection
+
 @section("content")
 
-@endsection
+    @endsection

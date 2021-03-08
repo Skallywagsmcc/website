@@ -15,7 +15,7 @@ $router->get("/", [UserController::class, 'index']);
 $router->post("/", [UserController::class, 'index']);
 $router->get("/install", [SqlInstaller\Base::class, 'index']);
 $router->get("/profile",[\App\Http\Controllers\ProfileController::class,'index']);
-
+include_once "includes/admin_web.php";
 $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/register", [App\Http\Controllers\RegisterController::class, 'index']);
     $router->post("/register", [App\Http\Controllers\RegisterController::class, 'store']);

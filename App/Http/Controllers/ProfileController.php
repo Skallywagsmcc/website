@@ -11,7 +11,6 @@ class ProfileController
 
     public function index()
     {
-        TwoFactorAuth::CheckStatus();
         echo "Profile page";
     }
 

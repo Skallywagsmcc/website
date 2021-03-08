@@ -1,0 +1,14 @@
+;
+
+<?php $__env->startSection("title"); ?>
+    Admin Panel New Article
+    <?php $__env->stopSection(); ?>
+
+<?php $__env->startSection("content"); ?>
+<h6>Add New Artcle</h6>
+    <form action="/admin/blogs/new" method="post">
+    </form>
+
+    here we will create a new article.
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Layouts.main", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/public_html/Views/Pages/Admin/Blogs/NewBlog.blade.php ENDPATH**/ ?>

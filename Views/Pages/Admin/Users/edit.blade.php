@@ -1,7 +1,7 @@
 @extends("Layouts.main")
-@section("title")
-    Home
-    @endsection
-@section("content")
 
+@section("title")
+    @endsection
+
+@section("content")
 @endsection

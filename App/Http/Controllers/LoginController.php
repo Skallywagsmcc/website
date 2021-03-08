@@ -25,7 +25,6 @@ class LoginController
         $user->username = $validate->Required("username")->Post();
         $user->password = $validate->Required("password")->Post();
         $user->remember = $validate->Post("remember");
-
         if ((Authenticate::ValidateUser($user->username) == 1) || (Authenticate::ValidateEmail($user->username) == 1)) {
             if($validate->data == false)
             {
@@ -33,7 +32,7 @@ class LoginController
             }
             else
             {
-                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/profile");
+                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password);
             }
 
         } else {
