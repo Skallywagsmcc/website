@@ -10,24 +10,8 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-class Authenticate
+class Authenticate extends Auth
 {
-
-//    Valid Valies
-    public static $id;
-    public static $ValidateEmail;
-    public static $errmessage;
-    public static $ResetApproved;
-    public static $redirect;
-    private static $withuser;
-    private static $withemail;
-    private static $withpassword;
-    private static $username;
-
-//Get post requests
-    private static $email;
-    private static $password;
-    private $remmeber;
 
 //end requests
 
@@ -54,14 +38,6 @@ class Authenticate
 
 // Registration
 
-    public static function Auth()
-    {
-//    Set all the values to
-        self::$withuser = false;
-        self::$withemail = false;
-        self::$withpassword = false;
-        return new static();
-    }
 
     public static function InsertTwoFactorAuth($code)
     {
@@ -76,52 +52,10 @@ class Authenticate
             self::$errmessage = "The Code you entered is incorrect";
         }
 
-
     }
 
-    public function SendEmail($email,$name,$subject,$page,$array)
-    {
-//        Must have page and name otherwise nothing
-        if(!empty($page) || !empty($array))
-        {
-            $mail = new PHPMailer(true);
 
-            try {
-                //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-                $mail->isSMTP();                                            //Send using SMTP
-                $mail->Host       = $_ENV['SMTP_HOST'];                     //Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = $_ENV['SMTP_USERNAME'];                     //SMTP username
-                $mail->Password   = $_ENV['SMTP_PASSWORD'];                               //SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-                $mail->Port       = $_ENV['SMTP_PORT'];                             //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
-                //Recipients
-                $mail->setFrom('No-reply@skallywagsmcc.club',"no Reply");
-                $mail->addAddress($email,$name);     //Add a recipient
-
-                //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = $subject;
-                $mail->Body = BladeEngine::View($page,$array);
-
-                $mail->send();
-                echo 'Message has been sent';
-            } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            }
-        }
-
-    }
-
-    public function Redirect($value)
-    {
-        if (Authenticate::$redirect == true) {
-            header("location:$value");
-        } else {
-        }
-    }
 
     public function ResetPassword($id, $hex)
     {
@@ -139,34 +73,7 @@ class Authenticate
         return $this;
     }
 
-    public function WithUser($username)
-    {
-        self::$withuser = true;
-        self::$username = $username;
-        return $this;
-    }
 
-
-
-//    end registration script
-
-
-//    Login section
-
-    public function WithEmail($email)
-    {
-        self::$withemail = true;
-        self::$email = $email;
-        return $this;
-    }
-
-    public function WithPassword($password)
-    {
-
-        self::$withpassword = true;
-        self::$password = password_hash($password, PASSWORD_DEFAULT);
-        return $this;
-    }
 
     public function Register($redirect = null)
     {
@@ -204,19 +111,21 @@ class Authenticate
         if ($users->count() == 1) {
 
 //            Check if the password matches the database password
-
             if ($this->PasswordVerify($password, $user->password)) {
 //                Generate the cookies;
                 if ($this->remmeber == 1) {
                     Sessions::Destroy("id");
                     Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
-                } else {
+                }
+                else {
 //                We Instantiate session id
                     Cookies::Destroy("id")->Days(365)->Save();
                     Sessions::Create("id", $user->id);
                 }
+
 //               Generate CSRF Token
                 Csrf::GenerateToken($user->id);
+                self::$redirect = true;
 
 //                Send The TFA Login to the email;
 //                if($user->two_factor_auth == 1)
@@ -232,8 +141,6 @@ class Authenticate
 //                    Sessions::Create("RequireTfa",false);
 //                    self::$redirect = true;
 //                }
-                redirect("/profile");
-                Authenticate::$redirect == true;
 
             } else {
                 self::$errmessage = "Whoa!! :( it Looks Like the Password you typed doesnt match our Records";

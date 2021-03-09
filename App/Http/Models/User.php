@@ -19,5 +19,11 @@ class User extends Controller
         return $this->hasOne(TwoFactorAuth::class);
     }
 
+    public function Profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+
 
 }

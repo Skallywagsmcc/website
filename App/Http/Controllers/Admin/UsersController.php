@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Authenticate;
+use App\Http\Models\Profile;
 use App\Http\Models\User;
 
 class UsersController
@@ -40,9 +41,19 @@ class UsersController
         redirect("/admin/users");
     }
 
+    public function search()
+    {
+        $keyword = $_POST['keyword'];
+        $results = Profile::where("full_name","LIKE","%".$keyword."%")->get();
+        $users = $results->first();
+        echo $users->full_name . "<br>";
+        echo $users->about;
+    }
+
 
     public function edit($id)
     {
+        $user = User::find($id);
 
     }
 
@@ -53,7 +64,8 @@ class UsersController
 
     public function delete($id)
     {
-
+         User::find($id)->delete();
+         redirect("/admin/users");
     }
 
 

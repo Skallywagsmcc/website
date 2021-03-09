@@ -32,7 +32,7 @@ class LoginController
             }
             else
             {
-                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password);
+                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/profile");
             }
 
         } else {

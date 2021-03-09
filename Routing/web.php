@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Libraries\SqlInstaller;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
@@ -14,7 +15,7 @@ $router = Router::create();
 $router->get("/", [UserController::class, 'index']);
 $router->post("/", [UserController::class, 'index']);
 $router->get("/install", [SqlInstaller\Base::class, 'index']);
-$router->get("/profile",[\App\Http\Controllers\ProfileController::class,'index']);
+
 include_once "includes/admin_web.php";
 $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/register", [App\Http\Controllers\RegisterController::class, 'index']);
@@ -34,6 +35,12 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->post("/reset-password/update", [PasswordController::class, 'store']);
 });
 
+$router->group(["prefix" => "/profile"], function (Router $router) {
+    $router->get("/?", [ProfileController::class, "index"]);
+    $router->get("/editor/create", [ProfileController::class, "create"]);
+    $router->post("/editor/create", [ProfileController::class, "store"]);
+}
+);
 try {
     $router->dispatch();
 } catch (RouteNotFoundException $e) {

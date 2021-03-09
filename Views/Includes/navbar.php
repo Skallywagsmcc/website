@@ -20,5 +20,11 @@
                 <a class="nav-link" href="#">Contact us</a>
             </li>
         </ul>
+
+        <ul class="ml-auto navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/auth/login">Login</span></a>
+            </li>
+        </ul>
     </div>
 </nav>

@@ -12,7 +12,6 @@ class TwoFactorAuth
 {
     public function index()
     {
-        \App\Http\Libraries\Authentication\TwoFactorAuth::TfaCheck("/auth/login", "/profile");
         echo BladeEngine::View("Pages.Auth.Login.TwoFactorAuth");
 
 

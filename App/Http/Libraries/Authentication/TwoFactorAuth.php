@@ -6,7 +6,7 @@ namespace App\Http\Libraries\Authentication;
 
 use App\Http\Models\User;
 
-class TwoFactorAuth
+class TwoFactorAuth extends Auth
 {
 
 //Add a back location to go backward  and forwards locations
