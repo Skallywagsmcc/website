@@ -47,14 +47,17 @@ public function index()
 //
 ////       Create a Model Called Profile
 //
-//        Capsule::schema()->create("profile",function($table){
-//            $table->id();
-//            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-//            $table->string("about")->nullable();
-//            $table->string("dob")->nullable();
-//            $table->string("profile_pic")->nullable();
-//            $table->timestamps();
-//        });
+        Capsule::schema()->create("profiles",function($table){
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->string("first_name",50);
+            $table->string("Middle_names",50);
+            $table->string("last_name",50);
+            $table->longtext("about")->nullable();
+            $table->date("dob")->nullable();
+            $table->string("profile_pic")->nullable();
+            $table->timestamps();
+        });
 //
 ////        Create a Model Called MedicalRecord
 //
@@ -85,13 +88,13 @@ public function index()
 //
 
 //     Create a Model Called TwoFactorAuth
-    Capsule::schema()->create("roles",function($table)
-    {
-        $table->id();
-        $table->string("title");
-        $table->string("slug");
-        $table->timestamps();
-    });
+//    Capsule::schema()->create("roles",function($table)
+//    {
+//        $table->id();
+//        $table->string("title");
+//        $table->string("slug");
+//        $table->timestamps();
+//    });
     
 
 }

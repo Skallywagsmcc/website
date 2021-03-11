@@ -49,6 +49,16 @@ class ProfileController
         redirect("/profile");
     }
 
+    public function edit()
+    {
+        $user =  User::withCount("Profile")->where("id",Auth::id())->get();
+        if($user->first()->profile_count == 1)
+        {
+            echo BladeEngine::View("Pages.Profile.edit",["user"=>$user->first()]);
+        }
+    }
+
+
 
 
 

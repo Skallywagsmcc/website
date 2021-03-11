@@ -39,6 +39,8 @@ $router->group(["prefix" => "/profile"], function (Router $router) {
     $router->get("/?", [ProfileController::class, "index"]);
     $router->get("/editor/create", [ProfileController::class, "create"]);
     $router->post("/editor/create", [ProfileController::class, "store"]);
+    $router->get("/editor/manage", [ProfileController::class, "edit"]);
+    $router->post("/editor/manage", [ProfileController::class, "update"]);
 }
 );
 try {
