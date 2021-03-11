@@ -1,19 +1,12 @@
 <?php
 namespace App\Http\Libraries\SqlInstaller;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Http\Models\User;
 
 class Base
 {
 
 public function index()
 {
-    if(Capsule::schema()->hastable("users"))
-    {
-        echo "Table exisits";
-    }
-    else{
 //        Create Model Called User
         Capsule::schema()->create("users",function($table)
         {
@@ -47,7 +40,7 @@ public function index()
 
 //       Create a Model Called Profile
 
-        Capsule::schema()->create("profile",function($table){
+        Capsule::schema()->create("profiles",function($table){
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("about")->nullable();
@@ -68,8 +61,7 @@ public function index()
         });
 
         // Redirect code at the end
-        header("location:/install");
-    }
+        header("location:/");
 
     
 
