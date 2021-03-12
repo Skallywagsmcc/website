@@ -1,18 +1,17 @@
 <?php
+
 namespace App\Http\Libraries\SqlInstaller;
-use GrahamCampbell\ResultType\Success;
+
 use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Http\Models\User;
 
 class Base
 {
 
-public function index()
-{
+    public function index()
+    {
 
 //        Create Model Called User
-        Capsule::schema()->create("users",function($table)
-        {
+        Capsule::schema()->create("users", function ($table) {
             $table->id();
             $table->integer("two_factor_auth");
             $table->string("username");
@@ -22,8 +21,7 @@ public function index()
         });
 
 //        Create  a Model Called Token
-        Capsule::schema()->create("tokens",function($table)
-        {
+        Capsule::schema()->create("tokens", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("key");
@@ -31,8 +29,7 @@ public function index()
         });
 
         // Create a Model Called TwoFactorAuth
-        Capsule::schema()->create("two_factor_auths",function($table)
-        {
+        Capsule::schema()->create("two_factor_auths", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("hex");
@@ -43,12 +40,12 @@ public function index()
 
 //       Create a Model Called Profile
 
-        Capsule::schema()->create("profiles",function($table){
+        Capsule::schema()->create("profiles", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-            $table->string("first_name",50);
-            $table->string("Middle_names",50);
-            $table->string("last_name",50);
+            $table->string("first_name", 50);
+            $table->string("Middle_names", 50);
+            $table->string("last_name", 50);
             $table->longtext("about")->nullable();
             $table->date("dob")->nullable();
             $table->string("profile_pic")->nullable();
@@ -57,7 +54,7 @@ public function index()
 
 //        Create a Model Called MedicalRecord
 
-        Capsule::schema()->create("medical_records",function($table) {
+        Capsule::schema()->create("medical_records", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("about");
@@ -66,33 +63,35 @@ public function index()
             $table->timestamps();
         });
 
-        // Redirect code at the end
-        header("location:/install");
+        // Create a Model Called TwoFactorAuth
+        Capsule::schema()->create("blogs", function ($table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->BigInteger("category_id");
+            $table->string("title");
+            $table->string("slug");
+            $table->longtext("content");
+            $table->timestamps();
+        });
+
+        Capsule::schema()->create("categories", function ($table) {
+            $table->id();
+            $table->string("title");
+            $table->string("slug");
+            $table->timestamps();
+        });
+
+
+//    Create a Model Called TwoFactorAuth
+        Capsule::schema()->create("roles", function ($table) {
+            $table->id();
+            $table->string("title");
+            $table->string("slug");
+            $table->timestamps();
+        });
+
+
     }
-
-    // Create a Model Called TwoFactorAuth
-    Capsule::schema()->create("blogs",function($table)
-    {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-        $table->string("title");
-        $table->string("slug");
-        $table->longtext("content");
-        $table->timestamps();
-    });
-
-
-
-     Create a Model Called TwoFactorAuth
-    Capsule::schema()->create("roles",function($table)
-    {
-        $table->id();
-        $table->string("title");
-        $table->string("slug");
-        $table->timestamps();
-    });
-    
-
 
 
 }

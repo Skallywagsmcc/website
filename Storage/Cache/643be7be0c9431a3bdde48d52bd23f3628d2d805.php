@@ -2,7 +2,10 @@
 
 
 <?php $__env->startSection("content"); ?>
-
+    <?php echo $__env->make("Includes.ProfileNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if(\App\Http\Libraries\Authentication\Auth::$id == $user->id): ?>
+        Edit Profile
+        <?php endif; ?>
     <?php if($user->profile_count == 1): ?>
         we found your profile <a href="/profile/editor/manage">Edit your profile</a>
     <?php else: ?>

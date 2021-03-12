@@ -13,7 +13,7 @@ use App\Http\Models\User;
 class ProfileController
 {
 
-    public function index()
+    public function index($username)
     {
         /*
          * Here we need to do a check if the profile exisits based on the user session  or cookie.
@@ -23,7 +23,7 @@ class ProfileController
          * two factor authentication will be optional for this section but not for admins;
          *
          */
-     $user = User::withCount('Profile')->where("id",$_SESSION['id'])->orwhere("id",$_COOKIE['id'])->get();
+     $user = User::withCount('Profile')->where("username",$username)->get();
      if($user->count() == 1)
         {
 

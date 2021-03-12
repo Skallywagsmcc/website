@@ -2,7 +2,10 @@
 
 
 @section("content")
-
+    @include("Includes.ProfileNav")
+    @if(\App\Http\Libraries\Authentication\Auth::$id == $user->id)
+        Edit Profile
+        @endif
     @if($user->profile_count == 1)
         we found your profile <a href="/profile/editor/manage">Edit your profile</a>
     @else

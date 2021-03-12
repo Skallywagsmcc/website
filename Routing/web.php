@@ -35,7 +35,7 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->post("/reset-password/update", [PasswordController::class, 'store']);
 });
 
-$router->group(["prefix" => "/profile"], function (Router $router) {
+$router->group(["prefix" => "/{username}"], function (Router $router) {
     $router->get("/?", [ProfileController::class, "index"]);
     $router->get("/editor/create", [ProfileController::class, "create"]);
     $router->post("/editor/create", [ProfileController::class, "store"]);

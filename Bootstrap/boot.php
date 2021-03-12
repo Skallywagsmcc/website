@@ -5,7 +5,6 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
-
 require_once "config.php";
 require_once "Database.php";
 require_once "functions.php";

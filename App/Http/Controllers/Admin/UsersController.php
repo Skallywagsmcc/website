@@ -30,14 +30,14 @@ class UsersController
         $user = new User();
         $user->email = $validate->Required("email")->Post();
         $user->username = $validate->Required("username")->Post();
-        $user->password = bin2hex(random_bytes(5));
+        $user->password = $validate->Required("password")->Post();
 
         Authenticate::Auth()
             ->WithUser($user->username)
             ->WithEmail($user->email)
             ->WithPassword($user->password)
-            ->Register()
-            ->SendEmail($user->email,$user->username,"Your Account has been created","Emails.newuser",["user"=>$user]);
+            ->Register();
+//            ->SendEmail($user->email,$user->username,"Your Account has been created","Emails.newuser",["user"=>$user]);
         redirect("/admin/users");
     }
 
