@@ -4,7 +4,7 @@
 namespace App\Http\Models;
 
 
-class MedicalRecord
+class Category
 {
 
 }
