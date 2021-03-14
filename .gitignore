@@ -1,7 +1,7 @@
 *.map
 *Zone.Identifier
 Bootstrap/config.php
-Storage/Cache/*
+Storage/Cache
 .idea
 .env
 vendor
