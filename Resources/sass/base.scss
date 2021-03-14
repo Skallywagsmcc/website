@@ -63,8 +63,22 @@ body, html {
 .navbar-brand img {
   height: 50px;
   width: 50px;
+
 }
 
+.article-row:hover
+{
+  border-radius: 5px;
+  color:black;
+  background-color:white;
+
+  a
+  {
+    color: black;
+  }
+
+
+}
 
 .logo_wrapper {
   img {

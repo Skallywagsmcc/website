@@ -26,10 +26,11 @@ body, html {
 }
 body a, html a {
   color: white;
+  text-decoration: none;
 }
 body a:hover, html a:hover {
   color: white;
-  text-display: underline;
+  text-decoration: underline;
 }
 
 .col-md-6 img, .col-lg-3 img {
@@ -55,6 +56,15 @@ body a:hover, html a:hover {
 .navbar-brand img {
   height: 50px;
   width: 50px;
+}
+
+.article-row:hover {
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+}
+.article-row:hover a {
+  color: black;
 }
 
 .logo_wrapper img {
