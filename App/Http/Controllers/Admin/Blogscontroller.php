@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Authenticate;
-use App\Http\Models\Blog;
+use App\Http\Models\Article;
 use Jenssegers\Blade\Blade;
 
 class Blogscontroller
@@ -24,7 +24,7 @@ class Blogscontroller
 
     public function index()
     {
-        $blogs = Blog::All();
+        $blogs = Article::All();
         echo BladeEngine::View("Pages.Admin.Blogs.index",["blogs"=>$blogs]);
     }
 
@@ -36,7 +36,7 @@ class Blogscontroller
 
     public function store()
     {
-        $blog = new Blog();
+        $blog = new Article();
         $validate = new Validate();
         $blog->title = $validate->Required("title")->Post();
         $blog->slug = str_replace(" ","-",$blog->title);
@@ -57,7 +57,7 @@ class Blogscontroller
 
     public function edit($id)
     {
-        $results = Blog::where("id",$id)->get();
+        $results = Article::where("id",$id)->get();
         $count = $results->count();
         $blog = $results->first();
         echo BladeEngine::View("Pages.Admin.Blogs.EditBlog",["blog"=>$blog,"count"=>$count]);
@@ -66,7 +66,7 @@ class Blogscontroller
     public function update()
     {
         $validate = new Validate();
-        $blog = Blog::find($validate->Post("id"));
+        $blog = Article::find($validate->Post("id"));
         $blog->title = $validate->Required("title")->Post();
         $blog->slug = str_replace(" ","-",$blog->title);
         $blog->content = $validate->Required("content")->Post();
@@ -75,7 +75,7 @@ class Blogscontroller
 
     public function delete($id)
     {
-        $blog = Blog::find($id)->delete();
+        $blog = Article::find($id)->delete();
         header("location:/admin/blog");
     }
 

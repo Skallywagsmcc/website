@@ -25,6 +25,17 @@ body, html {
   color: $secondary-text;
   font-family: "carnivalee_freakshowregular" Tahoma;
   background-color: $body;
+
+  a{
+    color:white;
+    text-decoration: none;
+  }
+
+  a:hover
+  {
+    color:white;
+    text-decoration: underline;
+  }
 }
 
 .col-md-6 img, .col-lg-3 img {
@@ -32,6 +43,16 @@ body, html {
   width: 200px;
   border-radius: 10px;
 }
+
+.head
+{
+  color:white;
+  padding: 5px 0px;
+  font-size: 1.5rem;
+  text-decoration: underline;
+  @include setborder(solid, 2px, $secondarybg, bottom);
+}
+
 
 .logo_wrapper {
   background-color: $primarybg;

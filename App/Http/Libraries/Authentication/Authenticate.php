@@ -87,8 +87,9 @@ class Authenticate extends Auth
         if (self::$withpassword == true) {
             $user->password = self::$password;
         }
-        $user->two_factor_auth = 1;
+
         $user->save();
+        self::$id = $user->id;
 //        if ((is_null($redirect)) || ($redirect == null)) {
 //            header("location:/auth/register/success");
 //        } else {

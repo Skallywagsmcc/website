@@ -8,7 +8,7 @@ $router->group(["prefix" => "/admin/users"], function (\MiladRahimi\PhpRouter\Ro
     $router->get("/?", [\App\Http\Controllers\Admin\UsersController::class,'index']);
     $router->get("/new", [\App\Http\Controllers\Admin\UsersController::class,'create']);
     $router->post("/new", [\App\Http\Controllers\Admin\UsersController::class,'store']);
-    $router->get("/edit/{id}", [\App\Http\Controllers\Admin\UsersController::class,'edit']);
+    $router->get("/edit/{id}/{username}", [\App\Http\Controllers\Admin\UsersController::class,'edit']);
     $router->post("/edit", [\App\Http\Controllers\Admin\UsersController::class,'update']);
     $router->get("/delete/{id}", [\App\Http\Controllers\Admin\UsersController::class,'delete']);
     $router->post("/search", [\App\Http\Controllers\Admin\UsersController::class,'search']);

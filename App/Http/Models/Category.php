@@ -4,7 +4,9 @@
 namespace App\Http\Models;
 
 
-class Category
+use App\Http\Controllers\Controller;
+
+class Category extends Controller
 {
 
 }

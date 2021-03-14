@@ -24,11 +24,26 @@ body, html {
   font-family: "carnivalee_freakshowregular" Tahoma;
   background-color: #263238;
 }
+body a, html a {
+  color: white;
+}
+body a:hover, html a:hover {
+  color: white;
+  text-display: underline;
+}
 
 .col-md-6 img, .col-lg-3 img {
   height: 200px;
   width: 200px;
   border-radius: 10px;
+}
+
+.head {
+  color: white;
+  padding: 5px 0px;
+  font-size: 1.5rem;
+  text-decoration: underline;
+  border-bottom: solid 2px #ce1126;
 }
 
 .logo_wrapper {

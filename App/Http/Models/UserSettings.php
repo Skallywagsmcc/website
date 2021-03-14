@@ -4,7 +4,15 @@
 namespace App\Http\Models;
 
 
-class UserSettings
+use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class UserSettings extends Controller
 {
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

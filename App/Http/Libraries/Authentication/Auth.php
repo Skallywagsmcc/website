@@ -5,6 +5,7 @@ namespace App\Http\Libraries\Authentication;
 
 
 use App\Http\Functions\BladeEngine;
+use App\Http\Models\User;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -38,6 +39,9 @@ class Auth
         {
             return $_SESSION['id'];
         }
+        else{
+            return self::$id;
+        }
 }
 
     public static function Auth()
@@ -48,6 +52,14 @@ class Auth
         self::$withpassword = false;
         return new static();
     }
+
+    public static function getusername()
+{
+   $user = User::find(self::Auth()::id());
+   return $user->username;
+}
+
+
 
     public function SendEmail($email, $name, $subject, $page, $array)
     {

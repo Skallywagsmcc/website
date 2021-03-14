@@ -24,6 +24,11 @@ class User extends Controller
         return $this->hasOne(Profile::class);
     }
 
+    public function settings()
+    {
+        return $this->hasOne(UserSettings::class);
+    }
+
 
 
 }

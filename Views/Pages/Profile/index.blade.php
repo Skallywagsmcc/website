@@ -2,16 +2,22 @@
 
 
 @section("content")
-    @include("Includes.ProfileNav")
-    @if(\App\Http\Libraries\Authentication\Auth::$id == $user->id)
-        Edit Profile
-        @endif
-    @if($user->profile_count == 1)
-        we found your profile <a href="/profile/editor/manage">Edit your profile</a>
-    @else
-        <form action="/profile/editor/create" method="post">
-            <button>Create your profile</button>
-        </form>
-    @endif
-{{--    the profile information will show down here.--}}
-    @endsection
+    {{--    the profile information will show down here.--}}
+    <div class="row mt-1">
+        <div class="col-md-4">
+            <div class="head">{{$user->Profile->first_name}} {{$user->Profile->last_name }}</div>
+            <div class="text-center">
+                <img src="/img/logo.png" class="img-thumbnail m-2" height="200" width="200" alt="">
+            </div>
+           <div class="text-center">
+                @include("Includes.ProfileNav")
+
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="head">About {{$user->username}}</div>
+            {{$user->Profile->about}}
+        </div>
+    </div>
+@endsection

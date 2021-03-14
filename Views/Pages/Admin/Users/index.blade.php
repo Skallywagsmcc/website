@@ -4,19 +4,26 @@
     @endsection
 
 @section("content")
-    <form action="/admin/users/search" method="post">
-        <input type="text" name="keyword" placeholder="enter keyword">
-        <button name="save">Search</button>
-    </form>
-    <a href="/admin/users/new">Create new User</a><hr>
-    @foreach($users as $user)
 
-        @if(empty($user->username))
-            username : {{$user->email}} |
-        @else
-      email : {{$user->email}} | username : {{$user->username}} |
-        @endif
-        <a href="/admin/users/roles/{{$user->id}}">List of roles</a>  | <a href="/admin/users/delete/{{$user->id}}">Delete user </a>
-        <br>
-    @endforeach
+
+    <div class="row text-center head">
+        <div class="col-md-2">Username</div>
+        <div class="col-md-2">Email Address</div>
+        <div class="col-md-2">Full Name</div>
+        <div class="col-md-4">Account Options</div>
+        <div class="col-md-2 btn-primary"><a href="/admin/users/new">New user</a></div>
+    </div>
+
+    <div class="row text-center mb-3">
+        @foreach($users as $user)
+            <div class="col-md-2 col-xs-12">{{$user->username}}</div>
+            <div class="col-md-2 col-xs-12">{{$user->email}}</div>
+            <div class="col-md-2 col-xs-12">{{$user->Profile->first_name}} {{$user->Profile->last_name}}</div>
+            <div class="col-md-2 col-xs-12 "><a href="">Roles</a></div>
+            <div class="col-md-2 col-xs-12 "><a href="/admin/users/edit/{{base64_encode($user->id)}}/{{base64_encode($user->username)}}">Edit Account</a></div>
+            <div class="col-md-2 col-xs-12"><a href="">Delete Account</a></div>
+
+        @endforeach
+        </div>
+
 @endsection

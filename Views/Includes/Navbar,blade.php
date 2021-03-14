@@ -2,7 +2,8 @@
     <div class="navbar-brand d-md-none d-block">
         <img src="/img/logo.png" class='d-md-none d-show' alt="Logo">
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         Menu
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -23,7 +24,19 @@
 
         <ul class="ml-auto navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="/auth/login">Login</span></a>
+                <?php
+
+                    if(isset($_COOKIE['id']) || isset($_SESSION['id']))
+                        {
+                            echo \App\Http\Libraries\Authentication\Auth::getusername();
+                        }
+                    else
+                        {
+                            echo "Login";
+                        }
+
+
+                ?>
             </li>
         </ul>
     </div>
