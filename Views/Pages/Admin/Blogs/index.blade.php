@@ -1,12 +1,25 @@
-@extends("Layouts.main");
+@extends("Layouts.main")
 
 @section("tite")
     Admin Panel : Blogs
 @endsection
 @section("content")
-    <h6>Blogs <a href="/admin/blog/new">Create a new Blog</a></h6>
-    @foreach($blogs as $blog)
-        {{$blog->title}}  | {{ $blog->slug }} | <a href="/admin/blog/edit/{{$blog->id}}">Edit</a> | <a href="/admin/blog/edit/delete/{{$blog->id}}">Delete</a>
-        <br>
-        @endforeach
+    <div class="row">
+        <div class="col-md-3">
+{{--            Navbar goes here--}}
+            <a href="/admin/blog/new">New Blog</a>
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-6">Article title</div>
+                <div class="col-md-3">Article Options</div>
+            </div>
+            @foreach($articles as $article)
+                <div class="col-md-6">{{$article->title}}</div>
+                <div class="col-md-3">Edit</div>
+                <div class="col-md-3">Delete</div>
+                @endforeach
+        </div>
+    </div>
+
 @endsection

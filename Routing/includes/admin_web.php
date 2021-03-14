@@ -16,11 +16,11 @@ $router->group(["prefix" => "/admin/users"], function (\MiladRahimi\PhpRouter\Ro
 
 
 $router->group(["prefix" => "/admin/blog"], function (\MiladRahimi\PhpRouter\Router $router) {
-    $router->get("/?", [\App\Http\Controllers\Admin\Blogscontroller::class,'index']);
-    $router->get("/new", [\App\Http\Controllers\Admin\Blogscontroller::class,'create']);
-    $router->post("/new", [\App\Http\Controllers\Admin\Blogscontroller::class,'store']);
-    $router->get("/edit/{id}", [\App\Http\Controllers\Admin\Blogscontroller::class,'edit']);
-    $router->get("/edit/delete/{id}", [\App\Http\Controllers\Admin\Blogscontroller::class,'delete']);
+    $router->get("/?", [\App\Http\Controllers\Admin\ArticleController::class,'index']);
+    $router->get("/new", [\App\Http\Controllers\Admin\ArticleController::class,'create']);
+    $router->post("/new", [\App\Http\Controllers\Admin\ArticleController::class,'store']);
+    $router->get("/edit/{id}", [\App\Http\Controllers\Admin\ArticleController::class,'edit']);
+    $router->get("/edit/delete/{id}", [\App\Http\Controllers\Admin\ArticleController::class,'delete']);
 });
 
 

@@ -10,7 +10,7 @@ use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\Article;
 use Jenssegers\Blade\Blade;
 
-class Blogscontroller
+class ArticleController
 {
 /*
  * Create the structure like so.
@@ -24,8 +24,8 @@ class Blogscontroller
 
     public function index()
     {
-        $blogs = Article::All();
-        echo BladeEngine::View("Pages.Admin.Blogs.index",["blogs"=>$blogs]);
+        $articles = Article::All();
+        echo BladeEngine::View("Pages.Admin.Blogs.index",["articles"=>$articles]);
     }
 
     public function create()
@@ -36,12 +36,12 @@ class Blogscontroller
 
     public function store()
     {
-        $blog = new Article();
+        $article = new Article();
         $validate = new Validate();
-        $blog->title = $validate->Required("title")->Post();
-        $blog->slug = str_replace(" ","-",$blog->title);
-        $blog->content = $validate->Required("content")->Post();
-        $blog->user_id = 1;
+        $article->title = $validate->Required("title")->Post();
+        $article->slug = str_replace(" ","-",$article->title);
+        $article->content = $validate->Required("content")->Post();
+        $article->user_id = 1;
 
         if($validate->data == false)
         {
@@ -49,33 +49,33 @@ class Blogscontroller
         }
         else
         {
-            $blog->save();
+            $article->save();
             header("location:/admin/blog");
         }
-        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog",["blog"=>$blog,"values"=>$validate->values,"message"=>Authenticate::$errmessage]);
+        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog",["blog"=>$article,"values"=>$validate->values,"message"=>Authenticate::$errmessage]);
     }
 
     public function edit($id)
     {
         $results = Article::where("id",$id)->get();
         $count = $results->count();
-        $blog = $results->first();
-        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog",["blog"=>$blog,"count"=>$count]);
+        $article = $results->first();
+        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog",["blog"=>$article,"count"=>$count]);
     }
 
     public function update()
     {
         $validate = new Validate();
-        $blog = Article::find($validate->Post("id"));
-        $blog->title = $validate->Required("title")->Post();
-        $blog->slug = str_replace(" ","-",$blog->title);
-        $blog->content = $validate->Required("content")->Post();
+        $article = Article::find($validate->Post("id"));
+        $article->title = $validate->Required("title")->Post();
+        $article->slug = str_replace(" ","-",$article->title);
+        $article->content = $validate->Required("content")->Post();
         header("location:/admin/blog");
     }
 
     public function delete($id)
     {
-        $blog = Article::find($id)->delete();
+        $article = Article::find($id)->delete();
         header("location:/admin/blog");
     }
 
