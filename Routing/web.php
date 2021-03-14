@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\Profile\DisplayController;
 use App\Http\Controllers\UserController;
 use App\Http\Libraries\SqlInstaller;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
@@ -14,13 +16,12 @@ $router = Router::create();
 $router->get("/", [UserController::class, 'index']);
 $router->post("/", [UserController::class, 'index']);
 $router->get("/install", [SqlInstaller\Base::class, 'index']);
-$router->get("/profile",[\App\Http\Controllers\ProfileController::class,'index']);
 
+include_once "includes/admin_web.php";
 $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/register", [App\Http\Controllers\RegisterController::class, 'index']);
     $router->post("/register", [App\Http\Controllers\RegisterController::class, 'store']);
     $router->post("/register/validate", [App\Http\Controllers\PasswordController::class, 'store']);
-
     $router->get("/login", [LoginController::class, 'index']);
     $router->post("/login", [LoginController::class, 'store']);
 
@@ -33,6 +34,13 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->post("/reset-password", [PasswordController::class, 'request']);
     $router->post("/reset-password/update", [PasswordController::class, 'store']);
 });
+
+//Need to do a check if the username matches the one in the database
+$router->group(["prefix" => "/members"], function (Router $router) {
+    $router->get("/{username}", [DisplayController::class, "index"]);
+});
+
+
 
 try {
     $router->dispatch();

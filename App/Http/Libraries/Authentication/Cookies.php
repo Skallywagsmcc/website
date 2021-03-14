@@ -75,7 +75,7 @@ class Cookies
             $expire = time()-60*60*24*self::$days;
             if(setcookie(self::$name,"",$expire))
             {
-                echo "the cookie is deleted";
+
             }
         }
         else
@@ -89,9 +89,6 @@ class Cookies
             empty(self::$http_only) ? $http = false : $http = self::$http_only;
             if(setcookie($name,$value,$expire,$path,$host,$secure,$http))
             {
-                echo "Cookie Created : for " . self::$days . "Days";
-                echo $path;
-
             }
             else
             {

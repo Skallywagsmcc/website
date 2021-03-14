@@ -2,14 +2,15 @@
 
 
 namespace App\Http\Models;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Capsule\Manager as Capsule;
+
+
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Token extends Model
+class UserSettings extends Controller
 {
 
-    public function User()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

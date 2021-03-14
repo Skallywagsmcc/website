@@ -36,8 +36,8 @@ class PasswordController
         }
     $tfa = TwoFactorAuth::ObtainHex($user->id);
         Authentication::ResetPassword($user->email,$user->id,$tfa->hex);
-
                 echo BladeEngine::View("Pages.Auth.PasswordReset.index",["errmessage"=>Authenticate::$errmessage]);
+                header("location:/auth/reset-password");
     }
 
 

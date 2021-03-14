@@ -81,7 +81,7 @@ class Csrf
         $token = new Token();
         $token->user_id = $user_id;
         $token->key = $key;
-        $token->expires = self::GenerateExpire();
+//        $token->expires = self::GenerateExpire();
         $token->save();
     }
 
