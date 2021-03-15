@@ -52,12 +52,13 @@ class ArticleController
         echo BladeEngine::View("Pages.Admin.Blogs.NewBlog", ["article" => $article, "values" => $validate->values, "message" => Authenticate::$errmessage]);
     }
 
-    public function edit($id)
+    public function edit($slug,$id)
     {
-        $results = Article::where("id", $id)->get();
+        $id = base64_decode($id);
+        $results = Article::where("slug",$slug)->where("id", $id)->get();
         $count = $results->count();
         $article = $results->first();
-        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog", ["blog" => $article, "count" => $count]);
+        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count]);
     }
 
     public function update()
@@ -67,13 +68,16 @@ class ArticleController
         $article->title = $validate->Required("title")->Post();
         $article->slug = str_replace(" ", "-", $article->title);
         $article->content = $validate->Required("content")->Post();
-        header("location:/admin/blog");
+        $article->save();
+        redirect("/admin/blog");
     }
 
-    public function delete($id)
+    public function delete($slug,$id)
     {
+//        this will later require a passsword from an admin
+        $id = base64_decode($id);
         $article = Article::find($id)->delete();
-        header("location:/admin/blog");
+        redirect("/admin/blog");
     }
 
 

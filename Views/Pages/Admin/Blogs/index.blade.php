@@ -17,8 +17,9 @@
             @foreach($articles as $article)
                 <div class="row text-center  m-2 mx-md-0 p-2 article-row">
                     <div class="col-md-6">{{$article->title}}</div>
-                    <div class="col-md-3">Edit</div>
-                    <div class="col-md-3">Delete</div>
+                    <div class="col-md-2"><a href="/articles/view/{{$article->slug}}" target="_new">View Article</a></div>
+                    <div class="col-md-2"><a href="/admin/blog/edit/{{$article->slug}}/{{base64_encode($article->id)}}">Edit Article</a></div>
+                    <div class="col-md-2"><a href="/admin/blog/delete/{{$article->slug}}/{{base64_encode($article->id)}}">Delete Article</a></div>
                 </div>
                 @endforeach
 

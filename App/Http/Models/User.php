@@ -29,6 +29,11 @@ class User extends Controller
         return $this->hasOne(UserSettings::class);
     }
 
+    public function Article()
+    {
+        return $this->hasOne(Article::class);
+    }
+
 
 
 }
