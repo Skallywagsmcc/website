@@ -14,6 +14,8 @@ use MiladRahimi\PhpRouter\Router;
 $router = Router::create();
 // Index controller
 $router->get("/", [UserController::class, 'index']);
+$router->get("/install",[SqlInstaller\Base::class,'index']);
+
 $router->get("/articles", [\App\Http\Controllers\ArticlesController::class, 'index']);
 $router->get("/articles/view/{slug}", [\App\Http\Controllers\ArticlesController::class, 'view']);
 $router->get("/", [UserController::class, 'index']);

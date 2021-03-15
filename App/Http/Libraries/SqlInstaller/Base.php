@@ -2,6 +2,7 @@
 
 namespace App\Http\Libraries\SqlInstaller;
 
+use App\Http\Models\User;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Base
@@ -82,6 +83,12 @@ class Base
             $table->string("title");
             $table->string("slug");
             $table->timestamps();
+
+            $user = new User();
+            $user->username = "Administrator";
+            $user->email = "Admin@localhost.com";
+            $user->password = password_hash("Admin",PASSWORD_DEFAULT);
+            $user->save();
         });
 
         Capsule::schema()->create("user_settings", function ($table) {
