@@ -2,9 +2,6 @@
 *Zone.Identifier
 Bootstrap/config.php
 Storage/Cache
-Routing/web.php
-Routing/api_web.php
-Routing/includes/*
 .idea
 .env
 vendor
