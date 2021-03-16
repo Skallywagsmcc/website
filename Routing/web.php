@@ -16,9 +16,31 @@ $router = Router::create();
 $router->get("/", [UserController::class, 'index']);
 $router->get("/install",[SqlInstaller\Base::class,'index']);
 
+$router->get("/auth/login",[LoginController::class,'index']);
+$router->post("/auth/login",[LoginController::class,'store']);
+
 $router->get("/articles", [\App\Http\Controllers\ArticlesController::class, 'index']);
 $router->get("/articles/view/{slug}", [\App\Http\Controllers\ArticlesController::class, 'view']);
-$router->get("/", [UserController::class, 'index']);
+
+$router->group(["prefix"=>"/admin"],function(Router $router)
+{
+
+    $router->group(["prefix"=>"/categories"],function(Router $router)
+    {
+        $router->get("/?",[\App\Http\Controllers\Admin\CategoriesController::class,'index']);
+    });
+
+    $router->group(["prefix"=>"/blog"],function(Router $router)
+    {
+        $router->get("/?",[\App\Http\Controllers\Admin\ArticlesController::class,'index']);
+        $router->get("/new",[\App\Http\Controllers\Admin\ArticlesController::class,'create']);
+        $router->post("/new",[\App\Http\Controllers\Admin\ArticlesController::class,'store']);
+        $router->get("/edit/{slug}/{id}",[\App\Http\Controllers\Admin\ArticlesController::class,'edit']);
+        $router->post("/edit",[\App\Http\Controllers\Admin\ArticlesController::class,'update']);
+    });
+});
+
+
 
 
 

@@ -10,7 +10,7 @@ use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\Article;
 
-class ArticleController
+class ArticlesController
 {
     /*
      * Create the structure like so.

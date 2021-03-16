@@ -42,7 +42,7 @@ class Base
 
 //        Categories
 
-        Capsule::schema()->create("categories",function($table)
+        Capsule::schema()->create("Categories",function($table)
         {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");

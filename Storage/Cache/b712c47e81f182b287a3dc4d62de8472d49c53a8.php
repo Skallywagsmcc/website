@@ -40,4 +40,4 @@
             </li>
         </ul>
     </div>
-</nav>
+</nav><?php /**PATH /var/www/html/public_html/Views/Includes/Navbar.blade.php ENDPATH**/ ?>
