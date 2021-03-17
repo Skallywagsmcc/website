@@ -18,7 +18,7 @@
             <input type="text" class="form-control" name="title" value="{{$article->title}}">
         </div>
         <div class="form-group">
-            <textarea name="content" id="" cols="30" rows="10" class="form-control">{{$article->content}}</textarea>
+            <textarea name="content" id="editor" cols="30" rows="10" class="form-control">{{$article->content}}</textarea>
         </div>
         <div class="form-group text-right">
             <button class="btn btn-primary">Create Article</button>
