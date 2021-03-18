@@ -31,9 +31,18 @@ class User extends Controller
 
     public function Article()
     {
-        return $this->hasOne(Article::class);
+        return $this->hasOne(Page::class);
     }
 
+    public function gallery()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(ImageComment::class);
+    }
 
 
 }

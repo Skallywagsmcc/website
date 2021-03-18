@@ -22,6 +22,7 @@ class Auth
     protected static $withemail;
     protected static $withpassword;
     protected static $username;
+    protected static $Loggedin;
 
 //Get post requests
     protected static $email;
@@ -53,10 +54,13 @@ class Auth
         return new static();
     }
 
+
     public static function getusername()
 {
-   $user = User::find(self::Auth()::id());
-   return $user->username;
+
+        $user = User::find(self::Auth()::id());
+        return $user->username;
+
 }
 
 

@@ -37,15 +37,16 @@ class Base
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("key");
+            $table->datetime("expires");
             $table->timestamps();
         });
 
 //        Categories
 
-        Capsule::schema()->create("Categories",function($table)
-        {
+        Capsule::schema()->create("categories", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->integer("topbar");
             $table->string("title");
             $table->string("slug");
             $table->timestamps();
@@ -53,7 +54,7 @@ class Base
 
 //        Articles
 
-        Capsule::schema()->create("articles", function ($table) {
+        Capsule::schema()->create("pages", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("title");
@@ -64,17 +65,16 @@ class Base
 
 //Profiles
 
-                Capsule::schema()->create("profiles", function ($table) {
-                    $table->id();
-                    $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-                    $table->string("first_name", 50);
-                    $table->string("Middle_names", 50);
-                    $table->string("last_name", 50);
-                    $table->longtext("about")->nullable();
-                    $table->date("dob")->nullable();
-                    $table->string("profile_pic")->nullable();
-                    $table->timestamps();
-                });
+        Capsule::schema()->create("profiles", function ($table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->string("first_name", 50);
+            $table->string("last_name", 50);
+            $table->longtext("about")->nullable();
+            $table->date("dob")->nullable();
+            $table->string("profile_pic")->nullable();
+            $table->timestamps();
+        });
 
 
 //    Create a Model Called TwoFactorAuth
@@ -84,22 +84,60 @@ class Base
             $table->string("slug");
             $table->timestamps();
 
+//            create a dummy account
             $user = new User();
             $user->username = "Administrator";
             $user->email = "Admin@localhost.com";
-            $user->password = password_hash("Admin",PASSWORD_DEFAULT);
+            $user->password = password_hash("Admin", PASSWORD_DEFAULT);
             $user->save();
         });
 
         Capsule::schema()->create("user_settings", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+//            if set to 1  twofactor auth will be enable if set to 1.
             $table->integer("two_factor_auth");
+//            this will stop the website emailing the use if they choose to set this to 0.
             $table->integer("email_marketing");
+//            this will not display if it is set to 0
+            $table->integer("display_dob");
+//       this will show the username instead if the display is set to 0;
+            $table->integer("display_full_name");
+            $table->timestamps();
+        });
+
+        Capsule::schema()->create("images", function ($table) {
+            $table->id();
+//            this will link to the user
+            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+//            this will link to the article id. this wont delete if the article is deleted.
+            $table->foreignId('page_id');
+            $table->string("image_name");
+            $table->string("image_size");
+            $table->string("image_type");
+            $table->timestamps();
+        });
+
+        Capsule::schema()->create("image_comments",function($table)
+        {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->foreignId('image_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->string("comment");
+            $table->timestamps();
+        });
+
+        Capsule::schema()->create("page_comments",function($table)
+        {
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->foreignId('page_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->string("comment");
             $table->timestamps();
         });
 
 
+        redirect("/");
     }
 
 

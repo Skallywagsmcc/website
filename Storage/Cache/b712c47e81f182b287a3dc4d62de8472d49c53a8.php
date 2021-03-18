@@ -26,14 +26,13 @@
             <li class="nav-item active">
                 <?php
 
-                    if(isset($_COOKIE['id']) || isset($_SESSION['id']))
-                        {
-                            echo "<a href='/admin/blog'>".\App\Http\Libraries\Authentication\Auth::getusername()."</a>";
-                        }
-                    else
-                        {
-                           echo "<a href='/auth/login'>Login</a>";
-                        }
+                use App\Http\Libraries\Authentication\Auth;if (isset($_COOKIE['id']) || isset($_SESSION['id'])) {
+                    echo "<a href='/profile/" . Auth::getusername() . "'>" . Auth::getusername() . "</a>";
+                    echo " | ";
+                    echo "<a href='/auth/logout'>Logout</a>";
+                } else {
+                    echo "<a href='/auth/login'>Login</a>";
+                }
 
 
                 ?>

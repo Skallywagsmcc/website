@@ -59,6 +59,10 @@ class UsersController
             $settings = new UserSettings();
             $settings->user_id = Auth::$id;
             $settings->two_factor_auth = 1;
+            $settings->display_full_name = 1;
+//            if display full name = 0 then display username;
+            $settings->display_dob = 1;
+            $settings->email_marketing = 1;
             $settings->save();
 
             redirect("/admin/users");
@@ -75,7 +79,6 @@ class UsersController
         echo $users->full_name . "<br>";
         echo $users->about;
     }
-
 
     public function edit($id, $username)
     {

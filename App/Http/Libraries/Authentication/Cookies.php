@@ -95,10 +95,11 @@ class Cookies
                 Authenticate::$errmessage = "Sorry the cookie could not be created";
             }
         }
+        return $this;
 
     }
 
-    public  static function Destroy($value)
+    public static function Destroy($value)
     {
         self::$destroy = true;
         self::$name = $value;

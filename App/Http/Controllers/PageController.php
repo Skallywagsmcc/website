@@ -5,22 +5,22 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Functions\BladeEngine;
-use App\Http\Models\Article;
+use App\Http\Models\Page;
 use App\Http\Models\User;
 
-class ArticlesController
+class PageController
 {
 
     public function index()
     {
-        $articles = Article::all();
+        $articles = Page::all();
         $users = User::all();
         echo BladeEngine::View("Pages.Frontend.Articles.index",["articles"=>$articles,"users"=>$users]);
     }
 
     public function view($slug)
     {
-        $article = Article::where("slug",$slug)->get();
+        $article = Page::where("slug",$slug)->get();
         $count = $article->count();
         echo BladeEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count]);
     }

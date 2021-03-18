@@ -8,9 +8,9 @@ use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
-use App\Http\Models\Article;
+use App\Http\Models\Page;
 
-class ArticlesController
+class PagesController
 {
     /*
      * Create the structure like so.
@@ -24,7 +24,7 @@ class ArticlesController
 
     public function index()
     {
-        $articles = Article::All();
+        $articles = Page::All();
         echo BladeEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles]);
     }
 
@@ -36,7 +36,7 @@ class ArticlesController
 
     public function store()
     {
-        $article = new Article();
+        $article = new Page();
         $validate = new Validate();
         $article->title = $validate->Required("title")->Post();
         $article->slug = str_replace(" ", "-", $article->title);
@@ -55,7 +55,7 @@ class ArticlesController
     public function edit($slug,$id)
     {
         $id = base64_decode($id);
-        $results = Article::where("slug",$slug)->where("id", $id)->get();
+        $results = Page::where("slug",$slug)->where("id", $id)->get();
         $count = $results->count();
         $article = $results->first();
         echo BladeEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count]);
@@ -64,7 +64,7 @@ class ArticlesController
     public function update()
     {
         $validate = new Validate();
-        $article = Article::find($validate->Post("id"));
+        $article = Page::find($validate->Post("id"));
         $article->title = $validate->Required("title")->Post();
         $article->slug = str_replace(" ", "-", $article->title);
         $article->content = $validate->Required("content")->Post();
@@ -76,7 +76,7 @@ class ArticlesController
     {
 //        this will later require a passsword from an admin
         $id = base64_decode($id);
-        $article = Article::find($id)->delete();
+        $article = Page::find($id)->delete();
         redirect("/admin/blog");
     }
 

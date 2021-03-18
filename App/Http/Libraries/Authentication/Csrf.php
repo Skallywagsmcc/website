@@ -28,14 +28,17 @@ class Csrf
 //            check for expiration
             $current = new DateTime();
             $expires = new DateTime($user->Token->expires);
-            if ($current->format("d/m/Y H:i:s") > $expires->format("d/m/Y H:i:s")) {
+            if(empty($user->Token->key))
+            {
+                self::GenerateToken($id);
+            }
+            elseif ($current->format("d/m/Y H:i:s") > $expires->format("d/m/Y H:i:s")) {
 //                After 2 minutes it will regernerate a new code.
                 self::GenerateToken($id);
             } else {
                 if (isset($_POST['csrf'])) {
                     if ($_POST['csrf'] === $user->Token->key) {
 //                    generate a new code on submit
-                        echo "Match";
                     } else {
                         exit("invalid Token");
                     }
@@ -81,7 +84,7 @@ class Csrf
         $token = new Token();
         $token->user_id = $user_id;
         $token->key = $key;
-//        $token->expires = self::GenerateExpire();
+        $token->expires = self::GenerateExpire();
         $token->save();
     }
 

@@ -6,10 +6,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
+use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
+use App\Http\Libraries\Authentication\Sessions;
 use App\Http\Models\User;
 
 use App\Http\Libraries\Email;
+use App\Http\Packages\Authentication\Cookies;
+
 class LoginController
 {
 
@@ -41,4 +45,16 @@ class LoginController
 
         echo BladeEngine::View("Pages.Auth.Login.index", ["user" => $user, "errmessage" => Authenticate::$errmessage,"Required"=>$validate->values]);
     }
+
+    public function logout()
+    {
+        if((isset($_SESSION['id'])) || (isset($_COOKIE['id'])))
+        {
+            Sessions::Destroy("id");
+            \App\Http\Libraries\Authentication\Cookies::Destroy("id")->Save();
+            redirect("/auth/login");
+        }
+
+    }
+
 }

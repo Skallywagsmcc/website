@@ -1,0 +1,27 @@
+
+
+<?php $__env->startSection("title"); ?>
+    <?php echo e($user->username); ?> Gallery
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection("content"); ?>
+    
+    <?php if($user->gallery_count >= 1): ?>
+
+        <?php $__currentLoopData = $user->gallery; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $gallery): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+            <a href="/profile/<?php echo e($user->username); ?>/gallery/image/<?php echo e(base64_encode($gallery->id)); ?>">
+                <img class="m-3" src="/img/uploads/<?php echo e($gallery->image_name); ?>" height="200" width="200"
+                     alt="<?php echo e($gallery->image_name); ?>">
+            </a>
+
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+    <?php endif; ?>
+
+    <form action="/profile/<?php echo e($user->username); ?>/gallery/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="upload">
+        <button>Upload file</button>
+    </form>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("Layouts.main", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/public_html/Views/Pages/Frontend/Profile/Gallery/index.blade.php ENDPATH**/ ?>
