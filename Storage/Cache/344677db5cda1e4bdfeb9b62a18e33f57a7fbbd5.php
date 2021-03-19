@@ -5,6 +5,11 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection("content"); ?>
+<?php echo $__env->make("Includes.ProfileNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <?php if(isset($error)): ?>
+        <?php echo e($error); ?>
+
+    <?php endif; ?>
 
 
     <?php if($count == 0): ?>
@@ -26,11 +31,13 @@
 
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
+
         <form action="/profile/<?php echo e($user->username); ?>/gallery/comments/add" method="post">
             <?php echo e(csrf()); ?>
 
             <input type="hidden" name="id" value="<?php echo e($image->id); ?>">
             <textarea name="comment"></textarea>
+            <br>Enter your password <br>
             <button>Save</button>
         </form>
     <?php endif; ?>

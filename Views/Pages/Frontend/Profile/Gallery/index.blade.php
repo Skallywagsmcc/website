@@ -5,6 +5,8 @@
 @endsection
 
 @section("content")
+
+    @include("Includes.ProfileNav")
     {{--    the profile information will show down here.--}}
     @if($user->gallery_count >= 1)
 

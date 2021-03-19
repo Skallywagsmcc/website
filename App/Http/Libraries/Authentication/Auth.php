@@ -23,6 +23,7 @@ class Auth
     protected static $withpassword;
     protected static $username;
     protected static $Loggedin;
+    public static $PasswordRequired;
 
 //Get post requests
     protected static $email;
@@ -53,6 +54,24 @@ class Auth
         self::$withpassword = false;
         return new static();
     }
+
+    public function RequirePassword($password)
+    {
+//        this will be used to update destructive settings such as  user or admin settings.
+        $user = User::where("id",self::Auth()->id())->get();
+        if($user->count() == 1)
+        {
+            if(empty($password) || !password_verify($password,$user->first()->password))
+            {
+                self::$PasswordRequired = false;
+            }
+            else
+            {
+                self::$PasswordRequired = true;
+            }
+        }
+    }
+
 
 
     public static function getusername()

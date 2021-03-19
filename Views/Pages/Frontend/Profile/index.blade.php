@@ -3,6 +3,7 @@
 
 @section("content")
     {{--    the profile information will show down here.--}}
+
     <div class="row mt-1">
         <div class="col-md-4">
             <div class="head">{{$user->Profile->first_name}} {{$user->Profile->last_name }}</div>

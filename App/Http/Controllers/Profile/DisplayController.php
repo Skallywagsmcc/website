@@ -11,9 +11,9 @@ class DisplayController
 {
 //    This controlle Will be used for displaying the profile infirmation
 
-
     public function index($username)
     {
+
         $user = User::where("username", $username)->get();
         $count = $user->count();
         $user = $user->first();

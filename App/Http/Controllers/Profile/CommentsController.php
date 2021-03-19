@@ -12,6 +12,8 @@ use App\Http\Models\User;
 class CommentsController
 {
 
+
+
     public function create()
     {
 
@@ -20,7 +22,6 @@ class CommentsController
     public function store()
     {
         $validate = new Validate();
-
         $comment = new ImageComment();
         $comment->user_id = Auth::id();
         $comment->image_id = $validate->Post("id");
@@ -42,16 +43,13 @@ class CommentsController
     public function delete($id)
     {
 
-        if(User::where("id",Auth::id())->get()->count() == 1)
-        {
-            $comment = ImageComment::where("id",base64_decode($id))->get();
-            if($comment->count()==1)
-            {
+        if (User::where("id", Auth::id())->get()->count() == 1) {
+            $comment = ImageComment::where("id", base64_decode($id))->get();
+            if ($comment->count() == 1) {
                 ImageComment::find(base64_decode($id))->delete();
                 redirect($_SERVER['HTTP_REFERER']);
             }
         }
-
 
 
     }

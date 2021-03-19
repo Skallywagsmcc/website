@@ -1,5 +1,6 @@
 <?php $__env->startSection("content"); ?>
     
+
     <div class="row mt-1">
         <div class="col-md-4">
             <div class="head"><?php echo e($user->Profile->first_name); ?> <?php echo e($user->Profile->last_name); ?></div>

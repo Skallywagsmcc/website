@@ -5,6 +5,10 @@
 @endsection
 
 @section("content")
+@include("Includes.ProfileNav")
+    @isset($error)
+        {{$error}}
+    @endisset
 
 
     @if($count == 0)
@@ -26,10 +30,12 @@
 
         @endforeach
 
+
         <form action="/profile/{{$user->username}}/gallery/comments/add" method="post">
             {{csrf()}}
             <input type="hidden" name="id" value="{{$image->id}}">
             <textarea name="comment"></textarea>
+            <br>Enter your password <br>
             <button>Save</button>
         </form>
     @endif
