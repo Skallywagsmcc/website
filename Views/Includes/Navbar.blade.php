@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="navbar-brand d-md-none d-block">
         <img src="/img/logo.png" class='d-md-none d-show' alt="Logo">
@@ -24,18 +25,17 @@
 
         <ul class="ml-auto navbar-nav">
             <li class="nav-item active">
-                <?php
+          @if(\App\Http\Libraries\Authentication\Auth::Loggedin() == true)
+                   <a href='/profile/{{\App\Http\Libraries\Authentication\Auth::getusername()}}'>{{\App\Http\Libraries\Authentication\Auth::getusername()}}</a>
+                    |
+                    <a href='/account'>My Account</a>;
+                    |
+                    <a href='/auth/logout'>Logout</a>
+             @else
+                    <a href='/auth/login'>Login</a>
 
-                use App\Http\Libraries\Authentication\Auth;if (isset($_COOKIE['id']) || isset($_SESSION['id'])) {
-                    echo "<a href='/profile/" . Auth::getusername() . "'>" . Auth::getusername() . "</a>";
-                    echo " | ";
-                    echo "<a href='/auth/logout'>Logout</a>";
-                } else {
-                    echo "<a href='/auth/login'>Login</a>";
-                }
 
-
-                ?>
+@endif
             </li>
         </ul>
     </div>

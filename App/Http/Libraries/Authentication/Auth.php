@@ -22,8 +22,6 @@ class Auth
     protected static $withemail;
     protected static $withpassword;
     protected static $username;
-    protected static $Loggedin;
-    public static $PasswordRequired;
 
 //Get post requests
     protected static $email;
@@ -55,6 +53,19 @@ class Auth
         return new static();
     }
 
+    public static function Loggedin($name="id")
+    {
+        if((isset($_COOKIE[$name])) || isset($_SESSION[$name]))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
     public function RequirePassword($password)
     {
 //        this will be used to update destructive settings such as  user or admin settings.
@@ -63,11 +74,11 @@ class Auth
         {
             if(empty($password) || !password_verify($password,$user->first()->password))
             {
-                self::$PasswordRequired = false;
+                return false;
             }
             else
             {
-                self::$PasswordRequired = true;
+                return true;
             }
         }
     }

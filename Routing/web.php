@@ -10,8 +10,10 @@ use App\Http\Controllers\Profile\DisplayController;
 use App\Http\Controllers\Profile\ImageController;
 use App\Http\Controllers\UserController;
 use App\Http\Libraries\SqlInstaller;
+use App\Http\Middleware;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Router;
+
 
 //Instantiate
 
@@ -24,8 +26,7 @@ $router->get("/auth/login", [LoginController::class, 'index']);
 $router->post("/auth/login", [LoginController::class, 'store']);
 $router->get("/auth/logout", [LoginController::class, 'logout']);
 
-$router->group(["prefix","articles"],function (Router $router)
-{
+$router->group(["prefix", "articles"], function (Router $router) {
     $router->get("/articles", [PageController::class, 'index']);
     $router->get("/articles/view/{slug}", [PageController::class, 'view']);
 });
@@ -64,11 +65,18 @@ $router->group(["prefix" => "/profile/{username}"], function (Router $router) {
         $router->get("/image/{id}", [DisplayController::class, 'DisplayImage']);
         $router->post("/comments/add", [CommentsController::class, 'store']);
         $router->post("/upload", [ImageController::class, 'store']);
-        $router->get("/comment/delete/{id}",[CommentsController::class,'delete']);
-        $router->get("/image/delete/{id}",[ImageController::class,'delete']);
+        $router->get("/comment/delete/{id}", [CommentsController::class, 'delete']);
+        $router->get("/image/delete/{id}", [ImageController::class, 'delete']);
     });
 
     $router->get("/?", [DisplayController::class, 'index']);
+});
+
+
+$router->group(["prefix" => "/account","middleware"=>[ Middleware\IsLoggedIn::class]], function (Router $router) {
+    $router->get("/?",[\App\Http\Controllers\Profile\AccountController::class,'index']);
+    $router->get("/basic",[\App\Http\Controllers\Account\BasicInfoController::class,'index']);
+    $router->post("/basic",[\App\Http\Controllers\Account\BasicInfoController::class,'store']);
 });
 
 
