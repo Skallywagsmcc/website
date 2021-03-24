@@ -9,7 +9,7 @@
     <hr>
     <div class="col-sm-12"><a href="/account/edit/picture">Change Profile Picture</a> </div>
     <div class="col-sm-12">Change Email Address</div>
-    <div class="col-sm-12">Change Password</div>
+    <div class="col-sm-12"><a href="/account/edit/password">Change Password</a></div>
     <hr>
     <div class="col-sm-12">My images</div>
     <div class="col-sm-12">My Comments</div>

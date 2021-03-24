@@ -32,7 +32,7 @@ class PasswordController
                 {
 
                     $user = User::find(Auth::id());
-                    $user->password = password_hash($validate->Post("newpw"),PASSWORD_DEFAULT);
+                    $user->password = password_hash($validate->Post("newpw"),PASSWORD_DEFAULTpreofi);
                     $user->save();
                     redirect("/auth/logout");
                 }
