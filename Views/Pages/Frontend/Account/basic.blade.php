@@ -14,7 +14,20 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form action="/account/basic" method="post">
+                    @isset($error)
+                        <div class="alert-dark text-center">{{$error}}</div>
+                    @endisset
+                        @isset($values)
+
+                            @foreach($values as $data)
+                                <ul>
+                                    <li>
+                                        {{ $data }}
+                                    </li>
+                                </ul>
+                            @endforeach
+                        @endisset
+                    <form action="/account/edit/basic" method="post">
                         <div class="form-group col-md-6">
                             <label for="first_name">Your username : </label>
                             <input type="text" class="form-control-plaintext text-white"  readonly name="username" value="{{$user->username}}">
@@ -29,14 +42,18 @@
                                 <input type="text" class="form-control" name="last_name" value="{{$user->Profile->last_name}}">
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="first_name">About yourself : </label>
-                            <textarea name="about" id="" width="100%" class="form-control">
-                                {{$user->Profile->about}}
-                            </textarea>
-                        </div>
                         <div class="form-group col-sm-12">
-                            <label for="first_name">Enter Your Password (this is required) </label>
+                            <label for="about">About yourself : </label>
+                            <textarea name="about"  rows="10" class="form-control">{{$user->Profile->about}}</textarea>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label for="dob">Date of birth </label>
+                            <input type="date" class="form-control" name="dob" value="{{$user->profile->dob}}">
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label for="password">Enter Your Password (this is required) </label>
                             <input type="password" class="form-control" name="password">
                         </div>
 

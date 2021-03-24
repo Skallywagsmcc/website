@@ -2,12 +2,12 @@
     <div class="col-sm-12 head">
         Menu
     </div>
-    <div class="col-sm-12">My Account Home</div>
+    <div class="col-sm-12"><a href="/account">Account Home</a></div>
     <!--includes firstname  lastname and date of birth-->
-    <div class="col-sm-12">Basic Information</div>
-    <div class="col-sm-12">About me</div>
+    <div class="col-sm-12"><a href="/account/edit/basic">Edit Basic Information</a></div>
+    <div class="col-sm-12"><a href="/account/edit/about">Edit About me</a></div>
     <hr>
-    <div class="col-sm-12">Change Profile Picture</div>
+    <div class="col-sm-12"><a href="/account/edit/picture">Change Profile Picture</a> </div>
     <div class="col-sm-12">Change Email Address</div>
     <div class="col-sm-12">Change Password</div>
     <hr>

@@ -7,7 +7,9 @@ namespace App\Http\Controllers\Account;
 use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
+use App\Http\Models\Profile;
 use App\Http\Models\User;
+use DateTime;
 
 class BasicInfoController
 {
@@ -15,24 +17,48 @@ class BasicInfoController
     public function index()
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.basic",["user"=>$user]);
+        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user]);
     }
 
     public function store()
     {
         $validate = new Validate();
-        if(Auth::auth()->RequirePassword($validate->Post("password")) == true)
+        $dob = new DateTime($validate->Post("dob"));
+        //check if the value us empty
+
+
+        $user = User::find(Auth::id());
+        $profile = $user->Profile()->where("user_id", Auth::id())->get();
+        $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
+        $profile->first_name = $validate->Required("first_name")->Post();
+        $profile->last_name = $validate->Required("last_name")->Post();
+        $profile->dob = $dob->format("Y-m-d");
+
+
+        if(Validate::Array_Count(Validate::$values) == true)
         {
-            $user = User::find(Auth::id());
-            $user->username = "tom";
-            $user->attatch("Profile","first_name") = "timmy";
-            $user->save();
-            echo "username is " . $user->first_name;
+            if(Auth::Auth()->RequirePassword($validate->Post("password")) == true)
+            {
+                $profile->save();
+            }
+            else
+            {
+                $error = "Sorry it seems the password you entered does match the database password . please try again";
+            }
+
         }
         else
         {
-            echo "your failed";
+            $error = "Some fields are missing";
         }
+
+
+
+
+
+//        leave this here
+        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"error"=>$error,"values"=>Validate::$values]);
+
     }
 
 

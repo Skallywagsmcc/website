@@ -2,39 +2,30 @@
 <html>
 <head>
     <title>Skallywags MCC <?php echo $__env->yieldContent("title"); ?> </title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/custom/base.css">
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
-            integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
-            crossorigin="anonymous"></script>
-
-    <script src="/js/functions.js"></script>
-    <link rel="stylesheet" href="trumbowyg/dist/ui/trumbowyg.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 </head>
 <body>
-<?php echo $__env->make("Includes.Navbar", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<div class="container-fluid m-0 p-0">
-    <div class=" d-none d-md-block logo_wrapper pb-3 pt-3 text-center">
-        <img src="/img/logo.png" alt="Logo">
-    </div>
+<div class="container-wrapper">
+    <?php echo $__env->make("Includes.Navbar", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    <div class="container-fluid m-0 p-0">
+        <div class=" d-none d-md-block logo_wrapper pb-3 pt-3 text-center">
+            <img src="/img/logo.png" alt="Logo">
+        </div>
+        .cot
+        <div class="container">
+            <?php echo $__env->yieldContent("content"); ?>
+        </div>
 
-    <div class="container">
-        <?php echo $__env->yieldContent("content"); ?>
     </div>
+</div>
 
+<div class="footer">
+    My footer
 </div>
 </body>
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
-
-<!-- Import Trumbowyg -->
-<script src="trumbowyg/dist/trumbowyg.min.js"></script><?php /**PATH /var/www/html/public_html/Views/Layouts/main.blade.php ENDPATH**/ ?>
+</html><?php /**PATH /var/www/html/public_html/Views/Layouts/main.blade.php ENDPATH**/ ?>

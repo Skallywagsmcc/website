@@ -25,7 +25,7 @@
 
         <ul class="ml-auto navbar-nav">
             <li class="nav-item active">
-          @if(\App\Http\Libraries\Authentication\Auth::Loggedin() == true)
+          @if(Auth())
                    <a href='/profile/{{\App\Http\Libraries\Authentication\Auth::getusername()}}'>{{\App\Http\Libraries\Authentication\Auth::getusername()}}</a>
                     |
                     <a href='/account'>My Account</a>;

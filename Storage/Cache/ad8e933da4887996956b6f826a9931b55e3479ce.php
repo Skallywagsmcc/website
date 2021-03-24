@@ -1,10 +1,6 @@
-
 <?php $__env->startSection("content"); ?>
 
-    <div class="alert-danger my-2 text-center"><?php echo e($errmessage); ?></div>
-    <?php $__currentLoopData = $Required; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        Missing field : <?php echo e($value); ?> <br><br>
-    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    <div class="alert-danger my-2 text-center"><?php echo e($error); ?></div>
     <form action="/auth/login" method="post">
         <input type="text" name="username" id="username" value="<?php echo e($user->username); ?>" placeholder="Username or email address"/><br><br>
         <input type="password" name="password" id="password"/><br><br>

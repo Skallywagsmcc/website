@@ -25,7 +25,7 @@
 
         <ul class="ml-auto navbar-nav">
             <li class="nav-item active">
-          <?php if(\App\Http\Libraries\Authentication\Auth::Loggedin() == true): ?>
+          <?php if(Auth()): ?>
                    <a href='/profile/<?php echo e(\App\Http\Libraries\Authentication\Auth::getusername()); ?>'><?php echo e(\App\Http\Libraries\Authentication\Auth::getusername()); ?></a>
                     |
                     <a href='/account'>My Account</a>;

@@ -9,8 +9,8 @@ class Validate
 
     public static $ValidPassword;
     public static $ShowRequirments;
-    public $data;
-    public $values;
+    public static $values;
+    public static $error;
     public $validate;
     public $value;
 
@@ -23,12 +23,22 @@ class Validate
     {
         $this->value = $value;
         if (empty($_POST[$this->value])) {
-            $this->values[] = $this->value;
-            $this->data = false;
-        } else {
-            $this->data = true;
+            self::$values[] = $this->value;
         }
         return $this;
+    }
+
+
+    public static function Array_Count($value)
+    {
+        if(empty($value))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 //Required in order to post data

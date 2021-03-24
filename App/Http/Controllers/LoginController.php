@@ -30,20 +30,20 @@ class LoginController
         $user->password = $validate->Required("password")->Post();
         $user->remember = $validate->Post("remember");
         if ((Authenticate::ValidateUser($user->username) == 1) || (Authenticate::ValidateEmail($user->username) == 1)) {
-            if($validate->data == false)
+            if(Validate::Array_Count(Validate::$values) == false)
             {
                 Authenticate::$errmessage = "Some Fields are Missing";
             }
             else
             {
-                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/".$user->username);
+                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/profile/".$user->username);
             }
 
         } else {
             Authenticate::$errmessage = "Username or email could not be found Please Consider Registering for an account";
         }
 
-        echo BladeEngine::View("Pages.Auth.Login.index", ["user" => $user, "errmessage" => Authenticate::$errmessage,"Required"=>$validate->values]);
+        echo BladeEngine::View("Pages.Auth.Login.index",["user"=>$user,"values"=>$validate::$values,"error"=>Authenticate::$errmessage]);
     }
 
     public function logout()

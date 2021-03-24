@@ -20,8 +20,7 @@
         </div>
         <?php echo e($article->id); ?> The title of this site is <u><?php echo e($article->title); ?></u> by user <?php echo e($article->user->username); ?> <a
         <hr>
-
-
+        
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php $__env->stopSection(); ?>
 

@@ -6,7 +6,7 @@ namespace App\Http\Models;
 
 use App\Http\Controllers\Controller;
 
-class ImageComment extends Controller
+class Comment extends Controller
 {
 
     public function user()

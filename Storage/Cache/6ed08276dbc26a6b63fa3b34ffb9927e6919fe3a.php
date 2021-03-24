@@ -8,9 +8,12 @@
 
     <?php echo $__env->make("Includes.ProfileNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     
-    <?php if($user->gallery_count >= 1): ?>
+    <?php if($count >= 1): ?>
 
-        <?php $__currentLoopData = $user->gallery; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $gallery): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php $__currentLoopData = $user->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $images): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php echo e($images->id); ?> <br>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <?php $__currentLoopData = $user->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $gallery): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
             <a href="/profile/<?php echo e($user->username); ?>/gallery/image/<?php echo e(base64_encode($gallery->id)); ?>">
                 <img class="m-3" src="/img/uploads/<?php echo e($gallery->image_name); ?>" height="200" width="200"
@@ -23,6 +26,7 @@
 
     <form action="/profile/<?php echo e($user->username); ?>/gallery/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="upload">
+        <textarea name="description" class="form-control"></textarea>
         <button>Upload file</button>
     </form>
 <?php $__env->stopSection(); ?>

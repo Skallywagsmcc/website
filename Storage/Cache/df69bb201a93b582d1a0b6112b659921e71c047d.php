@@ -14,7 +14,21 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <form action="/account/basic" method="post">
+                    <?php if(isset($error)): ?>
+                        <div class="alert-dark text-center"><?php echo e($error); ?></div>
+                    <?php endif; ?>
+                        <?php if(isset($values)): ?>
+
+                            <?php $__currentLoopData = $values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <ul>
+                                    <li>
+                                        <?php echo e($data); ?>
+
+                                    </li>
+                                </ul>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
+                    <form action="/account/edit/basic" method="post">
                         <div class="form-group col-md-6">
                             <label for="first_name">Your username : </label>
                             <input type="text" class="form-control-plaintext text-white"  readonly name="username" value="<?php echo e($user->username); ?>">
@@ -29,15 +43,18 @@
                                 <input type="text" class="form-control" name="last_name" value="<?php echo e($user->Profile->last_name); ?>">
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="first_name">About yourself : </label>
-                            <textarea name="about" id="" width="100%" class="form-control">
-                                <?php echo e($user->Profile->about); ?>
-
-                            </textarea>
-                        </div>
                         <div class="form-group col-sm-12">
-                            <label for="first_name">Enter Your Password (this is required) </label>
+                            <label for="about">About yourself : </label>
+                            <textarea name="about"  rows="10" class="form-control"><?php echo e($user->Profile->about); ?></textarea>
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label for="dob">Date of birth </label>
+                            <input type="date" class="form-control" name="dob" value="<?php echo e($user->profile->dob); ?>">
+                        </div>
+
+                        <div class="form-group col-sm-12">
+                            <label for="password">Enter Your Password (this is required) </label>
                             <input type="password" class="form-control" name="password">
                         </div>
 

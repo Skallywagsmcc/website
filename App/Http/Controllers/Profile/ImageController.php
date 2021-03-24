@@ -4,7 +4,9 @@
 namespace App\Http\Controllers\Profile;
 
 
+use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
+use App\Http\Libraries\ImageManager\Images;
 use App\Http\Models\Image;
 use App\Http\Models\User;
 
@@ -25,34 +27,28 @@ class ImageController
 
     public function store()
     {
-        $dir = __DIR__ . '/../../../../img/uploads/';
-        if (is_dir($dir)) {
-            $tmp = $_FILES['upload']['tmp_name'];
-            $name = $_FILES['upload']['name'];
-            $path_parts = pathinfo($name);
-            $fileName = $path_parts['filename'];
-            $ext = $path_parts['extension'];
-            $name = uniqid(md5($name.'-'.microtime()));
+        if(Images::Validate("upload")->Required(["jpg","png","jpeg"])->upload() == true)
+        {
+//            instantiate Validation
+            $validate = new Validate();
+            echo "upload confirmed ". Images::$name;
+//            unlink(Images::$upload_dir.Images::$name);
+//
 
-
-            if(move_uploaded_file($tmp,$dir.$name.'.'.$ext))
-            {
-                $image = new Image();
-                $image->user_id = Auth::id();
-                $image->image_name = $name.".".$ext;
-                $image->image_size = $_FILES['upload']['size'];
-                $image->image_type = $_FILES['upload']['type'];
-                $image->save();
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-
-//            Add to database tomorrow.
-
+//            Connect to the database table
+            $image = new Image();
+            $image->user_id = Auth::id();
+            $image->image_name = Images::$name;
+            $image->description = $validate->Post("description");
+            $image->image_size = Images::Files("upload","size");
+            $image->image_type = Images::Files("upload","type");
+            $image->save();
 
         }
-        else
+//        check if image upload is fales
         {
-            echo "Please create the folder and give it the correct permissions";
+            Validate::$error = "Upload failed please check that you have the correct permissions on the folder or the file matches the required filed type (Jpeg,jpg or png)";
+
         }
     }
 
@@ -68,16 +64,7 @@ class ImageController
 
     public function delete($id)
     {
-
-        if (User::where("id", Auth::id())->get()->count() == 1) {
-            $comment = Image::where("id", base64_decode($id))->get();
-            if ($comment->count() == 1) {
-                Image::find(base64_decode($id))->delete();
-                redirect($_SERVER['HTTP_REFERER']);
-            }
-
-
-        }
+//        Need to redo code
     }
 
 

@@ -75,8 +75,14 @@ $router->group(["prefix" => "/profile/{username}"], function (Router $router) {
 
 $router->group(["prefix" => "/account","middleware"=>[ Middleware\IsLoggedIn::class]], function (Router $router) {
     $router->get("/?",[\App\Http\Controllers\Profile\AccountController::class,'index']);
-    $router->get("/basic",[\App\Http\Controllers\Account\BasicInfoController::class,'index']);
-    $router->post("/basic",[\App\Http\Controllers\Account\BasicInfoController::class,'store']);
+    $router->get("/edit/basic",[\App\Http\Controllers\Account\BasicInfoController::class,'index']);
+    $router->post("/edit/basic",[\App\Http\Controllers\Account\BasicInfoController::class,'store']);
+    $router->get("/edit/about",[\App\Http\Controllers\Account\AboutController::class,'index']);
+    $router->post("/edit/about",[\App\Http\Controllers\Account\AboutController::class,'store']);
+    $router->get("/edit/picture",[\App\Http\Controllers\Account\ProfilePictureController::class,'index']);
+    $router->post("/edit/picture",[\App\Http\Controllers\Account\ProfilePictureController::class,'store']);
+    $router->get("/edit/password",[\App\Http\Controllers\Account\PasswordController::class,'index']);
+    $router->post("/edit/password",[\App\Http\Controllers\Account\PasswordController::class,'store']);
 });
 
 

@@ -118,26 +118,27 @@ class Base
             $table->timestamps();
         });
 
-        Capsule::schema()->create("image_comments",function($table)
+        Capsule::schema()->create("comments",function($table)
         {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-            $table->foreignId('image_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->foreignId('image_id')->nullable()->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->foreignId('page_id')->nullable()->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("comment");
             $table->timestamps();
         });
 
-        Capsule::schema()->create("page_comments",function($table)
-        {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-            $table->foreignId('page_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-            $table->string("comment");
-            $table->timestamps();
-        });
-
-
-        redirect("/");
+//        Capsule::schema()->create("page_comments",function($table)
+//        {
+//            $table->id();
+//            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+//            $table->foreignId('page_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+//            $table->string("comment");
+//            $table->timestamps();
+//        });
+//
+//
+//        redirect("/");
     }
 
 

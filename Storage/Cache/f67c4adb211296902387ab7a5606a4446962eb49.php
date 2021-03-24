@@ -8,7 +8,8 @@
         <div class="col-md-4">
             <div class="head"><?php echo e($user->Profile->first_name); ?> <?php echo e($user->Profile->last_name); ?></div>
             <div class="text-center">
-                <img src="/img/logo.png" class="img-thumbnail m-2" height="200" width="200" alt="">
+                <img src="/img/uploads/<?php echo e($user->Profile->Image->image_name); ?>" class="img-thumbnail m-2" height="300" width="100%" alt="">
+                <div><?php if(\App\Http\Libraries\Authentication\Auth::id() == $user->id): ?> <a href="/account/edit/picture">Upload a profile picture</a> <?php endif; ?></div>
             </div>
            <div class="text-center">
                 <?php echo $__env->make("Includes.ProfileNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

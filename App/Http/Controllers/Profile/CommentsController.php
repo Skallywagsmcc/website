@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
-use App\Http\Models\ImageComment;
+use App\Http\Models\Comment;
 use App\Http\Models\User;
 
 class CommentsController
@@ -22,7 +22,7 @@ class CommentsController
     public function store()
     {
         $validate = new Validate();
-        $comment = new ImageComment();
+        $comment = new Comment();
         $comment->user_id = Auth::id();
         $comment->image_id = $validate->Post("id");
         $comment->comment = $validate->Post("comment");
@@ -44,9 +44,9 @@ class CommentsController
     {
 
         if (User::where("id", Auth::id())->get()->count() == 1) {
-            $comment = ImageComment::where("id", base64_decode($id))->get();
+            $comment = Comment::where("id", base64_decode($id))->get();
             if ($comment->count() == 1) {
-                ImageComment::find(base64_decode($id))->delete();
+                Comment::find(base64_decode($id))->delete();
                 redirect($_SERVER['HTTP_REFERER']);
             }
         }
