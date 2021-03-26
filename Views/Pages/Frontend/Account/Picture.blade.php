@@ -16,6 +16,8 @@
                     <input type="file" name="upload">
                     <button>Upload</button>
                 </form>
+            </div>
+        </div>
     </div>
 
     {{--    the profile information will show down here.--}}

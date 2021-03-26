@@ -72,6 +72,13 @@ body a:hover, html a:hover {
   width: 160px;
 }
 
+#navbar .profile_pic {
+  border: 2px solid red;
+  height: 30px;
+  border-radius: 50%;
+  clip: auto;
+  width: 30px;
+}
 @media (max-width: 991.98px) {
   #navbar {
     background-color: #00247d;

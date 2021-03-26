@@ -50,6 +50,7 @@ class ImageController
             Validate::$error = "Upload failed please check that you have the correct permissions on the folder or the file matches the required filed type (Jpeg,jpg or png)";
 
         }
+        redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function edit()
@@ -64,9 +65,16 @@ class ImageController
 
     public function delete($id)
     {
-//        Need to redo code
+        $id = base64_decode($id);
+        $user = User::where("id", Auth::id());
+        if ($user->count() == 1)
+        {
+            $image = $user->get()->first()->images($id);
+            Image::destroy($id);
+//            rmimg($image->get()->first()->image_name);
+        redirect("/profile/{$user->get()->first()->username}/gallery");
     }
-
+    }
 
 
 }

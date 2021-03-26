@@ -17,35 +17,38 @@
                     <?php if(isset($error)): ?>
                         <div class="alert-dark text-center"><?php echo e($error); ?></div>
                     <?php endif; ?>
-                        <?php if(isset($values)): ?>
+                    <?php if(isset($values)): ?>
 
-                            <?php $__currentLoopData = $values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <ul>
-                                    <li>
-                                        <?php echo e($data); ?>
+                        <?php $__currentLoopData = $values; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <ul>
+                                <li>
+                                    <?php echo e($data); ?>
 
-                                    </li>
-                                </ul>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        <?php endif; ?>
+                                </li>
+                            </ul>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    <?php endif; ?>
                     <form action="/account/edit/basic" method="post">
                         <div class="form-group col-md-6">
                             <label for="first_name">Your username : </label>
-                            <input type="text" class="form-control-plaintext text-white"  readonly name="username" value="<?php echo e($user->username); ?>">
+                            <input type="text" class="form-control-plaintext text-white" readonly name="username"
+                                   value="<?php echo e($user->username); ?>">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="first_name">First name : </label>
-                                <input type="text" class="form-control" name="first_name" value="<?php echo e($user->Profile->first_name); ?>">
+                                <input type="text" class="form-control" name="first_name"
+                                       value="<?php echo e($user->Profile->first_name); ?>">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="last_name">Last name : </label>
-                                <input type="text" class="form-control" name="last_name" value="<?php echo e($user->Profile->last_name); ?>">
+                                <input type="text" class="form-control" name="last_name"
+                                       value="<?php echo e($user->Profile->last_name); ?>">
                             </div>
                         </div>
                         <div class="form-group col-sm-12">
                             <label for="about">About yourself : </label>
-                            <textarea name="about"  rows="10" class="form-control"><?php echo e($user->Profile->about); ?></textarea>
+                            <textarea name="about" rows="10" class="form-control"><?php echo e($user->Profile->about); ?></textarea>
                         </div>
 
                         <div class="form-group col-sm-12">
@@ -65,6 +68,7 @@
                     </form>
                 </div>
 
+            </div>
         </div>
     </div>
 

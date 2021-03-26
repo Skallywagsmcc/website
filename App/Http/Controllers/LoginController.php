@@ -36,7 +36,7 @@ class LoginController
             }
             else
             {
-                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/profile/".$user->username);
+                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/home/about");
             }
 
         } else {

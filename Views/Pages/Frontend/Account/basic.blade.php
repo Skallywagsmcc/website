@@ -17,34 +17,37 @@
                     @isset($error)
                         <div class="alert-dark text-center">{{$error}}</div>
                     @endisset
-                        @isset($values)
+                    @isset($values)
 
-                            @foreach($values as $data)
-                                <ul>
-                                    <li>
-                                        {{ $data }}
-                                    </li>
-                                </ul>
-                            @endforeach
-                        @endisset
+                        @foreach($values as $data)
+                            <ul>
+                                <li>
+                                    {{ $data }}
+                                </li>
+                            </ul>
+                        @endforeach
+                    @endisset
                     <form action="/account/edit/basic" method="post">
                         <div class="form-group col-md-6">
                             <label for="first_name">Your username : </label>
-                            <input type="text" class="form-control-plaintext text-white"  readonly name="username" value="{{$user->username}}">
+                            <input type="text" class="form-control-plaintext text-white" readonly name="username"
+                                   value="{{$user->username}}">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="first_name">First name : </label>
-                                <input type="text" class="form-control" name="first_name" value="{{$user->Profile->first_name}}">
+                                <input type="text" class="form-control" name="first_name"
+                                       value="{{$user->Profile->first_name}}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="last_name">Last name : </label>
-                                <input type="text" class="form-control" name="last_name" value="{{$user->Profile->last_name}}">
+                                <input type="text" class="form-control" name="last_name"
+                                       value="{{$user->Profile->last_name}}">
                             </div>
                         </div>
                         <div class="form-group col-sm-12">
                             <label for="about">About yourself : </label>
-                            <textarea name="about"  rows="10" class="form-control">{{$user->Profile->about}}</textarea>
+                            <textarea name="about" rows="10" class="form-control">{{$user->Profile->about}}</textarea>
                         </div>
 
                         <div class="form-group col-sm-12">
@@ -64,6 +67,7 @@
                     </form>
                 </div>
 
+            </div>
         </div>
     </div>
 

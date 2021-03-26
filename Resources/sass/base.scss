@@ -89,6 +89,16 @@ body, html {
 
 #navbar {
 
+  .profile_pic
+  {
+    border: 2px solid red;
+    height: 30px;
+    border-radius:50%;
+    clip: auto;
+    width: 30px;
+  }
+
+
   @media (max-width: 991.98px) {
     background-color: $primarybg;
 

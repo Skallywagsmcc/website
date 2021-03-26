@@ -4,4 +4,5 @@
     @endsection
 @section("content")
 
+    <a href="index.home">Homepage</a>
 @endsection

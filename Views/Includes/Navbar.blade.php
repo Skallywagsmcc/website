@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="navbar-brand d-md-none d-block">
         <img src="/img/logo.png" class='d-md-none d-show' alt="Logo">
@@ -24,19 +23,21 @@
         </ul>
 
         <ul class="ml-auto navbar-nav">
-            <li class="nav-item active">
-          @if(Auth())
-                   <a href='/profile/{{\App\Http\Libraries\Authentication\Auth::getusername()}}'>{{\App\Http\Libraries\Authentication\Auth::getusername()}}</a>
-                    |
-                    <a href='/account'>My Account</a>;
-                    |
-                    <a href='/auth/logout'>Logout</a>
-             @else
-                    <a href='/auth/login'>Login</a>
+            <li class="nav-item dropdown">
 
-
-@endif
+                    @if(Auth())
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name}}" alt="" class="profile_pic">
+                        {{\App\Http\Libraries\Authentication\Auth::getusername()}} </a>
+                    @else
+                        <a href="/auth/login">Login</a>
+                    @endif
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">My Account</a>
+                    <a class="dropdown-item" href="#">View My Profile</a>
+                    <a class="dropdown-item" href="/auth/logout">logout</a>
+                </div>
             </li>
         </ul>
     </div>
+
 </nav>

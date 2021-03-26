@@ -25,7 +25,7 @@
                     <form action="/account/edit/about" method="post" enctype="multipart/form-data">
                         <div class="form-group col-sm-12">
                             <label for="about">About yourself : </label>
-                            <textarea name="about"  rows="10" class="form-control">{{$user->Profile->about}}</textarea>
+                            <textarea name="about" rows="10" class="form-control">{{$user->Profile->about}}</textarea>
                         </div>
                         <input type="file" name="upload">
                         <div class="form-group col-sm-12">
@@ -40,6 +40,7 @@
                     </form>
                 </div>
 
+            </div>
         </div>
     </div>
 

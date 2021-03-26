@@ -16,7 +16,6 @@
         <div class=" d-none d-md-block logo_wrapper pb-3 pt-3 text-center">
             <img src="/img/logo.png" alt="Logo">
         </div>
-        .cot
         <div class="container">
             @yield("content")
         </div>

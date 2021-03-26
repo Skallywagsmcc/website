@@ -28,21 +28,46 @@ class Auth
     protected static $password;
     protected $remmeber;
 
+    public static function Loggedin($name = "id")
+    {
+        if ((isset($_COOKIE[$name])) || isset($_SESSION[$name])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getusername()
+    {
+
+        $user = User::find(self::Auth()::id());
+        return $user->username;
+
+    }
+
+    public function RequirePassword($password)
+    {
+//        this will be used to update destructive settings such as  user or admin settings.
+        $user = User::where("id", self::Auth()->id())->get();
+        if ($user->count() == 1) {
+            if (empty($password) || !password_verify($password, $user->first()->password)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 
     public static function id()
     {
-        if (isset($_COOKIE['id']))
-        {
+        if (isset($_COOKIE['id'])) {
             return $_COOKIE['id'];
-        }
-        elseif(isset($_SESSION['id']))
-        {
+        } elseif (isset($_SESSION['id'])) {
             return $_SESSION['id'];
-        }
-        else{
+        } else {
             return self::$id;
         }
-}
+    }
 
     public static function Auth()
     {
@@ -52,48 +77,6 @@ class Auth
         self::$withpassword = false;
         return new static();
     }
-
-    public static function Loggedin($name="id")
-    {
-        if((isset($_COOKIE[$name])) || isset($_SESSION[$name]))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    public function RequirePassword($password)
-    {
-//        this will be used to update destructive settings such as  user or admin settings.
-        $user = User::where("id",self::Auth()->id())->get();
-        if($user->count() == 1)
-        {
-            if(empty($password) || !password_verify($password,$user->first()->password))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-    }
-
-
-
-    public static function getusername()
-{
-
-        $user = User::find(self::Auth()::id());
-        return $user->username;
-
-}
-
-
 
     public function SendEmail($email, $name, $subject, $page, $array)
     {
@@ -128,6 +111,7 @@ class Auth
             }
         }
     }
+
     public function WithUser($username)
     {
         self::$withuser = true;
@@ -152,11 +136,22 @@ class Auth
         return $this;
     }
 
-    public function Redirect($value)
+    public function Redirect($value = null)
     {
-        if(self::$redirect == true)
-        {
-            header("location:$value");
+        if (self::$redirect == true) {
+            if ($user = User::find(self::Auth()->id())) {
+                header("location:/profile/{$user->username}");
+            } else {
+                if ($value != null)
+                {
+                    header("location$value");
+            }
+            else
+            {
+                header("location:/");
+            }
         }
     }
+
+}
 }

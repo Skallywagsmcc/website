@@ -19,7 +19,15 @@ class DisplayController
         $user = User::where("username", $username)->get();
         $count = $user->count();
         $user = $user->first();
-        echo BladeEngine::View("Pages.Frontend.Profile.index", ["user" => $user,"profile"=>$profile]);
+        if($count == 1)
+        {
+            echo BladeEngine::View("Pages.Frontend.Profile.index", ["user" => $user]);
+        }
+        else
+        {
+            echo "Page not found";
+        }
+
     }
 
     public function gallery($username)

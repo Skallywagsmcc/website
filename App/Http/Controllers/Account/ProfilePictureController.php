@@ -46,7 +46,8 @@ class ProfilePictureController
         }
 //        unlink(Images::$upload_dir.Images::$name);
 
-//        redirect($_SERVER['HTTP_REFERER']);
+
+        redirect("/profile/{$user->get()->first()->username}/gallery");
     }
 
 
