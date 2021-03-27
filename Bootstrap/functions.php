@@ -16,6 +16,7 @@ function rmimg($file)
     return unlink(\App\Http\Libraries\ImageManager\Images::$upload_dir.$file);
 }
 
+
 function Auth()
 {
 return \App\Http\Libraries\Authentication\Auth::Loggedin() == true;

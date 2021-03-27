@@ -28,22 +28,21 @@ use MiladRahimi\PhpRouter\Url;
 
 $router = Router::create();
 // Index controller
-$router->get("/", [UserController::class, 'index']);
-$router->get("/sql/install", [SqlInstaller\Base::class, 'index']);
+$router->get("/", [UserController::class, 'index'],"homepage");
 
-$router->get("/auth/login", [LoginController::class, 'index'], "index.home");
-$router->post("/auth/login", [LoginController::class, 'store']);
-$router->get("/auth/logout", [LoginController::class, 'logout']);
+$router->get("/auth/login", [LoginController::class, 'index'], "auth.login");
+$router->post("/auth/login", [LoginController::class, 'store'],"auth.login.save");
+$router->get("/auth/logout", [LoginController::class, 'logout'],"auth.logout");
 
 $router->group(["prefix", "articles"], function (Router $router) {
-    $router->get("/articles", [PageController::class, 'index']);
-    $router->get("/articles/view/{slug}", [PageController::class, 'view']);
+    $router->get("/articles", [PageController::class, 'index'],"articles.home");
+    $router->get("/articles/view/{slug}", [PageController::class, 'view'],"articles.view");
 });
 
 $router->group(["prefix" => "/admin"], function (Router $router) {
 
     $router->group(["prefix" => "/users"], function (Router $router) {
-        $router->get("/?", [UsersController::class, 'index'], "admin");
+        $router->get("/?", [UsersController::class, 'index'], "admin.users.home");
         $router->get("/new", [UsersController::class, 'create']);
         $router->post("/new", [UsersController::class, 'store']);
         $router->get("/edit/{id}/{username}", [UsersController::class, 'edit']);
@@ -67,18 +66,19 @@ $router->group(["prefix" => "/admin"], function (Router $router) {
 });
 
 
-$router->group(["prefix" => "/profile/{username}"], function (Router $router) {
+
+$router->group(["prefix" => "/{username}"], function (Router $router) {
 
     $router->group(["prefix" => "/gallery"], function (Router $router) {
-        $router->get("/?", [DisplayController::class, 'gallery'], "gallery");
-        $router->get("/image/{id}", [DisplayController::class, 'DisplayImage']);
-        $router->post("/comments/add", [CommentsController::class, 'store']);
+        $router->get("/?", [DisplayController::class, 'gallery'], "gallery.home");
+        $router->get("/image/{id}", [DisplayController::class, 'DisplayImage'],"gallery.image.view");
+        $router->post("/comments/add", [CommentsController::class, 'store'],"gallery.comment.add");
         $router->post("/upload", [ImageController::class, 'store']);
         $router->get("/comment/delete/{id}", [CommentsController::class, 'delete']);
         $router->get("/image/delete/{id}", [ImageController::class, 'delete']);
     });
 
-    $router->get("/?", [DisplayController::class, 'index']);
+    $router->get("/welcome/?", [DisplayController::class, 'index'],"profile.home");
 });
 
 
@@ -96,12 +96,6 @@ $router->group(["prefix" => "/account", "middleware" => [Middleware\IsLoggedIn::
     $router->post("/edit/email", [EmailController::class, 'store']);
     $router->get("/edit/settings", [SettingsController::class, 'index']);
     $router->post("/edit/settings", [SettingsController::class, 'store']);
-});
-
-$router->get('/links', function (Url $url) {
-    return new JsonResponse([
-        'index.home' => $url->make('index.home'),
-    ]);
 });
 
 try {

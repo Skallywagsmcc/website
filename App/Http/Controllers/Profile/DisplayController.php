@@ -8,12 +8,13 @@ use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
+use MiladRahimi\PhpRouter\Url;
 
 class DisplayController
 {
 //    This controlle Will be used for displaying the profile infirmation
 
-    public function index($username)
+    public function index($username,Url $url)
     {
 
         $user = User::where("username", $username)->get();
@@ -21,7 +22,7 @@ class DisplayController
         $user = $user->first();
         if($count == 1)
         {
-            echo BladeEngine::View("Pages.Frontend.Profile.index", ["user" => $user]);
+            echo BladeEngine::View("Pages.Frontend.Profile.index", ["user" => $user,"url"=>$url]);
         }
         else
         {
@@ -30,11 +31,11 @@ class DisplayController
 
     }
 
-    public function gallery($username)
+    public function gallery($username,Url $url)
     {
         $user = User::where("username", $username)->get();
         $count =  $user->first()->images->count();
-        echo BladeEngine::View("Pages.Frontend.Profile.Gallery.index", ["user" => $user->first(),"count"=>$count]);
+        echo BladeEngine::View("Pages.Frontend.Profile.Gallery.index", ["user" => $user->first(),"count"=>$count,"url"=>$url]);
 
     }
 

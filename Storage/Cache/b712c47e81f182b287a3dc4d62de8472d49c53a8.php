@@ -33,7 +33,7 @@
                     <?php endif; ?>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="#">My Account</a>
-                    <a class="dropdown-item" href="#">View My Profile</a>
+                    <a class="dropdown-item" href="<?php echo e($url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])); ?>">View My Profile</a>
                     <a class="dropdown-item" href="/auth/logout">logout</a>
                 </div>
             </li>

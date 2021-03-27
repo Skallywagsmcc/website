@@ -16,6 +16,8 @@
 
             </div>
 
+
+            <a href='{{$url->make('gallery.home', ['username' => $user->username ]) }}'>View link</a>
         </div>
         <div class="col-md-8">
             <div class="head">About {{$user->username}}</div>

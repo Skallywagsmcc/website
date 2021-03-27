@@ -15,7 +15,9 @@
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php $__currentLoopData = $user->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $gallery): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-            <a href="/profile/<?php echo e($user->username); ?>/gallery/image/<?php echo e(base64_encode($gallery->id)); ?>">
+
+
+            <a href="<?php echo e($url->make("gallery.image.view",["username"=>$user->username,"id"=>base64_encode($gallery->id)])); ?>">
                 <img class="m-3" src="/img/uploads/<?php echo e($gallery->image_name); ?>" height="200" width="200"
                      alt="<?php echo e($gallery->image_name); ?>">
             </a>
