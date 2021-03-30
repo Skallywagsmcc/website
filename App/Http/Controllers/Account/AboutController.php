@@ -10,18 +10,19 @@ use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\ImageManager\Images;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
+use MiladRahimi\PhpRouter\Url;
 use Symfony\Contracts\Service\Attribute\Required;
 
 class AboutController
 {
 
-    public function index()
+    public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.About", ["user" => $user]);
+        echo BladeEngine::View("Pages.Frontend.Account.About", ["user" => $user,"url"=>$url]);
     }
 
-    public function store()
+    public function store(Url $url)
     {
         $validate = new Validate();
 
@@ -45,7 +46,7 @@ class AboutController
         }
 
 
-        echo BladeEngine::View("Pages.Frontend.Account.About", ["user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
+        echo BladeEngine::View("Pages.Frontend.Account.About", ["url"=>$url,"user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
 
     }
 

@@ -16,7 +16,6 @@ class Profile extends Controller
 
     public function Image()
     {
-        return $this->hasOne(Image::class,"id","profile_pic")
-            ->where("user_id",\App\Http\Libraries\Authentication\Auth::id());
+        return $this->hasOne(Image::class,"id","profile_pic");
     }
 }

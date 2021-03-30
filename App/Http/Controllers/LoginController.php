@@ -13,16 +13,17 @@ use App\Http\Models\User;
 
 use App\Http\Libraries\Email;
 use App\Http\Packages\Authentication\Cookies;
+use MiladRahimi\PhpRouter\Url;
 
 class LoginController
 {
 
-    public function index()
+    public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Auth.Login.index");
+        echo BladeEngine::View("Pages.Auth.Login.index",["url"=>$url]);
     }
 
-    public function store()
+    public function store(Url $url)
     {
         $validate = new Validate();
         $user = new User();
@@ -34,25 +35,23 @@ class LoginController
             {
                 Authenticate::$errmessage = "Some Fields are Missing";
             }
-            else
-            {
-                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username,$user->password)->Redirect("/home/about");
-            }
+            else {
+                Authenticate::Auth()->AllowRemember($user->remember)->Login($user->username, $user->password)->Redirect($url->make("profile.home",["username"=> User::find(Auth::id())->username]));
 
+            }
         } else {
             Authenticate::$errmessage = "Username or email could not be found Please Consider Registering for an account";
         }
-
-        echo BladeEngine::View("Pages.Auth.Login.index",["user"=>$user,"values"=>$validate::$values,"error"=>Authenticate::$errmessage]);
+        echo BladeEngine::View("Pages.Auth.Login.index",["user"=>$user,"values"=>$validate::$values,"error"=>Authenticate::$errmessage,"url"=>$url]);
     }
 
-    public function logout()
+    public function logout(Url $url)
     {
         if((isset($_SESSION['id'])) || (isset($_COOKIE['id'])))
         {
             Sessions::Destroy("id");
             \App\Http\Libraries\Authentication\Cookies::Destroy("id")->Save();
-            redirect("/auth/login");
+            redirect($url->make("login"));
         }
 
     }

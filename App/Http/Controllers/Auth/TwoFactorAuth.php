@@ -7,12 +7,13 @@ use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\User;
+use MiladRahimi\PhpRouter\Url;
 
 class TwoFactorAuth
 {
-    public function index()
+    public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Auth.Login.TwoFactorAuth");
+        echo BladeEngine::View("Pages.Auth.Login.TwoFactorAuth",["url"=>$url]);
 
 
     }

@@ -7,16 +7,19 @@
         Menu
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
+
         <ul class="navbar-nav">
+{{--            Predefined--}}
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home</span></a>
+                <a class="nav-link" href="{{$url->make("homepage")}}">Home</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Charters</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/articles">Blog</a>
-            </li>
+{{--            Dont add to many links --}}
+            @foreach(\App\Http\Models\Category::all() as $category)
+                <li class="nav-item">
+                    <a class="nav-link" href="{{$url->make("pages.home",["category"=>$category->slug])}}">{{$category->title}}</a>
+                </li>
+            @endforeach
+{{--            this is predefined--}}
             <li class="nav-item">
                 <a class="nav-link" href="#">Contact us</a>
             </li>
@@ -29,12 +32,11 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name}}" alt="" class="profile_pic">
                         {{\App\Http\Libraries\Authentication\Auth::getusername()}} </a>
                     @else
-                        <a href="/auth/login">Login</a>
+                        <a href="{{$url->make("login")}}">Login</a>
                     @endif
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">My Account</a>
                     <a class="dropdown-item" href="{{$url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])}}">View My Profile</a>
-                    <a class="dropdown-item" href="/auth/logout">logout</a>
+                    <a class="dropdown-item" href="{{$url->make("logout")}}">logout</a>
                 </div>
             </li>
         </ul>

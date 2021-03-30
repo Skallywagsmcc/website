@@ -2,10 +2,11 @@
 
 
 @section("content")
+    @include("Includes.AccountNav")
         <div class="alert-dark">@isset($error)Error says : {{$error}}@endisset</div>
         <hr>
 
-        <form action="/account/edit/password" method="post">
+        <form action="{{$url->make("account.password.store")}}" method="post">
             Your Old Password
             <input type="password" name="password">
             <hr>

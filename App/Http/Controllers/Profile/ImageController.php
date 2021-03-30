@@ -44,6 +44,7 @@ class ImageController
             $image->image_type = Images::Files("upload","type");
             $image->save();
 
+
         }
 //        check if image upload is fales
         {

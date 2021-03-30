@@ -23,7 +23,7 @@
                         <?php endif; ?>
                     </h3>
 
-                    <form action="/account/edit/about" method="post" enctype="multipart/form-data">
+                    <form action="<?php echo e($url->make("account.about.store")); ?>" method="post" enctype="multipart/form-data">
                         <div class="form-group col-sm-12">
                             <label for="about">About yourself : </label>
                             <textarea name="about" rows="10" class="form-control"><?php echo e($user->Profile->about); ?></textarea>

@@ -12,7 +12,7 @@
                     Upload a profile picture
                 </div>
 
-                <form action="/account/edit/picture" method="post" enctype="multipart/form-data">
+                <form action="<?php echo e($url->make("account.picture.store")); ?>" method="post" enctype="multipart/form-data">
                     <input type="file" name="upload">
                     <button>Upload</button>
                 </form>

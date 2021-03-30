@@ -14,10 +14,17 @@
     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php endif; ?>
 <div class="head">Create a new Article</div>
-    <form action="/admin/blog/new" method="post">
+    <form action="<?php echo e($url->make("admin.pages.store")); ?>" method="post">
         <div class="form-group">
             <label for="title">Article Title</label>
             <input type="text" class="form-control" name="title" value="<?php echo e($article->title); ?>">
+        </div>
+        <div class="form-group">
+            <select name="category" id="">
+                <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($category->id); ?>"><?php echo e($category->title); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </select>
         </div>
         <div class="form-group">
             <textarea name="content" id="editor" cols="30" rows="10" class="form-control"><?php echo e($article->content); ?></textarea>

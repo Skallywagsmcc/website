@@ -4,6 +4,9 @@
 @endsection
 
 @section("content")
+    @if($count == 1)
+        {{ redirect($url->make("pages.view",["category"=>$category->slug,"slug"=>$articles->first()->slug]))}}
+    @elseif($count > 1)
     @foreach($articles as $article)
         <div class="row">
             <div class="col-md-12 head">
@@ -14,10 +17,16 @@
                 <hr>
             </div>
             <div class="col-md-6">Date created {{$article->created_at}}</div>
-            <div class="col-md-6 text-right"><a href="/articles/view/{{$article->slug}}">View Article</a></div>
+            <div class="col-md-6 text-right"><a href="{{$url->make("pages.view",["category"=>$article->category->slug,"slug"=>$article->slug])}}">View Article</a></div>
         </div>
-        {{$article->id}} The title of this site is <u>{{$article->title}}</u> by user {{$article->user->username}} <a
-        <hr>
-        
+        {!! $links !!}
     @endforeach
+    @else
+        No articles found;
+    @endif
+
+    <form action="{{$url->make("pages.search",["category"=>$article->category->slug])}}" method="get">
+        <input type="text" name="keyword">
+        <button>save</button>
+    </form>
 @endsection

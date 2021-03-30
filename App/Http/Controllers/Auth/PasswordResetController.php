@@ -4,15 +4,17 @@
 namespace App\Http\Controllers\Auth;
 
 
+use MiladRahimi\PhpRouter\Url;
+
 class PasswordResetController
 {
 
-    public function index()
+    public function index(Url $url)
     {
 //        Reset template goes here
     }
 
-    public function store($code, $id)
+    public function store($code, $id,Url $url)
     {
         /* the Store data goes here
         step 1 : Request Cpde via the $code variable,

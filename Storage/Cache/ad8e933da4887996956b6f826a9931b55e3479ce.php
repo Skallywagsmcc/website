@@ -1,7 +1,7 @@
 <?php $__env->startSection("content"); ?>
 
     <div class="alert-danger my-2 text-center"><?php echo e($error); ?></div>
-    <form action="/auth/login" method="post">
+    <form action="<?php echo e($url->make("login.store")); ?>" method="post">
         <input type="text" name="username" id="username" value="<?php echo e($user->username); ?>" placeholder="Username or email address"/><br><br>
         <input type="password" name="password" id="password"/><br><br>
         <a href="/auth/reset-password">Reset Password</a>

@@ -27,7 +27,7 @@
                             </ul>
                         @endforeach
                     @endisset
-                    <form action="/account/edit/basic" method="post">
+                    <form action="{{$url->make("account.basic.store")}}" method="post">
                         <div class="form-group col-md-6">
                             <label for="first_name">Your username : </label>
                             <input type="text" class="form-control-plaintext text-white" readonly name="username"

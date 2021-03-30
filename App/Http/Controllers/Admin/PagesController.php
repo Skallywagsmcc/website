@@ -8,7 +8,9 @@ use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
+use App\Http\Models\Category;
 use App\Http\Models\Page;
+use MiladRahimi\PhpRouter\Url;
 
 class PagesController
 {
@@ -22,46 +24,48 @@ class PagesController
      * delete : this will delete the data by id
      */
 
-    public function index()
+    public function index(Url $url)
     {
         $articles = Page::All();
-        echo BladeEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles]);
+        echo BladeEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles,"url"=>$url]);
     }
 
-    public function create()
+    public function create(Url $url)
     {
-
-        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog");
+        $categories = Category::all();
+        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog",["url"=>$url,"categories"=>$categories]);
     }
 
-    public function store()
+    public function store(Url $url)
     {
         $article = new Page();
         $validate = new Validate();
+        $article->user_id = Auth::id();
+        $article->category_id = $validate->Post('category');
         $article->title = $validate->Required("title")->Post();
         $article->slug = str_replace(" ", "-", $article->title);
         $article->content = $validate->Required("content")->Post();
-        $article->user_id = Auth::id();
+        $article->pinned = 0;
 
-        if ($validate->data == false) {
+        if (Validate::Array_Count($validate::$values) == false) {
             Authenticate::$errmessage = "Please see the valid errors";
         } else {
             $article->save();
-            header("location:/admin/blog");
+            redirect($url->make("admin.pages.home"));
         }
-        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog", ["article" => $article, "values" => $validate->values, "message" => Authenticate::$errmessage]);
+        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog", ["article" => $article, "values" => $validate->values, "message" => Authenticate::$errmessage,"url"=>$url]);
     }
 
-    public function edit($slug,$id)
+    public function edit($slug,$id,Url $url)
     {
         $id = base64_decode($id);
         $results = Page::where("slug",$slug)->where("id", $id)->get();
         $count = $results->count();
         $article = $results->first();
-        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count]);
+        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count,"url"=>$url]);
     }
 
-    public function update()
+    public function update(Url $url)
     {
         $validate = new Validate();
         $article = Page::find($validate->Post("id"));
@@ -72,7 +76,7 @@ class PagesController
         redirect("/admin/blog");
     }
 
-    public function delete($slug,$id)
+    public function delete($slug,$id,Url $url)
     {
 //        this will later require a passsword from an admin
         $id = base64_decode($id);

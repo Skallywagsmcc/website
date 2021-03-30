@@ -19,8 +19,11 @@
             <div class="col-md-2 col-xs-12"><?php echo e($user->Profile->first_name); ?> <?php echo e($user->Profile->last_name); ?></div>
             <div class="col-md-2 col-xs-12 "><a href="">Roles</a></div>
             <div class="col-md-2 col-xs-12 "><a href="/admin/users/edit/<?php echo e(base64_encode($user->id)); ?>/<?php echo e(base64_encode($user->username)); ?>">Edit Account</a></div>
-            <div class="col-md-2 col-xs-12"><a href="">Delete Account</a></div>
-
+        <?php if($user->id  == \App\Http\Libraries\Authentication\Auth::id()): ?>
+            <div class="col-md-2 col-xs-12">Unavailable</div>
+            <?php else: ?>
+            <div class="col-md-2 col-xs-12"><a href="<?php echo e($url->make("admin.users.delete",["id"=>$user->id])); ?>">Delete Account</a></div>
+            <?php endif; ?>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
 

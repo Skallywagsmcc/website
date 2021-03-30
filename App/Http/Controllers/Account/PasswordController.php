@@ -9,18 +9,19 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\User;
+use MiladRahimi\PhpRouter\Url;
 
 class PasswordController
 {
 
-    public function index()
+    public function index(Url $url)
     {
 
-        echo BladeEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user]);
+        echo BladeEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"url"=>$url]);
     }
 
 
-    public function store()
+    public function store(Url $url)
     {
         $validate = new Validate();
         if(Auth::Auth()->RequirePassword($validate->Post("password")) == true)
@@ -51,7 +52,7 @@ class PasswordController
         {
             Validate::$error = "Sorry the Password does not match the database";
         }
-        echo BladeEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"error"=>Validate::$error]);
+        echo BladeEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"error"=>Validate::$error,"url"=>$url]);
     }
 
 

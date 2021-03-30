@@ -11,22 +11,23 @@ use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
+use MiladRahimi\PhpRouter\Url;
 
 class UsersController
 {
 
-    public function index()
+    public function index(Url $url)
     {
         $users = User::all();
-        echo BladeEngine::View("Pages.Admin.Users.index", ["users" => $users]);
+        echo BladeEngine::View("Pages.Admin.Users.index", ["users" => $users,"url"=>$url]);
     }
 
-    public function create()
+    public function create(URL $url)
     {
-        echo BladeEngine::View("Pages.Admin.Users.new", ["users" => $users]);
+        echo BladeEngine::View("Pages.Admin.Users.new", ["users" => $users,"url"=>$url]);
     }
 
-    public function store()
+    public function store(Url $url)
     {
         $validate = new Validate();
         $user = new User();
@@ -67,11 +68,11 @@ class UsersController
 
             redirect("/admin/users");
         }
-        echo BladeEngine::View("Pages.Admin.Users.new", ["user" => $user]);
+        echo BladeEngine::View("Pages.Admin.Users.new", ["user" => $user,"url"=>$url]);
 
     }
 
-    public function search()
+    public function search(Url $url)
     {
         $keyword = $_POST['keyword'];
         $results = Profile::where("full_name", "LIKE", "%" . $keyword . "%")->get();
@@ -80,13 +81,13 @@ class UsersController
         echo $users->about;
     }
 
-    public function edit($id, $username)
+    public function edit($id, $username, Url $url)
     {
         $id = base64_decode($id);
-        $username = base64_decode($username);
+      $username = base64_decode($username);
         $user = User::withCount("settings")->where("id", $id)->where("username", $username)->get();
         if ($user->count() == 1) {
-            echo BladeEngine::View("Pages.Admin.Users.edit", ["user" => $user->first()]);
+            echo BladeEngine::View("Pages.Admin.Users.edit", ["user" => $user->first(),"url"=>$url]);
         } else {
             echo "Page doesnt exisit";
         }
@@ -94,7 +95,7 @@ class UsersController
 
     }
 
-    public function update()
+    public function update(Url $url)
     {
 //Get validation
         $validate = new Validate();
@@ -106,25 +107,14 @@ class UsersController
         $profile->first_name = $validate->Required("first_name")->Post();
         $profile->last_name = $validate->Required("last_name")->Post();
         $profile->save();
-
-        $settings = UserSettings::find($user->id);
-        $settings->user_id = 0;
-        $settings->save();
-
-//
-//
-////        1 edit user inf
-////        2 edit Profile first and last name
-////        3 edit settings such as using 2 factor authentciation or emailed newsletters
-        redirect("/admin/users");
-
-//        echo $validate->Post('two_factor_auth');
+        redirect($url->make("admin.users.home"));
     }
 
-    public function delete($id)
+    public function delete($id,Url $url)
     {
-        User::find($id)->delete();
-        redirect("/admin/users");
+      $user =  User::find($id);
+      $user->delete();
+        redirect($url->make("admin.users.home"));
     }
 
 

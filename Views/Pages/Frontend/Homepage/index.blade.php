@@ -1,7 +1,8 @@
 @extends("Layouts.main")
 @section("title")
-    Home
+    {{$_SERVER['TITLE']}} Home
     @endsection
+
 @section("content")
-W
-@endsection
+    Welcome tot the site
+    @endsection

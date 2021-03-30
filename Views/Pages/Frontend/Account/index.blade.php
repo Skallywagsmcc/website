@@ -13,8 +13,12 @@
                 </div>
             </div>
             <div class="row">
+                @if($user->settings->display_full_name == 1)
                 <div class="col-sm-12 col-md-6">First name : {{$user->Profile->first_name}}</div>
                 <div class="col-sm-12 col-md-6">Last name : {{$user->Profile->last_name}}</div>
+                @else
+                <div class="col-sm-12 col-md-12">{{$user->username}}</div>
+                    @endif
             </div>
             <div class="row">
                 <div class="col-sm-12">Username {{$user->username}}</div>
@@ -23,7 +27,7 @@
                 <div class="col-sm-12">Email Address {{$user->email}}</div>
             </div>
             <div class="row">
-                <div class="col-sm-12">Date of birth :  {{$user->Profile->dob}}}</div>
+                <div class="col-sm-12">Date of birth :  {{$user->Profile->dob}}</div>
             </div>
         </div>
     </div>

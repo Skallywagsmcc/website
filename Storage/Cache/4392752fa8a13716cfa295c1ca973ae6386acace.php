@@ -6,7 +6,7 @@
         <div class="col-md-12 head">Edit User Information for
             : <?php echo e($user->Profile->first_name); ?> <?php echo e($user->Profile->last_name); ?></div>
     </div>
-    <form action="/admin/users/edit" method="post">
+    <form action="<?php echo e($url->make("admin.users.update")); ?>" method="post">
 
         <label for="last_name">Username (this CANNOT be Changed): </label>
         <input type="text" class="form-control-plaintext text-white" readonly name="username"

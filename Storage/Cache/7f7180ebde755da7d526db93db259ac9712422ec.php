@@ -5,9 +5,19 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection("content"); ?>
+    <div class="row my-2">
+        <div class="col-sm-12 head">
+            <?php echo e($article->title); ?>
 
-    the article  is : <?php echo e($article->slug); ?> posted by : <?php echo e($article->user->username); ?>
+        </div>
+        <div class="col-sm-12">
+            <?php echo e($article->content); ?>
 
+        </div>
+        <div class="border border-light col-sm-12"></div>
+<div class="col-sm-12 col-md-6">Posted By : <?php echo e($article->user->username); ?></div>
+<div class="col-sm-12 col-md-6">Posted on : <?php echo e($article->created_at); ?></div>
+    </div>
 
 <?php $__env->stopSection(); ?>
 

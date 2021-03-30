@@ -7,16 +7,19 @@
         Menu
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
+
         <ul class="navbar-nav">
+
             <li class="nav-item active">
-                <a class="nav-link" href="/">Home</span></a>
+                <a class="nav-link" href="<?php echo e($url->make("homepage")); ?>">Home</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Charters</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/articles">Blog</a>
-            </li>
+
+            <?php $__currentLoopData = \App\Http\Models\Category::all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo e($url->make("pages.home",["category"=>$category->slug])); ?>"><?php echo e($category->title); ?></a>
+                </li>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
             <li class="nav-item">
                 <a class="nav-link" href="#">Contact us</a>
             </li>
@@ -29,12 +32,11 @@
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="/img/uploads/<?php echo e(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name); ?>" alt="" class="profile_pic">
                         <?php echo e(\App\Http\Libraries\Authentication\Auth::getusername()); ?> </a>
                     <?php else: ?>
-                        <a href="/auth/login">Login</a>
+                        <a href="<?php echo e($url->make("login")); ?>">Login</a>
                     <?php endif; ?>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">My Account</a>
                     <a class="dropdown-item" href="<?php echo e($url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])); ?>">View My Profile</a>
-                    <a class="dropdown-item" href="/auth/logout">logout</a>
+                    <a class="dropdown-item" href="<?php echo e($url->make("logout")); ?>">logout</a>
                 </div>
             </li>
         </ul>

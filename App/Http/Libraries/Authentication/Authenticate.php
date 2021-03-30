@@ -106,7 +106,7 @@ class Authenticate extends Auth
 
     public function Login($username = null, $password = null)
     {
-        echo $_SESSION['id'];
+
         $users = User::where("username", $username)->orwhere("email", $username)->get();
         $user = $users->first();
         if ($users->count() == 1) {

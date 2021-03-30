@@ -39,14 +39,14 @@ class DisplayController
 
     }
 
-    public function DisplayImage($username,$id)
+    public function DisplayImage($username,$id,Url $url)
     {
         $id = base64_decode($id);
         $user = User::where("username", $username)->get()->first();
         $image  = $user->images()->where("id",$id);
         $count = $image->count();
         $image = $image->get()->first();
-        echo BladeEngine::View("Pages.Frontend.Profile.Gallery.view", ["user" => $user,"image"=>$image,"count"=>$count]);
+        echo BladeEngine::View("Pages.Frontend.Profile.Gallery.view", ["user" => $user,"image"=>$image,"count"=>$count,"url"=>$url]);
 
 //
     }

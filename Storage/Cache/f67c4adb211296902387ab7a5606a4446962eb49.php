@@ -15,9 +15,6 @@
                 <?php echo $__env->make("Includes.ProfileNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
             </div>
-
-
-            <a href='<?php echo e($url->make('gallery.home', ['username' => $user->username ])); ?>'>View link</a>
         </div>
         <div class="col-md-8">
             <div class="head">About <?php echo e($user->username); ?></div>

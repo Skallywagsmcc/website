@@ -10,17 +10,18 @@ use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
 use DateTime;
+use MiladRahimi\PhpRouter\Url;
 
 class BasicInfoController
 {
 
-    public function index()
+    public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user]);
+        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"url"=>$url]);
     }
 
-    public function store()
+    public function store(Url $url)
     {
         $validate = new Validate();
         $dob = new DateTime($validate->Post("dob"));
@@ -40,6 +41,7 @@ class BasicInfoController
             if(Auth::Auth()->RequirePassword($validate->Post("password")) == true)
             {
                 $profile->save();
+                redirect($url->make("account.home"));
             }
             else
             {
@@ -52,12 +54,8 @@ class BasicInfoController
             $error = "Some fields are missing";
         }
 
-
-
-
-
 //        leave this here
-        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"error"=>$error,"values"=>Validate::$values]);
+        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"error"=>$error,"values"=>Validate::$values,"url"=>$url]);
 
     }
 

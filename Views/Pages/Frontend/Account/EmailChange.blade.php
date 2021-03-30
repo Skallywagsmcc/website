@@ -2,11 +2,12 @@
 
 
 @section("content")
+    @include("Includes.AccountNav")
         <div class="alert-dark">@isset($error)
                 Error says : {{$error}}
             @endisset</div>
         <hr>
-        <form action="/account/edit/email" method="post">
+        <form action="{{$url->make("account.email.store")}}" method="post">
             Your email
             <input type="email" name="email" value="{{$user->email}}">
             <hr class="text-white"> Your password

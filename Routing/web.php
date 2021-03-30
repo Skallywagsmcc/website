@@ -9,93 +9,101 @@ use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\CommentsController;
 use App\Http\Controllers\Profile\DisplayController;
 use App\Http\Controllers\Profile\ImageController;
-use App\Http\Controllers\UserController;
-use App\Http\Libraries\SqlInstaller;
+use App\Http\Libraries\SqlInstaller\Base;
 use App\Http\Middleware;
-use Laminas\Diactoros\Response\JsonResponse;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Router;
-use MiladRahimi\PhpRouter\Url;
 
 
 //Instantiate
 
 $router = Router::create();
 // Index controller
-$router->get("/", [UserController::class, 'index'],"homepage");
+$router->get("/", [HomeController::class, 'index'], "homepage");
+$router->get("/install",[Base::class,'index']);
 
-$router->get("/auth/login", [LoginController::class, 'index'], "auth.login");
-$router->post("/auth/login", [LoginController::class, 'store'],"auth.login.save");
-$router->get("/auth/logout", [LoginController::class, 'logout'],"auth.logout");
-
-$router->group(["prefix", "articles"], function (Router $router) {
-    $router->get("/articles", [PageController::class, 'index'],"articles.home");
-    $router->get("/articles/view/{slug}", [PageController::class, 'view'],"articles.view");
+$router->group(["prefix"=>"/auth"],function(Router $router){
+    $router->get("/supersite/login/success/yourmum/fuckoff", [LoginController::class, 'index'], "login");
+    $router->post("/login/success", [LoginController::class, 'store'], "login.store");
+    $router->get("/logout", [LoginController::class, 'logout'], "logout");
 });
 
-$router->group(["prefix" => "/admin"], function (Router $router) {
+$router->group(["prefix" => "/page/{category}"], function (Router $router) {
+    $router->get("/?", [PageController::class, 'index'], "pages.home");
+    $router->get("/search/keyword", [PageController::class, 'search'], "pages.search");
+    $router->get("/{slug}", [PageController::class, 'view'], "pages.view");
+});
 
+
+$router->group(["prefix" => "/admin","middleware" => [Middleware\IsLoggedIn::class]], function (Router $router) {
+
+//Users
     $router->group(["prefix" => "/users"], function (Router $router) {
         $router->get("/?", [UsersController::class, 'index'], "admin.users.home");
-        $router->get("/new", [UsersController::class, 'create']);
-        $router->post("/new", [UsersController::class, 'store']);
-        $router->get("/edit/{id}/{username}", [UsersController::class, 'edit']);
-        $router->post("/edit/", [UsersController::class, 'update']);
-        $router->get("/delete/{id}", [UsersController::class, 'delete']);
+        $router->get("/new", [UsersController::class, 'create'], "admin.users.create");
+        $router->post("/new", [UsersController::class, 'store'], "admin.users.store");
+        $router->get("/edit/{id}/{username}", [UsersController::class, 'edit'], "admin.users.edit");
+        $router->post("/edit/save", [UsersController::class, 'update'], "admin.users.update");
+        $router->get("/delete/{id}", [UsersController::class, 'delete'], "admin.users.delete");
     });
 
     $router->group(["prefix" => "/categories"], function (Router $router) {
-        $router->get("/?", [CategoriesController::class, 'index']);
+        $router->get("/?", [CategoriesController::class, 'index'], "admin.category.home");
+        $router->get("/new", [CategoriesController::class, 'create'], "admin.category.create");
+        $router->post("/new/store", [CategoriesController::class, 'store'], "admin.category.store");
     });
 
-    $router->group(["prefix" => "/blog"], function (Router $router) {
-        $router->get("/?", [PagesController::class, 'index']);
-        $router->get("/new", [PagesController::class, 'create']);
-        $router->post("/new", [PagesController::class, 'store']);
-        $router->get("/edit/{slug}/{id}", [PagesController::class, 'edit']);
-        $router->post("/edit", [PagesController::class, 'update']);
+    $router->group(["prefix" => "/pages"], function (Router $router) {
+        $router->get("/?", [PagesController::class, 'index'], "admin.pages.home");
+        $router->get("/new", [PagesController::class, 'create'], "admin.pages.create");
+        $router->post("/new", [PagesController::class, 'store'], "admin.pages.store");
+        $router->get("/edit/{slug}/{id}", [PagesController::class, 'edit'], "admin.pages.edit");
+        $router->post("/edit", [PagesController::class, 'update'], "admin.pages.update");
     });
 
+    $router->get("/?",function()
+    {
+        echo "Admin panel";
+    });
 
 });
 
 
-
-$router->group(["prefix" => "/{username}"], function (Router $router) {
-
+$router->group(["prefix" => "/profile/{username}"], function (Router $router) {
     $router->group(["prefix" => "/gallery"], function (Router $router) {
         $router->get("/?", [DisplayController::class, 'gallery'], "gallery.home");
-        $router->get("/image/{id}", [DisplayController::class, 'DisplayImage'],"gallery.image.view");
-        $router->post("/comments/add", [CommentsController::class, 'store'],"gallery.comment.add");
-        $router->post("/upload", [ImageController::class, 'store']);
-        $router->get("/comment/delete/{id}", [CommentsController::class, 'delete']);
-        $router->get("/image/delete/{id}", [ImageController::class, 'delete']);
+        $router->get("/image/{id}", [DisplayController::class, 'DisplayImage'], "gallery.image.view");
+        $router->post("/comments/add", [CommentsController::class, 'store'], "gallery.comment.add");
+        $router->post("/upload", [ImageController::class, 'store'], "gallery.store");
+        $router->get("/comment/delete/{id}", [CommentsController::class, 'delete'], "gallery.comment.delete");
+        $router->get("/image/delete/{id}", [ImageController::class, 'delete'], "gallery.image.delete");
     });
 
-    $router->get("/welcome/?", [DisplayController::class, 'index'],"profile.home");
+    $router->get("/?", [DisplayController::class, 'index'], "profile.home");
 });
 
 
 $router->group(["prefix" => "/account", "middleware" => [Middleware\IsLoggedIn::class]], function (Router $router) {
-    $router->get("/?", [AccountController::class, 'index']);
-    $router->get("/edit/basic", [BasicInfoController::class, 'index']);
-    $router->post("/edit/basic", [BasicInfoController::class, 'store']);
-    $router->get("/edit/about", [AboutController::class, 'index']);
-    $router->post("/edit/about", [AboutController::class, 'store']);
-    $router->get("/edit/picture", [ProfilePictureController::class, 'index']);
-    $router->post("/edit/picture", [ProfilePictureController::class, 'store']);
-    $router->get("/edit/password", [PasswordController::class, 'index']);
-    $router->post("/edit/password", [PasswordController::class, 'store']);
-    $router->get("/edit/email", [EmailController::class, 'index']);
-    $router->post("/edit/email", [EmailController::class, 'store']);
-    $router->get("/edit/settings", [SettingsController::class, 'index']);
-    $router->post("/edit/settings", [SettingsController::class, 'store']);
+    $router->get("/?", [AccountController::class, 'index'], "account.home");
+    $router->get("/edit/basic", [BasicInfoController::class, 'index'], "account.basic.home");
+    $router->post("/edit/basic", [BasicInfoController::class, 'store'], "account.basic.store");
+    $router->get("/ICE/about", [AboutController::class, 'index'], "account.about.home");
+    $router->post("/edit/about", [AboutController::class, 'store'], "account.about.store");
+    $router->get("/edit/picture", [ProfilePictureController::class, 'index'], "account.picture.home");
+    $router->post("/edit/picture", [ProfilePictureController::class, 'store'], "account.picture.store");
+    $router->get("/edit/password", [PasswordController::class, 'index'], "account.password.home");
+    $router->post("/edit/password", [PasswordController::class, 'store'], "account.password.store");
+    $router->get("/edit/email", [EmailController::class, 'index'], "account.email.home");
+    $router->post("/edit/email", [EmailController::class, 'store'], "account.email.store");
+    $router->get("/edit/settings", [SettingsController::class, 'index'], "account.settings.home");
+    $router->post("/edit/settings", [SettingsController::class, 'store'], "account.settings.store");
 });
 
 try {

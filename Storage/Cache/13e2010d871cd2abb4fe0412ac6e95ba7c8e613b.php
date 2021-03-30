@@ -2,10 +2,11 @@
 
 
 <?php $__env->startSection("content"); ?>
+    <?php echo $__env->make("Includes.AccountNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="alert-dark"><?php if(isset($error)): ?>Error says : <?php echo e($error); ?><?php endif; ?></div>
         <hr>
 
-        <form action="/account/edit/password" method="post">
+        <form action="<?php echo e($url->make("account.password.store")); ?>" method="post">
             Your Old Password
             <input type="password" name="password">
             <hr>

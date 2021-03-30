@@ -2,12 +2,13 @@
 
 
 <?php $__env->startSection("content"); ?>
+    <?php echo $__env->make("Includes.AccountNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="alert-dark"><?php if(isset($error)): ?>
                 Error says : <?php echo e($error); ?>
 
             <?php endif; ?></div>
         <hr>
-        <form action="/account/edit/email" method="post">
+        <form action="<?php echo e($url->make("account.email.store")); ?>" method="post">
             Your email
             <input type="email" name="email" value="<?php echo e($user->email); ?>">
             <hr class="text-white"> Your password

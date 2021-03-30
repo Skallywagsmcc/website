@@ -10,14 +10,15 @@ use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\ImageManager\Images;
 use App\Http\Models\Image;
 use App\Http\Models\User;
+use MiladRahimi\PhpRouter\Url;
 
 class ProfilePictureController
 {
 
-    public function index()
+    public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.Picture",["user",$user]);
+        echo BladeEngine::View("Pages.Frontend.Account.Picture",["user",$user,"url"=>$url]);
     }
 
 
@@ -26,7 +27,7 @@ class ProfilePictureController
 
     }
 
-    public function store()
+    public function store(Url $url)
     {
         $user = \App\Http\Models\User::find(Auth::id());
         echo $user->Profile->first_name;
@@ -44,7 +45,6 @@ class ProfilePictureController
             $profile->profile_pic = $image->id;
             $profile->save();
         }
-//        unlink(Images::$upload_dir.Images::$name);
 
 
         redirect("/profile/{$user->get()->first()->username}/gallery");

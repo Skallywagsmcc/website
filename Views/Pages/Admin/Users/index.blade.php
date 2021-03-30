@@ -21,8 +21,11 @@
             <div class="col-md-2 col-xs-12">{{$user->Profile->first_name}} {{$user->Profile->last_name}}</div>
             <div class="col-md-2 col-xs-12 "><a href="">Roles</a></div>
             <div class="col-md-2 col-xs-12 "><a href="/admin/users/edit/{{base64_encode($user->id)}}/{{base64_encode($user->username)}}">Edit Account</a></div>
-            <div class="col-md-2 col-xs-12"><a href="">Delete Account</a></div>
-
+        @if($user->id  == \App\Http\Libraries\Authentication\Auth::id())
+            <div class="col-md-2 col-xs-12">Unavailable</div>
+            @else
+            <div class="col-md-2 col-xs-12"><a href="{{$url->make("admin.users.delete",["id"=>$user->id])}}">Delete Account</a></div>
+            @endif
         @endforeach
         </div>
 

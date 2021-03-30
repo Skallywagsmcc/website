@@ -2,6 +2,8 @@
 
 namespace App\Http\Libraries\SqlInstaller;
 
+use App\Http\Libraries\Authentication\Auth;
+use App\Http\Models\Profile;
 use App\Http\Models\User;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
@@ -45,10 +47,11 @@ class Base
 
         Capsule::schema()->create("categories", function ($table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-            $table->integer("topbar");
+            $table->integer("user_id");
             $table->string("title");
             $table->string("slug");
+            $table->integer("pinned")->nullable();
+            $table->integer("edited_by"); //user_id goes here to find out who last edited the item
             $table->timestamps();
         });
 
@@ -56,10 +59,13 @@ class Base
 
         Capsule::schema()->create("pages", function ($table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
+            $table->foreignId('user_id');
+            $table->foreignId('category_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("title");
             $table->string("slug");
             $table->longtext("content");
+            $table->integer("pinned")->nullable();
+            $table->integer("edited_by"); //user_id goes here to find out who last edited the item
             $table->timestamps();
         });
 
@@ -90,6 +96,10 @@ class Base
             $user->email = "Admin@localhost.com";
             $user->password = password_hash("Admin", PASSWORD_DEFAULT);
             $user->save();
+
+            $profile = new Profile();
+            $profile->user_id = Auth::id();
+            $profile->save();
         });
 
         Capsule::schema()->create("user_settings", function ($table) {
@@ -118,8 +128,7 @@ class Base
             $table->timestamps();
         });
 
-        Capsule::schema()->create("comments",function($table)
-        {
+        Capsule::schema()->create("comments", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->foreignId('image_id')->nullable()->constrained()->onUpdate("cascade")->onDelete("cascade");
@@ -128,18 +137,6 @@ class Base
             $table->timestamps();
         });
 
-//        Capsule::schema()->create("page_comments",function($table)
-//        {
-//            $table->id();
-//            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-//            $table->foreignId('page_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-//            $table->string("comment");
-//            $table->timestamps();
-//        });
-//
-//
-//        redirect("/");
     }
-
 
 }

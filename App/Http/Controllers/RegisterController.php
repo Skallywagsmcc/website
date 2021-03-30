@@ -8,16 +8,18 @@ use App\Http\Functions\BladeEngine;
 use App\Http\Functions\Validate;
 use App\Http\Models\User;
 use App\Http\Libraries\Authentication\Authenticate;
+use MiladRahimi\PhpRouter\Url;
+
 class RegisterController
 {
 
-    public function index()
+    public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Auth.Register.index");
+        echo BladeEngine::View("Pages.Auth.Register.index",["url"=>$url]);
     }
 
 
-    public function store()
+    public function store(Url $url)
     {
         $validate = new Validate();
         $user = new User();
@@ -51,11 +53,11 @@ class RegisterController
 
 //            end
         }
-        echo BladeEngine::View("Pages.Auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage]);
+        echo BladeEngine::View("Pages.Auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage,"url"=>$url]);
 
     }
 
-    public function delete($id)
+    public function delete($i, Url $url)
     {
         $user = User::where("id",$id);
             if($user->get()->count() == 1)
