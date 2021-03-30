@@ -28,7 +28,6 @@
                             <label for="about">About yourself : </label>
                             <textarea name="about" rows="10" class="form-control"><?php echo e($user->Profile->about); ?></textarea>
                         </div>
-                        <input type="file" name="upload">
                         <div class="form-group col-sm-12">
                             <label for="password">Enter Your Password (this is required) </label>
                             <input type="password" class="form-control" name="password">

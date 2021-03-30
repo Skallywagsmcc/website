@@ -26,7 +26,7 @@ class PageController
            $articles = $category->page()->where("category_id",$category->id);
            $count = $articles->count();
          $sql =  $articles;
-           $pages = new LaravelPaginator('1','p');
+           $pages = new LaravelPaginator('10','p');
            $rows = $pages->paginate($sql);
            $links = $pages->page_links();
 
@@ -53,6 +53,9 @@ class PageController
         {
             echo $page->title;
         }
+
+//        $users = User::all();
+//        echo BladeEngine::View("Pages.Frontend.Articles.index",["count"=>$count,"category"=>$category,"users"=>$users,"url"=>$url,"articles"=>$rows,"links"=>$links]);
     }
 
 
