@@ -73,7 +73,7 @@ class PagesController
         $article->slug = str_replace(" ", "-", $article->title);
         $article->content = $validate->Required("content")->Post();
         $article->save();
-        redirect("/admin/blog");
+        redirect($url->make("admin.pages.home"));
     }
 
     public function delete($slug,$id,Url $url)
@@ -81,7 +81,7 @@ class PagesController
 //        this will later require a passsword from an admin
         $id = base64_decode($id);
         $article = Page::find($id)->delete();
-        redirect("/admin/blog");
+        redirect($url->make("admin.pages.home"));
     }
 
 

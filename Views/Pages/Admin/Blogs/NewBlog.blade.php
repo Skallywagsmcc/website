@@ -5,6 +5,7 @@
     @endsection()
 
 @section("content")
+    @include("Includes.AdminNav")
 {{$message}}
 @isset($values)
 @foreach($values as $value)

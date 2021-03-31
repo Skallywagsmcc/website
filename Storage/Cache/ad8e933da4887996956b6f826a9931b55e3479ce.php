@@ -1,3 +1,4 @@
+
 <?php $__env->startSection("content"); ?>
 
     <div class="alert-danger my-2 text-center"><?php echo e($error); ?></div>

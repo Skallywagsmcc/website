@@ -12,10 +12,6 @@ require_once "functions.php";
 
 if(Capsule::schema()->hasTable("users"))
 {
-    function Csrf()
-    {
-        return  preg_replace("/@csrf/i",\App\Http\Libraries\Authentication\Csrf::Key(),"@csrf");
-    }
 
 //Add dotenv support
 
@@ -26,4 +22,5 @@ if(Capsule::schema()->hasTable("users"))
     $csrf = new \App\Http\Libraries\Authentication\Csrf();
 }
 
+csrf();
 require_once ROOT ."/Routing/web.php";

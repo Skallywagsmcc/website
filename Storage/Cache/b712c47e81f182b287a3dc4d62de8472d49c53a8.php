@@ -27,7 +27,6 @@
 
         <ul class="ml-auto navbar-nav">
             <li class="nav-item dropdown">
-
                     <?php if(Auth()): ?>
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="/img/uploads/<?php echo e(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name); ?>" alt="" class="profile_pic">
                         <?php echo e(\App\Http\Libraries\Authentication\Auth::getusername()); ?> </a>
@@ -38,6 +37,13 @@
                     <a class="dropdown-item" href="<?php echo e($url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])); ?>">View My Profile</a>
                     <a class="dropdown-item" href="<?php echo e($url->make("logout")); ?>">logout</a>
                 </div>
+            </li>
+
+            <li class="nav-item">
+                <form action="<?php echo e($url->make("search.view")); ?>" class="form-inline nav-link" method="get">
+                    <input type="text" class="form-control" placeholder="search Articles" name="keyword">
+                    <button class="btn btn-primary">Search</button>
+                </form>
             </li>
         </ul>
     </div>

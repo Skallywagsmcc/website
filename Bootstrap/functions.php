@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Libraries\Authentication\Auth;
+use App\Http\Libraries\Authentication\Csrf;
+use App\Http\Libraries\ImageManager\Images;
+
 function slug($slug)
 {
-    return str_replace(" ","-",$slug);
+    return str_replace(" ", "-", $slug);
 }
 
 
@@ -13,14 +17,19 @@ function redirect($location)
 
 function rmimg($file)
 {
-    return unlink(\App\Http\Libraries\ImageManager\Images::$upload_dir.$file);
+    return unlink(Images::$upload_dir . $file);
 }
 
 
 function Auth()
 {
-return \App\Http\Libraries\Authentication\Auth::Loggedin() == true;
+    return Auth::Loggedin() == true;
 }
 
+
+function csrf()
+{
+    return Csrf::Key();
+}
 
 

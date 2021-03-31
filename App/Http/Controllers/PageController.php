@@ -26,7 +26,7 @@ class PageController
            $articles = $category->page()->where("category_id",$category->id);
            $count = $articles->count();
          $sql =  $articles;
-           $pages = new LaravelPaginator('10','p');
+           $pages = new LaravelPaginator('1','p');
            $rows = $pages->paginate($sql);
            $links = $pages->page_links();
 

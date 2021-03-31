@@ -4,10 +4,11 @@
     Admin Panel : Blogs
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection("content"); ?>
+    <?php echo $__env->make("Includes.AdminNav", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>;
     <div class="row">
         <div class="col-md-3">
 
-            <a href="/admin/blog/new">New Blog</a>
+            <a href="<?php echo e($url->make("admin.pages.new")); ?>">New Page</a>
         </div>
         <div class="col-md-9">
             <div class="row text-center head">
@@ -18,7 +19,7 @@
                 <div class="row text-center  m-2 mx-md-0 p-2 article-row">
                     <div class="col-md-6"><?php echo e($article->title); ?></div>
                     <div class="col-md-2"><a href="<?php echo e($url->make("pages.view",["category"=>$article->category->slug,"slug"=>$article->slug])); ?>" target="_new">View Article</a></div>
-                    <div class="col-md-2"><a href="/admin/blog/edit/<?php echo e($article->slug); ?>/<?php echo e(base64_encode($article->id)); ?>">Edit Article</a></div>
+                    <div class="col-md-2"><a href="<?php echo e($url->make("admin.pages.edit",["slug"=>$art->slug,"id"=>base64_encode($article->id)])); ?>">Edit Article</a></div>
                     <div class="col-md-2"><a href="/admin/blog/delete/<?php echo e($article->slug); ?>/<?php echo e(base64_encode($article->id)); ?>">Delete Article</a></div>
                 </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

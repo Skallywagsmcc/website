@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection("title"); ?>
 <?php $__env->stopSection(); ?>
 
@@ -6,7 +8,7 @@
 <div class="row">
     <div class="col-md-12 head"> Create a new user</div>
 </div>
-    <form action="/admin/users/new" method="post">
+    <form action="<?php echo e($url->make("admin.users.store")); ?>" method="post">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="first_name">First name : </label>

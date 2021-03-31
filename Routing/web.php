@@ -29,8 +29,15 @@ $router = Router::create();
 $router->get("/", [HomeController::class, 'index'], "homepage");
 $router->get("/install",[Base::class,'index']);
 
+$router->group(["prefix"=>"/search"],function(Router $router)
+{
+    $router->get("/?",[\App\Http\Controllers\SearchController::class,'index'],"search.home");
+    $router->get("/view",[\App\Http\Controllers\SearchController::class,'view'],"search.view");
+});
+
+
 $router->group(["prefix"=>"/auth"],function(Router $router){
-    $router->get("/supersite/login/success/yourmum/fuckoff", [LoginController::class, 'index'], "login");
+    $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 });
@@ -58,20 +65,22 @@ $router->group(["prefix" => "/admin","middleware" => [Middleware\IsLoggedIn::cla
         $router->get("/?", [CategoriesController::class, 'index'], "admin.category.home");
         $router->get("/new", [CategoriesController::class, 'create'], "admin.category.create");
         $router->post("/new/store", [CategoriesController::class, 'store'], "admin.category.store");
+        $router->get("/delete/{id}", [CategoriesController::class, 'delete'], "admin.category.delete");
     });
 
     $router->group(["prefix" => "/pages"], function (Router $router) {
         $router->get("/?", [PagesController::class, 'index'], "admin.pages.home");
-        $router->get("/new", [PagesController::class, 'create'], "admin.pages.create");
+        $router->get("/new", [PagesController::class, 'create'], "admin.pages.new");
         $router->post("/new", [PagesController::class, 'store'], "admin.pages.store");
         $router->get("/edit/{slug}/{id}", [PagesController::class, 'edit'], "admin.pages.edit");
         $router->post("/edit", [PagesController::class, 'update'], "admin.pages.update");
+        $router->get("/edit", [PagesController::class, 'delete'], "admin.pages.delete");
     });
 
     $router->get("/?",function()
     {
         echo "Admin panel";
-    });
+    },"admin.home");
 
 });
 

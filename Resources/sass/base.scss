@@ -16,6 +16,26 @@
 }
 
 
+.paginate, .paginate-current
+{
+  border-radius: 10px;
+  display: block;
+  padding:5px 10pxweb;
+  margin:2px 5px;
+}
+
+.paginate {
+  background-color: $secondarybg;
+  color: white;
+}
+
+.paginate-current
+{
+  background-color: #555555;
+  color: white;
+
+}
+
 body, html {
   margin: 0;
   height: 100%;

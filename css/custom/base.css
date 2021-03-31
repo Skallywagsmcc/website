@@ -14,6 +14,23 @@
   font-weight: normal;
   font-style: normal;
 }
+.paginate, .paginate-current {
+  border-radius: 10px;
+  display: block;
+  padding: 5px 10px;
+  margin: 2px 5px;
+}
+
+.paginate {
+  background-color: #ce1126;
+  color: white;
+}
+
+.paginate-current {
+  background-color: #555555;
+  color: white;
+}
+
 body, html {
   margin: 0;
   height: 100%;

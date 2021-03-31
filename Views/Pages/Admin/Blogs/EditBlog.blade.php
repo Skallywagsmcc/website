@@ -5,6 +5,7 @@
 @endsection()
 
 @section("content")
+    @include("Includes.AdminNav")
     {{$message}}
     @isset($values)
         @foreach($values as $value)
@@ -12,7 +13,7 @@
         @endforeach
     @endisset
     <div class="head">Create a new Article</div>
-    <form action="/admin/blog/edit" method="post">
+    <form action="{{$url->make("admin.pages.update")}}" method="post">
         <input type="hidden" name="id" value="{{$article->id}}">
         <div class="form-group">
             <label for="title">Article Title</label>

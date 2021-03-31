@@ -36,5 +36,12 @@ class CategoriesController
         redirect($url->make("admin.category.home"));
     }
 
+    public function delete(Url $url, $id)
+    {
+        $id = base64_decode($id);
+        Category::destroy($id);
+        redirect($url->make("admin.category.home"));
+    }
+
 
 }
