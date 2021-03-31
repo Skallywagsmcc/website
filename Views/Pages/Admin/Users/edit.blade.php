@@ -9,7 +9,7 @@
             : {{$user->Profile->first_name}} {{ $user->Profile->last_name}}</div>
     </div>
     <form action="{{$url->make("admin.users.update")}}" method="post">
-
+{{csrf()}}
         <label for="last_name">Username (this CANNOT be Changed): </label>
         <input type="text" class="form-control-plaintext text-white" readonly name="username"
                value="{{$user->username}}">

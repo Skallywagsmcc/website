@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection("title"); ?>
 <?php $__env->stopSection(); ?>
 
@@ -7,6 +9,7 @@
             : <?php echo e($user->Profile->first_name); ?> <?php echo e($user->Profile->last_name); ?></div>
     </div>
     <form action="<?php echo e($url->make("admin.users.update")); ?>" method="post">
+<?php echo e(csrf()); ?>
 
         <label for="last_name">Username (this CANNOT be Changed): </label>
         <input type="text" class="form-control-plaintext text-white" readonly name="username"

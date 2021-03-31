@@ -95,7 +95,7 @@ class Csrf
         $user = $result->first();
         $count = $result->count();
         if ($count == 1) {
-            echo "<input type='text' readonly name='csrf' value='" . $user->Token->key . "' id='csrf'>";
+            echo "<input type='text'  name='csrf' value='" . $user->Token->key . "' id='csrf'>";
         }
     }
 }

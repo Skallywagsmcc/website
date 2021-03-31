@@ -15,12 +15,10 @@ if(Capsule::schema()->hasTable("users"))
 
 //Add dotenv support
 
-
     $validate = new \App\Http\Functions\Validate();
 //$validate->Post("csrf");
 //    this will generate a new token
     $csrf = new \App\Http\Libraries\Authentication\Csrf();
 }
 
-csrf();
 require_once ROOT ."/Routing/web.php";
