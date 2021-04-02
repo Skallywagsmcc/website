@@ -1,7 +1,7 @@
 
 
 Hello <?php echo e($user->Profile->first_name); ?>}<br>
-here is your Two Factor Authentication code <?php echo e($tfa->code); ?>
+here is your Two Factor Authentication code <?php echo e($code); ?>
 
 
 

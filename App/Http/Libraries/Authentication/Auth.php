@@ -36,6 +36,10 @@ class Auth
             return false;
         }
     }
+    protected static function bin2hexGen()
+    {
+        return base64_encode(bin2hex(random_bytes(32)));
+    }
 
     public static function getusername()
     {

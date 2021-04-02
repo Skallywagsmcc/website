@@ -5,10 +5,14 @@
 @endsection
 
 @section("content")
+    @isset($errormessage)
+        <div class="alert-dark">{{$errormessage}}</div>
+    @endisset
     <div class="row">
         <div class="col-sm-12 head">Enter Your Code</div>
         <div class="col-sm-12 text-center">
-            Please click the Request Code Button below and we will send and email to your request email address ( {{$user->email}} )
+            Please click the Request Code Button below and we will send and email to your request email address
+            ( {{$user->email}} )
             <br>
             Once submitted this request will last for 15 minutes, after this a new request will need to be made
         </div>

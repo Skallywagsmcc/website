@@ -5,10 +5,14 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection("content"); ?>
+    <?php if(isset($errormessage)): ?>
+        <div class="alert-dark"><?php echo e($errormessage); ?></div>
+    <?php endif; ?>
     <div class="row">
         <div class="col-sm-12 head">Enter Your Code</div>
         <div class="col-sm-12 text-center">
-            Please click the Request Code Button below and we will send and email to your request email address ( <?php echo e($user->email); ?> )
+            Please click the Request Code Button below and we will send and email to your request email address
+            ( <?php echo e($user->email); ?> )
             <br>
             Once submitted this request will last for 15 minutes, after this a new request will need to be made
         </div>

@@ -7,7 +7,7 @@ use App\Http\Models\Token;
 use App\Http\Models\User;
 use DateTime;
 
-class Csrf
+class Csrf extends Auth
 {
 
     public function __construct()

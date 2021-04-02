@@ -11,7 +11,6 @@ class TwoFactorAuth extends Controller
 
     public function User()
     {
-        .
         return $this->belongsTo(User::class);
     }
 
