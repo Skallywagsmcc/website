@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Profile;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
@@ -18,8 +18,9 @@ class AccountController
         if(Auth::Loggedin() == true)
         {
             $user = User::find(Auth::id());
-
-            echo BladeEngine::View("Pages.Frontend.Account.index",["user"=>$user,"url"=>$url]);
+//            echo $user->Profile->dob;
+            $dob = new \DateTime("".$user->Profile->dob."");
+            echo TemplateEngine::View("Pages.Frontend.Account.index",["user"=>$user,"url"=>$url,"dob"=>$dob->format("d/m/Y")]);
         }
         else
         {

@@ -3,7 +3,7 @@
 
 namespace App\Http\Libraries\Authentication;
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Emails\Authentication;
 use App\Http\Models\User;
 use PHPMailer\PHPMailer\Exception;

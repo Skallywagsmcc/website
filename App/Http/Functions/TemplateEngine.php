@@ -5,7 +5,7 @@ namespace App\Http\Functions;
 
 use Jenssegers\Blade\Blade;
 
-class BladeEngine
+class TemplateEngine
 {
 
     public static $views = __DIR__ . "/../../../Views";

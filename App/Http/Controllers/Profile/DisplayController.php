@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers\Profile;
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
@@ -22,7 +22,7 @@ class DisplayController
         $user = $user->first();
         if($count == 1)
         {
-            echo BladeEngine::View("Pages.Frontend.Profile.index", ["user" => $user,"url"=>$url]);
+            echo TemplateEngine::View("Pages.Frontend.Profile.index", ["user" => $user,"url"=>$url]);
         }
         else
         {
@@ -35,7 +35,7 @@ class DisplayController
     {
         $user = User::where("username", $username)->get();
         $count =  $user->first()->images->count();
-        echo BladeEngine::View("Pages.Frontend.Profile.Gallery.index", ["user" => $user->first(),"count"=>$count,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Profile.Gallery.index", ["user" => $user->first(),"count"=>$count,"url"=>$url]);
 
     }
 
@@ -46,7 +46,7 @@ class DisplayController
         $image  = $user->images()->where("id",$id);
         $count = $image->count();
         $image = $image->get()->first();
-        echo BladeEngine::View("Pages.Frontend.Profile.Gallery.view", ["user" => $user,"image"=>$image,"count"=>$count,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Profile.Gallery.view", ["user" => $user,"image"=>$image,"count"=>$count,"url"=>$url]);
 
 //
     }

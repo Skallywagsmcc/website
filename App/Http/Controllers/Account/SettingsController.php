@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Account;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\ImageManager\Images;
@@ -19,7 +19,7 @@ class SettingsController
     public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.Settings",["user"=>$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.Settings",["user"=>$user,"url"=>$url]);
     }
 
     public function show()
@@ -42,6 +42,8 @@ class SettingsController
             $settings = $settings->first();
             $settings->two_factor_auth = $validate->Required("twofactorauth")->Post();
             $settings->display_full_name = $validate->Required("fullname")->Post();
+            $settings->display_dob = $validate->Required("display_dob")->Post();
+            $settings->display_email = $validate->Required("email")->Post();
             $settings->save();
             redirect($url->make("account.home"));
         }

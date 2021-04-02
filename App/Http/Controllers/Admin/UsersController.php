@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
@@ -19,12 +19,12 @@ class UsersController
     public function index(Url $url)
     {
         $users = User::all();
-        echo BladeEngine::View("Pages.Admin.Users.index", ["users" => $users,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.Users.index", ["users" => $users,"url"=>$url]);
     }
 
     public function create(URL $url)
     {
-        echo BladeEngine::View("Pages.Admin.Users.new", ["users" => $users,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.Users.new", ["users" => $users,"url"=>$url]);
     }
 
     public function store(Url $url)
@@ -68,7 +68,7 @@ class UsersController
 
             redirect("/admin/users");
         }
-        echo BladeEngine::View("Pages.Admin.Users.new", ["user" => $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.Users.new", ["user" => $user,"url"=>$url]);
 
     }
 
@@ -87,7 +87,7 @@ class UsersController
       $username = base64_decode($username);
         $user = User::withCount("settings")->where("id", $id)->where("username", $username)->get();
         if ($user->count() == 1) {
-            echo BladeEngine::View("Pages.Admin.Users.edit", ["user" => $user->first(),"url"=>$url]);
+            echo TemplateEngine::View("Pages.Admin.Users.edit", ["user" => $user->first(),"url"=>$url]);
         } else {
             echo "Page doesnt exisit";
         }

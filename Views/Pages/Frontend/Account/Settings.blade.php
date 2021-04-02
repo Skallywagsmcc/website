@@ -19,16 +19,16 @@
                     </div>
 
                     <div class="form-group col-md-6 text-center">
-                        <input type="checkbox" checked name="towfactorauth"">
+                        <input type="checkbox" @if($user->settings->two_factor_auth == 1) checked @endif name="twofactorauth" value="1">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6 text-right">
-                        <label for="newsletters">Recieve news letters :</label>
+                        <label for="email">Display Email Address:</label>
                     </div>
                     <div class="form-group col-md-6 text-center">
-                        <input type="checkbox" checked name="newsletters">
+                        <input type="checkbox" @if($user->settings->display_email == 1) checked @endif name="email" value="1">
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@
                         </label>
                     </div>
                     <div class="form-group col-md-6 text-center">
-                        <input type="checkbox" checked name="display_full_name">
+                        <input type="checkbox" @if($user->settings->display_full_name == 1) checked @endif name="fullname" value="1">
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                         </label>
                     </div>
                     <div class="form-group col-md-6 text-center">
-                        <input type="checkbox" checked name="display_full_name">
+                        <input type="checkbox" @if($user->settings->display_dob == 1) checked @endif name="display_dob" value="1">
                     </div>
                 </div>
                 <div class="form-row">

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Account;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\ImageManager\Images;
@@ -19,7 +19,7 @@ class AboutController
     public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.About", ["user" => $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.About", ["user" => $user,"url"=>$url]);
     }
 
     public function store(Url $url)
@@ -46,7 +46,7 @@ class AboutController
         }
 
 
-        echo BladeEngine::View("Pages.Frontend.Account.About", ["url"=>$url,"user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
+        echo TemplateEngine::View("Pages.Frontend.Account.About", ["url"=>$url,"user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
 
     }
 

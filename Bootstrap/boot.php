@@ -12,7 +12,6 @@ require_once "functions.php";
 
 if(Capsule::schema()->hasTable("users"))
 {
-
 //Add dotenv support
 
     $validate = new \App\Http\Functions\Validate();
@@ -20,5 +19,4 @@ if(Capsule::schema()->hasTable("users"))
 //    this will generate a new token
     $csrf = new \App\Http\Libraries\Authentication\Csrf();
 }
-
 require_once ROOT ."/Routing/web.php";

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Libraries\Authentication\TwoFactorAuth;
@@ -17,7 +17,7 @@ class PasswordController
 
     public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Auth.PasswordReset.index", ["url" => $url]);
+        echo TemplateEngine::View("Pages.Auth.PasswordReset.index", ["url" => $url]);
     }
 
     public function request(Url $url)
@@ -34,7 +34,7 @@ class PasswordController
         }
         $tfa = TwoFactorAuth::ObtainHex($user->id);
         Authentication::ResetPassword($user->email, $user->id, $tfa->hex);
-        echo BladeEngine::View("Pages.Auth.PasswordReset.index", ["errmessage" => Authenticate::$errmessage, "url" => $url]);
+        echo TemplateEngine::View("Pages.Auth.PasswordReset.index", ["errmessage" => Authenticate::$errmessage, "url" => $url]);
         header("location:/auth/reset-password");
     }
 
@@ -45,9 +45,9 @@ class PasswordController
 
 //        Check is the reset request was approved
         if (Authenticate::$ResetApproved == true) {
-            echo BladeEngine::View("Pages.Auth.PasswordReset.newpassword", ["errmessage" => Authenticate::$errmessage, "id" => $id, "hex" => $hex, "url" => $url]);
+            echo TemplateEngine::View("Pages.Auth.PasswordReset.newpassword", ["errmessage" => Authenticate::$errmessage, "id" => $id, "hex" => $hex, "url" => $url]);
         } else {
-            echo BladeEngine::View("Pages.Auth.PasswordReset.index");
+            echo TemplateEngine::View("Pages.Auth.PasswordReset.index");
         }
     }
 
@@ -85,7 +85,7 @@ class PasswordController
         }
 
 
-        echo BladeEngine::View("Pages.Auth.PasswordReset.newpassword", ["Requirments" => Validate::$ShowRequirments, "url" => $url]);
+        echo TemplateEngine::View("Pages.Auth.PasswordReset.newpassword", ["Requirments" => Validate::$ShowRequirments, "url" => $url]);
 
 //   Will work on this tomorrow : 02/03/2021
     }

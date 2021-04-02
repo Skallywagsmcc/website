@@ -11,7 +11,7 @@
 
         </div>
         <div class="col-sm-12">
-            <?php echo e($article->content); ?>
+            <?php echo nl2br($article->content); ?>
 
         </div>
         <div class="border border-light col-sm-12"></div>

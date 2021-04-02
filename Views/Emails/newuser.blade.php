@@ -1,3 +1,7 @@
+
+<?php
+
+?>
 Welcome to our site, <br><br>
 
 We are happy that you have choese to join skallywags your temporary password is {{$user->password}}<br>

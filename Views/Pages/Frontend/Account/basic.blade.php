@@ -45,10 +45,6 @@
                                        value="{{$user->Profile->last_name}}">
                             </div>
                         </div>
-                        <div class="form-group col-sm-12">
-                            <label for="about">About yourself : </label>
-                            <textarea name="about" rows="10" class="form-control">{{$user->Profile->about}}</textarea>
-                        </div>
 
                         <div class="form-group col-sm-12">
                             <label for="dob">Date of birth </label>

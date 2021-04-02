@@ -4,13 +4,13 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use MiladRahimi\PhpRouter\Url;
 
 class HomeController
 {
     public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Admin.index",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.index",["url"=>$url]);
     }
 }

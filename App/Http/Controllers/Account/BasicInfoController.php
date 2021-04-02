@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Account;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Profile;
@@ -18,7 +18,7 @@ class BasicInfoController
     public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"url"=>$url,]);
     }
 
     public function store(Url $url)
@@ -55,7 +55,7 @@ class BasicInfoController
         }
 
 //        leave this here
-        echo BladeEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"error"=>$error,"values"=>Validate::$values,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"error"=>$error,"values"=>Validate::$values,"url"=>$url]);
 
     }
 

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Models\User;
 use App\Http\Libraries\Authentication\Authenticate;
@@ -15,7 +15,7 @@ class RegisterController
 
     public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Auth.Register.index",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Auth.Register.index",["url"=>$url]);
     }
 
 
@@ -53,7 +53,7 @@ class RegisterController
 
 //            end
         }
-        echo BladeEngine::View("Pages.Auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage,"url"=>$url]);
 
     }
 

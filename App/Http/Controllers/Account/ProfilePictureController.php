@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Account;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\ImageManager\Images;
@@ -18,7 +18,7 @@ class ProfilePictureController
     public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo BladeEngine::View("Pages.Frontend.Account.Picture",["user",$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.Picture",["user",$user,"url"=>$url]);
     }
 
 

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Category;
 use App\Http\Models\Page;
@@ -31,7 +31,7 @@ class PageController
            $links = $pages->page_links();
 
            $users = User::all();
-        echo BladeEngine::View("Pages.Frontend.Articles.index",["count"=>$count,"category"=>$category,"users"=>$users,"url"=>$url,"articles"=>$rows,"links"=>$links]);
+        echo TemplateEngine::View("Pages.Frontend.Articles.index",["count"=>$count,"category"=>$category,"users"=>$users,"url"=>$url,"articles"=>$rows,"links"=>$links]);
        }
     }
 
@@ -55,7 +55,7 @@ class PageController
         }
 
 //        $users = User::all();
-//        echo BladeEngine::View("Pages.Frontend.Articles.index",["count"=>$count,"category"=>$category,"users"=>$users,"url"=>$url,"articles"=>$rows,"links"=>$links]);
+//        echo TemplateEngine::View("Pages.Frontend.Articles.index",["count"=>$count,"category"=>$category,"users"=>$users,"url"=>$url,"articles"=>$rows,"links"=>$links]);
     }
 
 
@@ -64,7 +64,7 @@ class PageController
         $article = Page::where("slug",$slug)->get();
         $count = $article->count();
         $date = new \DateTime($article->first()->created_at);
-        echo BladeEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"date"=>$date]);
+        echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"date"=>$date]);
     }
 
 

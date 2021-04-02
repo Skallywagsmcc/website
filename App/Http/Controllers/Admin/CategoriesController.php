@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Category;
@@ -17,12 +17,12 @@ class CategoriesController
     public function index(Url $url)
     {
         $categories = Category::all();
-        echo BladeEngine::View("Pages.Backend.Categories.index",["categories"=>$categories,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.Categories.index",["categories"=>$categories,"url"=>$url]);
     }
 
     public function create(Url $url)
     {
-        echo BladeEngine::View("Pages.Backend.Categories.create",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.Categories.create",["url"=>$url]);
     }
 
     public function store(Url $url)

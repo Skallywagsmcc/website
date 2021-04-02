@@ -10,21 +10,21 @@ use App\Http\Models\User;
 use App\Http\Libraries\Authentication\Auth;
 use Closure;
 
-class IsLoggedIn
+class RequireLogin
 {
     public function handle(ServerRequestInterface $request, Closure $next, Url $url)
     {
 //        we will check for roles here
       $user = User::where("id",Auth::id())->get();
-      if($user->count() == 1)
-      {
-
-      }
-      else
+      if($user->count() == 0)
       {
           redirect($url->make("login"));
       }
-        return $next($request);
+      else
+      {
+          return $next($request);
+      }
+
 
     }
 }

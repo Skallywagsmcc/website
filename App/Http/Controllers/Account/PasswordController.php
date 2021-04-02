@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Account;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
@@ -17,7 +17,7 @@ class PasswordController
     public function index(Url $url)
     {
 
-        echo BladeEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"url"=>$url]);
     }
 
 
@@ -52,7 +52,7 @@ class PasswordController
         {
             Validate::$error = "Sorry the Password does not match the database";
         }
-        echo BladeEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"error"=>Validate::$error,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"error"=>Validate::$error,"url"=>$url]);
     }
 
 

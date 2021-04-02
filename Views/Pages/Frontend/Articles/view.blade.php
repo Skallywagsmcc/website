@@ -9,7 +9,7 @@
             {{$article->title}}
         </div>
         <div class="col-sm-12">
-            {{$article->content}}
+            {!! nl2br($article->content) !!}
         </div>
         <div class="border border-light col-sm-12"></div>
 <div class="col-sm-12 col-md-6">Posted By : {{$article->user->username}}</div>

@@ -4,7 +4,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Page;
@@ -18,7 +18,7 @@ class SearchController
 
     public function index(Url $url)
     {
-        echo BladeEngine::View("Pages.Frontend.Search.index",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Search.index",["url"=>$url]);
     }
 
     public function view(Url $url, ServerRequest $request)
@@ -32,7 +32,7 @@ class SearchController
         $links = $page->page_links('?','&keyword='.$keyword);
 
         $user = User::all();
-        echo BladeEngine::View("Pages.Frontend.Search.view",["url"=>$url,"count"=>$count,"user"=>$user,"pages"=>$result,"links"=>$links]);
+        echo TemplateEngine::View("Pages.Frontend.Search.view",["url"=>$url,"count"=>$count,"user"=>$user,"pages"=>$result,"links"=>$links]);
 
 
     }

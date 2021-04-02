@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Models\Role;
@@ -16,7 +16,7 @@ class RolesController
     {
         $roles = Role::all();
 
-        echo BladeEngine::View("Pages.Admin.Roles.index", ["roles" => $roles, "count" => $roles->count()]);
+        echo TemplateEngine::View("Pages.Admin.Roles.index", ["roles" => $roles, "count" => $roles->count()]);
     }
 
     public function create()
@@ -25,7 +25,7 @@ class RolesController
         $role = new Role();
         $role->title = $validate->Required("title")->Post();
         $role->slug = slug($role->title);
-        echo BladeEngine::View("Pages.Admin.Roles.new", ["roles" => $roles]);
+        echo TemplateEngine::View("Pages.Admin.Roles.new", ["roles" => $roles]);
 
 
     }
@@ -44,7 +44,7 @@ class RolesController
             $role->save();
             redirect("/admin/roles");
         }
-        echo BladeEngine::View("Pages.Admin.Roles.new" , ["role" => $role,"message"=>Authenticate::$errmessage]);
+        echo TemplateEngine::View("Pages.Admin.Roles.new" , ["role" => $role,"message"=>Authenticate::$errmessage]);
     }
 
 
@@ -54,7 +54,7 @@ class RolesController
         $count = $results->count();
         $role = $results->first();
 
-        echo BladeEngine::View("Pages.Admin.Roles.edit" , ["role" => $role,"message"=>Authenticate::$errmessage]);
+        echo TemplateEngine::View("Pages.Admin.Roles.edit" , ["role" => $role,"message"=>Authenticate::$errmessage]);
 
     }
 

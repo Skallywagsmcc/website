@@ -4,7 +4,7 @@
 namespace App\Http\Packages\Authentication;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Models\User;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -80,7 +80,7 @@ class Register
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'This account has been created';
-            $mail->Body    = BladeEngine::View("Templates.newuser",["email"=>self::$email]);
+            $mail->Body    = TemplateEngine::View("Templates.newuser",["email"=>self::$email]);
 
             $mail->send();
             echo 'Message has been sent';

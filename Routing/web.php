@@ -35,6 +35,13 @@ $router->group(["prefix"=>"/search"],function(Router $router)
     $router->get("/view",[\App\Http\Controllers\SearchController::class,'view'],"search.view");
 });
 
+$router->group(["prefix"=>"/secure/tfa","middleware" => [Middleware\RequireLogin::class]],function (Router $router)
+{
+   $router->get("/?",[\App\Http\Controllers\Frontend\TwoFactorAuthController::class,"index"],"tfa.index");
+   $router->post("/retrieve",[\App\Http\Controllers\Frontend\TwoFactorAuthController::class,"show"],"tfa.get");
+   $router->post("/save",[\App\Http\Controllers\Frontend\TwoFactorAuthController::class,"store"],"tfa.save");
+});
+
 
 $router->group(["prefix"=>"/auth"],function(Router $router){
     $router->get("/login", [LoginController::class, 'index'], "login");
@@ -49,7 +56,7 @@ $router->group(["prefix" => "/page/{category}"], function (Router $router) {
 });
 
 
-$router->group(["prefix" => "/admin","middleware" => [Middleware\IsLoggedIn::class]], function (Router $router) {
+$router->group(["prefix" => "/admin","middleware" => [Middleware\RequireLogin::class,Middleware\TwoFactorAuth::class]], function (Router $router) {
 
 //Users
     $router->group(["prefix" => "/users"], function (Router $router) {
@@ -99,7 +106,7 @@ $router->group(["prefix" => "/profile/{username}"], function (Router $router) {
 });
 
 
-$router->group(["prefix" => "/account", "middleware" => [Middleware\IsLoggedIn::class]], function (Router $router) {
+$router->group(["prefix" => "/account", "middleware" => [Middleware\RequireLogin::class,Middleware\TwoFactorAuth::class]], function (Router $router) {
     $router->get("/?", [AccountController::class, 'index'], "account.home");
     $router->get("/edit/basic", [BasicInfoController::class, 'index'], "account.basic.home");
     $router->post("/edit/basic", [BasicInfoController::class, 'store'], "account.basic.store");

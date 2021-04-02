@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Admin;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
@@ -27,13 +27,13 @@ class PagesController
     public function index(Url $url)
     {
         $articles = Page::All();
-        echo BladeEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles,"url"=>$url]);
     }
 
     public function create(Url $url)
     {
         $categories = Category::all();
-        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog",["url"=>$url,"categories"=>$categories]);
+        echo TemplateEngine::View("Pages.Admin.Blogs.NewBlog",["url"=>$url,"categories"=>$categories]);
     }
 
     public function store(Url $url)
@@ -53,7 +53,7 @@ class PagesController
             $article->save();
             redirect($url->make("admin.pages.home"));
         }
-        echo BladeEngine::View("Pages.Admin.Blogs.NewBlog", ["article" => $article, "values" => $validate->values, "message" => Authenticate::$errmessage,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.Blogs.NewBlog", ["article" => $article, "values" => $validate->values, "message" => Authenticate::$errmessage,"url"=>$url]);
     }
 
     public function edit($slug,$id,Url $url)
@@ -62,7 +62,7 @@ class PagesController
         $results = Page::where("slug",$slug)->where("id", $id)->get();
         $count = $results->count();
         $article = $results->first();
-        echo BladeEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count,"url"=>$url]);
     }
 
     public function update(Url $url)

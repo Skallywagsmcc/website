@@ -4,7 +4,7 @@
 namespace App\Http\Libraries\Authentication;
 
 
-use App\Http\Functions\BladeEngine;
+use App\Http\Functions\TemplateEngine;
 use App\Http\Models\User;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -102,7 +102,7 @@ class Auth
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
                 $mail->Subject = $subject;
-                $mail->Body = BladeEngine::View($page, $array);
+                $mail->Body = TemplateEngine::View($page, $array);
 
                 $mail->send();
                 echo 'Message has been sent';
