@@ -49,6 +49,8 @@ class Auth
 
     }
 
+
+
     public function RequirePassword($password)
     {
 //        this will be used to update destructive settings such as  user or admin settings.

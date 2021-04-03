@@ -3,12 +3,7 @@
 
 namespace App\Http\Libraries\Authentication;
 
-use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Emails\Authentication;
 use App\Http\Models\User;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 
 class Authenticate extends Auth
 {
@@ -36,26 +31,6 @@ class Authenticate extends Auth
 
 //End Prevalidation
 
-// Registration
-
-
-    public static function InsertTwoFactorAuth($code)
-    {
-
-        isset($_SESSION['id']) ? $auth = $_SESSION['id'] : $auth = $_COOKIE['id'];
-        $user = User::where("id", $auth)->get()->first();
-        if ($code == $user->TwoFactorAuth->code) {
-            Sessions::Create("RequireTfa", false);
-            header("location:/profile");
-            echo  "Approved";
-        } else {
-            self::$errmessage = "The Code you entered is incorrect";
-        }
-
-    }
-
-
-
 
     public function ResetPassword($id, $hex)
     {
@@ -72,7 +47,6 @@ class Authenticate extends Auth
         }
         return $this;
     }
-
 
 
     public function Register($redirect = null)
@@ -104,6 +78,7 @@ class Authenticate extends Auth
         return $this;
     }
 
+
     public function Login($username = null, $password = null)
     {
 
@@ -117,8 +92,7 @@ class Authenticate extends Auth
                 if ($this->remmeber == 1) {
                     Sessions::Destroy("id");
                     Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
-                }
-                else {
+                } else {
 //                We Instantiate session id
                     Cookies::Destroy("id")->Days(365)->Save();
                     Sessions::Create("id", $user->id);
@@ -127,22 +101,10 @@ class Authenticate extends Auth
 //               Generate CSRF Token
                 Csrf::GenerateToken($user->id);
                 self::$redirect = true;
-
-//                Send The TFA Login to the email;
-//                if($user->two_factor_auth == 1)
-//                {
-//                    $results = TwoFactorAuth::CountAuths($user->id);
-//                    $results == 0 ? TwoFactorAuth::GenerateCode($user->id) : TwoFactorAuth::UpdateTwoFactorAuth($user->TwoFactorAuth->id);
-//                    Authentication::TwoFactor($user->email, TwoFactorAuth::__getCode());
-//                    Sessions::Create("RequireTfa",true);
-//                    Authenticate::$redirect = true;
-//                }
-//                else
-//                {
-//                    Sessions::Create("RequireTfa",false);
-//                    self::$redirect = true;
-//                }
-
+                /*
+                 * Deleted Two Factor Auth from this section 03/04/2021
+                 * Added as middleware option
+                */
             } else {
                 self::$errmessage = "Whoa!! :( it Looks Like the Password you typed doesnt match our Records";
             }
