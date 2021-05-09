@@ -37,6 +37,7 @@ $router = Router::create();
 $router->get("/", [HomeController::class, 'index'], "homepage");
 $router->get("/contact-us", [ContactController::class, 'index'], "contact-us");
 $router->post("/contact-us/send", [ContactController::class, 'store'], "contact-store");
+$router->get("/contact-us/thank-you", [ContactController::class, 'sent'], "contact-sent");
 $router->get("/sql/install", [Base::class, 'index']);
 $router->get("/sql/update", [Base::class, 'update']);
 

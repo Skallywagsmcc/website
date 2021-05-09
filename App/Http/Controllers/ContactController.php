@@ -18,15 +18,24 @@ class ContactController
 
     public function index(Url $url)
     {
-        echo TemplateEngine::View("Pages.Frontend.contact",["url"=>$url]);
+
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url]);
     }
 
-    public  function store(Url $url, Validate $validate)
+    public function store(Url $url, Validate $validate)
     {
-        $settings = SiteSettings::find(1);
-        $contact = new Auth();
-
-        $mail = new PHPMailer(true);
+        $email = $validate->Required("email")->Post();
+        $first_name = $validate->Required("first_name")->Post();
+        $last_name = $validate->Required("last_name")->Post();
+        $subject = $validate->Required("subject")->Post();
+        $message = $validate->Required("message")->Post();
+        if ($validate::isRequired($validate::$values) == false) {
+            $error = "required";
+            echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"error"=>$error,"validate"=>$validate]);
+        }
+        else
+        {
+            $mail = new PHPMailer(true);
             try {
                 //Server settings
                 $mail->SMTPDebug = SMTP::DEBUG_OFF;         //Enable verbose debug output
@@ -39,22 +48,29 @@ class ContactController
                 $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
                 //Recipients
-                $mail->setFrom("mbamber1986@gmail.com", $validate->Post("first_name") . " " . $validate->Post("last_name"));
+                $mail->setFrom($email, $first_name. " " . $last_name);
                 $mail->addAddress("mail@skallywags.club", "Mail");     //Add a recipient
 
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = $validate->Post("subject");
-                $mail->Body = "<img src='http://skallywags.club/img/logo.png' alt='logo'/>";
-                $mail->Body .= $validate->Post("message");
+                $mail->Subject = $subject;
+                $mail->Body = "<img src='http://skallywags.club/img/logo.png' alt='logo' height='150' width='150'/><hr>";
+                $mail->Body .= $message;
 
                 $mail->send();
-                echo 'Message has been sent';
+                redirect($url->make("contact-sent"));
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
+        }
+
 
     }
 
+    public function sent(Url $url)
+    {
+
+        echo TemplateEngine::View("Pages.Frontend.Contact.sent", ["url" => $url]);
+    }
 
 }

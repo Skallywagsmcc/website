@@ -52,12 +52,12 @@ public static function isRequired($value)
 
     public function Post($value = null)
     {
-        if (!is_null($value)) {
-            $this->value = $value;
-            $this->data = true;
-        }
+            if (!is_null($value)) {
+                $this->value = $value;
+                $this->data = true;
+            }
 //Will simply post the value out;
-        return $_POST[$this->value];
+            return $_POST[$this->value];
     }
 
     public function HasStrongPassword($password)
