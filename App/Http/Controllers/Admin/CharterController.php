@@ -6,9 +6,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Charter;
 use App\Http\Models\Event;
+use App\Http\Models\FeaturedImage;
 use Jenssegers\Blade\Blade;
 use MiladRahimi\PhpRouter\Url;
 
@@ -88,6 +90,33 @@ class CharterController
         }
 
     }
+
+    public function ShowDefault(Url $url)
+    {
+        $images = FeaturedImage::all();
+        echo TemplateEngine::View("Pages.Backend.Charters.defaults");
+    }
+
+    public function StoreDefault(Validate $validate,Csrf $csrf,Validate $validate)
+    {
+
+        $id = $validate->Post("id");
+
+        if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {
+            if ($csrf->Verify() == true) {
+                $charters = Charter::find($id);
+                $charters->pinned = 1;
+                $charters->save();
+            }
+        }
+        else
+        {
+            echo TemplateEngine::View("Pages.Backend.Charteres.");
+        }
+
+
+    }
+
 
     public function delete(Url $url,$id)
     {

@@ -23,7 +23,7 @@ class FeaturedController
         echo TemplateEngine::View("Pages.Backend.Featured.index", ["url" => $url, "featured" => $featured, "count" => $count,"links"=>$links]);
     }
 
-    public function edit(Url $url, $id,Validate)
+    public function edit(Url $url, $id,Validate $validate)
     {
         $id = base64_decode($id);
         $featured = FeaturedImage::find($id);
@@ -42,7 +42,7 @@ class FeaturedController
             } else {
                 echo "Image not found";
             }
-            redirect($url->make("images.featured.index"));
+            redirect($url->make("admin.images.featured.index"));
         }
     }
 

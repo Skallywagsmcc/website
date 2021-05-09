@@ -26,8 +26,6 @@ class EmailController
     {
         if ($csrf->Verify() == true) {
             if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {
-
-
                 $user = User::find(Auth::id());
                 $user->email = $validate->Required("email")->Post();
 

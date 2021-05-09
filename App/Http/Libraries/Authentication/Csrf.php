@@ -10,7 +10,7 @@ use App\Http\Models\User;
 class Csrf extends Auth
 {
 
-    private $key;
+    protected $key;
 
     public function __construct()
     {
@@ -33,7 +33,6 @@ class Csrf extends Auth
 
     public function GenerateToken($id)
     {
-
         $user = User::find($id);
         $token = $user->csrf()->where("user_id", $user->id)->get();
         $key = $this->set_key();
@@ -92,6 +91,7 @@ class Csrf extends Auth
 //            Verify the code matches
                 if ($validate->Post("csrf") == $token->key) {
                     $this->GenerateToken(self::id());
+                    echo "valid";
                     return true;
                 } else {
                     exit("invalid Token found");
