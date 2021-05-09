@@ -11,6 +11,11 @@
         </div>
         <div class="form row">
             <div class="form-group col-md-6">
+                <label for="">Email Address:</label>
+                <input type="text" class="form-control" name="email">
+            </div>
+
+            <div class="form-group col-md-6">
                 <label for="">First Name :</label>
                 <input type="text" class="form-control" name="first_name">
             </div>

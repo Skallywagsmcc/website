@@ -29,7 +29,7 @@ class ContactController
         $mail = new PHPMailer(true);
             try {
                 //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;         //Enable verbose debug output
+                $mail->SMTPDebug = SMTP::DEBUG_OFF;         //Enable verbose debug output
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host = $_ENV['SMTP_HOST'];          //Set the SMTP server to send through
                 $mail->SMTPAuth = true;                                   //Enable SMTP authentication
@@ -39,14 +39,14 @@ class ContactController
                 $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
                 //Recipients
-                $mail->setFrom("mbamber1986@gmail.com", "martin bamber");
+                $mail->setFrom("mbamber1986@gmail.com", $validate->Post("first_name") . " " . $validate->Post("last_name"));
                 $mail->addAddress("mail@skallywags.club", "Mail");     //Add a recipient
 
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = $subject;
+                $mail->Subject = $validate->Post("subject");
                 $mail->Body = "<img src='http://skallywags.club/img/logo.png' alt='logo'/>";
-                $mail->Body .= "hello this is a test";
+                $mail->Body .= $validate->Post("message");
 
                 $mail->send();
                 echo 'Message has been sent';
