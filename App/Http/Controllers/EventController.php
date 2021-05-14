@@ -20,7 +20,14 @@ class EventController
     public function show($id,Url $url)
     {
         $id = base64_decode($id);
-        echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"id"=>$id]);
+        $event = Event::where("id",$id)->get();
+        if($event->count()==1)
+        {
+            $event = $event->first();
+            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event]);
+        }
+
+
     }
 
     public function create()
