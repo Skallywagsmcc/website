@@ -77,10 +77,7 @@ class Base
             $table->foreignId('article_id')->nullable()->constrained()->onUpdate("cascade")->onDelete("cascade");
             $table->string("comment");
             $table->timestamps();
-<<<<<<< HEAD
 
-=======
->>>>>>> 09cce0aeaf2535a814c2aaaaabce000a5ec4d2fc
         });
 
 //                    Add FEatured Images here this required Images To be installed first
@@ -155,15 +152,13 @@ class Base
 //       this will show the username instead if the display is set to 0;
             $table->integer("display_full_name");
             $table->timestamps();
-<<<<<<< HEAD
-
-        });
-=======
->>>>>>> 09cce0aeaf2535a814c2aaaaabce000a5ec4d2fc
 
         });
 
-<<<<<<< HEAD
+
+        });
+
+
         Capsule::schema()->create("comments", function ($table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
@@ -173,7 +168,7 @@ class Base
             $table->timestamps();
 
         });
-=======
+
 
 
 >>>>>>> 09cce0aeaf2535a814c2aaaaabce000a5ec4d2fc
@@ -191,10 +186,6 @@ class Base
             $table->string("linkedin")->nullable();
             $table->string("discord")->nullable();
             $table->timestamps();
-<<<<<<< HEAD
-=======
-
->>>>>>> 09cce0aeaf2535a814c2aaaaabce000a5ec4d2fc
 
         });
 
@@ -212,11 +203,8 @@ class Base
 
     public function update()
     {
-<<<<<<< HEAD
+
         $loader = new Loader();
         $loader->install();
-=======
-
->>>>>>> 09cce0aeaf2535a814c2aaaaabce000a5ec4d2fc
     }
 }
