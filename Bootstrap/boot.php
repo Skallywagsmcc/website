@@ -15,9 +15,5 @@ if(Capsule::schema()->hasTable("users")){
 $csrf = new \App\Http\Libraries\Authentication\Csrf();
 }
 
-
-=======
-
-
 require_once ROOT ."/Routing/web.php";
 
