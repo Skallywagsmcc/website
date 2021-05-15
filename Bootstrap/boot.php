@@ -11,7 +11,9 @@ require_once "Database.php";
 
 ClearBladeCache();
 
- $csrf = new \App\Http\Libraries\Authentication\Csrf();
+
+
+//  $csrf = new \App\Http\Libraries\Authentication\Csrf();
 
  
 require_once ROOT ."/Routing/web.php";
