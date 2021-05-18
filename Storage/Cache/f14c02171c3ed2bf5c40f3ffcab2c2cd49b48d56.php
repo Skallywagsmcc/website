@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection("title"); ?>
     Page not found
 <?php $__env->stopSection(); ?>

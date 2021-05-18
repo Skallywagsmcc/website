@@ -46,6 +46,11 @@ $router->group(["prefix" => "/search"], function (Router $router) {
     $router->get("/view", [SearchController::class, 'view'], "search.view");
 });
 
+$router->group(["prefix"=>"/members"],function(Router $router)
+{
+   $router->get("/?",[\App\Http\Controllers\Members::class,"index"],"members.home");
+});
+
 $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\RequireLogin::class]], function (Router $router) {
     $router->get("/?", [TwoFactorAuthController::class, "index"], "tfa.index");
     $router->post("/retrieve", [TwoFactorAuthController::class, "show"], "tfa.get");
@@ -157,7 +162,7 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\AdminAuthMiddl
             $router->get("/images/submit/{id}", [ImageController::class, "ManageFeatured"], "gallery.image.submit");
         });
 
-        $router->get("/?", [DisplayController::class, 'index'], "profile.home");
+        $router->get("/?", [DisplayController::class, 'show'], "profile.home");
 
 });
 

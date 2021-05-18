@@ -15,7 +15,7 @@ class DisplayController
 {
 //    This controlle Will be used for displaying the profile infirmation
 
-    public function index($username,Url $url)
+    public function show($username,Url $url)
     {
         $user = User::where("username", $username)->get();
         $count = $user->count();
@@ -26,7 +26,7 @@ class DisplayController
         }
         else
         {
-            echo "Article not found";
+            echo "Profile not found";
         }
 
     }

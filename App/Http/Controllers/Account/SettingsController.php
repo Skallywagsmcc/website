@@ -20,7 +20,7 @@ class SettingsController
     public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo TemplateEngine::View("Pages.Frontend.Account.SiteSettings",["user"=>$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Account.Settings",["user"=>$user,"url"=>$url]);
     }
 
     public function show()

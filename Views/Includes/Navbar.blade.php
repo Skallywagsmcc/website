@@ -23,6 +23,9 @@
                 <a class="nav-link" href="{{$url->make("events.home")}}">Our Events</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="{{$url->make("members.home")}}">Our Members</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{$url->make("contact-us")}}">Contact us</a>
             </li>
         </ul>

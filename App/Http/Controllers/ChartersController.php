@@ -21,7 +21,7 @@ class ChartersController
         }
         else
         {
-            redirect($url->make("charters.home"));
+            redirect($url->make("homepage"));
         }
 
 //        echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);

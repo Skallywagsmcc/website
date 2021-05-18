@@ -34,7 +34,7 @@ class UsersController
             $validate = new Validate();
             $user = new User();
             $user->email = $validate->Required("email")->Post();
-            $user->username = $validate->Required("username")->Post();#
+            $user->username = $validate->Required("username")->Post();
             $user->first_name = $validate->Required("first_name")->Post();
             $user->last_name = $validate->Required("last_name")->Post();
             if ($validate->Post("randompw") == 1) {
@@ -54,21 +54,22 @@ class UsersController
                     $error = "invalid field";
                 } else {
                     if ($validate::$ValidPassword == true) {
-                        Authenticate::Auth()
-                            ->WithUser($user->username)
-                            ->WithEmail($user->email)
-                            ->WithPassword($user->password)
-                            ->Register()
-                            ->SendEmail($user->email, $user->username, "Your Account has been created", "Emails.newuser", ["user" => $user, "error" => $error]);
 
+                        $users = new User();
+                        $users->username = $validate->Post("username");
+                        $users->email = $validate->Post("email");
+                        $users->username = password_hash($validate->Post("password"),PASSWORD_DEFAULT);
+                        $users->save();
+
+                        $user->username = $validate->Post("username");
                         $profile = new Profile();
-                        $profile->user_id = Auth::$id;
+                        $profile->user_id = $users->id;
                         $profile->first_name = $user->first_name;
                         $profile->last_name = $user->last_name;
                         $profile->save();
 
                         $settings = new UserSettings();
-                        $settings->user_id = Auth::$id;
+                        $settings->user_id = $users->id;
                         $settings->two_factor_auth = 1;
                         $settings->display_full_name = 1;
 //            if display full name = 0 then display username;
@@ -76,7 +77,7 @@ class UsersController
                         $settings->display_email = 1;
                         $settings->save();
 
-                        redirect("/admin/users");
+                        redirect($url->make("admin.users.home"));
                     }
                 }
             }
