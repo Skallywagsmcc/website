@@ -68,6 +68,13 @@
             </div>
         </div>
 
+        <h2>Other Settings</h2>
+        <label for="is_admin">Set this user as Administrator</label>
+        <input type="checkbox" name="is_admin" value="1">
+        <hr>
+        <label for="make_member">Club membership Status : </label>
+        Promote Membership : <input type="checkbox" name="make_member" value="1">
+
         <div class="form-group text-right">
             <button class="btn btn-primary">Create User</button>
         </div>

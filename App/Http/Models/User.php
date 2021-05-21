@@ -38,7 +38,7 @@ class User extends Controller
         return $this->hasOne(Image::class);
     }
 
-    public function member()
+    public function Members()
     {
         return $this->hasOne(Member::class);
     }

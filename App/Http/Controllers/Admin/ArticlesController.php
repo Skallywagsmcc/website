@@ -152,6 +152,7 @@ class ArticlesController
     {
         $id = $validate->Post("id");
         for ($i = 0; $i < count($id); $i++) {
+
             $image->where("id", $id[$i])->delete();
         }
         redirect($url->make("admin.articles.home"));

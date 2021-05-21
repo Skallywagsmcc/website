@@ -21,6 +21,7 @@ function rmimg($file)
 }
 
 
+
 function Auth()
 {
     return Auth::Loggedin() == true;
