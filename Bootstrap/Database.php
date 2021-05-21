@@ -7,14 +7,14 @@ use Illuminate\Container\Container;
 $capsule = new Capsule;
 
 $capsule->addConnection([
-    "driver"    => DB_DRIVER,
-    'host'      => DB_HOST,
-    'database'  => DB_NAME,
-    'username'  => DB_USER,
-    'password'  => DB_PASSWORD,
+    "driver"    => $_SERVER['DB_DRIVER'],
+    'host'      => $_SERVER['DB_HOST'],
+    'database'  => $_SERVER['DB_NAME'],
+    'username'  => $_SERVER['DB_USER'],
+    'password'  => $_SERVER['DB_PASSWORD'],
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix'    => DB_PREFIX,
+    'prefix'    => $_SERVER['DB_PREFIX'],
 ]);
 // Set the event dispatcher used by Eloquent models... (optional)
 
