@@ -8,9 +8,8 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Article;
-use App\Http\Models\Likes;
 use App\Http\Models\User;
-use App\Libraries\LikesManager\Base;
+use App\Libraries\LikesManager\LikeManager;
 use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
@@ -30,19 +29,19 @@ class ArticleController
 
     }
 
-    public function view($slug, Url $url,Auth $auth,Base $likes)
+    public function view($slug, Url $url,Auth $auth)
     {
         $article = Article::where("slug",$slug)->get();
         $entry_name = baseclass(get_called_class())->getShortName();
-        $likes = $likes->GetLikes($entry_name,$article->first()->id);
-
+        $urls = ["entry_name"=>$entry_name,"entry_id"=>$article->first()->id];
+        $likes = new LikeManager($entry_name,$article->first()->id,$url->make("likes.create",$urls),$url->make("likes.delete",$urls));
         $count = $article->count();
         if(($count == 1))
         {
 //            $images = $article->first()->images()->where("article_id",$article->first()->id)->get();
 
             $date = new \DateTime($article->first()->created_at);
-            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"date"=>$date,"likes"=>$likes,"entry_name"=>$entry_name,"btn"=>$btn]);
+            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"auth"=>$auth]);
         }
         else
         {

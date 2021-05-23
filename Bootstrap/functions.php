@@ -4,6 +4,8 @@ use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\ImageManager\Images;
 
+define("UPLOADS_PATH",$_SERVER['DOCUMENT_ROOT'].'/img/uploads');
+
 function slug($slug)
 {
     return str_replace(" ", "-", $slug);
@@ -12,7 +14,7 @@ function slug($slug)
 
 function redirect($location)
 {
-    return header("location:" . $location);
+    return header('location:'.$location.'');
 }
 
 function rmimg($file)

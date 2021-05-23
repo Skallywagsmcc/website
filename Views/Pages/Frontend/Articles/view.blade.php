@@ -12,52 +12,24 @@
             <div class="col-sm-12">
                 {!! nl2br($article->content) !!}
                 <br>
-                <a href="#" data-toggle="modal" data-target="#exampleModal">{{$likes->count()}}</a>
+                <a href="#" data-toggle="modal" data-target="#Likes">{{$likes->Likes()->count()}} People Like this</a>
                 <br>
-                @if($btn->count() == 1)
-                    <a href="{{$url->make("likes.delete",["entry_name"=>$entry_name,"entry_id"=>$article->id])}}">Unlike</a>
-                @else
-                    <a href="{{$url->make("likes.create",["entry_name"=>$entry_name,"entry_id"=>$article->id])}}">Like</a>
-                @endif
+              {!! $likes->links()!!}
             </div>
-
             <!-- Modal -->
-            <div class="modal t h-100 overflow-auto moda fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal t h-100 overflow-auto moda fade" id="Likes" tabindex="-1" role="dialog" aria-labelledby="Likes" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content bg-primary">
                         <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="exampleModalLabel">People who Have liked this article</h5>
+                            <h5 class="modal-title" id="Likes">People who Have liked this article</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body bg-dark text-white">
-                            @foreach($likes as $like)
+                            @foreach($likes->Likes(); as $like)
                                 <a href="{{$url->make("profile.home",["username"=>$like->user->username])}}">{{$like->user->username}}</a> <br>
                             @endforeach
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
                         </div>
                     </div>
                 </div>
