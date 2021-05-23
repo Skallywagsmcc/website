@@ -11,15 +11,15 @@ class Comments
 
     public static function up()
     {
-//        Capsule::schema()->create("comments", function ($table) {
-//            $table->id();
-//            $table->foreignId('user_id')->constrained()->onUpdate("cascade")->onDelete("cascade");
-//            $table->foreignId('image_id')->nullable()->constrained()->onUpdate("cascade")->onDelete("cascade");
-//            $table->foreignId('article_id')->nullable()->constrained()->onUpdate("cascade")->onDelete("cascade");
-//            $table->string("comment");
-//            $table->timestamps();
-//
-//        });
+        Capsule::schema()->create("comments", function ($table) {
+            $table->id();
+            $table->foreignId('user_id');
+            $table->string("entry_name");
+            $table->foreignId('entry_id');
+            $table->string("comment");
+            $table->timestamps();
+
+        });
     }
 
 

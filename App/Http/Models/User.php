@@ -43,6 +43,10 @@ class User extends Controller
         return $this->hasOne(Member::class);
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Likes::class);
+    }
 
 
     public function images()

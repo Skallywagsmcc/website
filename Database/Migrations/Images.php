@@ -13,8 +13,9 @@ class Images
     {
         Capsule::schema()->create("images", function ($table) {
             $table->id();
-            $table->foreignId('user_id')->nullable();
-            $table->foreignId('article_id')->nullable();
+            $table->foreignId('user_id');
+            $table->string("entry_name");
+            $table->foreignId('entry_id');
             $table->string("image_name");
             $table->string("image_size");
             $table->string("image_type");

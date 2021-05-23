@@ -55,12 +55,12 @@ class Loader extends Core
     {
         $variables = scandir($this->dir);
         $files = array_diff($variables, array('.', '..'));
-        foreach ($files as $file) {
+        foreach ($files as $index => $file) {
             $name = $this->RemoveExtention($file,".");
             $table = strtolower($name);
             if(Capsule::schema()->hasTable($table))
             {
-                echo "table $name is already installed ";
+                echo "$index : table $name is already installed <hr>";
             }
             else
             {

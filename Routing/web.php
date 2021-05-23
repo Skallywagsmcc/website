@@ -88,6 +88,11 @@ $router->group(["prefix" => "/articles"], function (Router $router) {
     $router->get("/{slug}", [ArticleController::class, 'view'], "articles.view");
 });
 
+$router->group(["prefix"=>"/manage/likes"],function (Router $router)
+{
+    $router->get("/add/{entry_name}/{entry_id}",[\App\Http\Controllers\LikesController::class,'create'],'likes.create');
+    $router->get("/delete/{entry_name}/{entry_id}",[\App\Http\Controllers\LikesController::class,'destroy'],'likes.delete');
+});
 
 $router->group(["prefix" => "/admin", "middleware" => [Middleware\AdminAuthMiddleware::class, Middleware\AdminTfa::class]], function (Router $router) {
 
