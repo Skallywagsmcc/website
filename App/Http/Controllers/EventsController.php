@@ -8,7 +8,7 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Models\Event;
 use MiladRahimi\PhpRouter\Url;
 
-class EventController
+class EventsController
 {
 
     public function index(Url $url)

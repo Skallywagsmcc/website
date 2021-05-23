@@ -14,7 +14,7 @@ use App\Http\Models\FeaturedImage;
 use Jenssegers\Blade\Blade;
 use MiladRahimi\PhpRouter\Url;
 
-class CharterController
+class ChartersController
 {
 
 

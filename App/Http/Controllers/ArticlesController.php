@@ -13,7 +13,7 @@ use App\Libraries\LikesManager\LikeManager;
 use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
-class ArticleController
+class ArticlesController
 {
 
     public function index(Url $url)
