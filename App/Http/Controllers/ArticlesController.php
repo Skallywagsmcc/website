@@ -38,10 +38,10 @@ class ArticlesController
         $count = $article->count();
         if(($count == 1))
         {
-//            $images = $article->first()->images()->where("article_id",$article->first()->id)->get();
+            $images = $article->first()->images()->where("entry_name",$entry_name)->where("entry_id",$article->first()->id)->get();
 
-            $date = new \DateTime($article->first()->created_at);
-            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"auth"=>$auth]);
+//            $date = new \DateTime($article->first()->created_at);
+            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"auth"=>$auth,"images"=>$images]);
         }
         else
         {

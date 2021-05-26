@@ -15,7 +15,7 @@ class Images
             $table->id();
             $table->foreignId('user_id');
             $table->string("entry_name");
-            $table->foreignId('entry_id');
+            $table->BigInterger('entry_id');
             $table->string("image_name");
             $table->string("image_size");
             $table->string("image_type");

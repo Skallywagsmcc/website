@@ -30,6 +30,8 @@ class ArticlesController
 
     public function index(Url $url)
     {
+        $class = baseclass(get_called_class());
+        echo $class->getShortName();
         $articles = Article::All();
         echo TemplateEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles, "url" => $url]);
     }
@@ -41,6 +43,7 @@ class ArticlesController
 
     public function store(Url $url, Validate $validate, Images $images, Csrf $csrf)
     {
+        $entry_name = baseclass(get_called_class())->getShortName();
         if ($csrf->Verify() == true) {
             $count = Article::where("slug", slug($validate->Post("title")))->get()->count();
 
@@ -68,7 +71,8 @@ class ArticlesController
                             Images::set_hashed_name($name);
                             move_uploaded_file($tmp, Images::$upload_dir . Images::get_hashed_name($name));
                             $image = new Image();
-                            $image->article_id = $article->id;
+                            $image->entry_name = baseclass(get_called_class())->getShortName();
+                            $image->entry_id = $article->first()->id;
                             $image->image_name = Images::get_hashed_name($name);
                             $image->title = "new title";
                             $image->description = "A lot of pictures";
@@ -94,12 +98,12 @@ class ArticlesController
 
     public function edit($slug, $id, Url $url)
     {
-
         $id = base64_decode($id);
+        $entru_name = baseclass(get_called_class())->getShortName();
         $article = Article::where("slug", $slug)->where("id", $id)->get();
         $count = $article->count();
         $article = $article->first();
-        $images = $article->images()->where("article_id", $article->id);
+        $images = $article->images()->orderBy("id","asc");
         $pages = new LaravelPaginator('10', 'page');
         $images = $pages->paginate($images);
         $links = $pages->page_links();
@@ -131,7 +135,8 @@ class ArticlesController
                         $image = new Image();
                         $validate = new Validate();
                         $image->user_id = Auth::id();
-                        $image->article_id = $id;
+                        $image->entry_name = baseclass(get_called_class())->getShortName();
+                        $image->entry_id = $validate->Post("id");
                         $image->image_name = Images::get_hashed_name($name);
                         $image->description = "A lot of pictures";
                         $image->image_size = $size;
