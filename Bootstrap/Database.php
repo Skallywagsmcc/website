@@ -5,7 +5,7 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 
 
-echo getenv("DB_DRIVER");
+echo $_SERVER['DB_DRIVER'];
 exit();
 $capsule = new Capsule;
 
