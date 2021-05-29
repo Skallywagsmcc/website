@@ -5,6 +5,8 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
 $dotenv->load();
 
+echo $_ENV['DB_DRIVER'];
+
 require "functions.php";
 require_once "Database.php";
 
