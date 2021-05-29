@@ -5,6 +5,7 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\ImageManager\Images;
 
 define("UPLOADS_PATH",$_SERVER['DOCUMENT_ROOT'].'/img/uploads');
+define("LOGO","/img/logo.png");
 
 function slug($slug)
 {

@@ -16,6 +16,7 @@ class Comments
             $table->foreignId('user_id');
             $table->string("entry_name");
             $table->foreignId('entry_id');
+            $table->foreignId('uuid');
             $table->string("comment");
             $table->timestamps();
 

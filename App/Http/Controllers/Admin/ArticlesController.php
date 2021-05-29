@@ -77,7 +77,7 @@ class ArticlesController
                             $image->uuid = $validate->uuid();
                             $image->image_name = Images::get_hashed_name($name);
                             $image->title = "new title";
-                            $image->description = $validate->description;
+                            $image->description = "a new set of photos";
                             $image->image_size = $size;
                             $image->image_type = $type;
                             $image->save();

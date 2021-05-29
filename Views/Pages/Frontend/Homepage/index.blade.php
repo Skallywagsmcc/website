@@ -4,15 +4,6 @@
 @endsection
 @section("content")
     <div class="container">
-        <div class="jumbotron p-0 m-0">
-            <img src="/img/sky.jpg" style="  clip: rect(0px,200px 0px,0px);" width="100%" alt="Bike Image">
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 head"></div>
-        </div>
         <div class="row py-2">
             @foreach($featured as $image)
                 <div class="col-sm-12 col-md-3">

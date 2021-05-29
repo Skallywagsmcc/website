@@ -7,8 +7,7 @@
 @section("content")
     <img src="/img/uploads/{{$featured->Image->image_name}}" height="250" width="250" alt="">
 
-    Image uploaded by : {{$featured->Image->user->profile->first_name}}
-
+    Image uploaded by : {{$featured->Image->user->profile->first_name}} | this image has {{$likes->likes($featured->Image->uuid)->count()}}
     <form action="{{$url->make("admin.images.featured.store")}}" method="post">
 
         <input type="hidden" value="{{$featured->id}}" name="id">
