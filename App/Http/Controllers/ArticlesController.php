@@ -33,8 +33,7 @@ class ArticlesController
     {
         $article = Article::where("slug",$slug)->get();
         $entry_name = baseclass(get_called_class())->getShortName();
-        $urls = ["entry_name"=>$entry_name,"entry_id"=>$article->first()->id];
-        $likes = new LikeManager($entry_name,$article->first()->id,$url->make("likes.create",$urls),$url->make("likes.delete",$urls));
+        $likes = new LikeManager();
         $count = $article->count();
         if(($count == 1))
         {
@@ -44,11 +43,9 @@ class ArticlesController
             echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"auth"=>$auth,"images"=>$images]);
         }
         else
-        {
+        {\
             redirect($url->make("homepage"));
         }
-
-
 
 
     }

@@ -28,7 +28,7 @@ class ArticlesController
      * delete : this will delete the data by id
      */
 
-    public function index(Url $url)
+    public function index(Url $url,Validate $validate)
     {
         $class = baseclass(get_called_class());
         echo $class->getShortName();
@@ -53,6 +53,7 @@ class ArticlesController
             } else {
                 $article = new Article();
                 $article->user_id = Auth::id();
+                $article->uuid = $validate->uuid();
                 $article->title = $validate->Required("title")->Post();
                 echo $article->title;
                 $article->slug = str_replace(" ", "-", $article->title);
@@ -73,9 +74,10 @@ class ArticlesController
                             $image = new Image();
                             $image->entry_name = baseclass(get_called_class())->getShortName();
                             $image->entry_id = $article->first()->id;
+                            $image->uuid = $validate->uuid();
                             $image->image_name = Images::get_hashed_name($name);
                             $image->title = "new title";
-                            $image->description = "A lot of pictures";
+                            $image->description = $validate->description;
                             $image->image_size = $size;
                             $image->image_type = $type;
                             $image->save();
@@ -137,6 +139,7 @@ class ArticlesController
                         $image->user_id = Auth::id();
                         $image->entry_name = baseclass(get_called_class())->getShortName();
                         $image->entry_id = $validate->Post("id");
+                        $image->uuid = $validate->uuid();
                         $image->image_name = Images::get_hashed_name($name);
                         $image->description = "A lot of pictures";
                         $image->image_size = $size;
