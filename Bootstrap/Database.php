@@ -4,9 +4,6 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 
-
-echo $_SERVER['DB_DRIVER'];
-exit();
 $capsule = new Capsule;
 
     $capsule->addConnection([
