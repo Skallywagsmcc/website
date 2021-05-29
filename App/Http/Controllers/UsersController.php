@@ -7,7 +7,7 @@ use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 
 
-class UserController
+class UsersController
 {
 
     public function index(Url $url)

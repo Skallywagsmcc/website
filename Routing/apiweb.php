@@ -14,7 +14,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\TwoFactorAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\CommentsController;
 use App\Http\Controllers\Profile\DisplayController;

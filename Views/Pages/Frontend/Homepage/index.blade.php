@@ -4,15 +4,6 @@
 @endsection
 @section("content")
     <div class="container">
-        <div class="jumbotron p-0 m-0">
-            <img src="/img/sky.jpg" style="  clip: rect(0px,200px 0px,0px);" width="100%" alt="Bike Image">
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 head"></div>
-        </div>
         <div class="row py-2">
             @foreach($featured as $image)
                 <div class="col-sm-12 col-md-3">
@@ -48,8 +39,7 @@
                         @foreach($pages as $page)
                             <div class="row">
                                 <div class="col-sm-12 col-md-6">
-                                    <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}"> {{$page->title}}
-                                        k</a>
+                                    <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}"> {{$page->title}}</a>
                                 </div>
                                 <div class="col-md-6 col-sm-12 text-right">
                                     {{date("H:i:s d/m/Y",strtotime($page->updated_at))}}

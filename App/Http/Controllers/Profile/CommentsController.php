@@ -26,6 +26,8 @@ class CommentsController
         {
             $validate = new Validate();
             $comment = new Comment();
+            $this->entry_name = $validate->Post("entry_name");
+            $this->entry_id = $validate->Post("entry_id");
             $comment->user_id = Auth::id();
             $comment->image_id = $validate->Post("id");
             $comment->comment = $validate->Post("comment");

@@ -12,82 +12,71 @@
             <div class="col-sm-12">
                 {!! nl2br($article->content) !!}
                 <br>
-                <a href="#" data-toggle="modal" data-target="#exampleModal">{{$likes->count()}}</a>
+                <a href="#" data-toggle="modal" data-target="#Likes">{{$likes->Likes($article->uuid)->count()}} People
+                    Like this</a>
                 <br>
-                @if($btn->count() == 1)
-                    <a href="{{$url->make("likes.delete",["entry_name"=>$entry_name,"entry_id"=>$article->id])}}">Unlike</a>
-                @else
-                    <a href="{{$url->make("likes.create",["entry_name"=>$entry_name,"entry_id"=>$article->id])}}">Like</a>
-                @endif
+                {!! $likes->links($article->uuid)!!}
             </div>
-
             <!-- Modal -->
-            <div class="modal t h-100 overflow-auto moda fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal t h-100 overflow-auto moda fade" id="Likes" tabindex="-1" role="dialog"
+                 aria-labelledby="Likes" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content bg-primary">
                         <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="exampleModalLabel">People who Have liked this article</h5>
+                            <h5 class="modal-title" id="Likes">People who Have liked this article</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body bg-dark text-white">
-                            @foreach($likes as $like)
-                                <a href="{{$url->make("profile.home",["username"=>$like->user->username])}}">{{$like->user->username}}</a> <br>
+
+                            @foreach($likes->Likes($article->uuid); as $like)
+                                <a href="{{$url->make("profile.home",["username"=>$like->user->username])}}">{{$like->user->username}}</a>
+                                <br>
                             @endforeach
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
-                            James <br>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{--        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">--}}
-            {{--            <ol class="carousel-indicators">--}}
-            {{--                @foreach($images as $index => $image)--}}
-            {{--                <li data-target="#carouselExampleIndicators" data-slide-to="{{$index}}" class=" @if($index == 0) active @endif"></li>--}}
-            {{--                @endforeach--}}
-            {{--            </ol>--}}
-            {{--            <div class="carousel-inner">--}}
-            {{--                @foreach($images as $index => $image)--}}
-            {{--                    <div class="carousel-item @if($index == 0) active @endif ">--}}
-            {{--                        <img class="d-block w-100"  height="600px" src='/img/uploads/{{$image->image_name}}'>--}}
+            <div class="row">
+                @foreach($images as $image)
+                    <div class="col-sm-12 col-md-4">
+                        <div class="col-sm-12">
+                            <img height="200px" width="200px" src='/img/uploads/{{$image->image_name}}'>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6">{{$likes->Likes($image->uuid)->count()}} </div>
+                            <div class="col-sm-12 col-md-6">{!! $likes->links($image->uuid)!!}</div>
+                        </div>
+
+                    </div>
+
+                @endforeach
+            </div>
+            {{--                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">--}}
+            {{--                        <ol class="carousel-indicators">--}}
+            {{--                            @foreach($images as $index => $image)--}}
+            {{--                            <li data-target="#carouselExampleIndicators" data-slide-to="{{$index}}" class=" @if($index == 0) active @endif"></li>--}}
+            {{--                            @endforeach--}}
+            {{--                        </ol>--}}
+            {{--                        <div class="carousel-inner">--}}
+            {{--                      --}}
+            {{--                        </div>--}}
+            {{--                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">--}}
+            {{--                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>--}}
+            {{--                            <span class="sr-only">Previous</span>--}}
+            {{--                        </a>--}}
+            {{--                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">--}}
+            {{--                            <span class="carousel-control-next-icon" aria-hidden="true"></span>--}}
+            {{--                            <span class="sr-only">Next</span>--}}
+            {{--                        </a>--}}
             {{--                    </div>--}}
-            {{--                @endforeach--}}
-            {{--            </div>--}}
-            {{--            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">--}}
-            {{--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>--}}
-            {{--                <span class="sr-only">Previous</span>--}}
-            {{--            </a>--}}
-            {{--            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">--}}
-            {{--                <span class="carousel-control-next-icon" aria-hidden="true"></span>--}}
-            {{--                <span class="sr-only">Next</span>--}}
-            {{--            </a>--}}
+            {{--            <div class="border border-light col-sm-12"></div>--}}
+            {{--            <div class="row"></div>--}}
+            {{--            <div class="col-sm-12 col-md-6">Posted By : {{$article->user->username}}</div>--}}
+            {{--            <div class="col-sm-12 col-md-6">Posted on : {{$article->created_at}}</div>--}}
             {{--        </div>--}}
-            {{--        <div class="border border-light col-sm-12"></div>--}}
-            {{--<div class="col-sm-12 col-md-6">Posted By : {{$article->user->username}}</div>--}}
-            {{--<div class="col-sm-12 col-md-6">Posted on : {{$article->created_at}}</div>--}}
         </div>
     </div>
 
