@@ -4,10 +4,11 @@ use Illuminate\Database\Capsule\Manager as Capsule;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 
+
+echo getenv("DB_DRIVER");
+exit();
 $capsule = new Capsule;
 
-if(isset($_SERVER))
-{
     $capsule->addConnection([
         "driver" => $_SERVER['DB_DRIVER'],
         'host' => $_SERVER['DB_HOST'],
@@ -18,7 +19,7 @@ if(isset($_SERVER))
         'collation' => 'utf8_unicode_ci',
         'prefix' => $_SERVER['DB_PREFIX'],
     ]);
-}
+
 // Set the event dispatcher used by Eloquent models... (optional)
 
 $capsule->setEventDispatcher(new Dispatcher(new Container));
