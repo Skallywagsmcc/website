@@ -22,6 +22,7 @@ class Users
             $table->rememberToken();
             $table->timestamps();
         });
+    }
 
     public static function down()
     {
