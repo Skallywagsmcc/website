@@ -44,7 +44,6 @@ class PasswordManager extends Auth
     {
      $this->Approved = false;
         $password = PasswordRequest::where(["id"=>$id,"hex"=>$hex])->get();
-        echo $id;
         if($password->count() == 1)
         {
             $this->Approved = true;

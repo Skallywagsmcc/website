@@ -21,6 +21,12 @@ class Validate
         self::$ValidPassword = false;
     }
 
+    public function RequestHexKey()
+    {
+        return bin2hex(random_bytes(35));
+    }
+
+
     public function uuid()
     {
         $start = 1*20;

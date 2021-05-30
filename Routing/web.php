@@ -59,6 +59,13 @@ $router->group(["prefix" => "/charters"], function (Router $router) {
     $router->get("/view/{slug}", [\App\Http\Controllers\ChartersController::class, 'show'], "charters.view");
 });
 
+$router->group(["prefix"=>"/terms"],function (Router $router)
+{
+    $router->get("/?",function(){
+        echo "terms";
+    },"terms.home");
+});
+
 
 $router->group(["prefix" => "/events"], function (Router $router) {
     $router->get("/?", [\App\Http\Controllers\EventsController::class, 'index'], "events.home");

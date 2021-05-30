@@ -1,5 +1,4 @@
 @extends("Layouts.main")
-
 @section("title")
     {{$user->username}} Gallery
 @endsection

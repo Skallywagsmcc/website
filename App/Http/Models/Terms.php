@@ -8,11 +8,12 @@ namespace App\Http\Models;
 
 use App\Http\Controllers\Controller;
 
-class PasswordRequest extends Controller
+class Terms extends Controller
 {
 
     public function user()
     {
-        return $this->belongsto(User::class);
+        return $this->belongsTo(User::class);
     }
+
 }

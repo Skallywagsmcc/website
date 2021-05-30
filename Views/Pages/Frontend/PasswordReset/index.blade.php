@@ -2,6 +2,11 @@
 
 @section("content")
     <div class="container">
+        @isset($message)
+            <div class="alert-danger my-1 py-1">
+                    {!! $message !!}
+            </div>
+        @endisset
         <form action="{{$url->make("password-reset.request")}}" method="post">
             Username : <input type="username" name="username"> <br>
             Email : <input type="email" name="email">

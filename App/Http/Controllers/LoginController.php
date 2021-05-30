@@ -34,19 +34,22 @@ class LoginController
             if($user->count() == 1)
             {
                 $user = $user->first();
-                echo $user->id;
                 if(password_verify($password,$user->password))
             {
-                if($validate->Post("remember") == 1)
-                {
-                    Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
+
+                if($user->disable == 0) {
+                    if ($validate->Post("remember") == 1) {
+                        Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
+                    } else {
+                        Sessions::Create("id", $user->id);
+                    }
+                    $csrf->GenerateToken($user->id);
+                    redirect($url->make("profile.home", ['username' => $user->username]));
                 }
                 else
                 {
-                    Sessions::Create("id",$user->id);
+                    $error = "login Has been Disabled";
                 }
-                $csrf->GenerateToken($user->id);
-                redirect($url->make("profile.home",['username'=>$user->username]));
             }
             else
             {

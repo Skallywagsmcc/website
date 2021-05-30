@@ -48,6 +48,12 @@ class User extends Controller
         return $this->hasMany(Likes::class);
     }
 
+    public function terms()
+    {
+        return $this->hasMany(Terms::class);
+    }
+
+
 
     public function images()
     {
