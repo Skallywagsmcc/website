@@ -115,7 +115,8 @@ class PasswordController
         {
 
             if(!empty($validate->Post("password")) || !empty($validate->Post("confirm")) && $validate->Post("password") === $validate->Post("confirm")) {
-                if($validate->HasStrongPassword($validate->Post("password")) == true) {
+                $validate->HasStrongPassword($validate->Post("password"));
+                if($validate::$ValidPassword == true) {
                     $user = User::find($request->get()->first()->user_id);
                     $user->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
                     $user->disable = 0;
