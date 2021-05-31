@@ -29,11 +29,6 @@ class PasswordController
         if($user->count() == 1)
         {
             $user = $user->first();
-
-            $users = User::find($user->id);
-            $users->disable = 1;
-            $users->save();
-
             $password =  $user->PasswordRequests($user->id)->where("user_id",$user->id)->get();
             $password->count()  == 0 ? $request = new PasswordRequest() : $request = PasswordRequest::find($user->PasswordRequests->id);
             $request->user_id = $user->id;
@@ -43,7 +38,7 @@ class PasswordController
             $request->save();
 
 
-//            Email to the user
+//            Email to the user the reset Link
             $mail = new PHPMailer(true);
 
             try {
@@ -77,6 +72,10 @@ class PasswordController
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
 
+//            Disable Login
+            $user = User::find($user->id);
+            $user->disable = 1;
+            $user->save();
         }
         else
         {
@@ -98,6 +97,10 @@ class PasswordController
         {
             echo TemplateEngine::View("Pages.Frontend.PasswordReset.new",["url"=>$url,"id"=>$id,"hex"=>$hex]);
         }
+        else
+        {
+            echo "this Request has Expired";
+        }
 
 //    Step 2 load template for the form with Password fields
 
@@ -106,6 +109,34 @@ class PasswordController
 
     public function store(Url $url, Validate $validate)
     {
+
+        $request = PasswordRequest::where("id",$validate->Post("id"))->where("hex",$validate->Post("hex"));
+        if($request->get()->count() == 1)
+        {
+
+            if(!empty($validate->Post("password")) || !empty($validate->Post("confirm")) && $validate->Post("password") === $validate->Post("confirm")) {
+                if($validate->HasStrongPassword($validate->Post("password"))) {
+                    $user = User::find($request->get()->first()->user_id);
+                    $user->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
+                    $user->disable = 0;
+                    $user->save();
+                    $request->delete();
+                    redirect($url->make("login"));
+                }
+                else
+                {
+                    echo "Password is not strong enough";
+                }
+            }
+            else
+            {
+                echo "the Password does not match";
+            }
+        }
+        else
+        {
+            echo "user Not found or the Request has expired";
+        }
 //step 1 : get values from post data.
 
 
