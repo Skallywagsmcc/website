@@ -127,7 +127,7 @@ class PasswordController
     public function store(Url $url, Validate $validate)
     {
 
-        $request = PasswordRequest::where("id", $validate->Post("id"))->where("hex", $validate->Post("hex"));
+        $request = PasswordRequest::where("user_id", $validate->Post("id"))->where("hex", $validate->Post("hex"));
         if ($request->get()->count() == 1) {
 
             if (!empty($validate->Post("password")) || !empty($validate->Post("confirm")) && $validate->Post("password") === $validate->Post("confirm")) {
