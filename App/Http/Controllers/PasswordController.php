@@ -70,7 +70,7 @@ class PasswordController
                 $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
                 $mail->Body .= "Sorry to hear you have forgot your password, Please find below a link to continue this process <br><br>";
                 $mail->Body .= "<a href='".$_ENV['DOMAIN']."/auth/reset-password/retrieve/" . $request->id . "/" . $request->hex . "'>Click Here</a> <br><br>";
-                $mail->Body .= "If this was Not you, Please <a href='http://skallywagsmcc.club/auth/reset-password/reactivate/" . $request->user_id . "/" . $request->hex . "'>Click Here</a>";
+                $mail->Body .= "If this was Not you, Please <a href='".$_ENV['DOMAIN']."/auth/reset-password/reactivate/" . $request->id . "/" . $request->hex . "'>Click Here</a>";
                 $mail->Body .= "to ReActivate your login and use your original password  as we disable it during te password reset Process as stated in our terms and conditions<hr>";
                 $mail->Body .= $_ENV['DOMAIN'] . " &copy; " . date("Y") . " | <a href='" . $url->make("terms.home") . "'>Terms and conditions</a>";
                 $mail->send();
