@@ -56,7 +56,7 @@ class PasswordController
                 $mail->SMTPAuth = true;                                   //Enable SMTP authentication
                 $mail->Username = $_ENV['SMTP_USERNAME'];    //SMTP username
                 $mail->Password = $_ENV['SMTP_PASSWORD'];    //SMTP password
-//                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
                 $mail->Port = $_ENV["SMTP_PORT"];        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
                 //Recipients
@@ -69,7 +69,7 @@ class PasswordController
                 $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
                 $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
                 $mail->Body .= "Sorry to hear you have forgot your password, Please find below a link to continue this process <br><br>";
-                $mail->Body .= "<a href='http://skallywagsmcc.club/auth/reset-password/retrieve/" . $request->id . "/" . $request->hex . "'>Click Here</a> <br><br>";
+                $mail->Body .= "<a href='".$_ENV['DOMAIN']."/auth/reset-password/retrieve/" . $request->id . "/" . $request->hex . "'>Click Here</a> <br><br>";
                 $mail->Body .= "If this was Not you, Please <a href='http://skallywagsmcc.club/auth/reset-password/reactivate/" . $request->user_id . "/" . $request->hex . "'>Click Here</a>";
                 $mail->Body .= "to ReActivate your login and use your original password  as we disable it during te password reset Process as stated in our terms and conditions<hr>";
                 $mail->Body .= $_ENV['DOMAIN'] . " &copy; " . date("Y") . " | <a href='" . $url->make("terms.home") . "'>Terms and conditions</a>";
@@ -114,6 +114,7 @@ class PasswordController
                 $expired = true;
             }
         } else {
+            echo "No user found";
             $message = "this Request has Expired";
         }
         echo TemplateEngine::View("Pages.Frontend.PasswordReset.new", ["url" => $url, "id" => $id, "hex" => $hex,"message"=>$message,"expired"=>$expired]);
