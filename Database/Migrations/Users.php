@@ -19,6 +19,7 @@ class Users
             $table->string("email");
             $table->string("password");
             $table->integer("is_admin")->default(0);
+            $table->string("exchange_key")->nullable();
             $table->integer("disable")->default(0);
             $table->integer("deactivate")->default(0);
             $table->timestamps();

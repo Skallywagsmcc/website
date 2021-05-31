@@ -15,8 +15,8 @@ class Password_Requests
             $table->id();
             $table->foreignId('user_id');
             $table->string("hex");
-            $table->biginteger("key");
-            $table->string("expires");
+            $table->string("exchange_key")->nullable();
+            $table->datetime("expires");
             $table->timestamps();
 
         });
