@@ -56,7 +56,7 @@ class PasswordController
                 $mail->SMTPAuth = true;                                   //Enable SMTP authentication
                 $mail->Username = $_ENV['SMTP_USERNAME'];    //SMTP username
                 $mail->Password = $_ENV['SMTP_PASSWORD'];    //SMTP password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+//                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
                 $mail->Port = $_ENV["SMTP_PORT"];        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
                 //Recipients
