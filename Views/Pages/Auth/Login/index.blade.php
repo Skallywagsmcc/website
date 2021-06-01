@@ -12,7 +12,6 @@
                     {{$value}}  Missing <br>
                     @endforeach
                 @else
-
                     <h2>An Error Occurred</h2>
                     {{$error}}
                 @endif
@@ -23,7 +22,7 @@
         <input type="text" name="username" id="username" value="@isset($validate){{$validate->Post("username")}}@endisset"
                placeholder="Username or email address"/><br><br>
         <input type="password" name="password" id="password"/><br><br>
-        <a href="/auth/reset-password">Reset Password</a>
+        Problems with logging in ? <a href="/auth/reset-password">Click here</a>
         Remember me for 7 days : <input type="checkbox" name="remember" value="1">
         <button>Save</button>
     </form>
