@@ -102,6 +102,7 @@ class PasswordController
             $key = md5($validate->RequestHexKey());
             echo "Profile found";
             $user->exchange_key = $key;
+            $user->email;
             $user->save();
 
             if ($requests->count() == 1) {
@@ -171,7 +172,7 @@ class PasswordController
                         $user->disable = 0;
                         $user->save();
                         $requests->delete();
-                        redirect("login");
+                        redirect($url->make("login"));
                     } else {
                         $message = "Sorry the Exchange Key You have entered is not valid";
                     }
