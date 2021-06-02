@@ -19,9 +19,7 @@
                             {{$member->user->Profile->user->username}}
                         </div>
                     </div>
-
                 </div>
-
             @endforeach
         </div>
 

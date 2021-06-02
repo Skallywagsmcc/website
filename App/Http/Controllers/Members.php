@@ -14,7 +14,6 @@ class Members
 {
     public function index(Url $url)
     {
-        echo uniqid();
         $members = Member::orderBy("id","asc");
         $paginator = new LaravelPaginator("10","p");
         $members = $paginator->paginate($members);
