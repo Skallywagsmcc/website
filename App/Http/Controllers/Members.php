@@ -15,10 +15,15 @@ class Members
     public function index(Url $url)
     {
         $members = Member::orderBy("id","asc");
-        $paginator = new LaravelPaginator("10","p");
-        $members = $paginator->paginate($members);
-        $links = $paginator->page_links();
-        echo TemplateEngine::View("Pages.Frontend.Members.index",["url"=>$url,"links"=>$links,"members"=>$members]);
+        if($members->count() >= 1)
+        {
+            $paginator = new LaravelPaginator("10","p");
+            $members = $paginator->paginate($members);
+            $links = $paginator->page_links();
+            echo TemplateEngine::View("Pages.Frontend.Members.index",["url"=>$url,"links"=>$links,"members"=>$members]);
+        }
+        echo "No user found";
+
     }
 
 }
