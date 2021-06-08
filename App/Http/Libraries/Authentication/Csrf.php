@@ -22,11 +22,11 @@ class Csrf extends Auth
             if ((User::where("id", self::id())->get()->count() == 1)) {
                 if (isset($_SESSION['csrf_expire']) && (time() > $_SESSION['csrf_expire'])) {
                     $this->GenerateToken(self::id());
-//                    echo "its expired";
+                    echo "its expired";
                 }
                 else
                 {
-//                    echo "the code hasnt expired";
+                    echo "the code hasnt expired";
                 }
             }
     }
@@ -56,7 +56,7 @@ class Csrf extends Auth
     public static function GenerateExpire()
     {
 //        Expirattion is now a session and will last for 2 minutes per interval
-        $_SESSION['csrf_expire'] = time() + 60;
+        $_SESSION['csrf_expire'] = time() + 60 * 5;
     }
 
     public static function NewToken($user_id, $key)

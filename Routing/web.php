@@ -49,7 +49,8 @@ $router->group(["prefix" => "/members"], function (Router $router) {
 
 $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\RequireLogin::class]], function (Router $router) {
     $router->get("/?", [TwoFactorAuthController::class, "index"], "tfa.index");
-    $router->post("/retrieve", [TwoFactorAuthController::class, "show"], "tfa.get");
+    $router->post("/request", [TwoFactorAuthController::class, "create"], "tfa.get");
+    $router->get("/request/user/{id}/token/{hex}", [TwoFactorAuthController::class, "show"], "tfa.retrieve");
     $router->post("/save", [TwoFactorAuthController::class, "store"], "tfa.save");
 });
 

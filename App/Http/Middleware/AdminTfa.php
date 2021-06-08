@@ -28,21 +28,21 @@ class AdminTfa
 
 //        step 1 check user settings with logged in user
 
-//        $user = User::find(Auth::id());
-//        if (($user->is_admin == 1)) {
-//            if(isset($_SESSION['tfa_approved']) && (($_SESSION['tfa_approved']) == 0))
-//            {
-//                redirect($url->make("tfa.index"));
-//            }
-//            else
-//            {
-//                return $next($request);
-//            }
-//        }
-//        else
-//        {
-//            return $next($request);
-//        }
+        $user = User::find(Auth::id());
+        if (($user->is_admin == 1)) {
+            if(isset($_SESSION['tfa_approved']) && (($_SESSION['tfa_approved']) == 0))
+            {
+                redirect($url->make("tfa.index"));
+            }
+            else
+            {
+                return $next($request);
+            }
+        }
+        else
+        {
+            return $next($request);
+        }
         return $next($request);
 
 

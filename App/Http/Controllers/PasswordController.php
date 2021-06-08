@@ -247,15 +247,15 @@ class PasswordController
                 $message = "Password and password confirmation do not match";
 
             } else {
-                $message = "success";
-//                $request = $request->first();
-//                $user = User::find($request->get()->first()->user_id);
-//                $user->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
-//                $user->disable = 0;
-//                $user->exchange_key = null;
-//                $user->save();
-//                $request->delete();
-//                redirect($url->make("login"));
+//                $message = "success";
+                $request = $request->first();
+                $user = User::find($request->get()->first()->user_id);
+                $user->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
+                $user->disable = 0;
+                $user->exchange_key = null;
+                $user->save();
+                $request->delete();
+                redirect($url->make("login"));
             }
         } else {
             $message = "Sorry that user cannot be found or the request has expired";

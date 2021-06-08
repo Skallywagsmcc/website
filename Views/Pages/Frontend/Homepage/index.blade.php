@@ -19,7 +19,6 @@
             @endforeach
         </div>
     </div>
-    <div class="container-fluid bg-dark border-top border-bottom border-light p-3">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-sm-12 p-0 ">
@@ -51,7 +50,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <div class="container">
         <div class="row py-2 my-1">

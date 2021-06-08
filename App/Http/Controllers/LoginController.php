@@ -48,6 +48,7 @@ class LoginController
                         Sessions::Create("id",$user->id);
                     }
                     $csrf->GenerateToken($user->id);
+                    $_SESSION['tfa_approved'] = 0;
                     redirect($url->make("profile.home",['username'=>$user->username]));
                 }
                 else
