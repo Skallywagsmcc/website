@@ -29,6 +29,13 @@ class ContactController
         $email = $validate->Required("email")->Post();
         $first_name = $validate->Required("first_name")->Post();
         $last_name = $validate->Required("last_name")->Post();
+        $club = $validate->Post("club");
+
+        if(empty($club))
+        {
+            $club =  "N/a";
+        }
+
         $subject = $validate->Required("subject")->Post();
         $message = $validate->Required("message")->Post();
         $answer1 = $validate->Required("sum1")->Post();
@@ -58,9 +65,19 @@ class ContactController
 
                     //Content
                     $mail->isHTML(true);                                  //Set email format to HTML
-                    $mail->Subject = $subject;
+                    if(empty($club))
+                    {
+                        $mail->Subject = $subject;
+                    }
+                    else
+                    {
+                        $mail->Subject = "Club($club) : " . $subject;
+                    }
+
                     $mail->Body = "<img src='http://skallywags.club/img/logo.png' alt='logo' height='150' width='150'/><hr>";
-                    $mail->Body .= $message;
+                    $mail->Body .= "Name : $first_name" . " $last_name <br><br>";
+                    $mail->Body .= "Current Club :" . $club ."<br><br>";
+                    $mail->Body .= "Message : <br><br>" . $message;
 
                     $mail->send();
                     redirect($url->make("contact-sent"));

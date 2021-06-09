@@ -1,62 +1,33 @@
-/*i will come back to this file this will be used to design the authentication Layout */
-#authcontainer {
-  background-color: red;
-}
-
 .container-wrapper {
   /* this is used to fix the footer issue do not remove */
   min-height: 95vh;
 }
 
-@font-face {
-  font-family: "carnivalee_freakshowregular";
-  src: url("public_html/fonts/carnevalee_freakshow-webfont.woff2") format("woff2"), url("public_html/fonts/carnevalee_freakshow-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-.alla {
-  display: block;
-}
-
-.adminnav a {
-  padding: 5px 0px;
-  display: block;
-}
-.adminnav a:hover {
-  border-radius: 50px;
-  border: solid 1px #fff;
-  background-color: #ce1126;
-  background-color: green;
-}
-
 .paginate, .paginate-current {
-  border-radius: 10px;
+  background-color: #363A40;
+  border: solid 5px #ce1126;
+  border-radius: 50px;
   display: block;
-  padding: 5px 10 pxweb;
+  padding: 5px 10px;
   margin: 2px 5px;
 }
 
 .paginate {
-  background-color: #ce1126;
   color: white;
 }
 
 .paginate-current {
-  background-color: #555555;
+  background-color: #2a2d32;
   color: white;
+  border: solid 5px white;
 }
 
-.info {
-  background-color: white;
-  color: black;
-}
-.info a {
-  color: black;
-  display: block;
-  text-decoration: underline;
-}
-.info a:hover {
-  color: black;
+.breadcrumbs {
+  background-color: #363A40;
+  border-top: 2px solid #ce1126;
+  border-bottom: 2px solid #ce1126;
+  color: #fff a;
+  color-color: #fff;
 }
 
 body, html {
@@ -181,26 +152,24 @@ body a:hover, html a:hover {
   text-decoration: underline;
 }
 
-#form {
-  background-color: #f1f1f1;
-  border: solid 1px yellow;
-  color: black;
-  padding: 10px 5px;
-}
-#form .form-group .form-group {
-  color: black;
-}
-#form .form-control, #form .btn-save {
-  background-color: #263238;
-  color: white;
-  height: 50px;
-  padding: 15px 5px;
-}
-
 .footer {
   background-color: #00247d;
-  color: #fff;
+  color: #000;
   min-height: 5vh;
+}
+
+/*i will come back to this file this will be used to design the authentication Layout */
+#authcontainer {
+  background-color: red;
+}
+
+.tld-form .tld-input {
+  border: solid 5px #ce1126;
+  border-radius: 10px;
+  text-decoration: gold;
+  padding: 20px 0px;
+  background-color: #3b3f46;
+  color: white;
 }
 
 /*# sourceMappingURL=base.css.map */

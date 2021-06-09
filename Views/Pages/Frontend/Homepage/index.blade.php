@@ -3,7 +3,9 @@
     (Home)
 @endsection
 @section("content")
+
     <div class="container">
+        <form action=""><input type="text" class="info"></form>
         <div class="row py-2">
             @foreach($featured as $image)
                 <div class="col-sm-12 col-md-3">
