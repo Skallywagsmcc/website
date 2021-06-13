@@ -36,6 +36,7 @@ class ChartersController
             $charter = new Charter();
             $charter->title = ucwords($validate->Required("title")->Post());
             $charter->slug = slug($charter->title);
+            $charter->uuid = $validate->uuid();
             $charter->content = $validate->Required("content")->Post();
             $validate->Post("pinned") == 1 ? $charter->pinned = 1 : $charter->pinned = 0;
             $charter->pinned =
@@ -69,7 +70,11 @@ class ChartersController
             $charter = Charter::where("id",$validate->Post("id"))->get();
             if($charter->count() == 1) {
                 $charter = $charter->first();
-                $charter->title = ucwords($validate->Required("title")->Post());
+                $charter->title = ucwords($validate->Required("title")->Post());#
+                if($charter->uuid == 0)
+                {
+                    $charter->uuid = $validate->uuid();
+                }
                 $charter->slug = slug($charter->title);
                 $charter->content = $validate->Required("content")->Post();
                 $validate->Post("pinned") == 1 ? $charter->pinned = 1 : $charter->pinned = 0;
@@ -97,7 +102,7 @@ class ChartersController
         echo TemplateEngine::View("Pages.Backend.Charters.defaults");
     }
 
-    public function StoreDefault(Validate $validate,Csrf $csrf,Validate $validate)
+    public function StoreDefault(Validate $validate,Csrf $csrf)
     {
 
         $id = $validate->Post("id");

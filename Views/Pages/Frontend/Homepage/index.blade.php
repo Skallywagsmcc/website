@@ -4,67 +4,68 @@
 @endsection
 @section("content")
 
+
     <div class="container">
-        <form action=""><input type="text" class="info"></form>
-        <div class="row py-2">
-            @foreach($featured as $image)
-                <div class="col-sm-12 col-md-3">
-                    <div class="col-sm-12 p-1">
+        <div class="row info my-2 text-center py-2">
+            @if($events->count() == 0)
+                <div class="col-sm-12">No Upcoming events</div>
+                @else
+            <div class="col-sm-12 col-md-3">Next Upcoming Event</div>
+            <div class="col-sm-12 col-md-9">This is coming soon</div>
+                @endif
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 head pl-3 mb-1">Welcome to Skallywags</div>
+            <div class="col-sm-12">
+                <iframe class="p-0 text-right" width="100%" height="315"
+                        src="https://www.youtube.com/embed/psYopokyg9U" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 head">Featured Images</div>
+            @if($featured->count() >= 1)
+                @foreach($featured as $image)
+                <div class="col-sm-12 col-md-4 my-2">
+                    <div class="col-sm-12">
                         <img class="border border-primary" src="/img/uploads/{{$image->Image->image_name}}" width="250"
                              height="250" alt=""/>
                     </div>
-                    <div class="col-sm-12 text-center"> Uploaded By : <a
-                                href="{{$url->make("gallery.home",["username"=>$image->Image->user->username])}}">{{$image->Image->user->username}}</a>
+                    <div class="col-sm-12 text-sm-center text-right">
+                        <a href="{{$url->make("gallery.home",["username"=>$image->Image->user->username])}}">{{$image->Image->user->username}}</a>
                     </div>
-
                 </div>
-            @endforeach
+                @endforeach
+            @else
+                <div class="col-sm-12">No Featured images added</div>
+            @endif
         </div>
     </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-sm-12 p-0 ">
-                    <div class="col-sm-12 head my-1">Welcome To Skallywags MCC</div>
-                    <div class="col-md-12 ">
-                        <iframe class="p-0 m-0 text-right" width="100%" height="315"
-                                src="https://www.youtube.com/embed/psYopokyg9U" title="YouTube video player"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen></iframe>
-                    </div>
-                </div>
 
-                <div class="col-sm-12 col-md-6">
-                    <div class="col-sm-12 my-1 head">Latest Pages</div>
-                    <div class="col-sm-12 text-center">
-                        @foreach($pages as $page)
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6">
-                                    <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}"> {{$page->title}}</a>
-                                </div>
-                                <div class="col-md-6 col-sm-12 text-right">
-                                    {{date("H:i:s d/m/Y",strtotime($page->updated_at))}}
-                                </div>
-
-                            </div>
-                        @endforeach
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                <div class="col-sm-12 head">Latest Articles</div>
+                @foreach($pages as $page)
+                    <div class="col-sm-12">
+                        <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}">{{$page->title}}</a>
                     </div>
-                </div>
+                @endforeach
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <div class="col-sm-12 head">Newest Club Member</div>
+                <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}"  height="200px" width="100%" alt="{{$member->first()->User->username}} Profile Image">
+                <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>
             </div>
         </div>
-
-    <div class="container">
-        <div class="row py-2 my-1">
-            <div class="col-sm-12 head">Upcoming events</div>
-            @foreach(events() as $event)
-                <div class="col-sm-12 col-md-6 text-sm-center text-md-left pl-md-3"> {{$event->title}}</div>
-                <div class="col-sm-12 col-md-6 text-sm-center text-md-right"> {{date("d/m/Y - H:i:s a",strtotime($event->start))}}</div>
-
-            @endforeach
-            <div class="col-sm-12 text-right"><a href="{{$url->make("events.home")}}"See More Events</a></div>
-        </div>
     </div>
-
-
 
 @endsection

@@ -6,6 +6,8 @@
   @include setheight(95vh);
 }
 
+@import "defaults";
+
 
 .paginate, .paginate-current {
   background-color:$input-bg;
@@ -40,27 +42,29 @@
 }
 
 
+.info
+{
+  border: solid 1px $secondarybg;
+  background: $input-bg;
+  font-weight: bolder;
+  color:$primary-text;
 
-body, html {
-  margin: 0;
-  height: 100%;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  color: $primary-text;
-  font-family: "carnivalee_freakshowregular" Tahoma;
-  background-color: $body;
-
-  a {
-    color: white;
-    text-decoration: none;
+  .head{
+    text-indent: 5px;
   }
 
-  a:hover {
-    color: white;
-    text-decoration: underline;
+  .foot
+  {
+    padding:5px 0px;
+    border-top: solid 1px $secondarybg;
+  }
+  a{
+    color: $primary-text;
   }
 }
+
+
+
 
 .col-md-6 img, .col-lg-3 img {
   height: 200px;
@@ -72,8 +76,7 @@ body, html {
   color: white;
   padding: 5px 0px;
   font-size: 1.5rem;
-  text-decoration: underline;
-  @include setborder(solid, 2px, $secondarybg, bottom);
+  @include setborder(solid, 4px, $secondarybg, bottom);
 }
 
 
@@ -129,9 +132,7 @@ body, html {
 
   }
 
-
   @include dropdown();
-
   a {
     color: white;
 
@@ -149,7 +150,6 @@ body, html {
 
 .footer {
   background-color: $primarybg;
-  color: $secondary-text;
   @include setheight(5vh);
 }
 

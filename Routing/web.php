@@ -88,7 +88,7 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
 
 $router->group(["prefix" => "/articles"], function (Router $router) {
     $router->get("/?", [ArticlesController::class, 'index'], "articles.home");
-    $router->get("/search/keyword", [ArticlesController::class, 'search'], "articles.search");
+    $router->get("/search/?{keyword}", [ArticlesController::class, 'search'], "articles.search");
     $router->get("/{slug}", [ArticlesController::class, 'view'], "articles.view");
 });
 

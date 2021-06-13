@@ -6,54 +6,70 @@
 @section("content")
     <div class="container">
         <div class="row my-2">
-            <div class="col-sm-12 head">
-                {{$article->title}}
+            <div class="col-sm-12 col-md-2 text-center">
+                <div class="col-sm-12 head">By Year</div>
+                @foreach($years as $year)
+                    <a href="{{$url->make("articles.search",["keyword"=>\Carbon\Carbon::parse($year->created_at)->format("Y")])}}">  {{\Carbon\Carbon::parse($year->created_at)->format("Y")}}</a>
+                    <br>
+                @endforeach
             </div>
-            <div class="col-sm-12">
-                {!! nl2br($article->content) !!}
-                <br>
-                <a href="#" data-toggle="modal" data-target="#Likes">{{$likes->Likes($article->uuid)->count()}} People
-                    Like this</a>
-                <br>
-                {!! $likes->links($article->uuid)!!}
-            </div>
-            <!-- Modal -->
-            <div class="modal t h-100 overflow-auto moda fade" id="Likes" tabindex="-1" role="dialog"
-                 aria-labelledby="Likes" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content bg-primary">
-                        <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="Likes">People who Have liked this article</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body bg-dark text-white">
+            <div class="col-sm-12 col-md-10">
+                <div class="col-sm-12 head">
+                    {{$article->title}}
+                </div>
 
-                            @foreach($likes->Likes($article->uuid); as $like)
-                                <a href="{{$url->make("profile.home",["username"=>$like->user->username])}}">{{$like->user->username}}</a>
-                                <br>
-                            @endforeach
+                {!! nl2br($article->content) !!}
+                <div class="col-sm-12 foot py-2 px-0 m-0">
+                    <a href="#" data-toggle="modal" data-target="#Likes">{{$likes->Likes($article->uuid)->count()}} People
+                        Like this</a>
+                    {!! $likes->links($article->uuid)!!}
+                </div>
+
+                <div class="row my-1">
+                    <div class="col-sm-12">
+                        <a href="{{$url->make("articles.home")}}">Back to Articles</a>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal t h-100 overflow-auto moda fade" id="Likes" tabindex="-1" role="dialog"
+                     aria-labelledby="Likes" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content bg-primary">
+                            <div class="modal-header bg-danger text-white">
+                                <h5 class="modal-title" id="Likes">People who Have liked this article</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body bg-dark text-white">
+
+                                @foreach($likes->Likes($article->uuid); as $like)
+                                    <a href="{{$url->make("profile.home",["username"=>$like->user->username])}}">{{$like->user->username}}</a>
+                                    <br>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    @foreach($images as $image)
+                        <div class="col-sm-12 col-md-4">
+                            <div class="col-sm-12">
+                                <img height="200px" width="200px" src='/img/uploads/{{$image->image_name}}'>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">{{$likes->Likes($image->uuid)->count()}} </div>
+                                <div class="col-sm-12 col-md-6">{!! $likes->links($image->uuid)!!}</div>
+                            </div>
+
+                        </div>
+
+                    @endforeach
+                </div>
             </div>
 
-            <div class="row">
-                @foreach($images as $image)
-                    <div class="col-sm-12 col-md-4">
-                        <div class="col-sm-12">
-                            <img height="200px" width="200px" src='/img/uploads/{{$image->image_name}}'>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 col-md-6">{{$likes->Likes($image->uuid)->count()}} </div>
-                            <div class="col-sm-12 col-md-6">{!! $likes->links($image->uuid)!!}</div>
-                        </div>
-
-                    </div>
-
-                @endforeach
-            </div>
             {{--                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">--}}
             {{--                        <ol class="carousel-indicators">--}}
             {{--                            @foreach($images as $index => $image)--}}

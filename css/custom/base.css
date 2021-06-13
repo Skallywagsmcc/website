@@ -3,6 +3,27 @@
   min-height: 95vh;
 }
 
+/*
+this scss file will be used to set the default colours that will be used  within the sites this can include custom headers footers etc/
+*/
+body, html {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  color: #fff;
+  background-color: #263238;
+}
+body a, html a {
+  color: white;
+  text-decoration: none;
+}
+body a:hover, html a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
 .paginate, .paginate-current {
   background-color: #363A40;
   border: solid 5px #ce1126;
@@ -30,23 +51,21 @@
   color-color: #fff;
 }
 
-body, html {
-  margin: 0;
-  height: 100%;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
+.info {
+  border: solid 1px #ce1126;
+  background: #363A40;
+  font-weight: bolder;
   color: #fff;
-  font-family: "carnivalee_freakshowregular" Tahoma;
-  background-color: #263238;
 }
-body a, html a {
-  color: white;
-  text-decoration: none;
+.info .head {
+  text-indent: 5px;
 }
-body a:hover, html a:hover {
-  color: white;
-  text-decoration: underline;
+.info .foot {
+  padding: 5px 0px;
+  border-top: solid 1px #ce1126;
+}
+.info a {
+  color: #fff;
 }
 
 .col-md-6 img, .col-lg-3 img {
@@ -59,8 +78,7 @@ body a:hover, html a:hover {
   color: white;
   padding: 5px 0px;
   font-size: 1.5rem;
-  text-decoration: underline;
-  border-bottom: solid 2px #ce1126;
+  border-bottom: solid 4px #ce1126;
 }
 
 .logo_wrapper {
@@ -154,7 +172,6 @@ body a:hover, html a:hover {
 
 .footer {
   background-color: #00247d;
-  color: #000;
   min-height: 5vh;
 }
 

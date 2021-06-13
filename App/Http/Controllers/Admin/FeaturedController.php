@@ -17,7 +17,7 @@ class FeaturedController
 {
     public function index(Url $url)
     {
-        $featured = FeaturedImage::withCount("likes")->where("status",">=",1);
+        $featured = FeaturedImage::where("status",">=",1);
         $count = $featured->count();
         $page = new LaravelPaginator(5, "page");
         $featured = $page->paginate($featured);
