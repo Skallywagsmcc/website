@@ -54,19 +54,16 @@ class ArticlesController
     }
 
 
-    public function search(ServerRequest $request,$keyword)
+    public function year(ServerRequest $request,$year,Url $url)
     {
-        if(empty($keyword))
-        {
-            $keyword = $request->getQueryParams()["keyword"];
-        }
-
-        $article = Article::whereyear("created_at",$keyword)->get();
-        foreach ($article as $index => $page)
-        {
-            echo "[$index]" . $page;
-            echo "<br>";
-        }
+        $articles = Article::whereyear("created_at",$year);
+        $count = $articles->count();
+        $pages = new LaravelPaginator('2','p');
+        $articles = $pages->paginate($articles);
+        $links = $pages->page_links();
+        $years = Article::orderby("created_at","desc")->groupBy("created_at")->get();
+        $users = User::all();
+        echo TemplateEngine::View("Pages.Frontend.Articles.index",["pages"=>$pages,"count"=>$count,"users"=>$users,"url"=>$url,"articles"=>$articles,"links"=>$links,"years"=>$years]);
 
 
     }

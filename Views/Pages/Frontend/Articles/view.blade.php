@@ -9,7 +9,7 @@
             <div class="col-sm-12 col-md-2 text-center">
                 <div class="col-sm-12 head">By Year</div>
                 @foreach($years as $year)
-                    <a href="{{$url->make("articles.search",["keyword"=>\Carbon\Carbon::parse($year->created_at)->format("Y")])}}">  {{\Carbon\Carbon::parse($year->created_at)->format("Y")}}</a>
+                    <a href="{{$url->make("articles.year",["year"=>\Carbon\Carbon::parse($year->created_at)->format("Y")])}}">  {{\Carbon\Carbon::parse($year->created_at)->format("Y")}}</a>
                     <br>
                 @endforeach
             </div>
