@@ -1,0 +1,8 @@
+
+*.map
+*Zone.Identifier
+.idea
+.env
+!/Storage/Cache/**/.gitkeep
+/img/uploads
+vendor
