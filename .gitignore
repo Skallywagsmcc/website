@@ -4,4 +4,4 @@
 .env
 !/Storage/Cache/**/.gitkeep
 /img/uploads
-vendor
+/vendor/*
