@@ -5,8 +5,4 @@
 .env
 !/Storage/Cache/**/.gitkeep
 /img/uploads
-<<<<<<< HEAD
-/vendor/*
-=======
-vendor
->>>>>>> cf316114aa499c2dbf72d47bb4a5df0663e82b25
+/vendor
