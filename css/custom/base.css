@@ -23,6 +23,12 @@ body a:hover, html a:hover {
   color: white;
   text-decoration: underline;
 }
+body .tld-border, html .tld-border {
+  border: 5px solid #ce1126;
+}
+body .tld-border-radius, html .tld-border-radius {
+  border-radius: 10px;
+}
 
 .paginate, .paginate-current {
   background-color: #363A40;
@@ -176,17 +182,24 @@ body a:hover, html a:hover {
 }
 
 /*i will come back to this file this will be used to design the authentication Layout */
-#authcontainer {
-  background-color: red;
-}
-
 .tld-form .tld-input {
   border: solid 5px #ce1126;
   border-radius: 10px;
+  text-indent: 0.5em;
   text-decoration: gold;
   padding: 20px 0px;
   background-color: #3b3f46;
   color: white;
+}
+.tld-form .tld-button {
+  border: solid 5px #ce1126;
+  border-radius: 10px;
+  background-color: #31353a;
+  color: white;
+}
+.tld-form .tld-button:hover {
+  border-color: white;
+  background-color: #ce1126;
 }
 
 /*# sourceMappingURL=base.css.map */

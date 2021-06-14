@@ -15,23 +15,7 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 <body>
-<div class="container-wrapper">
-    <div class="container-fluid m-0 p-0">
-        <div class=" d-none d-md-block logo_wrapper pb-3 pt-3 text-center">
-            <img src="/img/logo.png" alt="Logo">
-        </div>
-        <div class="container">
-            <div>
-                {!!breadcrumbs(' > ')!!}
-            </div>
             @yield("content")
-        </div>
 
-    </div>
-</div>
-
-<div class="footer">
-    {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}}
-</div>
 </body>
 </html>

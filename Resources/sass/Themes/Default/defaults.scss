@@ -20,4 +20,13 @@ body, html {
     color: white;
     text-decoration: underline;
   }
+  .tld-border
+  {
+    border:5px solid $secondarybg;
+  }
+
+  .tld-border-radius
+  {
+    border-radius: 10px;
+  }
 }
