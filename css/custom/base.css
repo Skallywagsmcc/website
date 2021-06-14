@@ -1,64 +1,11 @@
-/*i will come back to this file this will be used to design the authentication Layout */
-#authcontainer {
-  background-color: red;
-}
-
 .container-wrapper {
   /* this is used to fix the footer issue do not remove */
   min-height: 95vh;
 }
 
-@font-face {
-  font-family: "carnivalee_freakshowregular";
-  src: url("public_html/fonts/carnevalee_freakshow-webfont.woff2") format("woff2"), url("public_html/fonts/carnevalee_freakshow-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-.alla {
-  display: block;
-}
-
-.adminnav a {
-  padding: 5px 0px;
-  display: block;
-}
-.adminnav a:hover {
-  border-radius: 50px;
-  border: solid 1px #fff;
-  background-color: #ce1126;
-  background-color: green;
-}
-
-.paginate, .paginate-current {
-  border-radius: 10px;
-  display: block;
-  padding: 5px 10 pxweb;
-  margin: 2px 5px;
-}
-
-.paginate {
-  background-color: #ce1126;
-  color: white;
-}
-
-.paginate-current {
-  background-color: #555555;
-  color: white;
-}
-
-.info {
-  background-color: white;
-  color: black;
-}
-.info a {
-  color: black;
-  display: block;
-  text-decoration: underline;
-}
-.info a:hover {
-  color: black;
-}
-
+/*
+this scss file will be used to set the default colours that will be used  within the sites this can include custom headers footers etc/
+*/
 body, html {
   margin: 0;
   height: 100%;
@@ -66,7 +13,6 @@ body, html {
   font-weight: normal;
   font-style: normal;
   color: #fff;
-  font-family: "carnivalee_freakshowregular" Tahoma;
   background-color: #263238;
 }
 body a, html a {
@@ -76,6 +22,50 @@ body a, html a {
 body a:hover, html a:hover {
   color: white;
   text-decoration: underline;
+}
+
+.paginate, .paginate-current {
+  background-color: #363A40;
+  border: solid 5px #ce1126;
+  border-radius: 50px;
+  display: block;
+  padding: 5px 10px;
+  margin: 2px 5px;
+}
+
+.paginate {
+  color: white;
+}
+
+.paginate-current {
+  background-color: #2a2d32;
+  color: white;
+  border: solid 5px white;
+}
+
+.breadcrumbs {
+  background-color: #363A40;
+  border-top: 2px solid #ce1126;
+  border-bottom: 2px solid #ce1126;
+  color: #fff a;
+  color-color: #fff;
+}
+
+.info {
+  border: solid 1px #ce1126;
+  background: #363A40;
+  font-weight: bolder;
+  color: #fff;
+}
+.info .head {
+  text-indent: 5px;
+}
+.info .foot {
+  padding: 5px 0px;
+  border-top: solid 1px #ce1126;
+}
+.info a {
+  color: #fff;
 }
 
 .col-md-6 img, .col-lg-3 img {
@@ -88,8 +78,7 @@ body a:hover, html a:hover {
   color: white;
   padding: 5px 0px;
   font-size: 1.5rem;
-  text-decoration: underline;
-  border-bottom: solid 2px #ce1126;
+  border-bottom: solid 4px #ce1126;
 }
 
 .logo_wrapper {
@@ -181,26 +170,23 @@ body a:hover, html a:hover {
   text-decoration: underline;
 }
 
-#form {
-  background-color: #f1f1f1;
-  border: solid 1px yellow;
-  color: black;
-  padding: 10px 5px;
-}
-#form .form-group .form-group {
-  color: black;
-}
-#form .form-control, #form .btn-save {
-  background-color: #263238;
-  color: white;
-  height: 50px;
-  padding: 15px 5px;
-}
-
 .footer {
   background-color: #00247d;
-  color: #fff;
   min-height: 5vh;
+}
+
+/*i will come back to this file this will be used to design the authentication Layout */
+#authcontainer {
+  background-color: red;
+}
+
+.tld-form .tld-input {
+  border: solid 5px #ce1126;
+  border-radius: 10px;
+  text-decoration: gold;
+  padding: 20px 0px;
+  background-color: #3b3f46;
+  color: white;
 }
 
 /*# sourceMappingURL=base.css.map */

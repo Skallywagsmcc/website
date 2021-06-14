@@ -3,12 +3,15 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Functions\TemplateEngine;
 use App\Http\Models\Charter;
+use App\Http\Models\Likes;
+use App\Libraries\LikesManager\LikeManager;
+use Carbon\Carbon;
 use MiladRahimi\PhpRouter\Url;
 
-class ChartersController
+class
+ ChartersController
 {
 
     public function index(Url $url)
@@ -21,17 +24,19 @@ class ChartersController
         }
         else
         {
-            redirect($url->make("homepage"));
+//            redirect($url->make("homepage"));
+                    echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
         }
 
-//        echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
+
     }
 
     public function show($slug,Url $url)
     {
         $charter = Charter::where("slug","$slug")->get()->first();
         $sidebar = Charter::all();
-       echo TemplateEngine::View("Pages.Frontend.Charters.view",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar,"class"=>baseclass($this)]);
+        $likes = new LikeManager();
+       echo TemplateEngine::View("Pages.Frontend.Charters.view",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar,"likes"=>$likes]);
     }
 
     public function create()

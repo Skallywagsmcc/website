@@ -18,12 +18,12 @@ class Article extends Controller
 
     public function images()
     {
-        return $this->hasMany(Image::class);
+        return $this->hasMany(Image::class,"entry_id","id");
     }
 
     public function image()
     {
-        return $this->hasOne(Image::class);
+        return $this->hasOne(Image::class,"enrtry_id","id");
     }
 
 

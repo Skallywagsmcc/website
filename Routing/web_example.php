@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\Profile\DisplayController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
 use App\Http\Libraries\SqlInstaller;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Router;
@@ -13,7 +13,7 @@ use MiladRahimi\PhpRouter\Router;
 
 $router = Router::create();
 // Index controller
-$router->get("/", [UserController::class, 'index']);
+$router->get("/", [UsersController::class, 'index']);
 
 
 try {

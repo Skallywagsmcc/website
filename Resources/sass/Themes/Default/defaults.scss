@@ -1,0 +1,23 @@
+/*
+this scss file will be used to set the default colours that will be used  within the sites this can include custom headers footers etc/
+*/
+
+body, html {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  color: $primary-text;
+  background-color: $body;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: white;
+    text-decoration: underline;
+  }
+}

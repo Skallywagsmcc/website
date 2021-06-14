@@ -34,19 +34,27 @@ class LoginController
             if($user->count() == 1)
             {
                 $user = $user->first();
-                echo $user->id;
+
                 if(password_verify($password,$user->password))
             {
-                if($validate->Post("remember") == 1)
+                if($user->disable == 0)
                 {
-                    Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
+                    if($validate->Post("remember") == 1)
+                    {
+                        Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
+                    }
+                    else
+                    {
+                        Sessions::Create("id",$user->id);
+                    }
+                    $csrf->GenerateToken($user->id);
+                    $_SESSION['tfa_approved'] = 0;
+                    redirect($url->make("profile.home",['username'=>$user->username]));
                 }
                 else
                 {
-                    Sessions::Create("id",$user->id);
+                    $error = "User login has Been disabled  Click here to reactivate";
                 }
-                $csrf->GenerateToken($user->id);
-                redirect($url->make("profile.home",['username'=>$user->username]));
             }
             else
             {

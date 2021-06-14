@@ -21,6 +21,19 @@ class Validate
         self::$ValidPassword = false;
     }
 
+    public function RequestHexKey()
+    {
+        return bin2hex(random_bytes(35));
+    }
+
+
+    public function uuid()
+    {
+        $start = 1*20;
+        $end = 10000*2000;
+        return rand($start,$end);
+    }
+
     public static function Array_Count($value)
     {
         if (empty($value)) {

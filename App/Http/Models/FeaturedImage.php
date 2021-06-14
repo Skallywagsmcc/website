@@ -14,5 +14,9 @@ class FeaturedImage extends Controller
         return $this->belongsTo(Image::class);
     }
 
-    
+    public function likes()
+    {
+        return $this->hasMany(Likes::class,"uuid","uuid");
+    }
+
 }

@@ -21,10 +21,8 @@
         <div class=" d-none d-md-block logo_wrapper pb-3 pt-3 text-center">
             <img src="/img/logo.png" alt="Logo">
         </div>
-        <div class="container-fluid border-bottom border-light bg-dark">
-            <div>
-                {!!breadcrumbs(' > ')!!}
-            </div>
+        <div class=" container-fluid breadcrumbs my-2">
+            {!!breadcrumbs(' > ')!!}
         </div>
             @yield("content")
 

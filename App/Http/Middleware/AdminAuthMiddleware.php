@@ -14,6 +14,7 @@ class AdminAuthMiddleware
 {
     public function handle(ServerRequestInterface $request, Closure $next, Url $url)
     {
+
 //        we will check for roles here
         $admin = User::where("id",Auth::id())->where("is_admin",1)->get();
         if($admin->count()==1) {

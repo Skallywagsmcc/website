@@ -9,6 +9,8 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\FeaturedImage;
+use App\Http\Models\Likes;
+use App\Libraries\LikesManager\LikeManager;
 use MiladRahimi\PhpRouter\Url;
 
 class FeaturedController
@@ -27,7 +29,8 @@ class FeaturedController
     {
         $id = base64_decode($id);
         $featured = FeaturedImage::find($id);
-        echo TemplateEngine::View("Pages.Backend.Featured.manage", ["url" => $url, "featured" => $featured]);
+        $likes = new LikeManager();
+        echo TemplateEngine::View("Pages.Backend.Featured.manage", ["url" => $url, "featured" => $featured,"likes"=>$likes]);
 
 //        View the image for the featured section
     }
@@ -48,6 +51,7 @@ class FeaturedController
 
     public function delete(Url $url, $id)
     {
+
     }
 
     /*Create a colum in settings  to auto allow submissions*/

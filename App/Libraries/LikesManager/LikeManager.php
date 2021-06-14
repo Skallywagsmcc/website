@@ -12,41 +12,33 @@ use MiladRahimi\PhpRouter\Url;
 class LikeManager
 {
 
-    public $entry_name;
-    public $entry_id;
+    public $uuid;
     public $like_url;
     public $unlike_url;
 
-    public function __construct($entry_name, $entry_id, $like_url, $unlike_url)
-    {
-        $this->entry_name = $entry_name;
-        $this->entry_id = $entry_id;
-        $this->like_url = $like_url;
-        $this->unlike_url = $unlike_url;
-    }
 
 //    Requires the user to request the class name or some other form of entry name
 
-    public function GetClass()
-    {
-        return $this->entry_name;
-    }
 
-    public function Links()
+    public function Links($uuid)
     {
+
+
         if (User::where("id", Auth::id())->count() == 1) {
-            if ($this->Likes()->where("user_id", Auth::id())->count() == 1) {
-                echo "<a href=" . $this->unlike_url . ">Unlike</a>";
-            } else {
-                echo "<a href=" . $this->like_url . ">Like</a>";
+            if (Likes::where("uuid",$uuid)->where("user_id",Auth::id())->count() == 1) {
+                      echo '<a href="/manage/likes/delete/'.$uuid.'">unlike</a>';
+            }
+            else
+            {
+                echo '<a href="/manage/likes/add/'.$uuid.'">Like</a>';
             }
         }
 //        Search by user  entry name and entry id;
     }
 
-    public function Likes()
+    public function Likes($uuid)
     {
-        return Likes::where("entry_name", $this->entry_name)->where("entry_id", $this->entry_id)->get();
+        return Likes::where("uuid",$uuid)->get();
     }
 
 

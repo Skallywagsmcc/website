@@ -1,5 +1,4 @@
 @extends("Layouts.main")
-
 @section("title")
     {{$user->username}} Gallery
 @endsection
@@ -9,6 +8,9 @@
     <div class="container">
         @include("Includes.ProfileNav")
         {{--    the profile information will show down here.--}}
+
+
+
         @if($count >= 1)
             @foreach($user->images as $gallery)
 
@@ -20,25 +22,22 @@
                 </a>
 
             @endforeach
-            @if($user->id == $auth::id())
-                <div class="row">
-                    <form action="/profile/{{$user->username}}/gallery/upload" method="post" enctype="multipart/form-data">
-                        {{csrf()}}
-                        <input type="file" name="upload" class="form-control" >
-                        <input type="text" name="title">
-                        <textarea name="description" class="form-control my-1"></textarea>
-                        <hr>
-                        Make this my profile Picture        <input type="checkbox" name="ppic" value="1">
-                        <button class="btn btn-block btn-primary my-1">Upload file</button>
-                    </form>
-                </div>
-
-            @else
-                <div class="row">
-                    Please Login to upload images
-                </div>
-            @endif
         @else
+            echo "No Images have been found";
+        @endif
+
+        @if($user->id == $auth::id())
+            <div class="row">
+                <form action="/profile/{{$user->username}}/gallery/upload" method="post" enctype="multipart/form-data">
+                    {{csrf()}}
+                    <input type="file" name="upload" class="form-control" >
+                    <input type="text" name="title">
+                    <textarea name="description" class="form-control my-1"></textarea>
+                    <hr>
+                    Make this my profile Picture        <input type="checkbox" name="ppic" value="1">
+                    <button class="btn btn-block btn-primary my-1">Upload file</button>
+                </form>
+            </div>
         @endif
     </div>
 

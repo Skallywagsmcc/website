@@ -5,6 +5,7 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\ImageManager\Images;
 
 define("UPLOADS_PATH",$_SERVER['DOCUMENT_ROOT'].'/img/uploads');
+define("LOGO","/img/logo.png");
 
 function slug($slug)
 {
@@ -85,12 +86,12 @@ function breadcrumbs($separator = ' &raquo; ', $home = 'Home')
 
         // If we are not on the last index, then display an <a> tag
         if ($x != $last) {
-            $breadcrumbs[] = "<a href=\"$base$crumbs$crumb\">$title</a>";
+            $breadcrumbs[] = "<a href=\"$base$crumbs$crumb\">".str_replace("-"," ",$title)."</a>";
             $crumbs .= $crumb . '/';
         }
         // Otherwise, just display the title (minus)
         else {
-            $breadcrumbs[] = $title;
+            $breadcrumbs[] = str_replace("-"," ",$title);
         }
 
     }

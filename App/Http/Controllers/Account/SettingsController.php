@@ -8,6 +8,7 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
+use App\Http\Libraries\Authentication\Sessions;
 use App\Http\Libraries\ImageManager\Images;
 use App\Http\Models\Image;
 use App\Http\Models\User;
@@ -19,7 +20,15 @@ class SettingsController
 
     public function index(Url $url)
     {
-        $user = User::find(Auth::id());
+//        This needs to be builts a middleware to setup profile information that hasnt been created
+        if(UserSettings::where("user_id",Auth::id())->count()==0)
+        {
+            $settings = new UserSettings();
+            $settings->user_id = Auth::id();
+            $settings->save();
+        }
+            $user = User::find(Auth::id());
+
         echo TemplateEngine::View("Pages.Frontend.Account.Settings",["user"=>$user,"url"=>$url]);
     }
 
@@ -46,8 +55,12 @@ class SettingsController
                 $settings->display_email = $validate->Required("email")->Post();
                 $settings->save();
                 redirect($url->make("account.home"));
+            }   else
+            {
+                echo "Sorry it seems the settings have not be created for the user";
             }
         }
+
     }
 
 

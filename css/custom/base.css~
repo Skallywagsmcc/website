@@ -1,0 +1,207 @@
+/*i will come back to this file this will be used to design the authentication Layout */
+#authcontainer {
+  background-color: red;
+}
+
+.info {
+  margin: 5px 2px;
+  padding: 15px;
+  border: #ce1126 solid 3px;
+  border-radius: 3px;
+  background-color: #515151;
+}
+
+.container-wrapper {
+  /* this is used to fix the footer issue do not remove */
+  min-height: 95vh;
+}
+
+.alla {
+  display: block;
+}
+
+.adminnav a {
+  padding: 5px 0px;
+  display: block;
+}
+.adminnav a:hover {
+  border-radius: 50px;
+  border: solid 1px #fff;
+  background-color: #ce1126;
+  background-color: green;
+}
+
+.paginate, .paginate-current {
+  border-radius: 10px;
+  display: block;
+  padding: 5px 10px;
+  margin: 2px 5px;
+}
+
+.paginate {
+  background-color: #ce1126;
+  color: white;
+}
+
+.paginate-current {
+  background-color: #555555;
+  color: white;
+}
+
+.info {
+  color: black;
+}
+.info a {
+  color: black;
+  display: block;
+  text-decoration: underline;
+}
+.info a:hover {
+  color: black;
+}
+
+body, html {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  color: #fff;
+  font-family: "carnivalee_freakshowregular" Tahoma;
+  background-color: #263238;
+}
+body a, html a {
+  color: white;
+  text-decoration: none;
+}
+body a:hover, html a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.col-md-6 img, .col-lg-3 img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+}
+
+.head {
+  color: white;
+  padding: 5px 0px;
+  font-size: 1.5rem;
+  text-decoration: underline;
+  border-bottom: solid 2px #ce1126;
+}
+
+.logo_wrapper {
+  background-color: #00247d;
+  border-top: solid 5px #ce1126;
+  border-bottom: solid 5px #ce1126;
+}
+
+.navbar-brand img {
+  height: 50px;
+  width: 50px;
+}
+
+.article-row:hover {
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+}
+.article-row:hover a {
+  color: black;
+}
+
+.logo_wrapper img {
+  height: 140px;
+  width: 160px;
+}
+
+#navbar .profile_pic {
+  border: 2px solid red;
+  height: 30px;
+  border-radius: 50%;
+  clip: auto;
+  width: 30px;
+}
+@media (max-width: 991.98px) {
+  #navbar {
+    background-color: #00247d;
+  }
+  #navbar .navbar-toggler {
+    color: white;
+  }
+}
+@media (max-width: 991.98px) {
+  #navbar .dropdown .dropdown-menu {
+    background-color: #00247d;
+    color: white;
+    padding: 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-item {
+    background-color: #00247d;
+    color: white;
+    border: none;
+    text-indent: 10px;
+    padding: 5px 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-divider {
+    background-color: #00247d;
+    color: #00247d;
+  }
+}
+@media (min-width: 992px) {
+  #navbar .dropdown .dropdown-menu {
+    background-color: #263238;
+    color: white;
+    padding: 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-item {
+    background-color: #263238;
+    color: white;
+    border: none;
+    text-indent: 10px;
+    padding: 5px 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-divider {
+    background-color: #263238;
+    color: #263238;
+  }
+}
+#navbar a {
+  color: white;
+}
+@media (max-width: 991.98px) {
+  #navbar a {
+    text-indent: 5px;
+    padding: 5px 0px;
+  }
+}
+#navbar a:hover {
+  text-decoration: underline;
+}
+
+#form {
+  background-color: #f1f1f1;
+  border: solid 1px yellow;
+  color: black;
+  padding: 10px 5px;
+}
+#form .form-group .form-group {
+  color: black;
+}
+#form .form-control, #form .btn-save {
+  background-color: #263238;
+  color: white;
+  height: 50px;
+  padding: 15px 5px;
+}
+
+.footer {
+  background-color: #00247d;
+  color: #fff;
+  min-height: 5vh;
+}
+
+/*# sourceMappingURL=base.css~.map */
