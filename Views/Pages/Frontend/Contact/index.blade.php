@@ -21,14 +21,12 @@
                     <div class="row">
                         <div class="col-sm-12 head">Contact us</div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group">
                         <label for="email">Email Address:</label>
                         <input type="text" class="form-control tld-input" name="email" value="@isset($validate){{$validate->Post("email")}}@endisset">
                     </div>
 
                     <div class="form row">
-
-
                         <div class="form-group col-md-6">
                             <label for="">First Name :</label>
                             <input type="text" class="form-control tld-input" name="first_name" value="@isset($validate){{$validate->Post("first_name")}}@endisset">

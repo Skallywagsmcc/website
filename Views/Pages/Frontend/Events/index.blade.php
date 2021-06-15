@@ -2,17 +2,44 @@
 
 @section("title")
     Our Events
-    @endsection
+@endsection
 
 @section("content")
-    <div class="container-fluid bg-dark border border-top-1 border-bottom-1 my-2">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 head">Events Coming soon</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 head">Latest Events</div>
+            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa nemo quibusdam voluptates! Atque dolor
+                doloremque ea, eum ex sit voluptatem! A delectus distinctio eveniet incidunt minima, porro repudiandae
+                suscipit voluptatibus.
             </div>
-            @foreach($events  as $event)
-                {{$event->title}}  <a href="{{$url->make("events.view",["id"=>base64_encode($event->id)])}}">View Event Details</a>
-            @endforeach
+            <div>Adipisci aspernatur beatae, dolorem, doloribus earum harum incidunt laboriosam nam nostrum omnis optio
+                quasi quia rem, sint sit tenetur totam ut voluptates. Et, harum officia provident quo recusandae
+                reprehenderit soluta.
+            </div>
+            <div>Alias cum deserunt eos error explicabo facere, impedit inventore iure laborum libero magni, maxime
+                molestiae obcaecati quisquam quos, ratione rerum sint tempora tenetur ullam! Aspernatur assumenda
+                consequatur exercitationem tenetur veritatis.
+            </div>
+            <div>Aliquid aperiam architecto corporis cumque cupiditate debitis dolore doloremque ea est harum inventore
+                iste itaque labore nam, neque nobis, nostrum nulla perferendis porro quaerat reprehenderit suscipit unde
+                voluptates? Id, iusto!
+            </div>
+            <div>Ab accusamus accusantium ad aliquam assumenda at consectetur, dicta dolore dolorem explicabo facere
+                harum impedit in inventore labore modi mollitia nesciunt nobis nostrum provident quis saepe sint tempore
+                velit veritatis.
+            </div>
+            <div class="col-sm-12 text-center text-md-right">
+                <a href="#" class="tld-link">See More Event</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="col-sm-12 head">Events by Year</div>
+            </div>
+            <div class="col-sm-8">
+                <div class="col-sm-12 head">Event Reviews</div>
+            </div>
         </div>
     </div>
 
