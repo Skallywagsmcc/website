@@ -36,9 +36,16 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="col-sm-12 head">Events by Year</div>
+                <div class="col-sm-12"><a href="#">2021</a></div>
+                <div class="col-sm-12"><a href="#">2020</a></div>
+                <div class="col-sm-12"><a href="#">2019</a></div>
+                <div class="col-sm-12"><a href="#">2018</a></div>
             </div>
             <div class="col-sm-8">
                 <div class="col-sm-12 head">Event Reviews</div>
+                <div class="col-sm-12">Review one</div>
+                <div class="col-sm-12">Review 2</div>
+                <div class="col-sm-12">a big review</div>
             </div>
         </div>
     </div>
