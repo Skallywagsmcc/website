@@ -24,7 +24,10 @@ class ArticlesController
            $pages = new LaravelPaginator('2','p');
            $articles = $pages->paginate($articles);
            $links = $pages->page_links();
-           $years = Article::orderby("created_at","desc")->groupBy("created_at")->get();
+           $years = Article::selectRaw('year(created_at) year, count(*) data')
+               ->groupBy('year')
+               ->orderBy('year', 'desc')
+               ->get();
            $users = User::all();
         echo TemplateEngine::View("Pages.Frontend.Articles.index",["pages"=>$pages,"count"=>$count,"users"=>$users,"url"=>$url,"articles"=>$articles,"links"=>$links,"years"=>$years]);
 

@@ -71,7 +71,7 @@
 
                     </div>
 
-                    <button class="btn btn-primary btn-block">Send message</button>
+                    <button class="btn tld-button btn-block">Send message</button>
                 </form>
 
             </div>

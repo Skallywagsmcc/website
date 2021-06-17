@@ -21,7 +21,7 @@
     {{--            @endisset--}}
     {{--        </div>--}}
 
-    <div class="row h-100">
+    <div class="row h-100 mx-0 px-0">
         <div class="col-sm-12 d-flex my-auto justify-content-center">
             <div class="w-25 d-md-block d-none">
                 @include("Includes.login")
