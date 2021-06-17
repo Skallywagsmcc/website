@@ -186,13 +186,24 @@ body hr, html hr {
   background-color: red;
 }
 
-.tld-form .tld-input {
-  border: solid 5px #ce1126;
-  border-radius: 10px;
-  text-decoration: gold;
+#login .logo_wrapper {
+  border-radius: 3px 3px 0px 0px;
+}
+#login .footer {
+  border-radius: 0px 0px 3px 3px;
+}
+
+.tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
+  border: none;
+  border-bottom: solid 3px #ce1126;
   padding: 20px 0px;
-  background-color: #3b3f46;
+  background-color: transparent;
+  border-radius: 0px;
+  text-indent: 5px;
   color: white;
+}
+.tld-form .tld-input :hover, .tld-form .tld-input:hover :hover, .tld-form .tld-input:focus :hover {
+  background-color: red;
 }
 .tld-form .tld-button {
   border: solid 5px #ce1126;
