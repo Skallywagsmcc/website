@@ -4,7 +4,19 @@
 @endsection
 @section("content")
 
-
+<div class="container">
+    <div class="row my-1">
+        <div class="col-sm-12 head">Updates</div>
+        <div class="col-sm-12">18/06/2021 : We are currently working on the layout and other small improvements to the frontend of the site</div>
+    </div>
+    <div class="row my-1">
+        <div class="col-sm-12 head">Beta Notice</div>
+        <div class="col-sm-12">
+            Welcome: although this site is operational, the site is in Beta which means some things may break and some things may change all change and code can be found <a href="http://github.com/skallywagsmcc">Here</a>
+            <hr>
+        </div>
+    </div>
+</div>
     <div class="container">
         <div class="row info my-2 text-center py-2">
             @if($events->count() == 0)
@@ -62,10 +74,9 @@
             </div>
             <div class="col-sm-12 col-md-4">
                 <div class="col-sm-12 head">Newest Club Member</div>
-                <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}"  height="200px" width="100%" alt="{{$member->first()->User->username}} Profile Image">
+                <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}"  height="200px" width="100%" alt="{{$member->first()->User->username}} Profile Image" class="my-1">
                 <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>
             </div>
         </div>
     </div>
-
 @endsection
