@@ -9,7 +9,7 @@
             <div class="col-md-12 head">Edit User Information for
                 : {{$user->Profile->first_name}} {{ $user->Profile->last_name}}</div>
         </div>
-        <form action="{{$url->make("admin.users.update")}}" method="post">
+        <form action="{{$url->make("admin.users.update")}}" method="post" class="tld-form">
             {{csrf()}}
             <label for="username">Username (this CANNOT be Changed): </label>
             <input type="text" class="form-control-plaintext text-white" readonly name="username"
@@ -19,17 +19,17 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="first_name">First name : </label>
-                        <input type="text" class="form-control" name="first_name" value="@isset($user){{$user->Profile->first_name}}@endisset">
+                        <input type="text" class="form-control tld-input" name="first_name" value="@isset($user){{$user->Profile->first_name}}@endisset">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="last_name">Last name : </label>
-                        <input type="text" class="form-control" name="last_name" value="@isset($user){{$user->Profile->last_name}}@endisset">
+                        <input type="text" class="form-control tld-input" name="last_name" value="@isset($user){{$user->Profile->last_name}}@endisset">
                     </div>
                 </div>
                 <hr class="bg-light">
                 <label for="email">Email Address : </label>
-                <input type="text" class="form-control" name="email" value="@isset($user){{$user->email}}@endisset">
+                <input type="text" class="form-control tld-input" name="email" value="@isset($user){{$user->email}}@endisset">
                 <hr>
 
                 <h2>Other Settings</h2>

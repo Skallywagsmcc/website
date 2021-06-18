@@ -16,7 +16,7 @@ class Events
             $table->id();
             $table->string("title");
             $table->foreignId('user_id');
-            $table->string("entry_name");
+            $table->string("uuid");
             $table->string("slug");
             $table->longtext("content");
             $table->datetime("start")->nullable();

@@ -70,7 +70,7 @@ $router->group(["prefix"=>"/terms"],function (Router $router)
 
 $router->group(["prefix" => "/events"], function (Router $router) {
     $router->get("/?", [\App\Http\Controllers\EventsController::class, 'index'], "events.home");
-    $router->get("/view/{id}", [\App\Http\Controllers\EventsController::class, 'show'], "events.view");
+    $router->get("/view/{slug}", [\App\Http\Controllers\EventsController::class, 'show'], "events.view");
 });
 
 

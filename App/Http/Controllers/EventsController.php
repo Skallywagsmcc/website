@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Models\Event;
+use App\Libraries\LikesManager\LikeManager;
 use MiladRahimi\PhpRouter\Url;
 
 class EventsController
@@ -17,14 +18,14 @@ class EventsController
         echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events]);
     }
 
-    public function show($id,Url $url)
+    public function show($slug,Url $url)
     {
-        $id = base64_decode($id);
-        $event = Event::where("id",$id)->get();
+        $event = Event::where("slug",$slug)->get();
         if($event->count()==1)
         {
+            $likes = new LikeManager();
             $event = $event->first();
-            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event]);
+            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event,"likes"=>$likes]);
         }
 
 

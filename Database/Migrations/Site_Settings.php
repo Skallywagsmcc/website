@@ -14,6 +14,9 @@ class Site_Settings
         Capsule::schema()->create("site_settings", function ($table)
         {
             $table->id();
+            $table->longtext("address");
+            $table->integer("telephone");
+            $table->text("email");
             $table->biginteger("allow_comments")->default(1);
             $table->biginteger("login")->default(1);
             $table->string("email");

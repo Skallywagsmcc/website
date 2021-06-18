@@ -53,6 +53,10 @@ class User extends Controller
         return $this->hasMany(Terms::class);
     }
 
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 
 
     public function images()
