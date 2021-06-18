@@ -24,10 +24,12 @@ class ArticlesController
            $pages = new LaravelPaginator('2','p');
            $articles = $pages->paginate($articles);
            $links = $pages->page_links();
-           $years = Article::selectRaw('year(created_at) year, count(*) data')
+           $years = Article::selectRaw('year(created_at) year')
                ->groupBy('year')
                ->orderBy('year', 'desc')
                ->get();
+//           echo $years->first()->year;
+//           exit;
            $users = User::all();
         echo TemplateEngine::View("Pages.Frontend.Articles.index",["pages"=>$pages,"count"=>$count,"users"=>$users,"url"=>$url,"articles"=>$articles,"links"=>$links,"years"=>$years]);
 
@@ -39,7 +41,10 @@ class ArticlesController
         $article = Article::where("slug",$slug)->get();
         $entry_name = baseclass(get_called_class())->getShortName();
         $likes = new LikeManager();
-        $years = Article::orderby("created_at","desc")->groupBy("created_at")->get();
+        $years = Article::selectRaw('year(created_at) year')
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->get();
         $count = $article->count();
         if(($count == 1))
         {
@@ -64,7 +69,10 @@ class ArticlesController
         $pages = new LaravelPaginator('2','p');
         $articles = $pages->paginate($articles);
         $links = $pages->page_links();
-        $years = Article::orderby("created_at","desc")->groupBy("created_at")->get();
+        $years = Article::selectRaw('year(created_at) year')
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->get();
         $users = User::all();
         echo TemplateEngine::View("Pages.Frontend.Articles.index",["pages"=>$pages,"count"=>$count,"users"=>$users,"url"=>$url,"articles"=>$articles,"links"=>$links,"years"=>$years]);
 

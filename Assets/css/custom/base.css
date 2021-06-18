@@ -80,9 +80,17 @@ body hr, html hr {
 
 .head {
   color: white;
-  padding: 5px 0px;
+  background-image: url("/Assets/img/head.png");
+  background-repeat: repeat-x;
+  height: 40px;
+  padding-left: 5px;
   font-size: 1.5rem;
-  border-bottom: solid 4px #ce1126;
+  border-radius: 10px;
+}
+@media (max-width: 991.98px) {
+  .head {
+    border-radius: 0px;
+  }
 }
 
 .logo_wrapper {

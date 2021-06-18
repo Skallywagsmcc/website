@@ -2,10 +2,12 @@
     <div class="navbar-brand d-md-none d-block">
         <img src="/img/logo.png" class='d-md-none d-show' alt="Logo">
     </div>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-    </button>
+{{--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"--}}
+{{--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">--}}
+{{--        Menu--}}
+{{--    </button>--}}
+    <a href="#"  class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name}}" alt="" class="profile_pic p-0"></a>
+
     <div class="collapse navbar-collapse" id="navbarNav">
 
         <ul class="navbar-nav">
@@ -31,27 +33,8 @@
         </ul>
 
         <ul class="ml-auto navbar-nav">
-            <li class="nav-item dropdown">
-                    @if(Auth())
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name}}" alt="" class="profile_pic">
-                        {{\App\Http\Libraries\Authentication\Auth::getusername()}} </a>
-                    @else
-                        <a href="{{$url->make("login")}}">Login</a>
-                    @endif
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{$url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])}}">View My Profile</a>
-                    <a class="dropdown-item" href="{{$url->make("account.home")}}">My Account</a>
-                    @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin == 1)
-                    <a class="dropdown-item" href="{{$url->make("admin.home")}}">Admin panel</a>
-                    @endif
-                    <a class="dropdown-item" href="{{$url->make("logout")}}">logout</a>
-                </div>
-            </li>
-
+            @include("Includes.dropdown")
         </ul>
-
-
-
-
     </div>
+
 </nav>

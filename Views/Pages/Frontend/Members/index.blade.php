@@ -14,9 +14,9 @@
             @else
                 <div class="col-sm-12 head">Our Members</div>
                 @foreach($members as $member)
-                    <div class="col-sm-12.col-md-3 my-1">
-                        <div class="col-sm-12 my-1">
-                            <div class="col-sm-12">
+                    <div class="col-sm-12.col-md-3 my-1 ">
+                        <div class="col-sm-12 my-1  mx-auto text-xs-center">
+                            <div class="col-sm-12 ">
                                 <img src="/img/uploads/{{$member->user->Profile->image->image_name}}" height="200"
                                      width="200" alt="">
                             </div>
