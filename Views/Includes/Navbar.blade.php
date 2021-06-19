@@ -6,7 +6,8 @@
 {{--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">--}}
 {{--        Menu--}}
 {{--    </button>--}}
-    <a href="#"  class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name}}" alt="" class="profile_pic p-0"></a>
+    <a href="#"  class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+       aria-expanded="false" aria-label="Toggle navigation">Menu</a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
 

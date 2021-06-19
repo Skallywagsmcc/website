@@ -97,11 +97,15 @@
         <div class="row">
             <div class="col-sm-12 col-md-8">
                 <div class="col-sm-12 head">Latest Articles</div>
+                @if($pages->count() >= 1)
                 @foreach($pages as $page)
                     <div class="col-sm-12">
                         <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}">{{$page->title}}</a>
                     </div>
                 @endforeach
+                @else
+                    <div class="col-sm-12 text-center">No Articles Found</div>
+                    @endif
             </div>
             <div class="col-sm-12 col-md-4">
                 <div class="col-sm-12 head">Newest Club Member</div>
