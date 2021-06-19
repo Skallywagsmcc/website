@@ -10,6 +10,8 @@
             <div class="col-sm-12">18/06/2021 : We are currently working on the layout and other small improvements to
                 the frontend of the site
             </div>
+            <div class="col-sm-12">19/06/2021 : Fixed Login Box Remember Me Session, Added Events Lisiting to the homepage
+            </div>
         </div>
         <div class="row my-1">
             <div class="col-sm-12 head">Beta Notice</div>

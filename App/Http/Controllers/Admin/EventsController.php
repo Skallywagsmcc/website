@@ -36,8 +36,6 @@ class EventsController
 
         $event->uuid = $validate->uuid();
         $event->title = ucwords($validate->Required("title")->Post());
-        echo $event->title;
-        exit();
         $event->slug = slug($event->title  . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
         $event->content = $validate->Post("content");
         $event->start = $validate->Required("start")->Post();

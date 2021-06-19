@@ -41,7 +41,7 @@ class LoginController
                 {
                     if($validate->Post("remember") == 1)
                     {
-                        Cookies::Create("id", $user->id)->Days(7)->Http(true)->Save();
+                        Cookies::Create("id", $user->id)->Days(7)->Path("/")->Http(true)->Save();
                     }
                     else
                     {

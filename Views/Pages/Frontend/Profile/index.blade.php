@@ -15,6 +15,7 @@
                 @include("Includes.ProfileNav")
 
             </div>
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         </div>
         <div class="col-md-8">
             <div class="head">About {{$user->username}}</div>

@@ -23,7 +23,7 @@
                     <label for="remember">Remember Me for 7 days</label>
                 </div>
                 <div class="col-sm-6 text-center">
-                    <input type="checkbox" name="remember" class="tld-input">
+                    <input type="checkbox" name="remember" value="1" class="tld-input">
                 </div>
                 <button class="btn btn-block tld-button my-2">Login</button>
             </div>

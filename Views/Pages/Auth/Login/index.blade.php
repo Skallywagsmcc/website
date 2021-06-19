@@ -7,19 +7,19 @@
         }
     </style>
 
-    {{--        <div class="alert-danger my-2 text-center">--}}
-    {{--            @isset($error)--}}
-    {{--                @if($error == "required")--}}
-    {{--                    <h2>Please check the required fields</h2>--}}
-    {{--                @foreach($validate::$values as $value)--}}
-    {{--                    {{$value}}  Missing <br>--}}
-    {{--                    @endforeach--}}
-    {{--                @else--}}
-    {{--                    <h2>An Error Occurred</h2>--}}
-    {{--                    {{$error}}--}}
-    {{--                @endif--}}
-    {{--            @endisset--}}
-    {{--        </div>--}}
+            <div class="alert-danger my-2 text-center">
+                @isset($error)
+                    @if($error == "required")
+                        <h2>Please check the required fields</h2>
+                    @foreach($validate::$values as $value)
+                        {{$value}}  Missing <br>
+                        @endforeach
+                    @else
+                        <h2>An Error Occurred</h2>
+                        {{$error}}
+                    @endif
+                @endisset
+            </div>
 
     <div class="row h-100 mx-0 px-0">
         <div class="col-sm-12 d-flex my-auto justify-content-center">
