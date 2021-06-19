@@ -105,9 +105,13 @@
             </div>
             <div class="col-sm-12 col-md-4">
                 <div class="col-sm-12 head">Newest Club Member</div>
+                @if($member->count() >= 1)
                 <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}" height="200px"
                      width="100%" alt="{{$member->first()->User->username}} Profile Image" class="my-1">
                 <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>
+                @else
+                    <div class="col-sm-12 text-center">No Members found</div>
+                    @endif
             </div>
         </div>
     </div>
