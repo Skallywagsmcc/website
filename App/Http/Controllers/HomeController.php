@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Functions\TemplateEngine;
+use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Event;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\Article;

@@ -3,9 +3,42 @@
     (Home)
 @endsection
 @section("content")
+{{--    {{date("M d Y H:i:s")}}--}}
+{{--  <p id="demo"></p>--}}
+{{--  <script>--}}
+{{--        // Set the date we're counting down to--}}
+
+{{--        var countDownDate = new Date("{{date(date("H:i:s"),strtotime("+1 hour"))}}").getTime();--}}
+
+{{--        // Update the count down every 1 second--}}
+{{--        var x = setInterval(function() {--}}
+
+{{--            // Get today's date and time--}}
+{{--            var now = new Date().getTime();--}}
+
+{{--            // Find the distance between now and the count down date--}}
+{{--            var distance = countDownDate - now;--}}
+
+{{--            // Time calculations for days, hours, minutes and seconds--}}
+{{--            var days = Math.floor(distance / (1000 * 60 * 60 * 24));--}}
+{{--            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (000 * 60 * 60));--}}
+{{--            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));--}}
+{{--            var seconds = Math.floor((distance % (1000 * 60)) / 1000);--}}
+
+{{--            // Output the result in an element with id="demo"--}}
+{{--            document.getElementById("demo").innerHTML = days + "d " + hours + "h "--}}
+{{--                + minutes + "m " + seconds + "s ";--}}
+
+{{--            // If the count down is over, write some text--}}
+{{--            if (distance < 0) {--}}
+{{--                clearInterval(x);--}}
+{{--                document.getElementById("demo").innerHTML = "EXPIRED";--}}
+{{--            }--}}
+{{--        }, 1000);--}}
+{{--    </script>--}}
 
     <div class="container">
-        <div class="row my-1">
+        <div class="row my-3">
             <div class="col-sm-12 head">Updates</div>
             <div class="col-sm-12">18/06/2021 : We are currently working on the layout and other small improvements to
                 the frontend of the site
@@ -13,7 +46,7 @@
             <div class="col-sm-12">19/06/2021 : Fixed Login Box Remember Me Session, Added Events Lisiting to the homepage
             </div>
         </div>
-        <div class="row my-1">
+        <div class="row my-3">
             <div class="col-sm-12 head">Beta Notice</div>
             <div class="col-sm-12">
                 Welcome: although this site is operational, the site is in Beta which means some things may break and
@@ -24,7 +57,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row info my-2 text-center py-2">
+        <div class="row event my-2 text-center py-2 px-0">
             @if($events->count() == 0)
                 <div class="col-sm-12">No Upcoming events</div>
             @else
@@ -48,7 +81,6 @@
                             @else
                                Event starts on {{date("d/m/Y",strtotime($event->start))}}
                                 @endif
-
                         @else
                             Event starts on {{date("d/m/Y",strtotime($event->start))}}
                             @endif
@@ -72,7 +104,7 @@
     </div>
 
     <div class="container">
-        <div class="row">
+        <div class="row my-3 ">
             <div class="col-sm-12 head">Featured Images</div>
             @if($featured->count() >= 1)
                 @foreach($featured as $image)
@@ -92,30 +124,38 @@
             @endif
         </div>
     </div>
-
     <div class="container my-3">
-        <div class="row">
-            <div class="col-sm-12 col-md-8">
-                <div class="col-sm-12 head">Latest Articles</div>
-                @if($pages->count() >= 1)
-                @foreach($pages as $page)
-                    <div class="col-sm-12">
-                        <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}">{{$page->title}}</a>
-                    </div>
-                @endforeach
-                @else
-                    <div class="col-sm-12 text-center">No Articles Found</div>
+        <div class="row my-sm-2">
+            <div class="col-sm-12 col-md-8 px-0 pr-md-2">
+                <div class="info">
+                    <div class="col-sm-12 head">Latest Articles</div>
+                    @if($pages->count() >= 1)
+                        @foreach($pages as $page)
+                            <div class="col-sm-12 ">
+                                <a href="{{$url->make("articles.view",["slug"=>$page->slug])}}">{{$page->title}}</a>
+                            </div>
+
+                        @endforeach
+                        <div class="col-sm-12 px-0 text-center text-md-right"><a href="{{$url->make("articles.home")}}">View More articles</a></div>
+                    @else
+                        <div class="col-sm-12 text-center px-0">No Articles Found</div>
                     @endif
+
+                </div>
+
             </div>
-            <div class="col-sm-12 col-md-4">
-                <div class="col-sm-12 head">Newest Club Member</div>
-                @if($member->count() >= 1)
-                <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}" height="200px"
-                     width="100%" alt="{{$member->first()->User->username}} Profile Image" class="my-1">
-                <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>
-                @else
-                    <div class="col-sm-12 text-center">No Members found</div>
+            <div class="col-sm-12 col-md-4  px-0 pl-md-2 ">
+                <div class="info">
+                    <div class="col-sm-12 head">Newest Club Member</div>
+                    @if($member->count() >= 1)
+                        <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}" height="200px"
+                             width="100%" alt="{{$member->first()->User->username}} Profile Image" class="my-1">
+                        <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>
+                    @else
+                        <div class="col-sm-12 text-center pr-md-0 px-0">No Members found</div>
                     @endif
+                </div>
+
             </div>
         </div>
     </div>
