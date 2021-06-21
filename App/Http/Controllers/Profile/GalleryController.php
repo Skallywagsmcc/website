@@ -33,7 +33,7 @@ class GalleryController
         $count = $image->count();
         $image = $image->get()->first();
         $featured = FeaturedImage::where("image_id",$image->id)->get()->first();
-        echo TemplateEngine::View("Pages.Frontend.Profile.GalleryView", ["user" => $user,"image"=>$image,"count"=>$count,"url"=>$url,"featured"=>$featured]);
+        echo TemplateEngine::View("Pages.Frontend.Profile.view", ["user" => $user,"image"=>$image,"count"=>$count,"url"=>$url,"featured"=>$featured]);
 
 //
     }
