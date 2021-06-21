@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PasswordController;
-use App\Http\Controllers\Profile\DisplayController;
+use App\Http\Controllers\Profile\GalleryController;
 use App\Http\Controllers\UsersController;
 use App\Http\Libraries\SqlInstaller;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;

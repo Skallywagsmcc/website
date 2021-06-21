@@ -8,8 +8,8 @@
     <div class="container my-3">
         <div class="row">
             <div class="col-sm-12 head">Gallery</div>
-            @if($images->count() >= 1)
-                @foreach($images as $gallery)
+            @if($count >= 1)
+                @foreach($user->images as $gallery)
                     <div class="col-sm-12 my-2 col-md-4 px sm-1">
                         <div class="col-sm-12">
                             <img class="p-0 img-fluid" src="/img/uploads/{{$gallery->image_name}}"
@@ -24,7 +24,7 @@
                 <div class="col-sm-12 text-center"><h3>Sorry! it seems that no images have been uploaded by this
                         user</h3></div>
             @endif
-            <div class="col-sm-12 d-flex justify-content-center">{!! $links !!}</div>
+{{--            <div class="col-sm-12 d-flex justify-content-center">{!! $links !!}</div>--}}
 
         </div>
     </div>

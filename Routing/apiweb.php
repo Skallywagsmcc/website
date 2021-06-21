@@ -17,7 +17,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\CommentsController;
-use App\Http\Controllers\Profile\DisplayController;
+use App\Http\Controllers\Profile\GalleryController;
 use App\Http\Controllers\Profile\ImageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Functions\TemplateEngine;

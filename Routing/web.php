@@ -16,7 +16,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\CommentsController;
-use App\Http\Controllers\Profile\DisplayController;
+use App\Http\Controllers\Profile\GalleryController;
 use App\Http\Controllers\Profile\ImageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Functions\TemplateEngine;
@@ -155,21 +155,15 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\AdminAuthMiddl
 
 });
 
-
-$router->group(["prefix" => "/profile/{username}"], function (Router $router) {
-    $router->group(["prefix" => "/gallery"], function (Router $router) {
-        $router->get("/?", [DisplayController::class, 'gallery'], "gallery.home");
-        $router->get("/image/{id}", [DisplayController::class, 'DisplayImage'], "gallery.image.view");
-        $router->post("/comments/add", [CommentsController::class, 'store'], "gallery.comment.add");
-        $router->post("/upload", [ImageController::class, 'store'], "gallery.store");
-        $router->get("/comment/delete/{id}", [CommentsController::class, 'delete'], "gallery.comment.delete");
-        $router->get("/image/delete/{id}", [ImageController::class, 'delete'], "gallery.image.delete");
-        $router->get("/images/makepp/{id}", [ImageController::class, "ProfilePicture"], "gallery.image.makepp");
-        $router->get("/images/submit/{id}", [ImageController::class, "ManageFeatured"], "gallery.image.submit");
+$router->group(["prefix"=>"/profile"],function (Router $router) {
+    $router->group(["prefix" => "/{username}"], function (Router $router) {
+        $router->get("/?", [\App\Http\Controllers\Profile\HomeController::class, 'show'], "profile.view");
+        $router->group(["prefix" => "/gallery"], function (Router $router) {
+            $router->get("/?", [\App\Http\Controllers\Profile\GalleryController::class, 'index'], "profile.gallery.home");
+            $router->get("/image/{id}", [\App\Http\Controllers\Profile\GalleryController::class, 'show'], "profile.gallery.view");
+        });
     });
-
-    $router->get("/?", [DisplayController::class, 'show'], "profile.home");
-
+    $router->get("/?", [\App\Http\Controllers\Profile\HomeController::class, 'index'], "profile.home");
 });
 
 
