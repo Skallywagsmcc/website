@@ -19,3 +19,4 @@
         <div class="col-sm-12 col-md-4 py-2"><a href="{{$url->make("profile.gallery.home",["username"=>$user->username])}}">Gallery</a></div>
     </div>
 </div>
+
