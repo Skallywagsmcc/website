@@ -15,12 +15,15 @@
         @if($count == 0)
             no page found Click this link here
         @else
-            <div class="text-center my-3 border-primary border bg-dark d-flex justify-content-center">
+            <div class="row text-center my-3 border-primary border bg-dark d-flex justify-content-center">
                 <div class="col-sm-12 px-0">
                     <img src="/img/uploads/{{$image->image_name}}" class="img-fluid px-0"
                          alt="{{$image->image_name}}">
                 </div>
-                {{$image->description}}
+                <div class="col-sm-12 py-3">
+                    {{$image->description}}
+                </div>
+
             </div>
     </div>
 
