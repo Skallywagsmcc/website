@@ -1,0 +1,226 @@
+.container-wrapper {
+  /* this is used to fix the footer issue do not remove */
+  min-height: 95vh;
+}
+
+/*
+this scss file will be used to set the default colours that will be used  within the sites this can include custom headers footers etc/
+*/
+body, html {
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  color: #fff;
+  background-color: #263238;
+}
+body a, html a {
+  color: white;
+  font-weight: bolder;
+  text-decoration: none;
+}
+body a:hover, html a:hover {
+  color: #ce1126;
+  text-decoration: underline;
+}
+body hr, html hr {
+  background-color: #ce1126;
+}
+body .info, html .info {
+  margin: 2rem 0rem;
+}
+
+.paginate, .paginate-current {
+  background-color: #363A40;
+  border: solid 5px #ce1126;
+  border-radius: 50px;
+  display: block;
+  padding: 5px 10px;
+  margin: 2px 5px;
+}
+
+.paginate {
+  color: white;
+}
+
+.paginate-current {
+  background-color: #2a2d32;
+  color: white;
+  border: solid 5px white;
+}
+
+.breadcrumbs {
+  background-color: #363A40;
+  border-top: 2px solid #ce1126;
+  border-bottom: 2px solid #ce1126;
+  color: #fff a;
+  color-color: #fff;
+}
+
+.event {
+  border: solid 1px #ce1126;
+  background: #363A40;
+  font-weight: bolder;
+  color: #fff;
+}
+.event a {
+  color: #fff;
+}
+
+.col-md-6 img, .col-lg-3 img {
+  height: 200px;
+  width: 200px;
+  border-radius: 10px;
+}
+
+.head {
+  color: white;
+  background-image: url("/Assets/img/head.png");
+  background-repeat: repeat-x;
+  height: 40px;
+  padding-left: 5px;
+  font-size: 1.5rem;
+  border-radius: 10px;
+}
+@media (max-width: 991.98px) {
+  .head {
+    border-radius: 0px;
+  }
+}
+
+.logo_wrapper {
+  background-color: #00247d;
+  border-top: solid 5px #ce1126;
+  border-bottom: solid 5px #ce1126;
+}
+
+.navbar-brand img {
+  height: 50px;
+  width: 50px;
+}
+
+.article-row:hover {
+  border-radius: 5px;
+  color: black;
+  background-color: white;
+}
+.article-row:hover a {
+  color: black;
+}
+
+.logo_wrapper img {
+  height: 140px;
+  width: 160px;
+}
+
+.profile_pic {
+  border: 2px solid #ce1126;
+  border-radius: 50%;
+  clip: auto;
+}
+
+#navbar .profile_pic {
+  width: 30px;
+  height: 30px;
+}
+@media (max-width: 991.98px) {
+  #navbar {
+    background-color: #00247d;
+  }
+  #navbar .navbar-toggler {
+    color: white;
+  }
+}
+@media (max-width: 991.98px) {
+  #navbar .dropdown .dropdown-menu {
+    background-color: #00247d;
+    color: white;
+    padding: 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-item {
+    background-color: #00247d;
+    color: white;
+    border: none;
+    text-indent: 10px;
+    padding: 5px 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-divider {
+    background-color: #00247d;
+    color: #00247d;
+  }
+}
+@media (min-width: 992px) {
+  #navbar .dropdown .dropdown-menu {
+    background-color: #263238;
+    color: white;
+    padding: 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-item {
+    background-color: #263238;
+    color: white;
+    border: none;
+    text-indent: 10px;
+    padding: 5px 0px;
+  }
+  #navbar .dropdown .dropdown-menu .dropdown-divider {
+    background-color: #263238;
+    color: #263238;
+  }
+}
+#navbar a {
+  color: #fff;
+  font-weight: bolder;
+}
+@media (max-width: 991.98px) {
+  #navbar a {
+    text-indent: 5px;
+    padding: 5px 0px;
+  }
+}
+#navbar a:hover {
+  color: #ce1126;
+  text-decoration: underline;
+}
+
+.footer {
+  background-color: #00247d;
+  min-height: 5vh;
+}
+
+/*i will come back to this file this will be used to design the authentication Layout */
+#authcontainer {
+  background-color: red;
+}
+
+#login .logo_wrapper {
+  border-radius: 3px 3px 0px 0px;
+}
+#login .footer {
+  border-radius: 0px 0px 3px 3px;
+}
+
+.tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
+  border: none;
+  border-bottom: solid 3px #ce1126;
+  padding: 20px 0px;
+  background-color: transparent;
+  border-radius: 0px;
+  text-indent: 5px;
+  color: white;
+}
+.tld-form .tld-input :hover, .tld-form .tld-input:hover :hover, .tld-form .tld-input:focus :hover {
+  background-color: red;
+}
+.tld-form .tld-button {
+  border: solid 5px #ce1126;
+  border-radius: 10px;
+  background-color: #31353a;
+  color: white;
+}
+.tld-form .tld-button:hover {
+  border-color: white;
+  background-color: #ce1126;
+}
+
+/*# sourceMappingURL=base.css.map */

@@ -15,7 +15,7 @@ class RegisterController
 
     public function index(Url $url)
     {
-        echo TemplateEngine::View("Pages.auth.Register.index",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Auth.Register.index",["url"=>$url]);
     }
 
 
@@ -53,7 +53,7 @@ class RegisterController
 
 //            end
         }
-        echo TemplateEngine::View("Pages.auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Auth.Register.index",["user"=>$user,"Validation"=>$validate->values,'requirments'=>Validate::$ShowRequirments,"errmessage"=>$errmessage,"url"=>$url]);
 
     }
 

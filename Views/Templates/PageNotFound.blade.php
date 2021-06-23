@@ -1,4 +1,4 @@
-@extends("Layouts.auth")
+@extends("Layouts.Auth")
 
 @section("title")
     Page not found

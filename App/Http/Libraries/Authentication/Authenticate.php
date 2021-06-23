@@ -97,7 +97,7 @@ class Authenticate extends Auth
                 $csrf->GenerateToken($user->id);
                 self::$redirect = true;
                 /*
-                 * Deleted Two Factor auth from this section 03/04/2021
+                 * Deleted Two Factor Auth from this section 03/04/2021
                  * Added as middleware option
                 */
             } else {

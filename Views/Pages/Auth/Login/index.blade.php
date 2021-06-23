@@ -1,4 +1,4 @@
-@extends("Layouts.auth")
+@extends("Layouts.Auth")
 @section("content")
 
     <style type="text/css">
@@ -24,11 +24,11 @@
     <div class="row h-100 mx-0 px-0">
         <div class="col-sm-12 d-flex my-auto justify-content-center">
             <div class="w-25 d-md-block d-none">
-                @include("Includes.login")
+                @include("Includes.Frontend.login")
             </div>
 
             <div  class="w-75 d-md-none d-block">
-                @include("Includes.login")
+                @include("Includes.Frontend.login")
             </div>
         </div>
     </div>

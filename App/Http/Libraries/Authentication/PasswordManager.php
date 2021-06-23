@@ -37,7 +37,7 @@ class PasswordManager extends Auth
         $request->expires = time() + 3600;
         $request->save();
         $this->Approved = true;
-        echo "<a href='http://skallywagsmcc.club/auth/reset-password/retrieve/".$request->id."/".$request->hex."'>Click Here</a>";
+        echo "<a href='http://skallywagsmcc.club/Auth/reset-password/retrieve/".$request->id."/".$request->hex."'>Click Here</a>";
     }
 
     public function RetrieveRequest($id,$hex)

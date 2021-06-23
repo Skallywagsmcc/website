@@ -33,7 +33,7 @@ class EmailController
                     Authenticate::$errmessage = "Some Fields are Missing";
                 } else {
                     $user->save();
-                    redirect("/auth/logout");
+                    redirect("/Auth/logout");
                 }
 
             } else {

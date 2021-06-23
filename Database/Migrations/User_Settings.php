@@ -14,7 +14,7 @@ class User_Settings
         Capsule::schema()->create("user_settings", function ($table) {
             $table->id();
             $table->foreignId('user_id');
-//            if set to 1  twofactor auth will be enable if set to 1.
+//            if set to 1  twofactor Auth will be enable if set to 1.
             $table->integer("two_factor_auth");
 //            this will stop the website emailing the use if they choose to set this to 0.
             $table->integer("display_email");

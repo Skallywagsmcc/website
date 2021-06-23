@@ -51,7 +51,7 @@ class ArticlesController
             $images = $article->first()->images()->where("entry_name",$entry_name)->where("entry_id",$article->first()->id)->get();
 
 //            $date = new \DateTime($article->first()->created_at);
-            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"auth"=>$auth,"images"=>$images,"years"=>$years]);
+            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"Auth"=>$auth,"images"=>$images,"years"=>$years]);
         }
         else
         {

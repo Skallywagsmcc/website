@@ -32,7 +32,7 @@
 {{--
 
         @foreach($image->comments as $comment)
-            {{  $comment->user->username}} Says :    {{$comment->comment}} @if($comment->user->id == \App\Http\Libraries\Authentication\auth::id())
+            {{  $comment->user->username}} Says :    {{$comment->comment}} @if($comment->user->id == \App\Http\Libraries\Authentication\Auth::id())
                 |
                 <a href="/profile/{{$comment->user->username}}/gallery/comment/delete/{{base64_encode($comment->id)}}">Delete
                     comment</a>
@@ -40,7 +40,7 @@
 
         @endforeach
 
-        @if(auth())
+        @if(Auth())
             <form action="/profile/{{$user->username}}/gallery/comments/add" method="post">
                 {{csrf()}}
                 <input type="text" name="id" value="{{$image->id}}">

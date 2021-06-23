@@ -33,7 +33,7 @@ class PasswordController
                         $user = User::find(Auth::id());
                         $user->password = password_hash($validate->Post("newpw"), PASSWORD_DEFAULT);
                         $user->save();
-                        redirect("/auth/logout");
+                        redirect("/Auth/logout");
                     } else {
                         Validate::$error = "Some requirments are needed for he password field";
                     }

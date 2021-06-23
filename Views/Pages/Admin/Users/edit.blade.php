@@ -1,4 +1,4 @@
-@extends("Layouts.main")
+@extends("Layouts.backend")
 
 @section("title")
 @endsection

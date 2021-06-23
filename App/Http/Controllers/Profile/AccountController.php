@@ -31,7 +31,7 @@ class AccountController
         }
         else
         {
-            redirect("/auth/login");
+            redirect("/Auth/login");
         }
     }
 

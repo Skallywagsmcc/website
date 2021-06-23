@@ -21,7 +21,7 @@ class GalleryController
     {
         $user = User::where("username", $username)->get();
         $count =  $user->first()->images->count();
-        echo TemplateEngine::View("Pages.Frontend.Profile.gallery", ["user" => $user->first(),"count"=>$count,"url"=>$url,"auth"=>$auth]);
+        echo TemplateEngine::View("Pages.Frontend.Profile.gallery", ["user" => $user->first(),"count"=>$count,"url"=>$url,"Auth"=>$auth]);
 
     }
 
