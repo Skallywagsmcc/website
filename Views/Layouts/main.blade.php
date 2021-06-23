@@ -31,12 +31,14 @@
 </div>
 
 
-<div class="footer row py-3">
-    <div class="col-sm-12 col-md-4 text-center text-md-left pl-md-2">
-        {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}}
-    </div>
-    <div class="col-sm-12 col-md-8 text-center">
-        Social Media  Links will go here
+<div class="footer">
+    <div class="row py-3">
+        <div class="col-sm-12 col-md-4 text-center text-md-left">
+            {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}}
+        </div>
+        <div class="col-sm-12 col-md-8 text-center">
+            Social Media  Links will go here
+        </div>
     </div>
 </div>
 </body>

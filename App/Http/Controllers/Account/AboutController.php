@@ -17,6 +17,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 class AboutController
 {
 
+
     public function index(Url $url)
     {
         $user = User::find(Auth::id());

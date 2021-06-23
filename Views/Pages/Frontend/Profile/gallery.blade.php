@@ -59,7 +59,7 @@
     {{--        <div class="col-md-4">--}}
     {{--            <div class="head">{{$user->Profile->first_name}} {{$user->Profile->last_name }}</div>--}}
     {{--            <div class="text-center">--}}
-    {{--               <div>@if(\App\Http\Libraries\Authentication\Auth::id() == $user->id) <a href="/account/edit/picture">Upload a profile picture</a> @endif</div>--}}
+    {{--               <div>@if(\App\Http\Libraries\Authentication\auth::id() == $user->id) <a href="/account/edit/picture">Upload a profile picture</a> @endif</div>--}}
     {{--            </div>--}}
     {{--            <div class="text-center">--}}
     {{--                @include("Includes.ProfileNav")--}}

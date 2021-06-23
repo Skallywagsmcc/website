@@ -17,7 +17,7 @@ class LoginController
 
     public function index(Url $url)
     {
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url]);
+        echo TemplateEngine::View("Pages.auth.Login.index", ["url" => $url]);
     }
 
     public function store(Url $url, Validate $validate,Csrf $csrf)
@@ -66,7 +66,7 @@ class LoginController
                 $error = "Sorry the user you have entered does not seem to exist in our database : Please try again";
             }
         }
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate]);
+        echo TemplateEngine::View("Pages.auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate]);
     }
 
     public function logout(Url $url)

@@ -12,12 +12,15 @@ use App\Http\Models\Profile;
 use App\Http\Models\User;
 use DateTime;
 use MiladRahimi\PhpRouter\Url;
+use theladsdad\auth\AuthManager;
 
 class BasicInfoController
 {
 
     public function index(Url $url)
     {
+       $login = new AuthManager();
+       $login->generate()->myid();
         $user = User::find(Auth::id());
         echo TemplateEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"url"=>$url,]);
     }
