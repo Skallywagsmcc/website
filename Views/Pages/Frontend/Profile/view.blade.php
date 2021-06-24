@@ -5,7 +5,7 @@
 @endsection
 
 @section("content")
-    @include("Includes.ProfileNav")
+    @include("Includes.Frontend.ProfileNav")
     @isset($error)
         {{$error}}
     @endisset

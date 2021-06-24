@@ -3,7 +3,7 @@
 
 @section("content")
     {{--    the profile information will show down here.--}}
-    @include("Includes.ProfileNav")
+    @include("Includes.Frontend.ProfileNav")
 
     <div class="container my-3">
         <div class="row">

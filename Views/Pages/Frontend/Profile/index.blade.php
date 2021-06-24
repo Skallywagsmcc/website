@@ -3,7 +3,7 @@
 
 @section("content")
     {{--    the profile information will show down here.--}}
-@include("Includes.ProfileNav")
+@include("Includes.Frontend.ProfileNav")
     <div class="container">
         <div class="row ">
             <div class="col-sm-12 col-md-4 px-0 px-md-3 my-3">
@@ -27,7 +27,7 @@
         {{--        <div class="col-md-4">--}}
         {{--            <div class="head">{{$user->Profile->first_name}} {{$user->Profile->last_name }}</div>--}}
         {{--            <div class="text-center">--}}
-        {{--               <div>@if(\App\Http\Libraries\Authentication\auth::id() == $user->id) <a href="/account/edit/picture">Upload a profile picture</a> @endif</div>--}}
+        {{--               <div>@if(\App\Http\Libraries\Authentication\Auth::id() == $user->id) <a href="/account/edit/picture">Upload a profile picture</a> @endif</div>--}}
         {{--            </div>--}}
         {{--            <div class="text-center">--}}
         {{--                @include("Includes.ProfileNav")--}}

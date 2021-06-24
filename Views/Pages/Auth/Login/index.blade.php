@@ -1,4 +1,4 @@
-@extends("Layouts.Auth")
+@extends("Layouts.auth")
 @section("content")
 
     <style type="text/css">
