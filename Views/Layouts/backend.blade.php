@@ -11,26 +11,37 @@
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
 </head
 <body>
-@include("Includes.Backend.Navbar")
-<div class="container-wrapper">
+<div class="container-fluid m-0 p-0">
+    <div class="row p-0 m-0">
+        <div class="col-sm-12 col-md-2 p-0 m-0 ">
+            <div id="container-wrapper">
+                <div class="col-sm-12 img-fluid justify-content-center">
+                    <img src="/img/logo.png" class="img-fluid my-2 p-2" alt="Logo">
+                </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-md-2 d-none d-md-block sidebar vh-100 text-center">
-                Welcome
-            </div>
-            <div class="col-sm 12 col-md-10">
-                        @yield("content")
+                <div id="navbar">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Active</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer">
+                    Skallywags MCC
+                </div>
             </div>
         </div>
-    </div>
-
-
-</div>
-<div class="footer">
-    <div class="row py-2">
-        <div class="col-sm-12 col-md-4 text-center text-md-left">
-            {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; : {{$_SERVER['VERSION']}}
+        <div class="col-sm-12 col-md-10">
+{{--            @yield("content")--}}
         </div>
     </div>
 </div>

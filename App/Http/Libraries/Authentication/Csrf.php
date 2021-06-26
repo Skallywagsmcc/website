@@ -22,11 +22,11 @@ class Csrf extends Auth
             if ((User::where("id", self::id())->get()->count() == 1)) {
                 if (isset($_SESSION['csrf_expire']) && (time() > $_SESSION['csrf_expire'])) {
                     $this->GenerateToken(self::id());
-                    echo "its expired";
+//                    echo "its expired";
                 }
                 else
                 {
-                    echo "the code hasnt expired";
+//                    echo "the code hasnt expired";
                 }
             }
     }

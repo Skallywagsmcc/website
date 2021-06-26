@@ -1,59 +1,34 @@
 html, body {
   background-color: #263238;
   color: #fff;
+  padding: 0px;
+  margin: 0px;
 }
 html a, body a {
   color: #text;
   font-weight: bolder;
 }
 
-#navbar {
+#container-wrapper {
   background-color: black;
-  color: #fff;
-  border-bottom: 3px solid red;
+  min-height: 100vh;
+  padding: 0px;
+  margin: 0px;
+}
+
+#navbar {
+  height: 100vh;
+  text-align: center;
 }
 #navbar a {
-  color: red;
-}
-#navbar a:hover {
-  color: green;
-}
-
-.sidebar {
-  border-right: red solid 3px;
-}
-
-.container-wrapper {
-  min-height: 90vh;
+  color: white;
 }
 
 .footer {
   min-height: 5vh;
-  border-top: 3px solid red;
-  color: #fff;
-}
-
-.tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
-  border: none;
-  border-bottom: solid 3px #ce1126;
-  padding: 20px 0px;
-  background-color: transparent;
-  border-radius: 0px;
-  text-indent: 5px;
   color: white;
-}
-.tld-form .tld-input :hover, .tld-form .tld-input:hover :hover, .tld-form .tld-input:focus :hover {
   background-color: red;
-}
-.tld-form .tld-button {
-  border: solid 5px #ce1126;
-  border-radius: 10px;
-  background-color: #31353a;
-  color: white;
-}
-.tld-form .tld-button:hover {
-  border-color: white;
-  background-color: #ce1126;
+  text-align: center;
 }
 
 /*# sourceMappingURL=backend.css.map */
