@@ -9,26 +9,82 @@ html a, body a {
   font-weight: bolder;
 }
 
-#container-wrapper {
-  background-color: black;
-  min-height: 100vh;
-  padding: 0px;
-  margin: 0px;
-}
-
 #navbar {
-  height: 100vh;
-  text-align: center;
+  background-color: #00247d;
+  color: #fff;
 }
 #navbar a {
+  display: block;
   color: white;
+}
+#navbar a:hover {
+  color: #ce1126;
+  text-decoration: underline;
+}
+
+#sidebar {
+  background-color: #00247d;
+  color: #fff;
+}
+@media (min-width: 991.98px) {
+  #sidebar {
+    min-height: 95vh;
+    border: solid 3px #fff;
+    border-radius: 10px;
+    margin: 10px 10px;
+  }
+}
+#sidebar a {
+  text-decoration: none;
+  color: white;
+}
+#sidebar a:hover {
+  text-decoration: underline;
+  color: red;
+}
+#sidebar .nav-toggle {
+  font-weight: bolder;
+  text-indent: 5px;
+  text-align: left;
+}
+#sidebar .nav-toggle a {
+  display: block;
+  padding: 5px 0px;
+  border-bottom: solid 1px white;
+}
+#sidebar #navbar {
+  text-align: center;
 }
 
 .footer {
   min-height: 5vh;
   color: white;
-  background-color: red;
+  background-color: #00247d;
+  color: #fff;
   text-align: center;
+}
+
+.tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
+  border: none;
+  border-bottom: solid 3px #ce1126;
+  padding: 20px 0px;
+  background-color: transparent;
+  border-radius: 0px;
+  text-indent: 5px;
+  color: white;
+}
+.tld-form .tld-input :hover, .tld-form .tld-input:hover :hover, .tld-form .tld-input:focus :hover {
+  background-color: red;
+}
+.tld-form .tld-button {
+  border: solid 5px #ce1126;
+  border-radius: 10px;
+  background-color: #31353a;
+  color: white;
+}
+.tld-form .tld-button:hover {
+  border-color: white;
+  background-color: #ce1126;
 }
 
 /*# sourceMappingURL=backend.css.map */
