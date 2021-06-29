@@ -27,7 +27,7 @@ class AccountController
                 redirect($url->make("account.home"));
             }
             $dob = new \DateTime("".$user->Profile->dob."");
-            echo TemplateEngine::View("Pages.Frontend.Account.index",["user"=>$user,"url"=>$url,"dob"=>$dob->format("d/m/Y")]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.index",["user"=>$user,"url"=>$url,"dob"=>$dob->format("d/m/Y")]);
         }
         else
         {

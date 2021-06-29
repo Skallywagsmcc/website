@@ -1,6 +1,7 @@
 html, body {
   background-color: #263238;
   color: #fff;
+  height: 100%;
   padding: 0px;
   margin: 0px;
 }
@@ -9,58 +10,35 @@ html a, body a {
   font-weight: bolder;
 }
 
-#navbar {
-  background-color: #00247d;
-  color: #fff;
-}
-#navbar a {
-  display: block;
-  color: white;
-}
-#navbar a:hover {
-  color: #ce1126;
-  text-decoration: underline;
+#container_wrapper {
+  min-height: 95vh;
 }
 
-#sidebar {
-  background-color: #00247d;
-  color: #fff;
+.sidebar {
+  background-color: black;
 }
-@media (min-width: 991.98px) {
-  #sidebar {
+@media (min-width: 998.91px) {
+  .sidebar {
     min-height: 95vh;
-    border: solid 3px #fff;
-    border-radius: 10px;
-    margin: 10px 10px;
+    border-right: solid 1px white;
   }
 }
-#sidebar a {
-  text-decoration: none;
+@media (max-width: 998.91) {
+  .sidebar {
+    max-height: 20px;
+    border-bottom: 1px solid #fff;
+  }
+}
+.sidebar a {
   color: white;
 }
-#sidebar a:hover {
-  text-decoration: underline;
-  color: red;
-}
-#sidebar .nav-toggle {
-  font-weight: bolder;
-  text-indent: 5px;
-  text-align: left;
-}
-#sidebar .nav-toggle a {
-  display: block;
-  padding: 5px 0px;
-  border-bottom: solid 1px white;
-}
-#sidebar #navbar {
-  text-align: center;
+.sidebar .nav-menu .nav-toggle {
+  border-bottom: solid 2px #fff;
 }
 
 .footer {
   min-height: 5vh;
-  color: white;
   background-color: #00247d;
-  color: #fff;
   text-align: center;
 }
 

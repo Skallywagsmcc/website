@@ -66,7 +66,7 @@ class LoginController
                 $error = "Sorry the user you have entered does not seem to exist in our database : Please try again";
             }
         }
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate]);
+        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate,"username"=>$username]);
     }
 
     public function logout(Url $url)

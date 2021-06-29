@@ -18,7 +18,7 @@ class PasswordController
     public function index(Url $url)
     {
 
-        echo TemplateEngine::View("Pages.Frontend.Account.PasswordChange",["user",$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.PasswordChange",["user",$user,"url"=>$url]);
     }
 
 
@@ -33,7 +33,7 @@ class PasswordController
                         $user = User::find(Auth::id());
                         $user->password = password_hash($validate->Post("newpw"), PASSWORD_DEFAULT);
                         $user->save();
-                        redirect("/Auth/logout");
+                        redirect($url->make("logout"));
                     } else {
                         Validate::$error = "Some requirments are needed for he password field";
                     }
@@ -44,7 +44,7 @@ class PasswordController
             } else {
                 Validate::$error = "Sorry the PasswordRequest does not match the database";
             }
-            echo TemplateEngine::View("Pages.Frontend.Account.PasswordChange", ["user", $user, "error" => Validate::$error, "url" => $url]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.PasswordChange", ["user", $user, "error" => Validate::$error, "url" => $url]);
         }
     }
 

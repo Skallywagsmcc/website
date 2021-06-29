@@ -22,7 +22,7 @@ class BasicInfoController
        $login = new AuthManager();
        $login->generate()->myid();
         $user = User::find(Auth::id());
-        echo TemplateEngine::View("Pages.Frontend.Account.basic", ["user" => $user,"url"=>$url,]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.basic", ["user" => $user,"url"=>$url]);
     }
 
     public function store(Url $url, Validate $validate,Csrf $csrf)
@@ -54,7 +54,7 @@ class BasicInfoController
             }
 
 //        leave this here
-            echo TemplateEngine::View("Pages.Frontend.Account.basic", ["user" => $user, "error" => $error, "values" => Validate::$values, "url" => $url]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.basic", ["user" => $user, "error" => $error, "values" => Validate::$values, "url" => $url]);
         }
     }
 

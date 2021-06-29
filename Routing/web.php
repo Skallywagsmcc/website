@@ -167,24 +167,27 @@ $router->group(["prefix"=>"/profile"],function (Router $router) {
 });
 
 
-$router->group(["prefix" => "/account", "middleware" => [Middleware\RequireLogin::class, Middleware\TwoFactorAuth::class]], function (Router $router) {
-    $router->get("/?", [AccountController::class, 'index'], "account.home");
-    $router->get("/edit/basic", [BasicInfoController::class, 'index'], "account.basic.home");
-    $router->post("/edit/basic", [BasicInfoController::class, 'store'], "account.basic.store");
-    $router->get("/ICE/about", [AboutController::class, 'index'], "account.about.home");
-    $router->post("/edit/about", [AboutController::class, 'store'], "account.about.store");
-    $router->get("/edit/picture", [ProfilePictureController::class, 'index'], "account.picture.home");
-    $router->post("/edit/picture", [ProfilePictureController::class, 'store'], "account.picture.store");
-    $router->get("/edit/password", [PasswordController::class, 'index'], "account.password.home");
-    $router->post("/edit/password", [PasswordController::class, 'store'], "account.password.store");
-    $router->get("/edit/email", [EmailController::class, 'index'], "account.email.home");
-    $router->post("/edit/email", [EmailController::class, 'store'], "account.email.store");
-    $router->get("/edit/settings", [SettingsController::class, 'index'], "account.settings.home");
-    $router->post("/edit/settings", [SettingsController::class, 'store'], "account.settings.store");
-});
 
 
-$router->group(["prefix"=>"/backend"],function(Router $router){
+
+$router->group(["prefix"=>"/backend","middleware" => [Middleware\RequireLogin::class, Middleware\TwoFactorAuth::class]],function(Router $router){
+
+    $router->group(["prefix" => "/account"] , function (Router $router) {
+        $router->get("/?", [AccountController::class, 'index'], "account.home");
+        $router->get("/edit/basic", [BasicInfoController::class, 'index'], "account.basic.home");
+        $router->post("/edit/basic", [BasicInfoController::class, 'store'], "account.basic.store");
+        $router->get("/ICE/about", [AboutController::class, 'index'], "account.about.home");
+        $router->post("/edit/about", [AboutController::class, 'store'], "account.about.store");
+        $router->get("/edit/picture", [ProfilePictureController::class, 'index'], "account.picture.home");
+        $router->post("/edit/picture", [ProfilePictureController::class, 'store'], "account.picture.store");
+        $router->get("/edit/password", [PasswordController::class, 'index'], "account.password.home");
+        $router->post("/edit/password", [PasswordController::class, 'store'], "account.password.store");
+        $router->get("/edit/email", [EmailController::class, 'index'], "account.email.home");
+        $router->post("/edit/email", [EmailController::class, 'store'], "account.email.store");
+        $router->get("/edit/settings", [SettingsController::class, 'index'], "account.settings.home");
+        $router->post("/edit/settings", [SettingsController::class, 'store'], "account.settings.store");
+    });
+//    Load Base Page
     $router->get("/?",[\App\Http\Controllers\Backend\Homecontroller::class,"index"],"backend.home");
 });
 

@@ -20,7 +20,7 @@ class ProfilePictureController
     {
 
         $user = User::find(Auth::id());
-        echo TemplateEngine::View("Pages.Frontend.Account.Picture", ["user", $user, "url" => $url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Picture", ["user", $user, "url" => $url]);
     }
 
 
@@ -55,7 +55,7 @@ class ProfilePictureController
                 $profile->profile_pic = $image->id;
                 $profile->save();
             });
-            redirect($url->make("profile.home", ["username" => $id->username]));
+            redirect($url->make("account.home"));
         }
     }
 

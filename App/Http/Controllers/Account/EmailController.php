@@ -18,7 +18,7 @@ class EmailController
     public function index(Url $url)
     {
 
-        echo TemplateEngine::View("Pages.Frontend.Account.EmailChange", ["user", $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.EmailChange", ["user", $user,"url"=>$url]);
     }
 
 
@@ -33,13 +33,13 @@ class EmailController
                     Authenticate::$errmessage = "Some Fields are Missing";
                 } else {
                     $user->save();
-                    redirect("/Auth/logout");
+                    redirect($url->make("logout"));
                 }
 
             } else {
                 Validate::$error = "Sorry the PasswordRequest does not match the database";
             }
-            echo TemplateEngine::View("Pages.Frontend.Account.EmailChange", ["user", $user, "error" => Validate::$error, "url" => $url]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.EmailChange", ["user", $user, "error" => Validate::$error, "url" => $url]);
         }
     }
 

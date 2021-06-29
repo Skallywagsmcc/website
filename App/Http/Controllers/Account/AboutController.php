@@ -21,7 +21,7 @@ class AboutController
     public function index(Url $url)
     {
         $user = User::find(Auth::id());
-        echo TemplateEngine::View("Pages.Frontend.Account.About", ["user" => $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.About", ["user" => $user,"url"=>$url]);
     }
 
     public function store(Url $url,Validate $validate,Csrf $csrf)
@@ -38,7 +38,7 @@ class AboutController
             {
 
                 $profile->save();
-                redirect("/account");
+                redirect($url->make("backend.home"));
 
 
             }
@@ -48,7 +48,7 @@ class AboutController
             }
 
 
-            echo TemplateEngine::View("Pages.Frontend.Account.About", ["url"=>$url,"user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.About", ["url"=>$url,"user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
         }
 
     }

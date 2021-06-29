@@ -29,7 +29,7 @@ class SettingsController
         }
             $user = User::find(Auth::id());
 
-        echo TemplateEngine::View("Pages.Frontend.Account.Settings",["user"=>$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Settings",["user"=>$user,"url"=>$url]);
     }
 
     public function show()
