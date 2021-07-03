@@ -22,7 +22,7 @@ class EmailController
     }
 
 
-    public function store(Url $ur,Validate $validate, Csrf $csrf)
+    public function store(Url $url,Validate $validate, Csrf $csrf)
     {
         if ($csrf->Verify() == true) {
             if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {

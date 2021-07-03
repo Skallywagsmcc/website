@@ -1,6 +1,11 @@
 @extends("Layouts.backend")
 
 @section("content")
+
+<div class="row d-flex justify-content-center">
+    <div class="col-sm-12 head text-md-left text-center">Welcome</div>
+    <div class="col-sm-12 info text-center">This isn the new Account panel</div>
+</div>
         <div class="alert-dark">@isset($error)
                 Error says : {{$error}}
             @endisset</div>

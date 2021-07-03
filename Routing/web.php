@@ -74,7 +74,7 @@ $router->group(["prefix" => "/events"], function (Router $router) {
 });
 
 
-$router->group(["prefix" => "/Auth"], function (Router $router) {
+$router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");

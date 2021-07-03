@@ -21,7 +21,7 @@ class ImageController
         $images = $pages->paginate($images);
         $links = $pages->page_links();
 
-        echo TemplateEngine::View("Pages.Backend.Images.index", ["url" => $url,"images"=>$images,"links"=>$links]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Images.index", ["url" => $url,"images"=>$images,"links"=>$links]);
     }
 
     public function search(Url $url, ServerRequest $request)
@@ -36,7 +36,7 @@ class ImageController
 
 
 //        Post request to show number of images username
-        echo TemplateEngine::View("Pages.Backend.Images.Search", ["url" => $url, "keyword" => $keyword, "images"=>$images, "pages" => $pages, "link" => $link]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Images.Search", ["url" => $url, "keyword" => $keyword, "images"=>$images, "pages" => $pages, "link" => $link]);
     }
 
 

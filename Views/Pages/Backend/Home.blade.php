@@ -5,5 +5,4 @@
     @endsection
 
 @section("content")
-    Weclome to the site
 @endsection

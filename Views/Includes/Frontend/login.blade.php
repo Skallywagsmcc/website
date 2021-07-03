@@ -11,7 +11,7 @@
         <form action="{{$url->make("login.store")}}" method="post" class="tld-form">
             <div class="form-group tld-form">
                 <label for="username">Your Username/Email Address</label>
-                <input type="text" name="username" class=" form-control tld-input" value=" {{$username}}" placeholder="Email Address or username">
+                <input type="text" name="username" class=" form-control tld-input" value="{{$username}}" placeholder="Email Address or username">
             </div>
             {{--            Password--}}
             <div class="form-group">

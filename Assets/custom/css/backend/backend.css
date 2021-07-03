@@ -10,36 +10,9 @@ html a, body a {
   font-weight: bolder;
 }
 
-#container_wrapper {
-  min-height: 95vh;
-}
-
-.sidebar {
-  background-color: black;
-}
-@media (min-width: 998.91px) {
-  .sidebar {
-    min-height: 95vh;
-    border-right: solid 1px white;
-  }
-}
-@media (max-width: 998.91) {
-  .sidebar {
-    max-height: 20px;
-    border-bottom: 1px solid #fff;
-  }
-}
-.sidebar a {
-  color: white;
-}
-.sidebar .nav-menu .nav-toggle {
-  border-bottom: solid 2px #fff;
-}
-
-.footer {
-  min-height: 5vh;
-  background-color: #00247d;
-  text-align: center;
+#navbar .navbar-brand img {
+  height: 50xp;
+  width: 50px;
 }
 
 .tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
@@ -63,6 +36,79 @@ html a, body a {
 .tld-form .tld-button:hover {
   border-color: white;
   background-color: #ce1126;
+}
+
+/*The Sass/css files below are designed for mobile and desktop layouts
+this is simply defined by a max and minimum width of 998.91px (bootstrap 4.6) settings
+
+these settings will be used to import the chosen stylesheet
+*/
+@media (min-width: 998.91px) {
+  #navbar {
+    background-color: #263238;
+    border-bottom: solid 1px #fff;
+  }
+  #navbar a {
+    color: white;
+  }
+  #navbar a:hover {
+    color: black;
+  }
+  #navbar .nav-item {
+    margin-left: 3px;
+    margin-right: 3px;
+    border-radius: 10px;
+    border: solid 1px white;
+    background-color: #263238;
+  }
+  #navbar .nav-item:hover {
+    background-color: white;
+    border: solid 1px white;
+    border-radius: 10px;
+  }
+}
+@media (max-width: 998.91px) {
+  #navbar {
+    padding-left: 0px;
+    padding-right: 0px;
+    border-bottom: 1px solid #fff;
+  }
+  #navbar a {
+    display: block;
+    color: white;
+  }
+  #navbar a:hover {
+    color: black;
+  }
+  #navbar .nav-item {
+    text-align: center;
+    border-bottom: solid 1px #fff;
+    border-top: solid 1px white;
+  }
+  #navbar .nav-item:last-child {
+    border-bottom: none;
+  }
+  #navbar .nav-item:hover {
+    background-color: white;
+    color: black;
+    display: block;
+  }
+
+  .info {
+    border-bottom: solid 1px white;
+    border-top: solid 1px white;
+    padding: 5px 0px;
+  }
+  .info .head {
+    border-bottom: solid 1px #fff;
+    margin-bottom: 2px;
+    background-color: #555555;
+  }
+}
+.footer {
+  min-height: 5vh;
+  background-color: #00247d;
+  text-align: center;
 }
 
 /*# sourceMappingURL=backend.css.map */
