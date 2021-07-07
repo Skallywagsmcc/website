@@ -1,6 +1,7 @@
 
-    <div class="col-sm-12 col-md-4 text-center px-0 info">
-        <div class="col-sm-12 head pb-2 pt-0 ">Edit Profile Options</div>
-        <div class="col-sm-12">Basic Information</div>
-        <div class="col-sm-12">About Me</div>
+    <div class="col-sm-12 col-md-2 text-center p-md-0 d-none d-md-block" id="sidebar">
+        <div class="col-sm-12 link"><a class="d-block py-2" href="{{$url->make("account.basic.home")}}">Update Name</a></div>
+        <div class="col-sm-12 link"><a class="d-block p-2" href="{{$url->make("account.basic.home")}}">Update Date of birth</a></div>
+        <div class="col-sm-12 link"><a class="d-block p-2" href="{{$url->make("account.about.home")}}">update About me</a></div>
+        <div class="col-sm-12 link"><a class="d-block p-2" href="{{$url->make("account.picture.home")}}">Update Profile Picture</a></div>
     </div>

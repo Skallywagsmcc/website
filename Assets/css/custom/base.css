@@ -27,9 +27,6 @@ body a:hover, html a:hover {
 body hr, html hr {
   background-color: #ce1126;
 }
-body .info, html .info {
-  margin: 2rem 0rem;
-}
 
 .paginate, .paginate-current {
   background-color: #363A40;
@@ -58,13 +55,20 @@ body .info, html .info {
   color-color: #fff;
 }
 
-.event {
+.info {
   border: solid 1px #ce1126;
   background: #363A40;
   font-weight: bolder;
   color: #fff;
 }
-.event a {
+.info .head {
+  text-indent: 5px;
+}
+.info .foot {
+  padding: 5px 0px;
+  border-top: solid 1px #ce1126;
+}
+.info a {
   color: #fff;
 }
 
@@ -114,15 +118,12 @@ body .info, html .info {
   width: 160px;
 }
 
-.profile_pic {
-  border: 2px solid #ce1126;
+#navbar .profile_pic {
+  border: 2px solid red;
+  height: 30px;
   border-radius: 50%;
   clip: auto;
-}
-
-#navbar .profile_pic {
   width: 30px;
-  height: 30px;
 }
 @media (max-width: 991.98px) {
   #navbar {

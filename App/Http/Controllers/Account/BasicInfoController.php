@@ -19,8 +19,7 @@ class BasicInfoController
 
     public function index(Url $url)
     {
-       $login = new AuthManager();
-       $login->generate()->myid();
+
         $user = User::find(Auth::id());
         echo TemplateEngine::View("Pages.Backend.UserCp.Account.basic", ["user" => $user,"url"=>$url]);
     }

@@ -115,7 +115,7 @@
                                  height="250" alt=""/>
                         </div>
                         <div class="col-sm-12 text-sm-center text-right">
-                            <a href="{{$url->make("gallery.home",["username"=>$image->Image->user->username])}}">{{$image->Image->user->username}}</a>
+                            <a href="{{$url->make("profile.gallery.home",["username"=>$image->Image->user->username])}}">{{$image->Image->user->username}}</a>
                         </div>
                     </div>
                 @endforeach

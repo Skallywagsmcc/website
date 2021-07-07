@@ -2,14 +2,12 @@
 
 
 @section("content")
-    <div class="row p-1">
-        <div class="col-md-3 col-sm-12">
-        </div>
+    <div class="row">
+     @include("Includes.Backend.ProfileSidebar")
         <div class="col-sm-12 col-md-9">
-            <div class="row p-1">
-
-                <div class="col head">
-                    About you.
+            <div class="row p-1 my-2">
+                <div class="col-sm-12 head py-2">
+                    Edit Mode : About you
                 </div>
             </div>
             <div class="row">

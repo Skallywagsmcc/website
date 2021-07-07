@@ -170,7 +170,7 @@ $router->group(["prefix"=>"/profile"],function (Router $router) {
 
 
 
-$router->group(["prefix"=>"/backend","middleware" => [Middleware\RequireLogin::class, Middleware\TwoFactorAuth::class]],function(Router $router){
+$router->group(["prefix"=>"/access/user-cp","middleware" => [Middleware\RequireLogin::class, Middleware\TwoFactorAuth::class]],function(Router $router){
 
     $router->group(["prefix" => "/account"] , function (Router $router) {
         $router->get("/?", [AccountController::class, 'index'], "account.home");

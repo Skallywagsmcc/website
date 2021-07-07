@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/Assets/css/bootstrap.css">
     <link rel="stylesheet" href="/Assets/custom/css/backend/backend.css"/>
-    <script src="/Resources/js/jquery.js"></script
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/Resources/js/popper.js"></script>
     <script src="/Resources/js/bootstrap.min.js"></script>
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
@@ -19,39 +19,56 @@
 {{--    </div>--}}
 {{--</div>--}}
 
+<div class="container-fluid">
+    <div class="row py-1 pr-2">
+        <div class="col-sm-12 text-right px-0">
+            Welcome back {{$user->Profile->first_name}}
+        </div>
+    </div>
+</div>
+
+
 <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="navbar-brand">
         <img src="/img/logo.png" alt="Logo">
     </div>
-    {{--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"--}}
-    {{--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">--}}
-    {{--        Menu--}}
-    {{--    </button>--}}
     <a href="#"  class="navbar-toggler d-block d-md-none" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
        aria-expanded="false" aria-label="Toggle navigation">Menu</a>
 
     <div class="collapse navbar-collapse" id="navbarNav">
-
-
         <ul class="ml-auto navbar-nav">
+
             <li class="nav-item">
-                <a class="nav-link" href="{{$url->make("contact-us")}}">Edit Profile</a>
+                <a href="#" class="nav-link">Account Manager</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{$url->make("contact-us")}}">Security and settings</a>
+                <a href="#" class="nav-link">Image Manager</a>
+            </li>
+
+            @if($user->is_admin == 1)
+            <li class="nav-item">
+                <a href="#" class="nav-link">Admin Manager</a>
+            </li>
+@endif
+            <li class="nav-item">
+                <a href="#" class="nav-link">Site Settings</a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{$url->make("contact-us")}}">Admin Panel</a>
+                <a href="#" class="nav-link">Logout</a>
             </li>
-{{--            @include("Includes.Frontend.dropdown")--}}
+
         </ul>
     </div>
 
 </nav>
+<div id="content-wrapper" class="p-0">
+    @yield("content")
+</div>
 
-@yield("content")
-
+<div class="row footer mx-0">
+    <div class="col-sm-12">Footer goes here</div>
+</div>
 </body>
 </html>

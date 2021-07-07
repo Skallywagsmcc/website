@@ -15,8 +15,9 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 <body>
-<div class="container-wrapper">
     @include("Includes.Frontend.Navbar")
+<div class="container-wrapper px-0">
+
     <div class="container-fluid m-0 p-0">
         <div class=" d-none d-md-block logo_wrapper pb-3 pt-3 text-center">
             <img src="/img/logo.png" alt="Logo">
@@ -31,15 +32,14 @@
 </div>
 
 
-<div class="footer">
-    <div class="row py-3">
+ <div class="row py-3 mx-0 footer">
         <div class="col-sm-12 col-md-4 text-center text-md-left">
             {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}}
         </div>
-        <div class="col-sm-12 col-md-8 text-center">
+        <div class="col-sm-12 col-md-8 text-center px-0">
             Social Media  Links will go here
         </div>
     </div>
-</div>
+
 </body>
 </html>

@@ -2,11 +2,22 @@
 
 
 @section("content")
-    <div class="row p-1">
-        <div class="col-md-3 col-sm-12">
-        </div>
-        <div class="col-sm-12 col-md-9">
-            <div class="row p-1">
+    <div class="row">
+    @include("Includes/Backend/ProfileSidebar")
+        <div class="col-sm-12 col-md-9 my-2">
+            <a href="#" id="help-toggle" class="justify-content-md-end d-flex">Show Help</a>
+<div id="help" class="mb-4">
+    <div class="head d-flex mx-md-3">Help: Uploading a new Profile picture</div>
+    <div class="col-sm-12 mb-2">
+        Use this feature to change your Profile Picture for your Skallywags account, this can be done as many times as you wish. once Submitted all images are given a unique name in order to prevent our system
+        from rejecting your image  if you was to upload a duplicat, images can be deleted from our system and database using the Image Manager in your Account section of the control panel
+        <br><br>
+        In order to upload an image simply press the choose file option and then press the upload Image button this will then start the upload process and you will then be redirected to the account homepage.
+        <br><br>
+        please be aware that profile Images are public and therefore we request you keep this image friendly, any images found to break the rules will have there image removed and could lead to your account being terminated
+    </div>
+</div>
+
                 <div class="col head">
                     Upload a profile picture
                 </div>
@@ -16,7 +27,6 @@
                     <input type="file" name="upload">
                     <button>Upload</button>
                 </form>
-            </div>
         </div>
     </div>
 

@@ -1,8 +1,29 @@
 $(document).ready(function () {
 
+    $("#help").hide();
     $(".nav-menu").children(".nav").hide();
     //this will display the first command
     $(".nav-menu").children(".nav").first().show();
+    $("#help").hide();
+    $("#help-toggle").text("Help ");
+
+    $("#help-toggle").click(function (
+    ) {
+        //toggle the help id
+        $("#help").slideToggle("slow",function () {
+
+            if($(this).is(":hidden"))
+            {
+                $("#help-toggle").text("Show Help");
+            }
+            else
+            {
+                $("#help-toggle").text("Hide Help");
+            }
+        });
+
+        return false;
+    })
 
     $(".nav-toggle").click(
         function()
