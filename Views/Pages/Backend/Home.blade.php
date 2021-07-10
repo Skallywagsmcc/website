@@ -5,4 +5,5 @@
     @endsection
 
 @section("content")
+    Welcome its a great website
 @endsection

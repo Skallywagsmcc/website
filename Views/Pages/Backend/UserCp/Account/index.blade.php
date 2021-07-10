@@ -3,44 +3,29 @@
 
 @section("content")
 
-{{--    Add a welcome $user last logged in at : $time  code here--}}
-    <div class="container px-0 px-md-2 my-4">
-        <div class="row">
-            <div class="col-sm-12  text-center text-md-right">
-                <a href="#" class="py-2 px-md-4 " id="help-toggle"></a>
+
+<div class="container my-3">
+    <div class="row">
+        <div class="col-sm-12 col-md-3 px-0 px-md-2 my-1 ">
+            <div class="col-sm-12 px-0 px-md-2">
+                <div class="head py-2">Menu</div>
+                <div class="info">
+                    <div><a href="{{$url->make("account.home")}}">Account Home</a></div>
+                    <div><a href="{{$url->make("account.basic.home")}}">Update Basic information</a></div>
+                    <div><a href="{{$url->make("account.about.home")}}">Update About me</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-9 px-0 px-md-2 my-1">
+            <div class="col-sm-12 px-0 px-md-2">
+                <div class="head py-2">Welcome to the site</div>
+                <div class="info px-1 text-center text-md-left">
+                    Welcome to your User Control panel, this page is just a splash screen to give you a break down of  your profile
+                    and any information you have provided.
+                    <br><br>
+                </div>
             </div>
         </div>
     </div>
-
-
-    <div class="container px-0 px-md-2">
-        <div class="col-sm-12 px-0" id="help">
-            <div class="head px-0">Welcome</div>
-            <div class="col-sm-12">
-                Welcome to your Personal backend Control Panel, from here you will be able to manage your account details
-                with our simple but effective navigation starting from the top Navigation bar.
-                <br><br>
-
-                From here you will then be able to access More options using the sidebar (desktop Mode)
-
-                This backend panel uses a mobile first approach and is designed for both desktop and Mobiles in mind,
-
-                welcome to the skallywags Club, and welcome to the family.
-            </div>
-
-            <div class="head mt-2">Your Options</div>
-            <div class="col-sm-12">the Homepage serves as a Dashboard and will is designed to give you some key figures and
-                data that is related to your account,
-                <br><br>
-                Please feel free to look around and get a feel for the settings.
-            </div>
-    </div>
-
-{{--Add the count results here --}}
-
-
-{{--        Show latesat uplpload and 3 latest articles--}}
-
-
-    </div>
+</div>
 @endsection

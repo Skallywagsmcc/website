@@ -3,7 +3,6 @@
 
 @section("content")
     <div class="row">
-    @include("Includes/Backend/ProfileSidebar")
         <div class="col-sm-12 col-md-9 my-2">
             <a href="#" id="help-toggle" class="justify-content-md-end d-flex">Show Help</a>
 <div id="help" class="mb-4">

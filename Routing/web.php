@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\Account\AboutController;
-use App\Http\Controllers\Account\BasicInfoController;
+use App\Http\Controllers\Account\Profile\AboutController;
+use App\Http\Controllers\Account\Profile\BasicInfoController;
 use App\Http\Controllers\Account\EmailController;
 use App\Http\Controllers\Account\PasswordController;
-use App\Http\Controllers\Account\ProfilePictureController;
+use App\Http\Controllers\Account\Profile\ProfilePictureController;
 use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Admin\FeaturedController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticles;

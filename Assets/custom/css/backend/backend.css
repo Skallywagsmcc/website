@@ -1,15 +1,26 @@
 html, body {
-  background-color: #263238;
-  color: #fff;
+  background-color: #ececec;
+  color: #000;
   height: 100%;
   padding: 0px;
   margin: 0px;
 }
 html a, html a:hover, body a, body a:hover {
-  color: white;
+  color: black;
   font-weight: bolder;
 }
 
+#welcome {
+  background-color: black;
+  border-bottom: solid 1px #fff;
+  font-weight: bolder;
+}
+
+#navbar {
+  background-color: #000;
+  color: #fff;
+  border-bottom: 2px solid red;
+}
 #navbar .navbar-brand img {
   height: 50xp;
   width: 50px;
@@ -21,6 +32,12 @@ html a, html a:hover, body a, body a:hover {
 
 .head {
   border-bottom: solid 1px #fff;
+}
+
+#account_bar {
+  background-color: #ececec;
+  border-top: solid 1px #000;
+  border-bottom: solid 1px #000;
 }
 
 .tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
@@ -52,9 +69,6 @@ this is simply defined by a max and minimum width of 998.91px (bootstrap 4.6) se
 these settings will be used to import the chosen stylesheet
 */
 @media (min-width: 998.91px) {
-  #navbar {
-    background-color: #263238;
-  }
   #navbar a {
     color: white;
   }
@@ -62,56 +76,79 @@ these settings will be used to import the chosen stylesheet
     color: black;
   }
   #navbar .nav-item {
+    position: relative;
+    bottom: -19px;
     margin-left: 3px;
     margin-right: 3px;
-    border-radius: 10px;
-    border: solid 1px white;
-    background-color: #263238;
   }
-  #navbar .nav-item:hover {
-    background-color: white;
-    border: solid 1px white;
-    border-radius: 10px;
-  }
-
-  #sidebar {
-    font-weight: bolder;
-    min-height: 100vh;
-    padding: 0px;
-    background-color: red;
-    color: white;
-  }
-  #sidebar .link a {
+  #navbar .nav-item a {
+    border: solid 2px red;
+    border-bottom: none;
+    background-color: #515151;
     color: #fff;
-    border-radius: 10px;
+    border-radius: 5px 5px 0px 0px;
   }
-  #sidebar .link a:hover {
-    background-color: white;
-    color: black;
-    border-radius: 10px;
+  #navbar .nav-item a:hover {
+    color: #000;
+    background-color: #ececec;
+    border: solid 2px red;
+    border-bottom: none;
+    border-radius: 5px 5px 0px 0px;
   }
 
   #help-toggle {
     border-radius: 10px;
     border: solid 1px #fff;
-    background-color: #222d32;
+    background-color: #e7e7e7;
   }
 
   #help-toggle:hover {
-    background-color: #28353b;
+    background-color: #eeeeee;
   }
 
   #help {
-    border: solid 1px #fff;
+    border: solid 1px #000;
     padding: 10px 0px;
     border-radius: 5px;
-    background-color: #222d32;
+    background-color: #e7e7e7;
   }
-  #help .head {
+
+  .head {
     width: 100%;
-    text-decoration: underline;
+    background-color: #515151;
+    color: #fff;
+    font-weight: bolder;
+    border-radius: 3px 3px 0px 0px;
+    border: solid 1px #000;
+    border-bottom: none;
     padding: 5px 0px;
     text-indent: 10px;
+  }
+
+  .profile_pic {
+    border: 2px solid red;
+    height: 30px;
+    border-radius: 50%;
+    clip: auto;
+    width: 30px;
+  }
+
+  .info {
+    background: #f1f1f1;
+    color: #000;
+    border: solid 1px #000;
+    border-top: none;
+    border-radius: 0px 0px 3px 3px;
+  }
+  .info a {
+    display: block;
+    padding: 8px 0px;
+    color: #000;
+    text-align: center;
+  }
+  .info a:hover {
+    background-color: #4c4c4c;
+    color: #fff;
   }
 }
 @media (max-width: 998.91px) {
@@ -138,47 +175,62 @@ these settings will be used to import the chosen stylesheet
     display: block;
   }
 
-  .info {
-    border-bottom: solid 1px white;
-    border-top: solid 1px white;
-    padding: 5px 0px;
-  }
-  .info .head {
-    border-bottom: solid 1px #fff;
-    margin-bottom: 2px;
-    background-color: #555555;
-  }
-
-  #sidebar {
-    font-weight: bolder;
-    padding: 0px;
-    color: white;
-  }
-  #sidebar a {
-    color: #fff;
-  }
-
   #help-toggle {
     display: block;
     text-align: center;
-    background-color: #222d32;
+    background-color: #e7e7e7;
   }
 
   #help-toggle:hover {
-    background-color: #28353b;
+    background-color: #eeeeee;
   }
 
   #help {
     border-top: solid 1px #fff;
     border-bottom: solid 1px #fff;
     padding-right: 10px 0px;
-    background-color: #222d32;
+    background-color: #e7e7e7;
+  }
+
+  .head {
+    width: 100%;
+    background-color: #515151;
+    color: #fff;
+    font-weight: bolder;
+    border-top: solid 1px #000;
+    padding: 5px 0px;
+    text-indent: 10px;
+  }
+
+  .profile_pic {
+    border: 2px solid red;
+    height: 30px;
+    border-radius: 50%;
+    clip: auto;
+    width: 30px;
+  }
+
+  .info {
+    background: #f1f1f1;
+    color: #000;
+    border-bottom: solid 1px #000;
+    margin-bottom: 10px;
+  }
+  .info a {
+    display: block;
+    padding: 8px 0px;
+    color: #000;
+    text-align: center;
+  }
+  .info a:hover {
+    background-color: #4c4c4c;
+    color: #fff;
   }
 }
 .footer {
   min-height: 5vh;
   border-top: solid 1px #fff;
-  background-color: #263238;
+  background-color: #ececec;
   text-align: center;
 }
 
