@@ -59,13 +59,17 @@
             <hr class="bg-light">
 
             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="first_name">Generate Random Password (tick the checkbox) </label>
-                    <input type="checkbox" class="form-control tld-input" name="randompw" value="1">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="last_name">Create Custom Password </label>
+{{--                <div class="form-group col-md-6">--}}
+{{--                    <label for="first_name">Generate Random Password (tick the checkbox) </label>--}}
+{{--                    <input type="checkbox" class="form-control tld-input" name="randompw" value="1">--}}
+{{--                </div>--}}
+                <div class="form-group col-sm-12">
+                    <label for="last_name">Create  Password </label>
                     <input type="password" class="form-control tld-input" name="password" value="">
+                </div>
+                <div class="form-group col-sm-12">
+                    <label for="last_name">Confirm Password </label>
+                    <input type="password" class="form-control tld-input" name="confirm-password" value="">
                 </div>
             </div>
 

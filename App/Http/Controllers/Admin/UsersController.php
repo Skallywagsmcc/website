@@ -40,60 +40,61 @@ class UsersController
             $user->username = $validate->Required("username")->Post();
             $user->first_name = $validate->Required("first_name")->Post();
             $user->last_name = $validate->Required("last_name")->Post();
-            if ($validate->Post("randompw") == 1) {
-                $user->password = bin2hex(random_bytes(6));
-            } else {
+//            if ($validate->Post("randompw") == 1) {
+//                $user->password = bin2hex(random_bytes(6));
+//            } else {
+//            Password is required Disabled Random Password for time  being to allow site functionality
+//            No email has been setup to be sent out.
                 $user->password = $validate->Required("password")->Post();
                 $validate->HasStrongPassword($user->password);
-            }
+//            }
 
+if($validate->Post("password") === $validate->Post("confirm-password")) {
+    if (User::where("username", $user->username)->get()->count() == 1) {
+        $error = "that username is already taken";
+    } elseif (User::where("email", $user->email)->get()->count() == 1) {
+        $error = "That Email Address is already Taken";
+    } else {
+        if ($validate::Array_Count(Validate::$values) == false) {
+            $error = "invalid field";
+        } else {
+            if ($validate::$ValidPassword == true) {
 
-            if (User::where("username", $user->username)->get()->count() == 1) {
-                $error = "that username is already taken";
-            } elseif (User::where("email", $user->email)->get()->count() == 1) {
-                $error = "That Email Address is already Taken";
-            } else {
-                if ($validate::Array_Count(Validate::$values) == false) {
-                    $error = "invalid field";
-                } else {
-                    if ($validate::$ValidPassword == true) {
+                $users = new User();
+                $users->username = $validate->Post("username");
+                $users->email = $validate->Post("email");
+                $users->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
+                $users->save();
 
-                        $users = new User();
-                        $users->username = $validate->Post("username");
-                        $users->email = $validate->Post("email");
-                        $users->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
-                        $users->save();
+                $user->username = $validate->Post("username");
+                $profile = new Profile();
+                $profile->user_id = $users->id;
+                $profile->first_name = $user->first_name;
+                $profile->last_name = $user->last_name;
+                $profile->save();
 
-                        $user->username = $validate->Post("username");
-                        $profile = new Profile();
-                        $profile->user_id = $users->id;
-                        $profile->first_name = $user->first_name;
-                        $profile->last_name = $user->last_name;
-                        $profile->save();
-
-                        $settings = new UserSettings();
-                        $settings->user_id = $users->id;
-                        $settings->two_factor_auth = 1;
-                        $settings->display_full_name = 1;
+                $settings = new UserSettings();
+                $settings->user_id = $users->id;
+                $settings->two_factor_auth = 1;
+                $settings->display_full_name = 1;
 //            if display full name = 0 then display username;
-                        $settings->display_dob = 1;
-                        $settings->display_email = 1;
-                        $settings->save();
+                $settings->display_dob = 1;
+                $settings->display_email = 1;
+                $settings->save();
 
-                        if ($validate->Post("make_member") == 1) {
+                if ($validate->Post("make_member") == 1) {
 //                    Will check if the member does not exist and will create a new one;
-                            $member = new Member();
-                            $member->user_id = $users->id;
-                            $member->save();
-                        } else {
-                        }
-
-                        redirect($url->make("admin.users.home"));
-                    }
+                    $member = new Member();
+                    $member->user_id = $users->id;
+                    $member->save();
+                } else {
                 }
+                redirect($url->make("admin.users.home"));
             }
         }
-
+    }
+}
+        }
 
         echo TemplateEngine::View("Pages.Admin.Users.new", ["user" => $user, "url" => $url, "error" => $error, "values" => Validate::$values, "validpw" => $validate::$ShowRequirments]);
 
