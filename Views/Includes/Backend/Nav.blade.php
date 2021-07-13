@@ -18,15 +18,16 @@
             <li class="nav-item ">
                 <a href="{{$url->make("images.gallery.home")}}" class="nav-link">Image Manager</a>
             </li>
-            @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin === 1)
-                <li class="nav-item mr-md-5">
+         #
+
+            <li class="nav-item ml-md-5">
+                <a href="{{$url->make("homepage")}}" class="nav-link">Main Site</a>
+            </li>
+            @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin == 1)
+                <li class="nav-item ">
                     <a href="{{$url->make("admin.home")}}" class="nav-link">Admin Manager</a>
                 </li>
             @endif
-
-            <li class="nav-item">
-                <a href="{{$url->make("homepage")}}" class="nav-link">Main Site</a>
-            </li>
             <li class="nav-item">
                 <a href="{{$url->make("logout")}}" class="nav-link">Logout</a>
             </li>

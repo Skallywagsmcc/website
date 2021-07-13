@@ -34,16 +34,24 @@
         </ul>
 
         <ul class="ml-auto navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{{$url->make("profile.home",["usernam"=>$user->username])}}">My Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{$url->make("backend.home")}}">My Account</a>
-            </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{$url->make("logout")}}">logout</a>
-            </li>
+            @if(Auth())
+                <li class="nav-item">
+                    <a class="nav-link" href="{{$url->make("profile.home",["usernam"=>$user->username])}}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{$url->make("backend.home")}}">My Account</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{$url->make("logout")}}">logout</a>
+                </li>
+            @else
+                <li class="nav-item">
+                    <a class="nav-link" href="{{$url->make("login")}}">Login</a>
+                </li>
+            @endif
+
 {{--            @include("Includes.Frontend.dropdown")--}}
         </ul>
     </div>
