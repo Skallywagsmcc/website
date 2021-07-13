@@ -2,7 +2,8 @@
     <div class="navbar-brand">
         <img src="/img/logo.png" alt="Logo">
     </div>
-    <a href="#"  class="navbar-toggler d-block d-md-none" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    <a href="#" class="navbar-toggler d-block d-md-none" data-toggle="collapse" data-target="#navbarNav"
+       aria-controls="navbarNav"
        aria-expanded="false" aria-label="Toggle navigation">Menu</a>
 
     <div class="collapse navbar-collapse px-0" id="navbarNav">
@@ -11,19 +12,17 @@
             <li class="nav-item">
                 <a href="{{$url->make("account.home")}}" class="nav-link">Account Manager</a>
             </li>
-
-            <li class="nav-item">
-                <a href="" class="nav-link">Image Manager</a>
+            <li class="nav-item ">
+                <a href="{{$url->make("security.home")}}" class="nav-link">Account Security</a>
             </li>
-
-            @if($user->is_admin == 1)
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Admin Manager</a>
+            <li class="nav-item ">
+                <a href="{{$url->make("images.gallery.home")}}" class="nav-link">Image Manager</a>
+            </li>
+            @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin === 1)
+                <li class="nav-item mr-md-5">
+                    <a href="{{$url->make("admin.home")}}" class="nav-link">Admin Manager</a>
                 </li>
             @endif
-            <li class="nav-item mr-md-5">
-                <a href="#" class="nav-link">Site Settings</a>
-            </li>
 
             <li class="nav-item">
                 <a href="{{$url->make("homepage")}}" class="nav-link">Main Site</a>

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Account\Profile;
+namespace App\Http\Controllers\Account\ImageManager;
 
 
 use App\Http\Functions\TemplateEngine;
@@ -10,10 +10,8 @@ use MiladRahimi\PhpRouter\Url;
 
 class HomeController
 {
-
     public function index(Url $url, Auth $auth)
     {
-        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.index",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.index",["url"=>$url,"auth"=>$auth]);
     }
-
 }

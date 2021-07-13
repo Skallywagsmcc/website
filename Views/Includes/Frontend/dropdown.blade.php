@@ -6,7 +6,9 @@
         <a href="{{$url->make("login")}}">Login</a>
     @endif
     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{$url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])}}">View My Profile</a>
+
+        <a class="dropdown-item " href="{{$url->make("profile.home",["username"=>\App\Http\Libraries\Authentication\Auth::getusername()])}}">View My Profile</a>
+        <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="{{$url->make("account.home")}}">My Account</a>
         @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin == 1)
             <a class="dropdown-item" href="{{$url->make("admin.home")}}">Admin panel</a>

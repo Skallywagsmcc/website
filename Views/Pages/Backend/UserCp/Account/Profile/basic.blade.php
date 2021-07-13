@@ -2,6 +2,13 @@
 
 
 @section("content")
+    <div class="container my-3">
+        <div class="row px-0 py-2">
+            <div class="col-sm-12 px-0  text-center">
+                <a href="{{$url->make("account.home")}}">Back to Account home</a>
+            </div>
+        </div>
+    </div>
 <div class="container">
     <div class="row">
         <div class="col-md-12 px-0 px-md-1">

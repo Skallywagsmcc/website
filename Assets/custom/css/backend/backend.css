@@ -47,7 +47,8 @@ html a, html a:hover, body a, body a:hover {
   background-color: transparent;
   border-radius: 0px;
   text-indent: 5px;
-  color: white;
+  font-weight: bolder;
+  color: black;
 }
 .tld-form .tld-input :hover, .tld-form .tld-input:hover :hover, .tld-form .tld-input:focus :hover {
   background-color: red;
@@ -56,10 +57,10 @@ html a, html a:hover, body a, body a:hover {
   border: solid 5px #ce1126;
   border-radius: 10px;
   background-color: #31353a;
-  color: white;
+  color: black;
 }
 .tld-form .tld-button:hover {
-  border-color: white;
+  border-color: red;
   background-color: #ce1126;
 }
 

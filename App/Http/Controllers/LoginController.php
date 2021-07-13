@@ -48,8 +48,11 @@ class LoginController
                         Sessions::Create("id",$user->id);
                     }
                     $csrf->GenerateToken($user->id);
+                    $id = User::find($user->id);
+                    $id->updated_at = date("Y-m-d H:i:s",strtotime("+1 Hour"));
+                    $id->save();
                     $_SESSION['tfa_approved'] = 0;
-                    redirect($url->make("profile.home",['username'=>$user->username]));
+                    redirect($url->make("account.home"));
                 }
                 else
                 {
@@ -67,6 +70,8 @@ class LoginController
             }
         }
         echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate,"username"=>$username]);
+
+
     }
 
     public function logout(Url $url)

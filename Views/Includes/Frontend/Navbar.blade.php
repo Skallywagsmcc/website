@@ -34,7 +34,17 @@
         </ul>
 
         <ul class="ml-auto navbar-nav">
-            @include("Includes.Frontend.dropdown")
+            <li class="nav-item">
+                <a class="nav-link" href="{{$url->make("profile.home",["usernam"=>$user->username])}}">My Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{$url->make("backend.home")}}">My Account</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{$url->make("logout")}}">logout</a>
+            </li>
+{{--            @include("Includes.Frontend.dropdown")--}}
         </ul>
     </div>
 

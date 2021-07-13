@@ -3,9 +3,11 @@
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\ImageManager\Images;
+use App\Http\Models\Event;
+use App\Http\Models\User;
 
-define("UPLOADS_PATH",$_SERVER['DOCUMENT_ROOT'].'/img/uploads');
-define("LOGO","/img/logo.png");
+define("UPLOADS_PATH", $_SERVER['DOCUMENT_ROOT'] . '/img/uploads');
+define("LOGO", "/img/logo.png");
 
 function slug($slug)
 {
@@ -15,7 +17,7 @@ function slug($slug)
 
 function redirect($location)
 {
-    return header('location:'.$location.'');
+    return header('location:' . $location . '');
 }
 
 function rmimg($file)
@@ -24,10 +26,15 @@ function rmimg($file)
 }
 
 
-
 function Auth()
 {
     return Auth::Loggedin() == true;
+}
+
+function LastLogin()
+{
+    $user = User::find(Auth::id());
+    return date("H:i", strtotime($user->updated_at)) . "  " . date("d/m/Y", strtotime($user->updated_at));
 }
 
 
@@ -50,7 +57,7 @@ function ClearBladeCache()
 
 function events()
 {
-    return \App\Http\Models\Event::all()->take(5);
+    return Event::all()->take(5);
 }
 
 function breadcrumbs($separator = ' &raquo; ', $home = 'Home')
@@ -60,13 +67,10 @@ function breadcrumbs($separator = ' &raquo; ', $home = 'Home')
 
     // This will build our "base URL" ... Also accounts for HTTPS :)
 
-    if(isset($_SERVER["HTTPS"]))
-    {
+    if (isset($_SERVER["HTTPS"])) {
         $base = 'https://' . $_SERVER['HTTP_HOST'] . '/';
-    }
-    else
-    {
-       $base = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+    } else {
+        $base = 'http://' . $_SERVER['HTTP_HOST'] . '/';
     }
 
 
@@ -86,12 +90,11 @@ function breadcrumbs($separator = ' &raquo; ', $home = 'Home')
 
         // If we are not on the last index, then display an <a> tag
         if ($x != $last) {
-            $breadcrumbs[] = "<a href=\"$base$crumbs$crumb\">".str_replace("-"," ",$title)."</a>";
+            $breadcrumbs[] = "<a href=\"$base$crumbs$crumb\">" . str_replace("-", " ", $title) . "</a>";
             $crumbs .= $crumb . '/';
-        }
-        // Otherwise, just display the title (minus)
+        } // Otherwise, just display the title (minus)
         else {
-            $breadcrumbs[] = str_replace("-"," ",$title);
+            $breadcrumbs[] = str_replace("-", " ", $title);
         }
 
     }
