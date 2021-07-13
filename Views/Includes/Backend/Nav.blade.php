@@ -10,6 +10,9 @@
         <ul class="ml-auto navbar-nav">
             {{--All these pages need to link to a homepage/index page for each section--}}
             <li class="nav-item">
+                <a href="{{$url->make("backend.home")}}" class="nav-link">Dasboard Home</a>
+            </li>
+            <li class="nav-item">
                 <a href="{{$url->make("account.home")}}" class="nav-link">Account Manager</a>
             </li>
             <li class="nav-item ">
@@ -18,7 +21,6 @@
             <li class="nav-item ">
                 <a href="{{$url->make("images.gallery.home")}}" class="nav-link">Image Manager</a>
             </li>
-         #
 
             <li class="nav-item ml-md-5">
                 <a href="{{$url->make("homepage")}}" class="nav-link">Main Site</a>
