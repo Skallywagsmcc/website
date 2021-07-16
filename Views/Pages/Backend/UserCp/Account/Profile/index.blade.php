@@ -1,6 +1,8 @@
 @extends("Layouts.backend")
 
-
+@section("title")
+Account manager : Home
+@endsection
 @section("content")
 
 

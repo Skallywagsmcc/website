@@ -1,5 +1,8 @@
 @extends("Layouts.backend")
 
+@section("title")
+    Account Manager : About
+    @endsection
 
 @section("content")
     <div class="container my-3">

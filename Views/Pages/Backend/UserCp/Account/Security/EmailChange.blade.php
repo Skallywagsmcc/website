@@ -1,5 +1,7 @@
 @extends("Layouts.backend")
-
+@section("title")
+    Security : Change Email
+@endsection
 @section("content")
     <div class="container">
         <div class="row">

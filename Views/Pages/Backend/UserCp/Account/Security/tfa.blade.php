@@ -1,7 +1,7 @@
 @extends("Layouts.backend")
 
 @section("title")
-    Security Manage Two Factor Authentication
+    Security : Two Factor Authentication
 @endsection
 
 @section("content")

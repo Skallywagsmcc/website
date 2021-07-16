@@ -1,5 +1,8 @@
 @extends("Layouts.backend")
 
+@section("title")
+    Security : Home
+@endsection
 
 @section("content")
     <div class="container my-3">

@@ -1,5 +1,8 @@
 @extends("Layouts.backend")
 
+@section("title")
+    Security : Change Password
+@endsection
 
 @section("content")
     <div class="container">

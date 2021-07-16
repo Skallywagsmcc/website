@@ -28,8 +28,6 @@ class ArticlesController
                ->groupBy('year')
                ->orderBy('year', 'desc')
                ->get();
-//           echo $years->first()->year;
-//           exit;
            $users = User::all();
         echo TemplateEngine::View("Pages.Frontend.Articles.index",["pages"=>$pages,"count"=>$count,"users"=>$users,"url"=>$url,"articles"=>$articles,"links"=>$links,"years"=>$years]);
 

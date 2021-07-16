@@ -196,10 +196,16 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
 //    Manage Image Manager
 
     $router->group(["prefix" => "/images/manage"], function (Router $router) {
+//        Crud
         $router->get("/?", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.home");
-        $router->get("/list", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.list");
-        $router->get("/add", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.add");
-        $router->get("/requests", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.requests");
+        $router->get("/list", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.list");
+        $router->get("/add", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "create"], "images.gallery.add");
+        $router->get("/update/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "edit"], "images.gallery.update");
+//        Requests
+//        Post requests
+        $router->post("/store",[\App\Http\Controllers\Account\ImageManager\ImageController::class, "store"], "images.gallery.store");
+        $router->get("/requests", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.requests");
+//        Profile
         $router->get("/profile-picture", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.profile-pic");
     });
 
