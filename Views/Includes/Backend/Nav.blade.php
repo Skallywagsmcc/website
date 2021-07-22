@@ -27,7 +27,7 @@
             </li>
             @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin == 1)
                 <li class="nav-item ">
-                    <a href="{{$url->make("admin.home")}}" class="nav-link">Admin Manager</a>
+                    <a href="{{$url->make("auth.admin.home")}}" class="nav-link">Admin Manager</a>
                 </li>
             @endif
             <li class="nav-item">

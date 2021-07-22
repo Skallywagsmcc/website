@@ -1,4 +1,4 @@
-@extends("Layouts.main")
+@extends("Layouts.backend")
 
 @section("title")
     Admin panel : New Event
@@ -8,7 +8,7 @@
 @section("content")
 
     <div class="container">
-        <form action="{{$url->make("admin.events.store")}}" method="post" class="tld-form">
+        <form action="{{$url->make("auth.admin.events.store")}}" method="post" class="tld-form">
             {{csrf()}}
             <div class="form-group">
                 <label for="title">Event Title</label>

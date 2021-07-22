@@ -25,8 +25,9 @@
                     <div class="col-sm-12 col-md-4">
                         <div class="head">{{$image->title}}</div>
                         <div class="info">
-                            <img src="/img/uploads/{{$image->name}}" height="300" width="100%"  alt="$image->id">
-                            <div><a href="{{$url->make("images.gallery.update",["id"=>$image->id])}}">Manage Image</a></div>
+                            <img src="/img/uploads/{{$image->name}}" height="300" width="100%" alt="$image->id">
+                            <div><a href="{{$url->make("images.gallery.update",["id"=>$image->id])}}">Manage Image</a>
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -34,7 +35,7 @@
             <div class=" col-sm-12 d-flex justify-content-center">
                 {!! $links !!}
             </div>
-
-            </div>
+        </div>
+    </div>
 
 @endsection

@@ -15,6 +15,7 @@ use App\Http\Models\Member;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
+use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
 class UsersController
@@ -23,12 +24,13 @@ class UsersController
     public function index(Url $url)
     {
         $users = User::all();
-        echo TemplateEngine::View("Pages.Admin.Users.index", ["users" => $users, "url" => $url]);
+        $latest = User::orderBy("id","DESC")->take(5)->get();
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest"=>$latest, "url" => $url]);
     }
 
     public function create(URL $url)
     {
-        echo TemplateEngine::View("Pages.Admin.Users.new", ["users" => $users, "url" => $url]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["users" => $users, "url" => $url]);
     }
 
     public function store(Url $url, Csrf $csrf, Validate $validate)
@@ -89,24 +91,33 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
                     $member->save();
                 } else {
                 }
-                redirect($url->make("admin.users.home"));
+                redirect($url->make("auth.admin.users.home"));
             }
         }
     }
 }
         }
 
-        echo TemplateEngine::View("Pages.Admin.Users.new", ["user" => $user, "url" => $url, "error" => $error, "values" => Validate::$values, "validpw" => $validate::$ShowRequirments]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $error, "values" => Validate::$values, "validpw" => $validate::$ShowRequirments]);
 
     }
 
-    public function search(Url $url)
+    public function search(Url $url, ServerRequest $request)
     {
-        $keyword = $_POST['keyword'];
-        $results = Profile::where("full_name", "LIKE", "%" . $keyword . "%")->get();
-        $users = $results->first();
-        echo $users->full_name . "<br>";
-        echo $users->about;
+        $keyword = $request->getQueryParams()['keyword'];
+
+
+        $users = User::wherehas("Profile", function ($q) use ($keyword) {
+            $q->where("first_name", "LIKE", "%$keyword%")->orwhere("last_name", "LIKE", "%$keyword%");
+        })->orwhereRaw('MATCH (username,email) AGAINST (?)', array($keyword))->orwhere("username","LIKE","%$keyword%")->get();
+
+        if($users->count() == 0)
+        {
+            $message = "No Username With that Name has Been found in our database";
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "url" => $url,"message"=>$message]);
+
+
     }
 
     public function edit($id, $username, Url $url)
@@ -115,9 +126,9 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
         $username = base64_decode($username);
         $user = User::withCount("settings")->where("id", $id)->where("username", $username)->get();
         $members = $user->first()->Members()->where("user_id", $user->first()->id)->get();
-        echo $members;
+
         if ($user->count() == 1) {
-            echo TemplateEngine::View("Pages.Admin.Users.edit", ["user" => $user->first(), "url" => $url, "members" => $members]);
+            echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["user" => $user->first(), "url" => $url, "members" => $members]);
         } else {
             echo "user} doesnt exisit";
         }
@@ -158,7 +169,7 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
                 $member->delete();
             }
 
-            redirect($url->make("admin.users.home"));
+            redirect($url->make("auth.admin.users.home"));
         }
 
     }
@@ -188,7 +199,7 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
         {
             echo "no user found";
         }
-        redirect($url->make("admin.users.home"));
+        redirect($url->make("auth.admin.users.home"));
 
     }
 

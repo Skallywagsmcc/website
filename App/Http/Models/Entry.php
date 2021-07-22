@@ -4,7 +4,7 @@
 namespace App\Http\Models;
 
 
-class Entry extends \App\Http\Controllers\Controller
+classEntry extends \App\Http\Controllers\Controller
 {
 
 }

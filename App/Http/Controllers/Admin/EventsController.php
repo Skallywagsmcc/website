@@ -62,7 +62,6 @@ class EventsController
     {
         $id = $validate->Post("id");
         $event = event::find($id);
-
         $event->title = ucwords($validate->Required("title")->Post());
         $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
         $event->content = $validate->Post("content");
@@ -81,9 +80,11 @@ class EventsController
         redirect($url->make("admin.events.home"));
     }
 
-    public function delete()
+    public function delete($id)
     {
-
+        $id = base64_decode($id);
+        $events = Event::where("id",$id)->delete();
+        redirect($url->make("auth.admin.event.home"));
     }
 
 }

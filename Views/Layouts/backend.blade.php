@@ -30,7 +30,7 @@
 @include("Includes.Backend.Nav")
 
 <div class="container-fluid text-center text-md-left my-3 py-2" id="account_bar">
-    <img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->image_name}}" alt="" class="profile_pic">
+    <img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->name}}" alt="{{$image->name1}}" class="profile_pic">
     {{\App\Http\Libraries\Authentication\Auth::getusername()}} : Last Login was : {{LastLogin()}}
 </div>
 <div id="content-wrapper" class="p-0">

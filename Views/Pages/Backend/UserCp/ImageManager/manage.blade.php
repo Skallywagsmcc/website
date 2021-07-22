@@ -8,30 +8,27 @@
 @section("content")
     <div class="container my-3">
 
-        <div class="row my-3">
+        <div class="row">
 
             <div class="col-sm-12 text-center">
                 <a href="{{$url->make("images.gallery.home")}}">Back to images Manager</a>
             </div>
-
         </div>
 
-
-            <div class="row my-3">
-                <img src="/img/uploads/{{$image->name}}" alt="{{$image->title}}" height="200" width="200">
-            </div>
-
-            <div class="row">
+        <div class="head">Edit Image {{$image->title}}</div>
+        <form action="" class="info tld-form">
+            <div class="form-row">
                 <div class="col-sm-12">
-                    {{ $image->description}}
+                    {{csrf()}}
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col-sm-12 col-md-6">
+                    <img src="/img/uploads/{{$image->name}}" alt="{{$image->title}}" height="250" width="250" class="p-3">
+                </div>
+            </div>
+        </form>
 
-
-            <hr>
-            Request to be a featueed image
-            Make Profile Photo
-            Delete photo
 
     </div>
 

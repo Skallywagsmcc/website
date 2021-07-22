@@ -75,7 +75,6 @@ $router->group(["prefix" => "/events"], function (Router $router) {
     $router->get("/view/{slug}", [\App\Http\Controllers\EventsController::class, 'show'], "events.view");
 });
 
-
 $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
@@ -99,63 +98,6 @@ $router->group(["prefix" => "/manage/likes"], function (Router $router) {
     $router->get("/delete/{uuid}", [LikesController::class, 'destroy'], 'likes.delete');
 });
 
-$router->group(["prefix" => "/admin", "middleware" => [Middleware\AdminAuthMiddleware::class, Middleware\AdminTfa::class]], function (Router $router) {
-
-    $router->group(["prefix" => "/events"], function (Router $router) {
-        $router->get("/?", [EventsController::class, "index"], "admin.events.home");
-        $router->get("/create", [EventsController::class, "create"], "admin.events.new");
-        $router->post("/store", [EventsController::class, "store"], "admin.events.store");
-        $router->get("/edit/{id}", [EventsController::class, "edit"], "admin.events.edit");
-        $router->post("/update", [EventsController::class, "update"], "admin.events.update");
-    });
-
-
-    $router->group(["prefix" => "/charters"], function (Router $router) {
-        $router->get("/?", [ChartersController::class, 'index'], "admin.charters.home");
-        $router->get("/view/{id}", [ChartersController::class, 'view'], "admin.charters.view");
-        $router->get("/new", [ChartersController::class, 'create'], "admin.charters.create");
-        $router->post("/create/save", [ChartersController::class, 'store'], "admin.charters.store");
-        $router->get("/edit/{id}", [ChartersController::class, 'edit'], "admin.charters.edit");
-        $router->post("/update/save", [ChartersController::class, 'update'], "admin.charters.update");
-        $router->get("/delete/{id}", [ChartersController::class, 'delete'], "admin.charters.delete");
-    });
-
-//Users
-    $router->group(["prefix" => "/users"], function (Router $router) {
-        $router->get("/?", [UsersController::class, 'index'], "admin.users.home");
-        $router->get("/new", [UsersController::class, 'create'], "admin.users.create");
-        $router->post("/new", [UsersController::class, 'store'], "admin.users.store");
-        $router->get("/edit/{id}/{username}", [UsersController::class, 'edit'], "admin.users.edit");
-        $router->post("/edit/save", [UsersController::class, 'update'], "admin.users.update");
-        $router->get("/delete/{id}", [UsersController::class, 'delete'], "admin.users.delete");
-    });
-
-    $router->group(["prefix" => "/articles"], function (Router $router) {
-        $router->get("/?", [AdminArticles::class, 'index'], "admin.articles.home");
-        $router->get("/new", [AdminArticles::class, 'create'], "admin.articles.new");
-        $router->post("/new", [AdminArticles::class, 'store'], "admin.articles.store");
-        $router->get("/edit/{slug}/{id}", [AdminArticles::class, 'edit'], "admin.articles.edit");
-        $router->post("/edit", [AdminArticles::class, 'update'], "admin.articles.update");
-        $router->get("/delete/{id}", [AdminArticles::class, 'delete'], "admin.articles.delete");
-        $router->post("/delete/image", [AdminArticles::class, 'deleteimages'], "admin.articles.images.delete");
-    });
-
-    $router->group(["prefix" => "/images"], function (Router $router) {
-        $router->get("/?", [ImageController::class, "index"], "admin.images.home");
-        $router->get("/search", [ImageController::class, "search"], "admin.images.search");
-        $router->get("/view/{username}/{id}", [ImageController::class, "view"], "admin.images.manage");
-        $router->get("/search", [ImageController::class, "search"], "admin.images.search");
-        $router->get("/view/{id}", [ImageController::class, "delete"], "admin.images.delete");
-        $router->get("/featured", [FeaturedController::class, "index"], "admin.images.featured.index");
-        $router->get("/featured/edit/{id}", [FeaturedController::class, "edit"], "admin.images.featured.manage");
-        $router->post("/featured/store", [FeaturedController::class, "store"], "admin.images.featured.store");
-    });
-
-    $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "admin.settings");
-    $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "admin.settings.store");
-    $router->get("/?", [\App\Http\Controllers\Admin\HomeController::class, "index"], "admin.home");
-
-});
 
 $router->group(["prefix" => "/profile"], function (Router $router) {
     $router->group(["prefix" => "/{username}"], function (Router $router) {
@@ -209,6 +151,71 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
         $router->get("/profile-picture", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.profile-pic");
     });
 
+    $router->group(["prefix"=>"/admin"],function (Router $router)
+    {
+
+        $router->group(["prefix" => "/events"], function (Router $router) {
+            $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
+            $router->get("/create", [EventsController::class, "create"], "auth.admin.events.new");
+            $router->post("/store", [EventsController::class, "store"], "auth.admin.events.store");
+            $router->get("/edit/{id}", [EventsController::class, "edit"], "auth.admin.events.edit");
+            $router->post("/update", [EventsController::class, "update"], "auth.admin.events.update");
+            $router->get("/delete/{id}", [EventsController::class, "delete"], "auth.admin.events.delete");
+        });
+
+
+//Users
+        $router->group(["prefix" => "/images"], function (Router $router) {
+            $router->get("/?", [ImageController::class, "index"], "auth.admin.images.home");
+            $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
+            $router->get("/view/{username}/{id}", [ImageController::class, "view"], "admin.images.manage");
+            $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
+            $router->get("/view/{id}", [ImageController::class, "delete"], "auth.admin.images.delete");
+            $router->get("/featured", [FeaturedController::class, "index"], "auth.admin.images.featured.index");
+            $router->get("/featured/edit/{id}", [FeaturedController::class, "edit"], "auth.admin.images.featured.manage");
+            $router->post("/featured/store", [FeaturedController::class, "store"], "auth.admin.images.featured.store");
+        });
+
+        $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "admin.settings");
+        $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "admin.settings.store");
+
+        $router->group(["prefix"=>"/users"],function (Router $router)
+        {
+            $router->get("/?",[UsersController::class,"index"],"auth.admin.users.home");
+            $router->get("/new",[UsersController::class,"create"],"auth.admin.users.new");
+            $router->get("/edit/{id}/{username}",[UsersController::class,"edit"],"auth.admin.users.edit");
+            $router->post("/store",[UsersController::class,"store"],"auth.admin.users.store");
+            $router->post("/update/",[UsersController::class,"update"],"auth.admin.users.update");
+            $router->get("/search",[UsersController::class,"search"],"auth.admin.users.search");
+        });
+
+        $router->group(["prefix"=>"/articles"],function(Router $router)
+        {
+            $router->get("/?",[AdminArticles::class,"index"],"auth.admin.articles.home");
+            $router->get("/search",[AdminArticles::class,"search"],"auth.admin.articles.search");
+            $router->get("/new", [AdminArticles::class, 'create'], "auth.admin.articles.new");
+            $router->post("/new", [AdminArticles::class, 'store'], "auth.admin.articles.store");
+            $router->get("/edit/{slug}/{id}", [AdminArticles::class, 'edit'], "auth.admin.articles.edit");
+            $router->post("/edit", [AdminArticles::class, 'update'], "auth.admin.articles.update");
+            $router->get("/delete/{id}", [AdminArticles::class, 'delete'], "auth.admin.articles.delete");
+//            $router->post("/delete/image", [AdminArticles::class, 'deleteimages'], "auth.admin.articles.images.delete");
+
+        });
+
+        $router->group(["prefix" => "/charters"], function (Router $router) {
+            $router->get("/?", [ChartersController::class, 'index'], "auth.admin.charters.home");
+            $router->get("/view/{id}", [ChartersController::class, 'view'], "auth.admin.charters.view");
+            $router->get("/new", [ChartersController::class, 'create'], "auth.admin.charters.create");
+            $router->post("/create/save", [ChartersController::class, 'store'], "auth.admin.charters.store");
+            $router->get("/edit/{id}", [ChartersController::class, 'edit'], "auth.admin.charters.edit");
+            $router->post("/update/save", [ChartersController::class, 'update'], "auth.admin.charters.update");
+            $router->get("/delete/{id}", [ChartersController::class, 'delete'], "auth.admin.charters.delete");
+        });
+
+
+        $router->get("/?",[\App\Http\Controllers\Admin\HomeController::class,"index"],"auth.admin.home");
+    });
+
 //    Load Base Page
     $router->get("/?", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.home");
     $router->get("/whats-new", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.whatsnew");
@@ -220,5 +227,5 @@ try {
 } catch (RouteNotFoundException $e) {
     // If compiler is here, it means user  wants a page that does not exist
     // Show your 404 page or use something like this:
-    $router->getPublisher()->publish(TemplateEngine::View("Templates.PageNotFound"));
+    $router->getPublisher()->publish("Sorry the page you are looking for is  not found");
 }

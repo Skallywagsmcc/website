@@ -15,6 +15,7 @@
                         <div><a href="{{$url->make("images.gallery.list")}}">Manage My Gallery</a></div>
                         <div><a href="{{$url->make("images.gallery.add")}}">Upload to Gallery</a></div>
                         <div><a href="{{$url->make("images.gallery.requests")}}">Featured Images Manager</a></div>
+                        <div><a href="{{$url->make("images.gallery.requests")}}">Update Profile Picture</a></div>
                     </div>
                 </div>
             </div>

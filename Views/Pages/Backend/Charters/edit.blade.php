@@ -1,4 +1,4 @@
-@extends("Layouts.main")
+@extends("Layouts.backend")
 
 @section("title")
     Charters
@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row head">List a new Charter</div>
-        <form action="{{$url->make("admin.charters.update")}}" method="post">
+        <form action="{{$url->make("auth.admin.charters.update")}}" method="post">
             {{csrf()}}
             <input type="text" name='id' value="{{$charter->id}}">
             <div class="form-group">

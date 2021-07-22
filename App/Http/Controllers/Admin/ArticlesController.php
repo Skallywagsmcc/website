@@ -14,6 +14,8 @@ use App\Http\Libraries\ImageManager\Images;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Image;
 use App\Http\Models\Article;
+use App\Http\Models\User;
+use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
 class ArticlesController
@@ -31,14 +33,14 @@ class ArticlesController
     public function index(Url $url,Validate $validate)
     {
         $class = baseclass(get_called_class());
-        echo $class->getShortName();
         $articles = Article::All();
-        echo TemplateEngine::View("Pages.Admin.Blogs.index", ["articles" => $articles, "url" => $url]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.index", ["articles" => $articles, "url" => $url]);
     }
 
     public function create(Url $url)
     {
-        echo TemplateEngine::View("Pages.Admin.Blogs.NewBlog", ["url" => $url]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["url" => $url]);
+
     }
 
     public function store(Url $url, Validate $validate, Images $images, Csrf $csrf)
@@ -90,12 +92,29 @@ class ArticlesController
                     Authenticate::$errmessage = "Please see the valid errors";
                 } else {
                     $article->save();
-                    redirect($url->make("admin.articles.home"));
+                    redirect($url->make("auth.admin.articles.home"));
                 }
             }
         }
 
-        echo TemplateEngine::View("Pages.Admin.Blogs.NewBlog", ["article" => $article, "values" => $validate::$values, "message" => Authenticate::$errmessage, "url" => $url, "error" => $error]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["article" => $article, "values" => $validate::$values, "message" => Authenticate::$errmessage, "url" => $url, "error" => $error]);
+    }
+
+//    Search
+
+    public function search(Url $url, ServerRequest $request)
+    {
+        $keyword = $request->getQueryParams()['keyword'];
+
+
+        $articles = Article::all();
+        if($users->count() == 0)
+        {
+            $message = "No Username With that Name has Been found in our database";
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.articles.index", ["articles" => $articles, "url" => $url,"message"=>$message]);
+
+
     }
 
     public function edit($slug, $id, Url $url)
@@ -109,7 +128,7 @@ class ArticlesController
         $pages = new LaravelPaginator('10', 'page');
         $images = $pages->paginate($images);
         $links = $pages->page_links();
-        echo TemplateEngine::View("Pages.Admin.Blogs.EditBlog", ["article" => $article, "count" => $count, "url" => $url,"images"=>$images,"links"=>$links]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url,"images"=>$images,"links"=>$links]);
     }
 
     public function update(Url $url, Validate $validate, Images $images, Image $image, Csrf $csrf)
@@ -151,7 +170,7 @@ class ArticlesController
             }
 
 
-            redirect($url->make("admin.articles.home"));
+            redirect($url->make("auth.admin.articles.home"));
         }
     }
 
@@ -163,7 +182,6 @@ class ArticlesController
 
             $image->where("id", $id[$i])->delete();
         }
-        redirect($url->make("admin.articles.home"));
     }
 
 
@@ -172,7 +190,7 @@ class ArticlesController
 //        this will later require a passsword from an admin
         $id = base64_decode($id);
         $article = Article::find($id)->delete();
-        redirect($url->make("admin.articles.home"));
+        redirect($url->make("auth.admin.articles.home"));
     }
 
 
