@@ -23,9 +23,10 @@ class UsersController
 
     public function index(Url $url)
     {
+        $id = User::orderBy("id", "desc")->limit(1)->get()->first();
         $users = User::all();
-        $latest = User::orderBy("id","DESC")->take(5)->get();
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest"=>$latest, "url" => $url]);
+        $latest = User::orderBy("id", "DESC")->take(5)->get();
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest" => $latest, "url" => $url, "id" => $id]);
     }
 
     public function create(URL $url)
@@ -36,7 +37,6 @@ class UsersController
     public function store(Url $url, Csrf $csrf, Validate $validate)
     {
         if ($csrf->Verify() == true) {
-            $validate = new Validate();
             $user = new User();
             $user->email = $validate->Required("email")->Post();
             $user->username = $validate->Required("username")->Post();
@@ -47,55 +47,60 @@ class UsersController
 //            } else {
 //            Password is required Disabled Random Password for time  being to allow site functionality
 //            No email has been setup to be sent out.
-                $user->password = $validate->Required("password")->Post();
-                $validate->HasStrongPassword($user->password);
+            $user->password = $validate->Required("password")->Post();
+            $validate->HasStrongPassword($user->password);
 //            }
 
-if($validate->Post("password") === $validate->Post("confirm-password")) {
-    if (User::where("username", $user->username)->get()->count() == 1) {
-        $error = "that username is already taken";
-    } elseif (User::where("email", $user->email)->get()->count() == 1) {
-        $error = "That Email Address is already Taken";
-    } else {
-        if ($validate::Array_Count(Validate::$values) == false) {
-            $error = "invalid field";
-        } else {
-            if ($validate::$ValidPassword == true) {
-
-                $users = new User();
-                $users->username = $validate->Post("username");
-                $users->email = $validate->Post("email");
-                $users->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
-                $users->save();
-
-                $user->username = $validate->Post("username");
-                $profile = new Profile();
-                $profile->user_id = $users->id;
-                $profile->first_name = $user->first_name;
-                $profile->last_name = $user->last_name;
-                $profile->save();
-
-                $settings = new UserSettings();
-                $settings->user_id = $users->id;
-                $settings->two_factor_auth = 1;
-                $settings->display_full_name = 1;
-//            if display full name = 0 then display username;
-                $settings->display_dob = 1;
-                $settings->display_email = 1;
-                $settings->save();
-
-                if ($validate->Post("make_member") == 1) {
-//                    Will check if the member does not exist and will create a new one;
-                    $member = new Member();
-                    $member->user_id = $users->id;
-                    $member->save();
-                } else {
-                }
-                redirect($url->make("auth.admin.users.home"));
+            if (User::where("username", $user->username)->get()->count() == 1) {
+                $error = "that username is already taken";
+            } elseif (User::where("email", $user->email)->get()->count() == 1) {
+                $error = "That Email Address is already Taken";
             }
-        }
-    }
-}
+            elseif((empty($validate->Post("password"))) || (empty($validate->Post("confirm-password"))) ){
+                $error = "password or password confirmation cannot be empty";
+                }
+            elseif($validate->Post("password") != $validate->Post("confirm-password")) {
+                $error = "Passwords do not match";
+            }
+            else {
+                if ($validate::Array_Count(Validate::$values) == false) {
+                    $error = "invalid field";
+                } else {
+                    if ($validate::$ValidPassword == true) {
+
+                        $users = new User();
+                        $users->username = $validate->Post("username");
+                        $users->email = $validate->Post("email");
+                        $users->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
+                        $users->save();
+
+                        $user->username = $validate->Post("username");
+                        $profile = new Profile();
+                        $profile->user_id = $users->id;
+                        $profile->first_name = $user->first_name;
+                        $profile->last_name = $user->last_name;
+                        $profile->save();
+
+                        $settings = new UserSettings();
+                        $settings->user_id = $users->id;
+                        $settings->two_factor_auth = 1;
+                        $settings->display_full_name = 1;
+//            if display full name = 0 then display username;
+                        $settings->display_dob = 1;
+                        $settings->display_email = 1;
+                        $settings->save();
+
+                        if ($validate->Post("make_member") == 1) {
+//                    Will check if the member does not exist and will create a new one;
+                            $member = new Member();
+                            $member->user_id = $users->id;
+                            $member->save();
+                        } else {
+                        }
+                        redirect($url->make("auth.admin.users.home"));
+                    }
+                }
+            }
         }
 
         echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $error, "values" => Validate::$values, "validpw" => $validate::$ShowRequirments]);
@@ -109,13 +114,12 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
 
         $users = User::wherehas("Profile", function ($q) use ($keyword) {
             $q->where("first_name", "LIKE", "%$keyword%")->orwhere("last_name", "LIKE", "%$keyword%");
-        })->orwhereRaw('MATCH (username,email) AGAINST (?)', array($keyword))->orwhere("username","LIKE","%$keyword%")->get();
+        })->orwhereRaw('MATCH (username,email) AGAINST (?)', array($keyword))->orwhere("username", "LIKE", "%$keyword%")->get();
 
-        if($users->count() == 0)
-        {
+        if ($users->count() == 0) {
             $message = "No Username With that Name has Been found in our database";
         }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "url" => $url,"message"=>$message]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "url" => $url, "message" => $message]);
 
 
     }
@@ -176,8 +180,8 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
 
     public function delete($id, Url $url)
     {
-        $user = User::where("id",$id);
-        if($user->count() == 1) {
+        $user = User::where("id", $id);
+        if ($user->count() == 1) {
             UserSettings::where("user_id", $id)->delete();
             Profile::where("user_id", $id)->delete();
             Member::where("user_id", $id)->delete();
@@ -185,7 +189,7 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
 
 //        FInd Images and delete them
             $images = Image::where("user_id", $id);
-            if($images->count() >= 1) {
+            if ($images->count() >= 1) {
                 foreach ($images as $image) {
                     unlink(__DIR__ . "/../../../../img/uploads/$image->image_name");
                     Image::find($image->id)->delete();
@@ -194,9 +198,7 @@ if($validate->Post("password") === $validate->Post("confirm-password")) {
             }
 //            finally delete the users account;
             $user->delete();
-        }
-        else
-        {
+        } else {
             echo "no user found";
         }
         redirect($url->make("auth.admin.users.home"));

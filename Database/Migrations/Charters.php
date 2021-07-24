@@ -15,8 +15,8 @@ class Charters
         {
             $table->id();
             $table->string("title");
+            $table->string("uuid");
             $table->string("slug");
-            $table->foreignId('uuid');
             $table->text("content");
 //            pinned will be used to change the default page
             $table->integer("pinned");

@@ -6,10 +6,21 @@
 
 @section("content")
     <div class="container">
-        <form action="{{$url->make("admin.images.search")}}" method="get">
-            <input type="text" name="keyword" value="{{$keyword}}">
-            <button class="btn-primary btn btn-block">Search image</button>
+
+        <form action="{{$url->make("auth.admin.images.search")}}" class="tld-form">
+            <div class="form-row">
+                <div class="col-sm-12 col-md-9 my-3">
+                    <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">
+                </div>
+                <div class="col-sm-12 col-md-3 my-3 ">
+                    <button class="btn btn-block btn-dark">Search</button>
+                </div>
+            </div>
         </form>
+    </div>
+
+
+    <div class="container">
 
         {{--    This section needs to be linkjed to the users first grouped together and add a count section--}}
         <div class="row">

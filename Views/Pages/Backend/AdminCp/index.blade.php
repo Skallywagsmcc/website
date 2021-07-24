@@ -34,19 +34,19 @@
                 <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage charters</a>
             </div>
 
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-8">
                 <div class="col-sm-12 px-5 bg-primary text-center">
                     <h2>{{$images->count()}} Image Uploads</h2>
                 </div>
                 <a href="{{$url->make("auth.admin.images.home")}}" class="d-block text-center">Manage Images</a>
             </div>
 
-            <div class="col-sm-12 col-md-4">
-                <div class="col-sm-12 px-5 bg-primary text-center">
-                    <h2>{{$comments->count()}} Comments</h2>
-                </div>
-                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage Comments</a>
-            </div>
+{{--            <div class="col-sm-12 col-md-4">--}}
+{{--                <div class="col-sm-12 px-5 bg-primary text-center">--}}
+{{--                    <h2>{{$comments->count()}} Comments</h2>--}}
+{{--                </div>--}}
+{{--                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage Comments</a>--}}
+{{--            </div>--}}
 
             <div class="col-sm-12 col-md-4">
                 <div class="col-sm-12 px-5 bg-primary text-center">

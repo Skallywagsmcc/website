@@ -13,7 +13,7 @@ use App\Http\Models\Article;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 
-class SettingsController
+class wevSettingsController
 {
 
     public function index(Url $url)

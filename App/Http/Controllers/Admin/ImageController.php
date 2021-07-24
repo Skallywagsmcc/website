@@ -36,18 +36,16 @@ class ImageController
 
 
 //        Post request to show number of images username
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Images.Search", ["url" => $url, "keyword" => $keyword, "images"=>$images, "pages" => $pages, "link" => $link]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Images.index", ["url" => $url, "keyword" => $keyword, "images"=>$images, "pages" => $pages, "link" => $link]);
     }
 
 
-    public function view($username, $id)
+    public function view($username, $id,Url $url)
     {
         $id = base64_decode($id);
         $image = User::where("username", $username)->get()->first()->Images()->find($id);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Images.manage", ["url" => $url,"image"=>$image]);
 
-        echo $image->image_name;
-        echo '<img src="/img/uploads/' . $image->image_name . '"  class="m-1">';
-        echo $users;
 
     }
 

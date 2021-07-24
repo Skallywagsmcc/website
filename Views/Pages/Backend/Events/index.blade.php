@@ -6,7 +6,15 @@
 
 
 @section("content")
-    
+
+{{--    Search the events here --}}
+
+{{--Add New events--}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12"><a href="{{$url->make("auth.admin.events.new")}}" class="d-block text-md-right text-center">Add New Event</a></div>
+    </div>
+</div>
     <div class="container">
         <div class="col-sm-12 text-md-right text-center">
             <a href=""></a>

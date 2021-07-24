@@ -18,7 +18,7 @@
                 </div>
             </form>
         </div>
-        
+
         <div class="container">
             <div class="col-sm-12 text-md-right text-center">
                 <a href="{{$url->make("auth.admin.users.new")}}">Create a New User</a>

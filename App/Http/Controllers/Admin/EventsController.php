@@ -80,11 +80,11 @@ class EventsController
         redirect($url->make("admin.events.home"));
     }
 
-    public function delete($id)
+    public function delete($id,Url $url)
     {
         $id = base64_decode($id);
         $events = Event::where("id",$id)->delete();
-        redirect($url->make("auth.admin.event.home"));
+        redirect($url->make("auth.admin.events.home"));
     }
 
 }

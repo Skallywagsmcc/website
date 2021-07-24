@@ -1,0 +1,6 @@
+
+    24/07/2021
+
+        backend is still being created the layout itself isnt 100%
+        this project has took longer than expected
+        need a way to link images to  articles as well as  likes and comments  i cant really see me using

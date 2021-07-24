@@ -52,7 +52,7 @@ class ChartersController
                 }
             }
 
-            redirect($url->make("admin.charters.home"));
+            redirect($url->make("auth.admin.charters.home"));
         }
     }
 
@@ -91,7 +91,7 @@ class ChartersController
                 }
             }
 
-            redirect($url->make("admin.charters.home"));
+            redirect($url->make("auth.admin.charters.home"));
         }
 
     }
@@ -136,7 +136,7 @@ class ChartersController
         else
         {
             $charters->delete();
-            redirect($url->make("admin.charters.home"));
+            redirect($url->make("auth.admin.charters.home"));
         }
 
 

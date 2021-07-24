@@ -17,7 +17,7 @@
 
         @foreach($charters as $charter)
             {{$charter->title}}  | <a href="{{$url->make("auth.admin.charters.edit",["id"=>base64_encode($charter->id)])}}">Edit Charter</a>
-            <a href="{{$url->make("auth.sadmin.charters.delete",["id"=>base64_encode($charter->id)])}}">Delete Article</a>
+            <a href="{{$url->make("auth.admin.charters.delete",["id"=>base64_encode($charter->id)])}}">Delete Article</a>
 
             <br>
         @endforeach
