@@ -19,7 +19,6 @@ class Site_Settings
             $table->text("email");
             $table->biginteger("allow_comments")->default(1);
             $table->biginteger("login")->default(1);
-            $table->string("email");
 //          Block Registration option
             $table->biginteger("registration")->nullable()->default(0);
             $table->string("facebook")->nullable();

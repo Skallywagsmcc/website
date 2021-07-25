@@ -25,6 +25,7 @@
                 <div class="head">Upload Images</div>
 
                 <form action="{{$url->make("images.gallery.store")}}" enctype="multipart/form-data" class="info  tld-form p-2" method="post">
+                    {{csrf()}}
                     <div class="form-row">
                         <div class="col-sm-12 text-left text-md-right col-md-6">
                             <label for="title" class="py-2 ">Title : </label>

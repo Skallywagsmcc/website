@@ -45,7 +45,7 @@ class FeaturedController
             } else {
                 echo "Image not found";
             }
-            redirect($url->make("admin.images.featured.index"));
+            redirect($url->make("auth.admin.featured.home"));
         }
     }
 

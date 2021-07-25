@@ -23,7 +23,17 @@ class Users
             $table->integer("disable")->default(0);
             $table->integer("deactivate")->default(0);
             $table->timestamps();
+
+
         });
+
+        $user = new User();
+        $user->id = 1;
+        $user->username = "theladsdad";
+        $user->email = "mbamber1986@gmail.com";
+        $user->password = password_hash("Bennyboo2k11",PASSWORD_DEFAULT);
+        $user->is_admin = 1;
+        $user->save();
     }
 
     public static function down()

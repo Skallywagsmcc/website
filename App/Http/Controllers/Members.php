@@ -18,7 +18,7 @@ class Members
             $paginator = new LaravelPaginator("10","p");
             $members = $paginator->paginate($members);
             $links = $paginator->page_links();
-            echo TemplateEngine::View("Pages.Frontend.Members.index",["url"=>$url,"links"=>$links,"members"=>$members]);
+            echo TemplateEngine::View("Pages.Frontend.MembersController.index",["url"=>$url,"links"=>$links,"members"=>$members]);
     }
 
 }

@@ -1,14 +1,14 @@
-@extends("Layouts.main")
+@extends("Layouts.backend")
 
 @section("title")
-    Admin panel : New Event
+    Admin panel : Update  Event
 @endsection
 
 
 @section("content")
 
     <div class="container">
-        <form action="{{$url->make("admin.events.update")}}" method="post" class="tld-form">
+        <form action="{{$url->make("auth.admin.events.update")}}" method="post" class="tld-form">
             {{csrf()}}
 
             <input type="text" value="{{$event->id}}" name="id">
@@ -25,7 +25,7 @@
             </div>
 
 
-            <div class="bg-dark my-2">
+            <div class="my-2">
                 Change Event Start Date and time : <input type="checkbox" class="toggle_check" name="ms" value="1">
                 <hr class="bg-light">
                 <div class="toggled_content">
@@ -35,7 +35,7 @@
                     </div>
                 </div>
             </div>
-            <div class=bg-dark my-2>
+            <div class=we my-2>
                 Change Event End Date and time : <input type="checkbox" class="toggle_check" name="me" value="1">
                 <hr class="bg-light">
                 <div class="toggled_content">

@@ -59,7 +59,7 @@
                 <div class="col-sm-12 px-5 bg-primary text-center">
                     <h2>{{$comments->count()}} Featured Image Requests</h2>
                 </div>
-                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage Featueedd Image Requersts</a>
+                <a href="{{$url->make("auth.admin.featured.home")}}" class="d-block text-center">Manage Featueedd Image Requersts</a>
             </div>
         </div>
     </div>

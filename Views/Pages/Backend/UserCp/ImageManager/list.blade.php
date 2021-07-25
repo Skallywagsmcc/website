@@ -26,7 +26,7 @@
                         <div class="head">{{$image->title}}</div>
                         <div class="info">
                             <img src="/img/uploads/{{$image->name}}" height="300" width="100%" alt="$image->id">
-                            <div><a href="{{$url->make("images.gallery.update",["id"=>$image->id])}}">Manage Image</a>
+                            <div><a href="{{$url->make("images.gallery.update",["id"=>$image->id])}}">Manage Image</a> | <a href="{{$url->make("images.gallery.delete",["id"=>$image->id])}}">Delete Image</a>
                             </div>
                         </div>
                     </div>

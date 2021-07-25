@@ -143,12 +143,13 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
         $router->get("/list", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.list");
         $router->get("/add", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "create"], "images.gallery.add");
         $router->get("/update/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "edit"], "images.gallery.update");
+        $router->get("/delete/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "delete"], "images.gallery.delete");
 //        Requests
 //        Post requests
         $router->post("/store",[\App\Http\Controllers\Account\ImageManager\ImageController::class, "store"], "images.gallery.store");
         $router->get("/requests", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.requests");
 //        Profile
-        $router->get("/profile-picture", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.profile-pic");
+//        $router->get("/profile-picture", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.profile-pic");
     });
 
     $router->group(["prefix"=>"/admin"],function (Router $router)
@@ -171,13 +172,18 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
             $router->get("/view/{username}/{id}", [ImageController::class, "view"], "admin.images.manage");
             $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
             $router->get("/view/{id}", [ImageController::class, "delete"], "auth.admin.images.delete");
-            $router->get("/featured", [FeaturedController::class, "index"], "auth.admin.images.featured.index");
-            $router->get("/featured/edit/{id}", [FeaturedController::class, "edit"], "auth.admin.images.featured.manage");
-            $router->post("/featured/store", [FeaturedController::class, "store"], "auth.admin.images.featured.store");
+
         });
 
-        $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "admin.settings");
-        $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "admin.settings.store");
+        $router->group(["prefix"=>"/featured"],function (Router $router)
+        {
+            $router->get("/?", [FeaturedController::class, "index"], "auth.admin.featured.home");
+            $router->get("/manage/request/{id}", [FeaturedController::class, "edit"], "auth.admin.featured.manage");
+            $router->post("/manage/request/store", [FeaturedController::class, "store"], "auth.admin.featured.store");
+        });
+
+        $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings");
+        $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "auth.admin.settings.store");
 
         $router->group(["prefix"=>"/users"],function (Router $router)
         {
@@ -211,6 +217,12 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
             $router->post("/update/save", [ChartersController::class, 'update'], "auth.admin.charters.update");
             $router->get("/delete/{id}", [ChartersController::class, 'delete'], "auth.admin.charters.delete");
         });
+
+        $router->group(["prefix"=>"/members"],function (Router $router)
+        {
+            $router->get("/?",[\App\Http\Controllers\Admin\MembersController::class,"index"],"auth.admin.members.home");
+        });
+
 
 
         $router->get("/?",[\App\Http\Controllers\Admin\HomeController::class,"index"],"auth.admin.home");
