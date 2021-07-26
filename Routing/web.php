@@ -221,6 +221,9 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
         $router->group(["prefix"=>"/members"],function (Router $router)
         {
             $router->get("/?",[\App\Http\Controllers\Admin\MembersController::class,"index"],"auth.admin.members.home");
+            $router->get("/search",[\App\Http\Controllers\Admin\MembersController::class,"search"],"auth.admin.members.search");
+            $router->post("/store",[\App\Http\Controllers\Admin\MembersController::class,"store"],"auth.admin.members.store");
+            $router->post("/manage",[\App\Http\Controllers\Admin\MembersController::class,"manage"],"auth.admin.members.manage");
         });
 
 
