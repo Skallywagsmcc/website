@@ -24,6 +24,8 @@ class Images
     }
 
 
+
+
 //   input name goes in this field
 
     public static function MoveFile($tmp, $name)

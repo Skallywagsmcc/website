@@ -7,7 +7,7 @@
 @section("content")
         <div class="container">
 
-            <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form">
+            <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form box">
                 <div class="form-row">
                     <div class="col-sm-12 col-md-9 my-3">
                         <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">

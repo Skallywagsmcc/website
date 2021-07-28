@@ -43,6 +43,11 @@ class User extends Controller
         return $this->hasOne(Member::class);
     }
 
+    public function CountMembers($id)
+    {
+        return $this->hasOne(Member::class)->where("user_id",$id)->count();
+    }
+
     public function likes()
     {
         return $this->hasMany(Likes::class);

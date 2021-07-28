@@ -97,6 +97,15 @@ these settings will be used to import the chosen stylesheet
     border-radius: 5px 5px 0px 0px;
   }
 
+  .box {
+    background: white;
+    color: black;
+  }
+  .box .head {
+    color: #000;
+    padding: 10px 0px;
+  }
+
   #help-toggle {
     border-radius: 10px;
     border: solid 1px #fff;
@@ -226,6 +235,18 @@ these settings will be used to import the chosen stylesheet
   .info a:hover {
     background-color: #4c4c4c;
     color: #fff;
+  }
+
+  .box {
+    background: white;
+    color: black;
+    border: solid 1px #000;
+    bprder-left: none;
+    border-right: none;
+  }
+  .box s .head {
+    color: #000;
+    padding: 10px 0px;
   }
 }
 .footer {

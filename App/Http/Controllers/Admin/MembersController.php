@@ -20,7 +20,7 @@ class MembersController
 //        Find results
         $members = Member::all();
         $users = User::orderBy("id","Asc");
-        $paginate = new LaravelPaginator("10","page");
+        $paginate = new LaravelPaginator("4","page");
         $users = $paginate->paginate($users);
         $links = $paginate->page_links();
 
@@ -29,13 +29,35 @@ class MembersController
     }
 
 
-    public function store(Url $url, Csrf $csrf, Validate $validate)
+    public function add($id,Url $url)
     {
-        for($i=0;$i< count($validate->Post("id")); $i++)
+        if(Member::where("user_id",$id)->count() == 0)
         {
-            echo $validate->Post("id")[$i] . "<br>";
+            $member = new Member();
+            $member->user_id = $id;
+            $member->save();
+            redirect($url->make("auth.admin.members.home"));
         }
-//        echo TemplateEngine::View("Pages.Backend.AdminCp.Members.index",["url"=>$url,"members"=>$members,"links"=>$links,"users"=>$users]);
+        else
+        {
+            echo "Already added to member list <a href='".$url->make("auth.admin.members.home")."'>Go Back</a>";
+        }
+
+
+    }
+
+    public function remove($id,Url $url)
+    {
+        if(Member::where("id",$id)->count() == 1)
+        {
+        $members = Member::where("id",$id)->delete();
+        redirect($url->make("auth.admin.members.home"));
+        }
+        else
+        {
+            echo "Already Removed from member list <a href='".$url->make("auth.admin.members.home")."'>Go Back</a>";
+        }
+
     }
 
     public function manage(Url $url, Validate $validate)
