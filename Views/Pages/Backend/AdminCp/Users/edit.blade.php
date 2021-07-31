@@ -35,12 +35,7 @@
                 <h2>Other Settings</h2>
                 <label for="is_admin">Set this user as Administrator</label>
                 <input type="checkbox" name="is_admin" @if($user->is_admin == 1) checked @endif value="1">
-                <hr>
-                <label for="make_member">Club membership Status : </label>
-                <br>
-               Revoke Membership : <input type="radio" name="make_member" value="0" @if($members->count() == 0) checked @endif>
-                <br>
-                Promote Membership : <input type="radio" name="make_member" value="1" @if($members->count() == 1) checked @endif>
+
                 <button class="btn btn-primary btn-block">Update User Details</button>
             </div>
 

@@ -110,7 +110,7 @@
                 @foreach($featured as $image)
                     <div class="col-sm-12 col-md-4 my-2">
                         <div class="col-sm-12">
-                            <img class="border border-primary" src="/img/uploads/{{$image->Image->image_name}}"
+                            <img class="border border-primary" src="/img/uploads/{{$image->Image->name}}"
                                  width="250"
                                  height="250" alt=""/>
                         </div>

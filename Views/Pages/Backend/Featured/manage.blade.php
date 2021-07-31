@@ -2,39 +2,83 @@
 
 @section("title")
     Manage Featured Request
-    @endsection
+@endsection
 
 @section("content")
-    <img src="/img/uploads/{{$featured->Image->image_name}}" height="250" width="250" alt="">
+    <div class="container">
 
-    Image uploaded by : {{$featured->Image->user->profile->first_name}} | this image has {{$likes->likes($featured->Image->uuid)->count()}}
-    <form action="{{$url->make("auth.admin.featured.store")}}" method="post">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 my-2">
+                <div class="col-sm-12 text-center">
+                    <img src="/img/uploads/{{$featured->Image->name}}" alt=""
+                         class="text-center img-fluid px-0 mx-auto mb-2">
+                </div>
 
-        <input type="hidden" value="{{$featured->id}}" name="id">
-       {{csrf()}}
-        @php
-            switch ($featured->status) {
-                case 1:
-                    $status = "Pending";
-                    break;
-                    case 2:
-                        $status = "Approved";
-                        break;
-                        case 3 :
-                            $status = "Rejected";
-                            break;
-                default:
-                    $status = "";
-            }
-        @endphp
-       Status : {{$status}}
-        <select name="status">
-            <option class="bg-danger" value="{{$featured->status}}" selected>Current : {{$status}}</option>
-            <option class="bg-primary" value="1">Pending</option>
-            <option value="2">Approve</option>
-            <option value="3">Rejected</option>
-        </select>
+            </div>
+            <div class="col-sm-12 col-md-8 my-2">
 
-        <button class="btn btn-primary">Update</button>
-    </form>
-    @endsection
+                <div class="col-sm-12 box px-0 text-center text-md-left">
+                    <div class="head">Image Description</div>
+                    <div class="px-1">
+                        {{$featured->Image->description}}
+                    </div>
+                </div>
+
+                <div class="box col-sm-12 mt-2 px-0">
+                    <div class="head">Image Details</div>
+                    <div class="text-center px-1">Image Uploaded by
+                        : {{$featured->Image->user->Profile->first_name}}  {{$featured->Image->user->Profile->last_name}}
+                        ({{$featured->Image->user->username}})
+                    </div>
+                    <div class="text-center px-1">Request Made
+                        on {{date("d/m/y : H:i a",strtotime($featured->created_at))}}</div>
+                    <div class="text-center px-1"> Request Status
+                        @if($featured->status == 0)
+                            Rejected
+                        @elseif($featured->status == 1)
+                            Pending
+                        @elseif($featured->status == 2)
+                            Approved
+                        @endif
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="col-sm-12 box px-0 text-center text-md-left mb-2">
+                    <div class="head">
+                        <div class="px-1">Instruction of usage</div>
+                    </div>
+                    <div class="text-center text-md-left px-1">
+                        Approving users featured Image requests is a simple Process.
+                        <ol class="text-center">
+                            <li class="py-1">Approve Request : This will allow the request to be shown on the front page of the website.</li>
+                            <li class="py-1">Deny Request : This will deny the request from the user and will not display.</li>
+                            <li class="py-1">Cancel Request : This option is used if the request is made by the accident from the user, this will delete the request from the database forever and cannot be recovered.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 box my-2">
+            <div class="row font-weight-bold text-center border-top">
+                <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.manage",["id"=>base64_encode($featured->id),"status" => 2])}}" class="d-block py-2">Accept Request</a></div>
+                <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.manage",["id"=>base64_encode($featured->id),"status" => 0])}}" class="d-block py-2">Deny Request</a></div>
+                <div class="col-sm-12 col-md-4"><a href="" class="d-block py-2">Cancel Request</a></div>
+            </div>
+        </div>
+    </div>
+
+
+
+@endsection

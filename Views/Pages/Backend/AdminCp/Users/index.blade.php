@@ -7,7 +7,7 @@
 @section("content")
         <div class="container">
 
-            <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form box">
+            <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form ">
                 <div class="form-row">
                     <div class="col-sm-12 col-md-9 my-3">
                         <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">
@@ -19,7 +19,24 @@
             </form>
         </div>
 
+
         <div class="container">
+            <div class="row box">
+                <div class="col-sm-12 px-0">
+                    <h5 class="px-0 head">The Users Manager</h5>
+                    <div class="py-2">
+                     This section does exactly what it says on the tin, it allows you as an admin to manage a users account, Create a new user, or delete there account, by
+                        <a href="{{$url->make("auth.admin.members.home")}}">Clicking here</a> you can Also assign A crew Status to a member
+
+                        <h5> * Please note that this does not give the users with Member status any extra Privileges</h5>
+                        </h5>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container box my-2">
             <div class="col-sm-12 text-md-right text-center">
                 <a href="{{$url->make("auth.admin.users.new")}}">Create a New User</a>
             </div>

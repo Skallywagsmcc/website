@@ -17,7 +17,7 @@ class FeaturedController
 {
     public function index(Url $url)
     {
-        $featured = FeaturedImage::where("status",">=",1);
+        $featured = FeaturedImage::where("status",">=",0)->orderBy("id","desc");
         $count = $featured->count();
         $page = new LaravelPaginator(5, "page");
         $featured = $page->paginate($featured);
@@ -25,7 +25,7 @@ class FeaturedController
         echo TemplateEngine::View("Pages.Backend.Featured.index", ["url" => $url, "featured" => $featured, "count" => $count,"links"=>$links]);
     }
 
-    public function edit(Url $url, $id,Validate $validate)
+    public function review(Url $url, $id,Validate $validate)
     {
         $id = base64_decode($id);
         $featured = FeaturedImage::find($id);
@@ -35,20 +35,54 @@ class FeaturedController
 //        View the image for the featured section
     }
 
-    public function store(Url $url, Validate $validate, Csrf $csrf)
+
+//    Approve
+
+public function manage(Url $url, $id,$status)
+{
+    $id = base64_decode($id);
+    $request = FeaturedImage::where("id",$id)->get();
+    if($request->count() == 1)
     {
-        if ($csrf->Verify() == true) {
-            $featured = FeaturedImage::find($validate->Post("id"));
-            if ($featured->count() >= 1) {
-                $featured->status = $validate->Post("status");
-                $featured->save();
-            } else {
-                echo "Image not found";
-            }
-            redirect($url->make("auth.admin.featured.home"));
+        $request = $request->first();
+
+        if($status == 0)
+        {
+            $request->status = 0;
         }
+        elseif($status==2)
+        {
+            $request->status = 2;
+        }
+        $request->save();
+    }
+    redirect($url->make("auth.admin.featured.home"));
+}
+
+
+
+
+//Reject
+
+    public function approve(Url $url, $id)
+    {
+        $id = base64_decode($id);
+        $request = FeaturedImage::where("id",$id)->get();
+        if($request->count() == 1)
+        {
+            $request = $request->first();
+            $request->status = 2;
+            $request->save();
+        }
+        else
+        {
+
+        }
+        redirect($url->make("auth.admin.featured.home"));
     }
 
+
+//    cancel requests
     public function delete(Url $url, $id)
     {
 

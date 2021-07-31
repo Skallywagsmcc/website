@@ -178,8 +178,9 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
         $router->group(["prefix"=>"/featured"],function (Router $router)
         {
             $router->get("/?", [FeaturedController::class, "index"], "auth.admin.featured.home");
-            $router->get("/manage/request/{id}", [FeaturedController::class, "edit"], "auth.admin.featured.manage");
-            $router->post("/manage/request/store", [FeaturedController::class, "store"], "auth.admin.featured.store");
+            $router->get("/manage/review/{id}", [FeaturedController::class, "review"], "auth.admin.featured.review");
+            $router->get("/manage/request/{id}/status/{status}", [FeaturedController::class, "manage"], "auth.admin.featured.manage");
+
         });
 
         $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings");

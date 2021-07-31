@@ -23,66 +23,69 @@
 
 
     <div class="container">
-        <div class="row my-1">
-            <div class="col-sm-12 box text-center">
-                We have found {{$members->count()}} Registered Crew
-                @if(($members->count() > 1) || $members->count() == 0)
-                    Members
-                @else
-                    Member
-                @endif
-            </div>
+        <div class="row box">
+            <div class="col-sm-12 px-0">
+                <h5 class="px-0 head">Using Members Manager</h5>
+                <div class="py-2">
+                    Setting up your Bike crew Members could not be simpler, All you need to do is simply Click the link below the profile image in the two sections below.
+                    <br><br>One Section lists all the users who are currently listed as part of your crew the other is list of standard users.
 
-            <div class="col-sm-12 col-md-8">
-                <div class="box row my-1">
-                    @foreach($users as $user)
-                        <div class="col-sm-12 col-md-6">{{$user->username}}</div>
-                        <div class="col-sm-12 col-md-6 text-center">
-                            @if($user->CountMembers($user->id) == 1)
-                                Standard Member : <a
-                                        href="{{$url->make("auth.admin.members.remove",["id"=>$user->Members->id])}}">Set to
-                                    standard User</a>
-                            @else
-                                Crew Members : <a href="{{$url->make("auth.admin.members.add",["id"=>$user->id])}}">Set to Crew
-                                    member</a>
+                    <br><br>
+                    if you are looking at managing user accounts please <a href="{{$url->make('auth.admin.users.home')}}">Click here</a> as this section is only for Promoting and Demoting
+                    Crew Member Status
+                    <br><br>
 
-                            @endif
-                        </div>
-                    @endforeach
+                    <h5>
+                        * please note this is only a Status this does not give any extra privileges to the users account.
+                    </h5>
                 </div>
-
 
             </div>
-
-            <div class="col-sm-12 col-md-4 my-1  ">
-                <div class="col-sm-12 box px-0">
-                    <h5 class="text-center">Active crew members</h5>
-                    @foreach($members as $member)
-                        <div class="text-center border-bottom py-1">{{$member->user->username}}</div>
-                    @endforeach
-                </div>
-                </div>
-
-
         </div>
     </div>
 
-
-
-    <div class="container">
-            @foreach($users as $user)
-            <div class="row px-0 my-1 box py-1">
-                <div class="col-sm-12 col-md-6 text-center text-md-left">{{$user->username}}</div>
-                {{--                        <div class="col-sm-12 d block d-md-none p-0">--}}
-                {{--                            <img src="/img/uploads/{{$user->Profile->image->name}}"   class="img-fluid" alt="{{$user->username}}">--}}
-                {{--                        </div>--}}
-
+    <div class="container mb-2">
+        <div class="row my-1 box">
+            <div class="col-sm-12 px-0">
+                <h5 class="head">Crew Members({{$members->count()}})</h5>
             </div>
+            @foreach($members as $member)
+                @if($member->user->CountMembers($member->user->id) == 1)
+                    <div class="col-sm-12 col-md-3 text-center">
+                        <h6>{{$member->user->username}}</h6>
+                        @if(\App\Http\Models\Profile::where("user_id",$member->user_id)->get()->first()->profile_pic == null)
+                        <img src="/img/logo.png" height="100" width="100" alt="{{$member->user->username}}">
+                        @else
+                            <img src="/img/uploads/{{$member->user->Profile->image->name}}" height="100" width="100" alt="{{$member->user->username}}">
+                            @endif
+                        <div><a href="{{$url->make("auth.admin.members.remove",["id"=>$member->id])}}">Set As Standard member</a></div>
+                    </div>
+                @endif
             @endforeach
-
-        {!! $links !!}
-
+        </div>
     </div>
 
+    {{--    list of members here--}}
 
+    <div class="container">
+        <div class="row my- box ">
+            <div class="col-sm-12 px-0">
+                <h5 class="head ">Standard Users</h5>
+            </div>
+            @foreach($users as $user)
+                @if($user->CountMembers($user->id) == 0)
+                    <div class="col-sm-12 col-md-3 text-center">
+                        <h6>{{$user->username}}</h6>
+                        @if(\App\Http\Models\Profile::where("user_id",$user->id)->get()->first()->profile_pic == null)
+                            <img src="/img/logo.png" height="100" width="100" alt="{{$member->user->username}}">
+                        @else
+                            <img src="/img/uploads/{{$member->user->Profile->image->name}}" height="100" width="100" alt="{{$member->user->username}}">
+                        @endif
+                        <div><a href="{{$url->make("auth.admin.members.add",["id"=>$user->id])}}">Set As Crew member</a></div>
+                    </div>
+                @endif
+            @endforeach
+            <div class="col-sm-12 d-flex"></div>
+        </div>
+    </div>
 @endsection

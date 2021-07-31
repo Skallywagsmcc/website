@@ -24,14 +24,14 @@
                 <div class="col-sm-12 px-5 bg-primary text-center">
                     <h2>{{$events->count()}} Events</h2>
                 </div>
-                <a href="{{$url->make("auth.admin.events.home")}}" class="d-block text-center">Manage Articles</a>
+                <a href="{{$url->make("auth.admin.events.home")}}" class="d-block text-center">Manage Events</a>
             </div>
 
             <div class="col-sm-12 col-md-4">
                 <div class="col-sm-12 px-5 bg-primary text-center">
                     <h2>{{$charters->count()}} charters</h2>
                 </div>
-                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage charters</a>
+                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage Charters</a>
             </div>
 
             <div class="col-sm-12 col-md-8">
@@ -52,7 +52,7 @@
                 <div class="col-sm-12 px-5 bg-primary text-center">
                     <h2>{{$comments->count()}} Members</h2>
                 </div>
-                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage Members</a>
+                <a href="{{$url->make("auth.admin.members.home")}}" class="d-block text-center">Manage Members</a>
             </div>
 
             <div class="col-sm-12 col-md-8">
