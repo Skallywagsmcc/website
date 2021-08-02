@@ -5,6 +5,8 @@
 @endsection
 
 @section("content")
+
+    @if($count== 1)
     <div class="container">
 
         <div class="row">
@@ -42,12 +44,7 @@
                         @endif
                     </div>
                 </div>
-
-
-
             </div>
-
-
         </div>
     </div>
 
@@ -74,11 +71,21 @@
             <div class="row font-weight-bold text-center border-top">
                 <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.manage",["id"=>base64_encode($featured->id),"status" => 2])}}" class="d-block py-2">Accept Request</a></div>
                 <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.manage",["id"=>base64_encode($featured->id),"status" => 0])}}" class="d-block py-2">Deny Request</a></div>
-                <div class="col-sm-12 col-md-4"><a href="" class="d-block py-2">Cancel Request</a></div>
+                <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.delete",["id"=>base64_encode($featured->id)])}}" class="d-block py-2">Cancel Request</a></div>
             </div>
         </div>
     </div>
-
+    @else
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 box">
+                    <div class="head">Invalid Request</div>
+                    Sorry it seems like the request you are looking for cannot be found, it may have changed name or been deleted
+                    <a href="{{$url->make("auth.admin.featured.home")}}">Go Back to featuered Requests</a>
+                </div>
+            </div>
+        </div>
+    @endif
 
 
 @endsection

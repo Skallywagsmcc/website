@@ -5,6 +5,15 @@
 @endsection
 
 @section("content")
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center text-md-left pl-md-1 py-2">
+                <a href="{{$url->make("auth.admin.home")}}">Back to admin home</a>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
 
         <form action="{{$url->make("auth.admin.images.search")}}" class="tld-form">

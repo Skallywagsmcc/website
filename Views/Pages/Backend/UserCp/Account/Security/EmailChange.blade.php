@@ -3,23 +3,46 @@
     Security : Change Email
 @endsection
 @section("content")
+
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="head">Update My email Address</div>
-                <form action="{{$url->make("security.email.store")}}" method="post" class="info">
+            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("security.home")}}">Back to Sceurity Home</a></div>
+        </div>
+    </div>
+
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 py-2 head">Update Email Address</div>
+        </div>
+    </div>
+
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 py-2">
+                <form action="{{$url->make("security.email.store")}}" method="post">
                     {{csrf()}}
-                    Your email
-                    <input type="email" name="email" value="@isset($user){{$user->email}}@endisset">
-                    <hr class="text-white">
-                    Your password
-                    <input type="password" name="password"/>
-                    <button>update Password</button>
+                    <div class="form-row my-2">
+                        <div class="col-sm-12 col-md-3 py-1 pr-md-2 text-center text-md-right ">
+                            <label for="email">Your Email Address</label>
+                        </div>
+                        <div class="col-sm-12 col-md-9">
+                            <input type="email" name="email" class="form-control"
+                                   value="@isset($user){{$user->email}}@endisset">
+                        </div>
+
+                    </div>
+                    <div class="form-row my-2">
+                        <div class="col-sm-12 col-md-3 text-center text-md-right pr-md-2 py-1 ">Your Password</div>
+                        <div class="col-sm-12 col-md-9 px-2"><input type="password" name="password"
+                                                                    class="form-control"/></div>
+                    </div>
+                    <button class="btn btn-block btn-dark">update Password</button>
                 </form>
             </div>
 
         </div>
     </div>
+
 
     {{--    the profile information will show down here.--}}
 

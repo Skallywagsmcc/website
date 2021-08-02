@@ -6,7 +6,8 @@
     @endsection
 
 @section("content")
-    <div class="container my-3">
+
+    <div class="container my-2">
         <div class="row">
             <div class="col-sm-12 col-md-3 px-0 px-md-2 my-1 ">
                 <div class="col-sm-12 px-0 px-md-2">

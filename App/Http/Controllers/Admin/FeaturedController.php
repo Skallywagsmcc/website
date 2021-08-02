@@ -25,12 +25,12 @@ class FeaturedController
         echo TemplateEngine::View("Pages.Backend.Featured.index", ["url" => $url, "featured" => $featured, "count" => $count,"links"=>$links]);
     }
 
-    public function review(Url $url, $id,Validate $validate)
+    public function review(Url $url, $id)
     {
         $id = base64_decode($id);
-        $featured = FeaturedImage::find($id);
+        $featured = FeaturedImage::where("id",$id)->get();
         $likes = new LikeManager();
-        echo TemplateEngine::View("Pages.Backend.Featured.manage", ["url" => $url, "featured" => $featured,"likes"=>$likes]);
+        echo TemplateEngine::View("Pages.Backend.Featured.manage", ["url" => $url, "featured" => $featured->first(),"count"=>$featured->count(),"likes"=>$likes]);
 
 //        View the image for the featured section
     }
@@ -74,18 +74,24 @@ public function manage(Url $url, $id,$status)
             $request->status = 2;
             $request->save();
         }
-        else
-        {
-
-        }
         redirect($url->make("auth.admin.featured.home"));
     }
 
 
 //    cancel requests
+//These need to be form based
     public function delete(Url $url, $id)
     {
-
+        $id = base64_decode($id);
+        $featured = FeaturedImage::where("id",$id);
+        if($featured->count() == 1)
+        {
+            $featured->delete();
+        }
+        else
+        {
+            echo "No Id Found";
+        }
     }
 
     /*Create a colum in settings  to auto allow submissions*/

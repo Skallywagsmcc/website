@@ -5,39 +5,72 @@
 @endsection
 
 @section("content")
+
     <div class="container">
-        <div class="alert-dark">@isset($error)Error says : {{$error}}@endisset</div>
+        <div class="row">
+            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("security.home")}}">Back to Sceurity Home</a></div>
+        </div>
     </div>
 
-    <div class="container px-0 px-md-2">
-        <div class="head">Update Password</div>
-        <div class="info px-0 px-2">
-            <form action="{{$url->make("security.password.store")}}" method="post" class="tld-form ">
-                {{csrf()}}
-                <div class="form-group">
-                    <label for="password">Your Old Password </label>
-                    <input type="password" class="form-control tld-input" name="password">
-                </div>
-                <div class="form-row">
-                    <div class="col-sm-12 col-md-6">
-                        <label for="newpw">New Password</label>
-                        <input type="password" class="form-control tld-input" name="newpw">
+    @isset($error)
+        <div class="container my-2">
+            <div class="alert-dark">Error says : {{$error}}</div>
+        </div>
+    @endisset
+
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 py-2 text-center">
+                Update Account Password
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 py-2">
+                <form action="{{$url->make("security.password.store")}}" method="post" class="tld-form ">
+                    {{csrf()}}
+                    <div class="form-row mb-2">
+                        <div class="col-sm-12 col-md-3 py-1 text-center text-md-right pr-md-1">
+                            <label for="password">Your Old Password </label>
+                        </div>
+                        <div class="col-sm-12 col-md-9">
+                            <input type="password" class="form-control tld-input" name="password">
+                        </div>
                     </div>
 
-                    <div class="col-sm-12 col-md-6">
-                        <label for="confirm">Confirm Password</label>
-                        <input type="password" class="form-control tld-input" name="confirm">
+                    {{--                    New pw--}}
+
+                    <div class="form-row mb-2">
+                        <div class="col-sm-12 col-md-3 py-1 text-center text-md-right pr-md-1">
+                            <label for="password">Your new Password </label>
+                        </div>
+                        <div class="col-sm-12 col-md-9">
+                            <input type="password" class="form-control tld-input" name="newpw">
+                        </div>
                     </div>
-                </div>
 
+                    {{--                    confirm pw--}}
 
-                <hr class="text-black">
-                <div class="my-1">
-                    Please note that changing your password will log you out
-                </div>
+                    <div class="form-row mb-2">
+                        <div class="col-sm-12 col-md-3 py-1 text-center text-md-right pr-md-1">
+                            <label for="password">Confirm New Password </label>
+                        </div>
+                        <div class="col-sm-12 col-md-9">
+                            <input type="password" class="form-control tld-input" name="confirm">
+                        </div>
+                    </div>
 
-                <button class="my-2 btn tld-button btn-block">update Password</button>
-            </form>
+                    <h5 class="text-center my-2">
+                        Please note that changing your password will log you out
+                    </h5>
+
+                    <button class="my-2 btn tld-button btn-block">update Password</button>
+                </form>
+            </div>
+
         </div>
 
     </div>

@@ -11,11 +11,17 @@ Account Manager : Basic Informatiomn
             </div>
         </div>
     </div>
-<div class="container">
+
+    <div class="container my-1">
+        <div class="row box">
+            <div class="col-sm-12 head py-2">Edit Basic Information</div>
+        </div>
+    </div>
+
+<div class="container my-2">
     <div class="row">
-        <div class="col-md-12 px-0 px-md-1">
-            <div class="head">Edit Basic Information</div>
-            <form class="info" action="{{$url->make("account.basic.store")}}" method="post">
+        <div class="col-md-12 px-0 px-md-1 box py-2">
+            <form action="{{$url->make("account.basic.store")}}" method="post">
                 @isset($error)
                     <div class="alert-dark text-center">{{$error}}</div>
                 @endisset

@@ -180,6 +180,7 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
             $router->get("/?", [FeaturedController::class, "index"], "auth.admin.featured.home");
             $router->get("/manage/review/{id}", [FeaturedController::class, "review"], "auth.admin.featured.review");
             $router->get("/manage/request/{id}/status/{status}", [FeaturedController::class, "manage"], "auth.admin.featured.manage");
+            $router->get("/manage/delete/{id}", [FeaturedController::class, "delete"], "auth.admin.featured.delete");
 
         });
 

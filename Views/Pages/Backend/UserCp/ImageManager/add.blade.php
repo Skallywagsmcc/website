@@ -6,33 +6,31 @@
 @endsection
 
 @section("content")
-    <div class="container my-3">
-
-        <div class="row my-3">
-            <div class="col-sm-12">
-                <a href="{{$url->make("images.gallery.home")}}">Back to images Manager</a>
-            </div>
-        </div>
+    <div class="container">
         <div class="row">
-            <div class="col-sm-12 px-0 px-md-2">
-                <div class="head py-2">Image Manager Upload Images</div>
-                <div class="info px-1 text-center text-md-left">
-{{--                    Rules for images gors here --}}
-                </div>
-            </div>
+            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("images.gallery.home")}}">Back to Images Home</a></div>
+        </div>
+    </div>
 
-            <div class="col-sm-12 px-0 px-md-2 my-2">
-                <div class="head">Upload Images</div>
 
-                <form action="{{$url->make("images.gallery.store")}}" enctype="multipart/form-data" class="info  tld-form p-2" method="post">
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 head py-2">Upload a new Image</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row box">
+            <div class="col-sm-12">
+                <form action="{{$url->make("images.gallery.store")}}" enctype="multipart/form-data" class="tld-form py-2" method="post">
                     {{csrf()}}
                     <div class="form-row">
                         <div class="col-sm-12 text-left text-md-right col-md-6">
                             <label for="title" class="py-2 ">Title : </label>
                         </div>
-                    <div class="col-sm-12 col-md-6">
-                        <input type="text" class="form-control tld-input" name="title">
-                    </div>
+                        <div class="col-sm-12 col-md-6">
+                            <input type="text" class="form-control tld-input" name="title">
+                        </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="col-sm-12 px-0">
@@ -53,7 +51,6 @@
                     <input type="file" name="upload" class="my-2">
                     <button class="btn btn-block tld-button">Upload</button>
                 </form>
-
             </div>
         </div>
     </div>

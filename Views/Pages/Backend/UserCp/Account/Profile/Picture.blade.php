@@ -17,17 +17,22 @@
     </div>
 </div>
 
-                <div class="col head">
-                    Upload a profile picture
-                </div>
+            <div class="container">
+                <div class="row col-sm-12 head py-2">Update Profile Picture</div>
+            </div>
 
-                <form action="{{$url->make("account.picture.store")}}" method="post" enctype="multipart/form-data">
-                    {{csrf()}}
-                    <input type="file" name="upload">
-                    <button>Upload</button>
-                </form>
-        </div>
-    </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 d-flex justify-content-center">
+                        <form action="{{$url->make("account.picture.store")}}" method="post" enctype="multipart/form-data">
+                            {{csrf()}}
+                            <input type="file" name="upload">
+                            <button>Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
 
     {{--    the profile information will show down here.--}}
 

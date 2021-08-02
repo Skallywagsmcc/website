@@ -5,15 +5,22 @@
 @endsection
 
 @section("content")
-    <div class="container my-3">
-            <div class="col-sm-12 px-0 px-md-2 my-1">
-                <div class="col-sm-12 px-0 px-md-2">
-                    <div class="head py-2">Manage Two Factor Authentication</div>
-                    <div class="info px-1 text-center text-md-left">
-                    Currently Two Factor authentication Manager is unavailable Please continue to check back for futher updates
-                        <br><br>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("security.home")}}">Back to Sceurity Home</a></div>
+        </div>
+    </div>
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 head py-2">Your TFA Settings</div>
+        </div>
+    </div>
+
+    <div class="container my-1">
+        <div class="row box">
+            <div class="col-sm-12 px-0 px-md-2">
+                Currently Two Factor authentication Manager is unavailable Please continue to check back for futher
+                updates
             </div>
         </div>
     </div>
