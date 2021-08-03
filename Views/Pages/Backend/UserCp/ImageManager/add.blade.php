@@ -25,8 +25,8 @@
                 <form action="{{$url->make("images.gallery.store")}}" enctype="multipart/form-data" class="tld-form py-2" method="post">
                     {{csrf()}}
                     <div class="form-row">
-                        <div class="col-sm-12 text-left text-md-right col-md-6">
-                            <label for="title" class="py-2 ">Title : </label>
+                        <div class="col-sm-12 text-center text-md-right col-md-6">
+                            <label for="title" class="py-2 ">Title  </label>
                         </div>
                         <div class="col-sm-12 col-md-6">
                             <input type="text" class="form-control tld-input" name="title">
@@ -40,7 +40,7 @@
                             <textarea name="description" class="form-control" rows="10"></textarea>
                         </div>
                     </div>
-                    <div class="form row">
+                    <div class="form-row">
                         <div class="col-sm-12 col-md-6 py-2 text-md-right text-center">
                             <label for="ppic">Make this my profile Picture : </label>
                         </div>
