@@ -14,7 +14,8 @@ class Featured_Images
         Capsule::schema()->create("featured_images",function($table)
         {
             $table->id();
-            $table->foreignId('image_id')->nullable();
+            $table->foreignId('user_id');
+            $table->foreignId('image_id');
             $table->biginteger("status");
             $table->string("expires")->nullable();
             $table->timestamps();

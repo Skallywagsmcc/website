@@ -83,7 +83,7 @@ class UsersController
 
                         $settings = new UserSettings();
                         $settings->user_id = $users->id;
-                        $settings->two_factor_auth = 1;
+                        $settings->two_factor_auth = 0;
                         $settings->display_full_name = 1;
 //            if display full name = 0 then display username;
                         $settings->display_dob = 1;

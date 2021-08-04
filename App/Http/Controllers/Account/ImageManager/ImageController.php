@@ -131,13 +131,13 @@ class ImageController
     public function delete($id, Auth $auth,Url $url)
     {
 //        Name of
+        $id = base64_decode($id);
         $profile = Profile::where("user_id", $auth::id())->get()->first();
         $image = Image::where("id", $id);
         $featured = FeaturedImage::where("image_id",$image->get()->first()->id)->get()->first();
 
         $dir = __DIR__ . "/../../../../../img/uploads/";
 //        check for the directory
-
 
         if (is_dir($dir)) {
             if (file_exists($dir . $image->get()->first()->name)) {
@@ -147,10 +147,11 @@ class ImageController
                     $profile->save();
                 }
 //                delete from the file structure
-                    unlink($dir . $image->get()->first()->name);
+                    unlink($dir.$image->get()->first()->name);
 //                    delete the image from the database
                     $image->delete();
-
+//Delete from featured Requests database.
+                    $featured->destroy($featured->id);
                     redirect($url->make("images.gallery.home"));
             }
         } else {

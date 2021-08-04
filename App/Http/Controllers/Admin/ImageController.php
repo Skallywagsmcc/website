@@ -45,7 +45,7 @@ class ImageController
     public function view($username, $id, Url $url)
     {
         $id = base64_decode($id);
-        $image = User::where("username", $username)->get()->first()->Images()->find($id);
+        $image = User::where("username", $username)->get()->first()->Images()->where("id",$id)->get();
         echo TemplateEngine::View("Pages.Backend.AdminCp.Images.manage", ["url" => $url, "image" => $image]);
 
 

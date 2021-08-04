@@ -139,17 +139,16 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
 
     $router->group(["prefix" => "/images/manage"], function (Router $router) {
 //        Crud
-        $router->get("/?", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.home");
-        $router->get("/list", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.list");
+        $router->get("/?", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.home");
         $router->get("/add", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "create"], "images.gallery.add");
         $router->get("/update/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "edit"], "images.gallery.update");
         $router->get("/delete/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "delete"], "images.gallery.delete");
 //        Requests
 //        Post requests
         $router->post("/store",[\App\Http\Controllers\Account\ImageManager\ImageController::class, "store"], "images.gallery.store");
-        $router->get("/requests", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.requests");
-//        Profile
-//        $router->get("/profile-picture", [\App\Http\Controllers\Account\ImageManager\HomeController::class, "index"], "images.gallery.profile-pic");
+        $router->get("/featured/requests", [\App\Http\Controllers\Account\ImageManager\FeatueredImageController::class, "index"], "images.featured.home");
+        $router->get("/featured/requests/add/{id}", [\App\Http\Controllers\Account\ImageManager\FeatueredImageController::class, "add"], "images.featured.add");
+        $router->get("/featured/requests/delete/{id}", [\App\Http\Controllers\Account\ImageManager\FeatueredImageController::class, "delete"], "images.featured.delete");
     });
 
     $router->group(["prefix"=>"/admin"],function (Router $router)

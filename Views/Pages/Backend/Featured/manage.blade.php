@@ -9,15 +9,15 @@
     @if($count== 1)
     <div class="container">
 
-        <div class="row">
+        <div class="row px-0">
             <div class="col-sm-12 col-md-4 my-2">
-                <div class="col-sm-12 text-center">
+                <div class="col-sm-12 text-center px-0">
                     <img src="/img/uploads/{{$featured->Image->name}}" alt=""
                          class="text-center img-fluid px-0 mx-auto mb-2">
                 </div>
 
             </div>
-            <div class="col-sm-12 col-md-8 my-2">
+            <div class="col-sm-12 col-md-8 my-2 px-0">
 
                 <div class="col-sm-12 box px-0 text-center text-md-left">
                     <div class="head">Image Description</div>
@@ -50,8 +50,8 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <div class="col-sm-12 box px-0 text-center text-md-left mb-2">
+            <div class="col-sm-12 px-0">
+                <div class="col-sm-12 box px-0 text-center text-md-left mb-2 ">
                     <div class="head">
                         <div class="px-1">Instruction of usage</div>
                     </div>
@@ -67,13 +67,12 @@
             </div>
         </div>
 
-        <div class="col-sm-12 box my-2">
-            <div class="row font-weight-bold text-center border-top">
+            <div class="row font-weight-bold text-center box px-0">
                 <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.manage",["id"=>base64_encode($featured->id),"status" => 2])}}" class="d-block py-2">Accept Request</a></div>
                 <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.manage",["id"=>base64_encode($featured->id),"status" => 0])}}" class="d-block py-2">Deny Request</a></div>
                 <div class="col-sm-12 col-md-4"><a href="{{$url->make("auth.admin.featured.delete",["id"=>base64_encode($featured->id)])}}" class="d-block py-2">Cancel Request</a></div>
             </div>
-        </div>
+
     </div>
     @else
         <div class="container">

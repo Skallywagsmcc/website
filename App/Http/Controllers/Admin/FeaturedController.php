@@ -92,6 +92,7 @@ public function manage(Url $url, $id,$status)
         {
             echo "No Id Found";
         }
+        redirect($url->make("auth.admin.featured.home"));
     }
 
     /*Create a colum in settings  to auto allow submissions*/

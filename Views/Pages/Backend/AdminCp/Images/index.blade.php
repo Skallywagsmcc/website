@@ -35,9 +35,9 @@
         <div class="row">
             <div class="col-sm-12 head">Manage Uploaded Images  </div>
             @foreach($images  as $image)
-                <div class="col-sm-12 col-md-3 my-2">
+                <div class="col-sm-12 col-md-4 my-2">
                     <div class="col-sm-12 border border-primary py-1">
-                        <img src="/img/uploads/{{$image->name}}" height="200" width="200" alt="">
+                        <img src="/img/uploads/{{$image->name}}" class="img-fluid" alt="{{$image->name}}-{{$image->id}}">
                     </div>
                     <div class="col-sm-12 border border-primary my-1"><a href="{{$url->make("admin.images.manage",["username"=>$image->user->username,"id"=>base64_encode($image->id)])}}">Manage Images</a></div>
                 </div>

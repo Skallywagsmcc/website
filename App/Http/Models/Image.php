@@ -36,9 +36,21 @@ class Image extends Controller
     }
 
 
+//    featured Requests Below
+
     public function Featured()
     {
         return $this->hasOne(FeaturedImage::class);
+    }
+
+    public function count_featured($id)
+    {
+        return $this->hasOne(FeaturedImage::class)->where("image_id",$id)->count();
+    }
+
+    public function fstatus($id)
+    {
+        return $this->hasOne(FeaturedImage::class)->where("image_id",$id)->get()->first()->status;
     }
 
 
