@@ -31,7 +31,8 @@ class HomeController
         $images = Image::all();
 //        Count Comments
         $comments = Comment::all();
-        $featured = FeaturedImage::all()we;
+        $featured = FeaturedImage::all();
+
         $options = ["url" => $url,
             "users" => $users,
             "articles" => $articles,

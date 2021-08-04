@@ -5,7 +5,15 @@
 @endsection
 
 
+
 @section("content")
+
+
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("auth.admin.events.home")}}">Back to Events Home</a></div>
+        </div>
+    </div>
 
     <div class="container my-2">
         <div class="row box">

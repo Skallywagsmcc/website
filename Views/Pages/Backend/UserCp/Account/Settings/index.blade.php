@@ -14,7 +14,7 @@
     </div>
     <div class="container my-2">
         <div class="row box">
-            <div class="col-sm-12 hea py-2">Update Account Settings</div>
+            <div class="col-sm-12 head py-2">Update Account Settings</div>
         </div>
     </div>
     <div class="container my-1">

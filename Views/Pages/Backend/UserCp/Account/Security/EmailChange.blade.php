@@ -6,10 +6,9 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("security.home")}}">Back to Sceurity Home</a></div>
+            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("security.home")}}">Back to Security Home</a></div>
         </div>
     </div>
-
     <div class="container my-2">
         <div class="row box">
             <div class="col-sm-12 py-2 head">Update Email Address</div>

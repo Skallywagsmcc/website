@@ -32,22 +32,30 @@ class EventsController
 
     public function store(Url $url, Validate $validate, Csrf $csrf)
     {
-        $event = new Event();
+        if($csrf->Verify() == true) {
+            $event = new Event();
+            $event->uuid = $validate->uuid();
+            $event->title = ucwords($validate->Required("title")->Post());
+            $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
+            $event->content = $validate->Post("content");
+            $event->start = $validate->Required("start")->Post();
+            $event->end = $validate->Required("end")->Post();
+            $event->address = trim($validate->Required("name")->Post() . ",");
+            $event->address .= trim($validate->Required("street")->Post() . ",");
+            $event->address .= trim($validate->Required("city")->Post() . ",");
+            $event->address .= trim($validate->Required("county")->Post() . ",");
+            $event->address .= trim($validate->Required("postcode")->Post() . ",");
+            $event->save();
 
-        $event->uuid = $validate->uuid();
-        $event->title = ucwords($validate->Required("title")->Post());
-        $event->slug = slug($event->title  . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
-        $event->content = $validate->Post("content");
-        $event->start = $validate->Required("start")->Post();
-        $event->end = $validate->Required("end")->Post();
-        $event->address = trim($validate->Required("name")->Post() . ",");
-        $event->address .= trim($validate->Required("street")->Post() . ",");
-        $event->address .= trim($validate->Required("city")->Post() . ",");
-        $event->address .= trim($validate->Required("county")->Post() . ",");
-        $event->address .= trim($validate->Required("postcode")->Post() . ",");
-        $event->save();
+            echo $event->id;
+            if ($validate->Post("route") == 1) {
+                redirect($url->make("auth.admin.events.route.add", ["id" => base64_encode($event->id)]));
+            } else {
+                redirect($url->make("auth.admin.events.home"));
+            }
+        }
 
-        echo TemplateEngine::View("Pages.Backend.Events.new", ["page" => $page, "event" => $event, "url" => $url, "IsRequired"]);
+
     }
 
     public function edit(Url $url, $id, Validate $validate)
@@ -58,26 +66,29 @@ class EventsController
         echo TemplateEngine::View("Pages.Backend.Events.edit", ["event" => $event, "address" => $address, "url" => $url]);
     }
 
-    public function update(Validate $validate, Url $url)
+    public function update(Validate $validate, Url $url,Csrf $csrf)
     {
-        $id = $validate->Post("id");
-        $event = event::find($id);
-        $event->title = ucwords($validate->Required("title")->Post());
-        $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
-        $event->content = $validate->Post("content");
-        if ($validate->Post("ms") == 1) {
-            $event->start = $validate->Required("start")->Post();
+        if($csrf->Verify() == true) {
+            $id = $validate->Post("id");
+            $event = event::find($id);
+            $event->title = ucwords($validate->Required("title")->Post());
+            $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
+            $event->content = $validate->Post("content");
+            if ($validate->Post("ms") == 1) {
+                $event->start = $validate->Required("start")->Post();
+            }
+            if ($validate->Post("me") == 1) {
+                $event->end = $validate->Required("end")->Post();
+            }
+            $event->address = trim($validate->Required("name")->Post() . ",");
+            $event->address .= trim($validate->Required("street")->Post() . ",");
+            $event->address .= trim($validate->Required("city")->Post() . ",");
+            $event->address .= trim($validate->Required("county")->Post() . ",");
+            $event->address .= trim($validate->Required("postcode")->Post() . ",");
+            $event->save();
+
+            redirect($url->make("admin.events.home"));
         }
-        if ($validate->Post("me") == 1) {
-            $event->end = $validate->Required("end")->Post();
-        }
-        $event->address = trim($validate->Required("name")->Post() . ",");
-        $event->address .= trim($validate->Required("street")->Post() . ",");
-        $event->address .= trim($validate->Required("city")->Post() . ",");
-        $event->address .= trim($validate->Required("county")->Post() . ",");
-        $event->address .= trim($validate->Required("postcode")->Post() . ",");
-        $event->save();
-        redirect($url->make("admin.events.home"));
     }
 
     public function delete($id,Url $url)

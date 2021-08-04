@@ -4,7 +4,9 @@
 namespace App\Http\Models;
 
 
-class EventTimeline
+use App\Http\Controllers\Controller;
+
+class EventTimeline extends Controller
 {
 
 }

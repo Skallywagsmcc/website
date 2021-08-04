@@ -138,6 +138,20 @@ these settings will be used to import the chosen stylesheet
     border-radius: 10px;
     background-color: #336699;
   }
+
+  .link, .link:link, .link:active, .link:focus, .link:hover {
+    color: #fff;
+    border-radius: 10px;
+    background-color: #336699;
+  }
+
+  .withhover:hover {
+    background-color: #3973ac;
+    color: white;
+  }
+  .withhover:hover a, .withhover:hover a:link, .withhover:hover a:hover {
+    color: white;
+  }
 }
 @media (max-width: 998.91px) {
   #navbar {
@@ -208,12 +222,12 @@ these settings will be used to import the chosen stylesheet
   .box {
     background: white;
     color: black;
-    border-top: solid 1px #000;
-    border-bottom: solid 1px #000;
+    border: solid 1px #000;
   }
-  .box .head {
+  .box .head, .box .title {
     color: #000;
     font-weight: bolder;
+    background-color: red;
   }
 
   .tu {

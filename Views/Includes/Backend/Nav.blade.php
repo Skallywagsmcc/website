@@ -2,7 +2,7 @@
     <div class="navbar-brand">
         <img src="/img/logo.png" alt="Logo">
     </div>
-    <a href="#" class="navbar-toggler d-block d-md-none" data-toggle="collapse" data-target="#navbarNav"
+    <a href="#" class="navbar-toggler d-block d-lg-none" data-toggle="collapse" data-target="#navbarNav"
        aria-controls="navbarNav"
        aria-expanded="false" aria-label="Toggle navigation">Menu</a>
 

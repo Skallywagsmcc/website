@@ -13,44 +13,28 @@
         </div>
     </div>
 
-        <div class="container">
+    <div class="container">
 
-            <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form ">
-                <div class="form-row">
-                    <div class="col-sm-12 col-md-9 my-3">
-                        <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">
-                    </div>
-                    <div class="col-sm-12 col-md-3 my-3 ">
-                        <button class="btn btn-block btn-dark">Search</button>
-                    </div>
+        <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form ">
+            <div class="form-row">
+                <div class="col-sm-12 col-md-9 my-3">
+                    <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">
                 </div>
-            </form>
-        </div>
-
-
-        <div class="container">
-            <div class="row box px-0">
-                <div class="col-sm-12 px-0">
-                    <h5 class="px-0 head">The Users Manager</h5>
-                    <div class="py-2 px-md-1">
-                     This section does exactly what it says on the tin, it allows you as an admin to manage a users account, Create a new user, or delete there account.
-                        <br><br>
-                        Want to add a Crew Member Status to your member visit the <a href="{{$url->make("auth.admin.members.home")}}">Members Section</a> and apply this role to the users account
-                        <hr>
-                        <h5 class="text-center"> ** Please note that this does not give the users with Member status any extra Privileges **</h5>
-                        </h5>
-                    </div>
-
+                <div class="col-sm-12 col-md-3 my-3 ">
+                    <button class="btn btn-block btn-dark">Search</button>
                 </div>
             </div>
-        </div>
+        </form>
+    </div>
 
-        <div class="container box my-2">
-            <div class="col-sm-12 text-md-right text-center py-2">
-                <a href="{{$url->make("auth.admin.users.new")}}" class="d-block">Create a New User</a>
-            </div>
-        </div>
 
+
+
+    <div class="container my-2">
+        <div class="col-sm-12 text-md-right text-center py-2 new">
+            <a href="{{$url->make("auth.admin.users.new")}}" class="p-2">Create a New User</a>
+        </div>
+    </div>
 
     <div class="container">
         <div class="row px-0">
@@ -73,22 +57,40 @@
                             <div class="col-sm-12 col-md-4 text-center">
                                 <div class="col-sm-12 px-0">
                                     @if((is_null($user->Profile->profile_pic)) ||(!file_exists("./img/uploads/".$user->Profile->image->name)) )
-                                        <img class="" src="/img/logo.png" alt="{{$user->Profile->image->title}}" height="200" width="200"/>
+                                        <img class="" src="/img/logo.png" alt="{{$user->Profile->image->title}}"
+                                             height="200" width="200"/>
                                     @else
-                                        <img class="" src="/img/uploads/{{$user->Profile->image->name}}" alt="{{$user->Profile->image->title}}" height="200" width="200"/>
+                                        <img class="" src="/img/uploads/{{$user->Profile->image->name}}"
+                                             alt="{{$user->Profile->image->title}}" height="200" width="200"/>
                                     @endif
                                 </div>
                                 <div class="col-sm-12 px-0  my-2 py-2 text-center">
-                                    <a href="{{$url->make("auth.admin.users.edit",["id"=>base64_encode($user->id),"username"=>base64_encode($user->username)])}}" class="d-block">Manage {{$user->username}}</a>
+                                    <a href="{{$url->make("auth.admin.users.edit",["id"=>base64_encode($user->id),"username"=>base64_encode($user->username)])}}"
+                                       class="d-block">Manage {{$user->username}}</a>
                                 </div>
                             </div>
                         @endforeach
                     </div>
 
                 </div>
+                <div class="col-sm-12 py-2 text-center"><a href="#" class="d-block">Help Uploading a user</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row box px-0">
+            <div class="col-sm-12 px-0">
+                <h5 class="px-0 head">The Users Manager</h5>
+                <div class="py-2 px-md-1">
+                    This section does exactly what it says on the tin, it allows you as an admin to manage a users account, Create a new user, or delete there account.
+                    <br><br>
+                    Want to add a Crew Member Status to your member visit the <a href="{{$url->make("auth.admin.members.home")}}">Members Section</a> and apply this role to the users account
+                    <hr>
+                    <h5 class="text-center"> ** Please note that this does not give the users with Member status any extra Privileges **</h5>
+                    </h5>
                 </div>
-
-
+            </div>
         </div>
     </div>
 @endsection

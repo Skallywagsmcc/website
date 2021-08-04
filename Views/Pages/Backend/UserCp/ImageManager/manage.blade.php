@@ -68,8 +68,7 @@
                             class="d-block">Learn why?</div>
             @elseif($image->fstatus($image->id) == 2)
                 <div class="col-sm-12 col-md-6 py-2 text-center">Current Status Approved</div>
-                <div class="col-sm-12 col-md-6 py-2 text-center">
-                    {{$image->Featured->id}}<a
+                <div class="col-sm-12 col-md-6 py-2 text-center"><a
                             href="{{$url->make("images.featured.delete",["id"=>base64_encode($image->Featured->id)])}}"
                             class="d-block">Delete Request</div>
             @else
