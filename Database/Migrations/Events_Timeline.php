@@ -11,15 +11,14 @@ class Events_Timeline
 
     public static function up()
     {
-        Capsule::schema()->create("events_timeline",function($table)
+        Capsule::schema()->create("event_timelines",function($table)
         {
             $table->id();
             $table->foreignId('event_id');
-            $table->string("location");
-            $table->time("time");
+            $table->integer("order_id");
+            $table->longtext("location");
+            $table->string("map_uri");
             $table->timestamps();
         });
     }
-
-
 }
