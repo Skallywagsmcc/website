@@ -6,6 +6,7 @@
 
 
 @section("content")
+<<<<<<< HEAD
 @isset($message)
     <div class="container my-2">
         <div class="row box">
@@ -13,6 +14,9 @@
         </div>
     </div>
     @endisset
+=======
+
+>>>>>>> 6884d7fa6c93e09ef874fda9693cf4e9cf7a6008
     <div class="container my-2">
         <div class="row box px-0">
             <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Add The Location Stopping Points</div>
@@ -59,19 +63,27 @@
                         <div class="col-sm-12 col-md-3 py-2 py-md-3">
                             <label for="location">PostCode </label>
                         </div>
+<<<<<<< HEAD
                         <div class="col-sm-12 col-md-8 py-2"><input type="text" name="postcode" value="{{$location[4]}}" class="form-control tld-input"></div>
+=======
+                        <div class="col-sm-12 col-md-8 py-2"><input type="text" name="postcode" value="{{$location[4]}}"
+                                                                    class="form-control tld-input"></div>
+>>>>>>> 6884d7fa6c93e09ef874fda9693cf4e9cf7a6008
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="container my-2">
+<<<<<<< HEAD
             <div class="row box col-sm-12 py-2 text-center">
                 <input type="password" class="tld-input form-control" name="password" placeholder="Enter Required Password">
             </div>
         </div>
 
         <div class="container my-2">
+=======
+>>>>>>> 6884d7fa6c93e09ef874fda9693cf4e9cf7a6008
             <div class="row ">
                 <div class="col-sm-12  py-2">
                     <button class="btn-block tld-button btn">Update this stop</button>

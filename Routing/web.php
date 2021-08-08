@@ -169,7 +169,11 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
                 $router->post("/add", [EventTimelineController::class, "store"], "auth.admin.events.routes.add");
                 $router->get("/edit/{id}", [EventTimelineController::class, "edit"], "auth.admin.events.routes.edit");
                 $router->post("/update", [EventTimelineController::class, "update"], "auth.admin.events.routes.update");
+<<<<<<< HEAD
                 $router->post("/delete", [EventTimelineController::class, "delete"], "auth.admin.events.routes.delete");
+=======
+                $router->post("/update/order", [EventTimelineController::class, "updateorder"], "auth.admin.events.routes.uoid");
+>>>>>>> 6884d7fa6c93e09ef874fda9693cf4e9cf7a6008
             });
 //
         });
