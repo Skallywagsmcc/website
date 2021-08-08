@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     $("#help").hide();
     $(".nav-menu").children(".nav").hide();
     //this will display the first command
@@ -49,8 +48,6 @@ $(document).ready(function () {
            $(this).parent("div").children(".toggled_content").hide();
        }
     })
-
-
 
 
 

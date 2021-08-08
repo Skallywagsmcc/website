@@ -91,7 +91,6 @@ class Csrf extends Auth
 //            Verify the code matches
                 if ($validate->Post("csrf") == $token->key) {
                     $this->GenerateToken(self::id());
-                    echo "valid";
                     return true;
                 } else {
                     exit("invalid Token found");

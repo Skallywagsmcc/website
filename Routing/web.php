@@ -1,28 +1,30 @@
 <?php
 
+use App\Http\Controllers\Account\ImageManager\FeatueredImageController;
 use App\Http\Controllers\Account\Profile\AboutController;
 use App\Http\Controllers\Account\Profile\BasicInfoController;
+use App\Http\Controllers\Account\Profile\ProfilePictureController;
 use App\Http\Controllers\Account\Security\EmailController;
 use App\Http\Controllers\Account\Security\PasswordController;
-use App\Http\Controllers\Account\Profile\ProfilePictureController;
 use App\Http\Controllers\Account\Security\TfaController;
 use App\Http\Controllers\Account\SettingsController;
+use App\Http\Controllers\Admin\ArticlesController as AdminArticles;
 use App\Http\Controllers\Admin\ChartersController;
 use App\Http\Controllers\Admin\EventsController;
+use App\Http\Controllers\Admin\EventTimelineController;
 use App\Http\Controllers\Admin\FeaturedController;
-use App\Http\Controllers\Admin\ArticlesController as AdminArticles;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\TwoFactorAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\Members;
 use App\Http\Controllers\Profile\GalleryController;
 use App\Http\Controllers\SearchController;
-use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\SqlInstaller\Base;
 use App\Http\Middleware;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
@@ -145,14 +147,13 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
         $router->get("/delete/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "delete"], "images.gallery.delete");
 //        Requests
 //        Post requests
-        $router->post("/store",[\App\Http\Controllers\Account\ImageManager\ImageController::class, "store"], "images.gallery.store");
-        $router->get("/featured/requests", [\App\Http\Controllers\Account\ImageManager\FeatueredImageController::class, "index"], "images.featured.home");
-        $router->get("/featured/requests/add/{id}", [\App\Http\Controllers\Account\ImageManager\FeatueredImageController::class, "add"], "images.featured.add");
-        $router->get("/featured/requests/delete/{id}", [\App\Http\Controllers\Account\ImageManager\FeatueredImageController::class, "delete"], "images.featured.delete");
+        $router->post("/store", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "store"], "images.gallery.store");
+        $router->get("/featured/requests", [FeatueredImageController::class, "index"], "images.featured.home");
+        $router->get("/featured/requests/add/{id}", [FeatueredImageController::class, "add"], "images.featured.add");
+        $router->get("/featured/requests/delete/{id}", [FeatueredImageController::class, "delete"], "images.featured.delete");
     });
 
-    $router->group(["prefix"=>"/admin"],function (Router $router)
-    {
+    $router->group(["prefix" => "/admin"], function (Router $router) {
 
         $router->group(["prefix" => "/events"], function (Router $router) {
             $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
@@ -163,12 +164,12 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
             $router->get("/delete/{id}", [EventsController::class, "delete"], "auth.admin.events.delete");
 
 //            Route timeline
-            $router->group(["prefix"=>"/route"],function (Router $router)
-            {
-                $router->get("/{id}",function($id){
-                    $id = base64_decode($id);
-                    echo "$id";
-                },"auth.admin.events.route.add");
+            $router->group(["prefix" => "/route"], function (Router $router) {
+                $router->get("/{id}", [EventTimelineController::class, "show"], "auth.admin.events.routes.home");
+                $router->post("/add", [EventTimelineController::class, "store"], "auth.admin.events.routes.add");
+                $router->get("/edit/{id}", [EventTimelineController::class, "edit"], "auth.admin.events.routes.edit");
+                $router->post("/update", [EventTimelineController::class, "update"], "auth.admin.events.routes.update");
+                $router->post("/delete", [EventTimelineController::class, "delete"], "auth.admin.events.routes.delete");
             });
 //
         });
@@ -184,8 +185,7 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
 
         });
 
-        $router->group(["prefix"=>"/featured"],function (Router $router)
-        {
+        $router->group(["prefix" => "/featured"], function (Router $router) {
             $router->get("/?", [FeaturedController::class, "index"], "auth.admin.featured.home");
             $router->get("/manage/review/{id}", [FeaturedController::class, "review"], "auth.admin.featured.review");
             $router->get("/manage/request/{id}/status/{status}", [FeaturedController::class, "manage"], "auth.admin.featured.manage");
@@ -196,20 +196,18 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
         $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings");
         $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "auth.admin.settings.store");
 
-        $router->group(["prefix"=>"/users"],function (Router $router)
-        {
-            $router->get("/?",[UsersController::class,"index"],"auth.admin.users.home");
-            $router->get("/new",[UsersController::class,"create"],"auth.admin.users.new");
-            $router->get("/edit/{id}/{username}",[UsersController::class,"edit"],"auth.admin.users.edit");
-            $router->post("/store",[UsersController::class,"store"],"auth.admin.users.store");
-            $router->post("/update/",[UsersController::class,"update"],"auth.admin.users.update");
-            $router->get("/search",[UsersController::class,"search"],"auth.admin.users.search");
+        $router->group(["prefix" => "/users"], function (Router $router) {
+            $router->get("/?", [UsersController::class, "index"], "auth.admin.users.home");
+            $router->get("/new", [UsersController::class, "create"], "auth.admin.users.new");
+            $router->get("/edit/{id}/{username}", [UsersController::class, "edit"], "auth.admin.users.edit");
+            $router->post("/store", [UsersController::class, "store"], "auth.admin.users.store");
+            $router->post("/update/", [UsersController::class, "update"], "auth.admin.users.update");
+            $router->get("/search", [UsersController::class, "search"], "auth.admin.users.search");
         });
 
-        $router->group(["prefix"=>"/articles"],function(Router $router)
-        {
-            $router->get("/?",[AdminArticles::class,"index"],"auth.admin.articles.home");
-            $router->get("/search",[AdminArticles::class,"search"],"auth.admin.articles.search");
+        $router->group(["prefix" => "/articles"], function (Router $router) {
+            $router->get("/?", [AdminArticles::class, "index"], "auth.admin.articles.home");
+            $router->get("/search", [AdminArticles::class, "search"], "auth.admin.articles.search");
             $router->get("/new", [AdminArticles::class, 'create'], "auth.admin.articles.new");
             $router->post("/new", [AdminArticles::class, 'store'], "auth.admin.articles.store");
             $router->get("/edit/{slug}/{id}", [AdminArticles::class, 'edit'], "auth.admin.articles.edit");
@@ -229,18 +227,16 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
             $router->get("/delete/{id}", [ChartersController::class, 'delete'], "auth.admin.charters.delete");
         });
 
-        $router->group(["prefix"=>"/members"],function (Router $router)
-        {
-            $router->get("/?",[\App\Http\Controllers\Admin\MembersController::class,"index"],"auth.admin.members.home");
-            $router->get("/search",[\App\Http\Controllers\Admin\MembersController::class,"search"],"auth.admin.members.search");
-            $router->post("/store",[\App\Http\Controllers\Admin\MembersController::class,"store"],"auth.admin.members.store");
-            $router->get("/crew/add/{id}",[\App\Http\Controllers\Admin\MembersController::class,"add"],"auth.admin.members.add");
-            $router->get("/crew/remove/{id}",[\App\Http\Controllers\Admin\MembersController::class,"remove"],"auth.admin.members.remove");
+        $router->group(["prefix" => "/members"], function (Router $router) {
+            $router->get("/?", [MembersController::class, "index"], "auth.admin.members.home");
+            $router->get("/search", [MembersController::class, "search"], "auth.admin.members.search");
+            $router->post("/store", [MembersController::class, "store"], "auth.admin.members.store");
+            $router->get("/crew/add/{id}", [MembersController::class, "add"], "auth.admin.members.add");
+            $router->get("/crew/remove/{id}", [MembersController::class, "remove"], "auth.admin.members.remove");
         });
 
 
-
-        $router->get("/?",[\App\Http\Controllers\Admin\HomeController::class,"index"],"auth.admin.home");
+        $router->get("/?", [\App\Http\Controllers\Admin\HomeController::class, "index"], "auth.admin.home");
     });
 
 //    Load Base Page
