@@ -24,5 +24,16 @@
                 <div class="info">Section Coming soon</div>
             </div>
         </div>
+
+        <div class="block">
+            <div>Next button goes here</div>
+            <a href="#" class="nextbtn">Next</a>
+        </div>
+
+        <div class="block">
+            <a href="#" class="prevbtn">previous</a>
+{{--            <a href="#" class="nextbtn">Next</a>--}}
+        </div>
+
     </div>
 @endsection

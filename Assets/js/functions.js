@@ -5,18 +5,17 @@ $(document).ready(function () {
     $(".nav-menu").children(".nav").first().show();
     $("#help").hide();
     $("#help-toggle").text("Help ");
+    $(".block").hide();
+    $(".block").first().show();
 
-    $("#help-toggle").click(function (
-    ) {
+
+    $("#help-toggle").click(function () {
         //toggle the help id
-        $("#help").slideToggle("slow",function () {
+        $("#help").slideToggle("slow", function () {
 
-            if($(this).is(":hidden"))
-            {
+            if ($(this).is(":hidden")) {
                 $("#help-toggle").text("Show Help");
-            }
-            else
-            {
+            } else {
                 $("#help-toggle").text("Hide Help");
             }
         });
@@ -24,9 +23,24 @@ $(document).ready(function () {
         return false;
     })
 
-    $(".nav-toggle").click(
-        function()
+    $(".nextbtn").children("a").click(function () {
         {
+            $(this).parent(".nextbtn").parent(".row").parent(".block").slideUp("fast")
+            $(this).parent(".nextbtn").parent(".row").parent(".block").next().slideDown("fast");
+            return false;
+        }
+    })
+
+    $(".prevbtn").children("a").click(function () {
+        {
+            $(this).parent(".prevbtn").parent(".row").parent(".block").slideUp("fast")
+                $(this).parent(".prevbtn").parent(".row").parent(".block").prev().slideDown("fast");
+                return false;
+        }
+    })
+
+    $(".nav-toggle").click(
+        function () {
             $(".nav-menu").children(".nav").hide()
             $(this).parent(".nav-menu").children(".nav").show()
         }
@@ -37,20 +51,13 @@ $(document).ready(function () {
     });
 
     $(".toggled_content").hide();
-    $(".toggle_check").click(function ()
-    {
-       if($(this).prop("checked"))
-       {
-           $(this).parent("div").children(".toggled_content").show();
-       }
-       else
-       {
-           $(this).parent("div").children(".toggled_content").hide();
-       }
+    $(".toggle_check").click(function () {
+        if ($(this).prop("checked")) {
+            $(this).parent("div").children(".toggled_content").show();
+        } else {
+            $(this).parent("div").children(".toggled_content").hide();
+        }
     })
-
-
-
 
 
 })
