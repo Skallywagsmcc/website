@@ -9,6 +9,7 @@
     <script src="/Resources/js/popper.js"></script>
     <script src="/Resources/js/bootstrap.min.js"></script>
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head
 <body>
 {{--<div class="container-fluid">--}}
@@ -29,7 +30,8 @@
 
 @include("Includes.Backend.Nav")
 
-<div class="container-fluid text-center text-md-left my-3 py-2" id="account_bar">
+<div  class="container-fluid text-center text-md-left my-3 py-2" id="account_bar">
+
     <div class="row">
         <div class="col-sm-12 col-md-6">
             @if(\App\Http\Models\Profile::where("user_id",\App\Http\Libraries\Authentication\Auth::id())->get()->first()->profile_pic == null)
@@ -50,5 +52,7 @@
 <div class="row footer mx-0">
     <div class="col-sm-12">UCP {{date("Y")}} by Martin </div>
 </div>
+
+
 </body>
 </html>

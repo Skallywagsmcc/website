@@ -5,6 +5,8 @@
 
 @section("content")
 
+
+
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center text-md-left pl-md-1 py-2">
@@ -72,8 +74,8 @@
                         </div>
 
                         <div class="row">
-{{--                            <div class="col-sm-12 col-md-6 py-2 prevbtn"><a href="#">Previous</a></div>--}}
-                            <div class="col-sm-12 col-md-6 py-2 nextbtn"><a href="#">next</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
                         </div>
 
                     </div>
@@ -89,13 +91,14 @@
                                    value="@isset($user){{$user->username}} @endisset">
                         </div>
                         <div class="row">
-                            <div class="col-sm-12 col-md-6 py-2 prevbtn"><a href="#">Previous</a></div>
-                            <div class="col-sm-12 col-md-6 py-2 nextbtn"><a href="#">next</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
                         </div>
                     </div>
 
 
                     <div class="block">
+
                         <div class="form-row">
                             {{--                <div class="form-group col-md-6">--}}
                             {{--                    <label for="first_name">Generate Random Password (tick the checkbox) </label>--}}
@@ -111,8 +114,8 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12 col-md-6 py-2 prevbtn"><a href="#">Previous</a></div>
-                            <div class="col-sm-12 col-md-6 py-2 nextbtn"><a href="#">next</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
                         </div>
                     </div>
 
@@ -123,22 +126,24 @@
                         <input type="checkbox" name="is_admin" value="1">
 
                         <div class="row">
-                            <div class="col-sm-12 col-md-6 py-2 prevbtn"><a href="#">Previous</a></div>
-{{--                            <div class="col-sm-12 col-md-6 py-2 nextbtn"><a href="#">next</a></div>--}}
+                            <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                            <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
                         </div>
                     </div>
 
 
-
-                    <div class="form-group text-right">
-                        <button class="btn btn-primary">Create User</button>
+                    <div class="block">
+                        <div class="form-group text-right">
+                            <button class="btn btn-primary btn-block">Create User</button>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12  py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
+                        </div>
                     </div>
 
                 </form>
             </div>
         </div>
     </div>
-
-
-
 @endsection
+

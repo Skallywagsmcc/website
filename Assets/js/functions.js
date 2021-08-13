@@ -8,6 +8,14 @@ $(document).ready(function () {
     $(".block").hide();
     $(".block").first().show();
 
+    $("body").on("click",".remove-btn",function(e){
+        $(this).parents('.user-data').remove();
+    });
+
+
+
+
+
 
     $("#help-toggle").click(function () {
         //toggle the help id
@@ -19,7 +27,6 @@ $(document).ready(function () {
                 $("#help-toggle").text("Hide Help");
             }
         });
-
         return false;
     })
 
