@@ -12,5 +12,23 @@ class Event extends \App\Http\Controllers\Controller
         return $this->belongsTo(User::class);
     }
 
+    public function year()
+    {
+
+    }
+    public function month()
+    {
+
+    }
+    public function day()
+    {
+
+    }
+
+    public function image()
+    {
+        return $this->hasOne(Image::class,"id","thumbnail");
+    }
+
 
 }

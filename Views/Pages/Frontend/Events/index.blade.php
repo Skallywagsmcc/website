@@ -7,6 +7,33 @@
 @section("content")
     <div class="container">
         <div class="row">
+            <div class="col-sm-12 col-md-4 px-0">
+                <div class="col-sm-12 head ">Events by Year</div>
+                @foreach($years as $year)
+                    <div class="text-center">
+                        <a href="{{$url->make("events.view.year",["year"=>$year->year])}}">{{$year->year}}</a>
+                    </div>
+                @endforeach
+            </div>
+        <div class="col-sm-12 head">The Next Event : {{$first->title}}</div>
+        </div>
+    </div>
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-sm-12 head">More Events</div>
+                @foreach($next as $n)
+                    <div class="col-sm-12 col-md-3">
+                        <div class="col-sm-12 py-0 d-flex justify-content-center">
+                            <img src="/img/logo.png" class="img-fluid" alt="" height="150px" width="150px">
+                        </div>
+                        <div class="col-sm-12 p-0 my-2 text-center"><a href="{{$url->make("events.view",["slug"=>$n->slug])}}">{{$n->title}}</a></div>
+                    </div>
+                @endforeach
+        </div>
+    </div>
+
+    <div class="container my-2">
+        <div class="row">
             <div class="col-sm-12 head">Latest Events</div>
             <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa nemo quibusdam voluptates! Atque dolor
                 doloremque ea, eum ex sit voluptatem! A delectus distinctio eveniet incidunt minima, porro repudiandae
@@ -35,11 +62,15 @@
 
         <div class="row">
             <div class="col-sm-4">
-                <div class="col-sm-12 head">Events by Year</div>
-                <div class="col-sm-12"><a href="#">2021</a></div>
-                <div class="col-sm-12"><a href="#">2020</a></div>
-                <div class="col-sm-12"><a href="#">2019</a></div>
-                <div class="col-sm-12"><a href="#">2018</a></div>
+
+                <div class="col-sm-12 head ">Events by Year</div>
+                @foreach($years as $year)
+                    <div class="text-center">
+                        <a href="{{$url->make("events.view.year",["year"=>$year->year])}}">{{$year->year}}</a>
+                    </div>
+                @endforeach
+
+
             </div>
             <div class="col-sm-8">
                 <div class="col-sm-12 head">Event Reviews</div>

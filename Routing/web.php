@@ -75,6 +75,7 @@ $router->group(["prefix" => "/terms"], function (Router $router) {
 $router->group(["prefix" => "/events"], function (Router $router) {
     $router->get("/?", [\App\Http\Controllers\EventsController::class, 'index'], "events.home");
     $router->get("/view/{slug}", [\App\Http\Controllers\EventsController::class, 'show'], "events.view");
+    $router->get("/view/{year}", [\App\Http\Controllers\EventsController::class, 'view'], "events.view.year");
 });
 
 $router->group(["prefix" => "/auth"], function (Router $router) {

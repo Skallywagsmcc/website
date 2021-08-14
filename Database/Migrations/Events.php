@@ -14,6 +14,7 @@ class Events
         Capsule::schema()->create("events",function($table)
         {
             $table->id();
+            $table->foreignid("thumbnail");
             $table->string("title");
             $table->foreignId('user_id');
             $table->string("uuid");
