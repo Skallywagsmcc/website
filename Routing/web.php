@@ -161,7 +161,7 @@ $router->group(["prefix" => "/access/user-cp", "middleware" => [Middleware\Requi
             $router->post("/store", [EventsController::class, "store"], "auth.admin.events.store");
             $router->get("/edit/{id}", [EventsController::class, "edit"], "auth.admin.events.edit");
             $router->post("/update", [EventsController::class, "update"], "auth.admin.events.update");
-            $router->get("/delete/{id}", [EventsController::class, "delete"], "auth.admin.events.delete");
+            $router->post("/delete",[EventsController::class,"delete"],"auth.admin.events.delete");
 
 //            Route timeline
             $router->group(["prefix" => "/route"], function (Router $router) {

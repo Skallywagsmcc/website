@@ -6,10 +6,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Models\Category;
 use App\Http\Models\Event;
-use App\Http\Models\Article;
 use MiladRahimi\PhpRouter\Url;
 
 class EventsController
@@ -49,7 +48,7 @@ class EventsController
 
             echo $event->id;
             if ($validate->Post("route") == 1) {
-                redirect($url->make("auth.admin.events.route.add", ["id" => base64_encode($event->id)]));
+                redirect($url->make("auth.admin.events.routes.home", ["id" => base64_encode($event->id)]));
             } else {
                 redirect($url->make("auth.admin.events.home"));
             }
@@ -91,11 +90,26 @@ class EventsController
         }
     }
 
-    public function delete($id,Url $url)
+    public function delete(Url $url,Csrf $csrf, Validate $validate,Auth $auth)
     {
-        $id = base64_decode($id);
-        $events = Event::where("id",$id)->delete();
-        redirect($url->make("auth.admin.events.home"));
+        if($csrf->Verify() == true) {
+            if ($auth->RequirePassword($validate->Post("password")) == true) {
+                $id = $validate->Post("id");
+                for ($i = 0; $i < count($id); $i++) {
+                    Event::destroy($validate->Post("id")[$i]);
+                    redirect($_SERVER['HTTP_REFERER']);
+                }
+            } else {
+                $message = "Your Password Has been entered Wrong, Please try again";
+
+            }
+        }
+        else
+        {
+            $message = "your Csrf Token is not valid";
+        }
+        $events = Event::all();
+        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url,"message"=>$message]);
     }
 
 }
