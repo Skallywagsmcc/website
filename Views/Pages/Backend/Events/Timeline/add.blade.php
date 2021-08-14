@@ -5,6 +5,7 @@
 @endsection
 
 
+
 @section("content")
     <div class="container my-2">
         <div class="row box">

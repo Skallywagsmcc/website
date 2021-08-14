@@ -6,6 +6,8 @@
 
 
 @section("content")
+
+
     <div class="container my-2">
         <div class="row">
             <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("auth.admin.events.home")}}">Back to Events Home</a></div>
@@ -18,6 +20,19 @@
         </div>
     </div>
 
+    @isset($values)
+        <div class="container my-2">
+            <div class="row box">
+                <div class="col sm-12 p-2 text-center">
+                    @foreach($values as $value)
+                        Missing value : {{$value}} <br>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endisset
+
+
     <form action="{{$url->make("auth.admin.events.store")}}" method="post" class="tld-form">
         <div class="container my-2">
             <div class="row box px-0">
@@ -25,7 +40,7 @@
                     {{csrf()}}
                     <div class="form-group">
                         <label for="title">Event Title</label>
-                        <input type="text" class="form-control tld-input" name="title" placeholder="Event Title">
+                        <input type="text" class="form-control tld-input" name="title" value="@isset($validate){{$validate->Post("title") }} @endisset" placeholder="Event Title">
                     </div>
 
                     <div class="form-group">

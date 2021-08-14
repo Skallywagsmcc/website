@@ -16,6 +16,7 @@
         </div>
     @endisset
 
+
     {{--Add New events--}}
     <div class="container my-2">
         <div class="row ">
@@ -36,13 +37,15 @@
             <div class="col-sm-12 col-md-2  text-center">delete</div>
         </div>
     </div>
+    @if($events->count() >= 1)
     <form action="{{$url->make("auth.admin.events.delete")}}" method="post" class="tld-form">
         <div class="container">
             {{csrf()}}
         </div>
+
         @foreach($events as $event)
             <div class="container my-2 my-md-0">
-                <div class="row text-center my-md-0 box withhover">
+                <div class="row text-center my-md-0 box withhover title">
                     <div class="col-sm-12 col-md-6 title py-2">{{$event->title}}</div>
 
                     <div class="col-sm-12 col-md-2 py-2"><a
@@ -69,6 +72,13 @@
                 </div>
             </div>
     </form>
+    @else
+        <div class="container my-2">
+            <div class="box row">
+                <div class="col-sm-12 text-center py-2">No Results found</div>
+            </div>
+        </div>
+    @endif
 
 
 

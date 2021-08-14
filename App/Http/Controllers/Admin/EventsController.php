@@ -14,7 +14,7 @@ use MiladRahimi\PhpRouter\Url;
 class EventsController
 {
 
-    public function index(Url $url)
+    public function index(Url $url,$message=null)
     {
         $events = Event::all();
         echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url]);
@@ -32,29 +32,34 @@ class EventsController
     public function store(Url $url, Validate $validate, Csrf $csrf)
     {
         if($csrf->Verify() == true) {
-            $event = new Event();
-            $event->uuid = $validate->uuid();
-            $event->title = ucwords($validate->Required("title")->Post());
-            $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
-            $event->content = $validate->Post("content");
-            $event->start = $validate->Required("start")->Post();
-            $event->end = $validate->Required("end")->Post();
-            $event->address = trim($validate->Required("name")->Post() . ",");
-            $event->address .= trim($validate->Required("street")->Post() . ",");
-            $event->address .= trim($validate->Required("city")->Post() . ",");
-            $event->address .= trim($validate->Required("county")->Post() . ",");
-            $event->address .= trim($validate->Required("postcode")->Post() . ",");
-            $event->save();
+        $event = new Event();
+        $event->uuid = $validate->uuid();
+        $event->title = ucwords($validate->Required("title")->Post());
+        $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
+        $event->content = $validate->Post("content");
+        $event->start = $validate->Required("start")->Post();
+        $event->end = $validate->Required("end")->Post();
+        $event->address = trim($validate->Required("name")->Post() . ",");
+        $event->address .= trim($validate->Required("street")->Post() . ",");
+        $event->address .= trim($validate->Required("city")->Post() . ",");
+        $event->address .= trim($validate->Required("county")->Post() . ",");
+        $event->address .= trim($validate->Required("postcode")->Post() . ",");
 
-            echo $event->id;
-            if ($validate->Post("route") == 1) {
-                redirect($url->make("auth.admin.events.routes.home", ["id" => base64_encode($event->id)]));
-            } else {
-                redirect($url->make("auth.admin.events.home"));
+            if($validate::isRequired(Validate::$values) == false)
+            {
+                var_dump($validate::$values);
+                echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url,"validate"=>$validate,"values"=>Validate::$values]);
+            }
+            else
+            {
+                $event->save();
+                if ($validate->Post("route") == 1) {
+                    redirect($url->make("auth.admin.events.routes.home", ["id" => base64_encode($event->id)]));
+                } else {
+                    redirect($url->make("auth.admin.events.home"));
+                }
             }
         }
-
-
     }
 
     public function edit(Url $url, $id, Validate $validate)
