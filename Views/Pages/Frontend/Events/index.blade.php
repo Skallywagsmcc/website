@@ -15,7 +15,7 @@
                     </div>
                 @endforeach
             </div>
-        <div class="col-sm-12 head">The Next Event : {{$first->title}}</div>
+        <div class="col-sm-12 ">The Next Event : {{$first->title}}</div>
         </div>
     </div>
     <div class="container my-2">

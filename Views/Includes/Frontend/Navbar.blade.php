@@ -6,8 +6,11 @@
 {{--            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">--}}
 {{--        Menu--}}
 {{--    </button>--}}
-    <a href="#"  class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
-       aria-expanded="false" aria-label="Toggle navigation">Menu</a>
+
+        <a href="#"  class="navbar-toggler  ml-auto" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+           aria-expanded="false" aria-label="Toggle navigation">Menu</a>
+
+
 
     <div class="collapse navbar-collapse" id="navbarNav">
 
@@ -52,7 +55,6 @@
                 </li>
             @endif
 
-{{--            @include("Includes.Frontend.dropdown")--}}
         </ul>
     </div>
 

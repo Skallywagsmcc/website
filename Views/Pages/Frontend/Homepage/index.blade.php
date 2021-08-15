@@ -37,35 +37,43 @@
 {{--        }, 1000);--}}
 {{--    </script>--}}
 
-    <div class="container">
-        <div class="row my-3">
-            <div class="col-sm-12 head">Updates</div>
-            <div class="col-sm-12">18/06/2021 : We are currently working on the layout and other small improvements to
-                the frontend of the site
-            </div>
-            <div class="col-sm-12">19/06/2021 : Fixed Login Box Remember Me Session, Added Events Lisiting to the homepage</div>
-            <div class="col-sm-12">22/07/2021 : Removed members and events while these sections are being worked on , backend is currently being built and migrated, addiional security messures have been added</div>
+{{--Section is temporary for beta Purposes only--}}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-6 px-0 px-md-4">
+                <div class="head pl-2">Latest Site Updates</div>
+                <div class="text-center text-md-left px-1 my-2 border-bottom py-2">18/06/2021 : We are currently working on the layout and other small improvements to
+                    the frontend of the site
+                </div>
+                <div class="text-center text-md-left px-1 my-2 border-bottom py-2">19/06/2021 : Fixed Login Box Remember Me Session, Added Events Lisiting to the homepage</div>
+                <div class=" text-center text-md-left px-1 my-2 border-bottom py-2">22/07/2021 : Removed members and events while these sections are being worked on , backend is currently being built and migrated, addiional security messures have been added</div>
+                <div class="text-center text-md-left px-1 my-2 border-bottom py-2">15/08/2021 : Reimplemented Events Pages</div>
+
+
         </div>
-        <div class="row my-3">
-            <div class="col-sm-12 head">Beta Notice</div>
-            <div class="col-sm-12">
-                Welcome: although this site is operational, the site is in Beta which means some things may break and
-                some things may change all change and code can be found <a
-                        href="http://github.com/skallywagsmcc">Here</a>
-                <hr>
+        <div class="col-sm-12 col-md-6 px-0">
+                <div class="head pl-2">Beta Notice</div>
+
+                <div class="text-center text-md-left px-1 my-2 border-bottom py-2">
+                    Welcome: although this site is operational, the site is in Beta which means some things may break and
+                    some things may change all change and code can be found <a
+                            href="http://github.com/skallywagsmcc">Here</a>
+
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="row event my-2 text-center py-2 px-0">
+</div>
+
+{{--End Beta notice and Latest updates--}}
+    <div class="container-fluid">
+        <div class="row my-2 text-center py-2 px-0">
             @if($events->count() == 0)
                 <div class="col-sm-12">No Upcoming events</div>
             @else
                 <div class="col-sm-12 col-md-2">Next Event : </div>
                 <div class="col-sm-12 col-md-6">
                     @foreach($events  as $event)
-                        <a href="{{$url->make("events.view",['slug'=>$event->slug])}}">{{$event->title}}</a>
-
+                        <a href="{{$url->make("events.view",['slug'=>$event->slug])}}">{{$event->title}}</a> | 
                     @endforeach
                 </div>
                 <div class="col-sm-12 col-md-3">
@@ -127,7 +135,7 @@
     <div class="container my-3">
         <div class="row my-sm-2">
             <div class="col-sm-12 col-md-8 px-0 pr-md-2">
-                <div class="info">
+
                     <div class="col-sm-12 head">Latest Articles</div>
                     @if($pages->count() >= 1)
                         @foreach($pages as $page)
@@ -143,9 +151,7 @@
 
                 </div>
 
-            </div>
             <div class="col-sm-12 col-md-4  px-0 pl-md-2 ">
-                <div class="info">
                     <div class="col-sm-12 head">Newest Club Member</div>
                     @if($member->count() >= 1)
                         <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}" height="200px"
@@ -156,7 +162,6 @@
                     @endif
                 </div>
 
-            </div>
         </div>
     </div>
 @endsection

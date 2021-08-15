@@ -72,6 +72,26 @@ body hr, html hr {
   color: #fff;
 }
 
+.border-left {
+  border-left: solid 3px #ce1126;
+}
+
+.border-right {
+  border-right: solid 3px #ce1126;
+}
+
+.border-top {
+  border-top: solid 3px #ce1126;
+}
+
+.border-bottom {
+  border-bottom: solid 3px #ce1126;
+}
+
+.fullborder {
+  border: solid 3px #ce1126;
+}
+
 .col-md-6 img, .col-lg-3 img {
   height: 200px;
   width: 200px;
@@ -80,17 +100,11 @@ body hr, html hr {
 
 .head {
   color: white;
-  background-image: url("/Assets/img/head.png");
+  border-bottom: solid 3px #ce1126;
   background-repeat: repeat-x;
   height: 40px;
   padding-left: 5px;
   font-size: 1.5rem;
-  border-radius: 10px;
-}
-@media (max-width: 991.98px) {
-  .head {
-    border-radius: 0px;
-  }
 }
 
 .logo_wrapper {
