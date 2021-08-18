@@ -5,6 +5,20 @@
 @endsection
 
 @section("content")
+<div class="container my-2">
+    <div class="row  bg-dark">
+        <div class="col-sm-12 py-2 col-md-9 text-center">The Next Event : {{$first->title}}</div>
+        <div class="col-sm-12 col-md-3 py-2 text-center d-block d-md-none"><a class="d-block" href="{{ $url->make("events.view",["slug"=>$first->slug]) }}">View event</a>
+    </div>
+</div>
+</div>
+
+<div class="container my-2 d-none d-md-block">
+    <div class="row">
+        <div class=" col-sm-12 px-0 head">About event : {{ $first->title }}</div>
+        <div class="col-sm-12 p-2">{{ $first->content }}</div>
+    </div>
+</div>
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-4 px-0">
@@ -15,7 +29,6 @@
                     </div>
                 @endforeach
             </div>
-        <div class="col-sm-12 ">The Next Event : {{$first->title}}</div>
         </div>
     </div>
     <div class="container my-2">
