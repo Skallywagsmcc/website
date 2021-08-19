@@ -65,7 +65,7 @@
 </div>
 
 {{--End Beta notice and Latest updates--}}
-    <div class="container-fluid">
+    <div class="container">
         <div class="row my-2 text-center py-2 px-0">
             @if($events->count() == 0)
                 <div class="col-sm-12">No Upcoming events</div>

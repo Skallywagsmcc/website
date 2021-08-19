@@ -19,9 +19,9 @@ class EventsController
         $day = date("d");
         $month = date("m");
         $year = date("Y");
-        $first = Event::whereDay("created_at","<=",$day)->whereMonth("created_at","<=",$month)->whereYear("created_at","<=",$year)->get()->first();
-        $next = Event::whereDay("created_at",">",$day)->whereMonth("created_at",">=",$month)->whereYear("created_at",">=",$year)->limit(4)->get();
-        $years = Event::selectRaw('year(created_at) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
+        $first = Event::whereDay("start","<=",$day)->whereMonth("start","<=",$month)->whereYear("start","<=",$year)->get()->first();
+        $next = Event::whereDay("start",">",$day)->whereMonth("start",">=",$month)->whereYear("start",">=",$year)->limit(4)->get();
+        $years = Event::selectRaw('year(start) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
         echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events,"years"=>$years,"first"=>$first,"next"=>$next]);
     }
 

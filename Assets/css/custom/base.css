@@ -28,6 +28,15 @@ body hr, html hr {
   background-color: #ce1126;
 }
 
+.info {
+  background-color: #222d32;
+}
+
+.title {
+  text-decoration: underline;
+  font-weight: bolder;
+}
+
 .paginate, .paginate-current {
   background-color: #363A40;
   border: solid 5px #ce1126;
@@ -53,23 +62,6 @@ body hr, html hr {
   border-bottom: 2px solid #ce1126;
   color: #fff a;
   color-color: #fff;
-}
-
-.info {
-  border: solid 1px #ce1126;
-  background: #363A40;
-  font-weight: bolder;
-  color: #fff;
-}
-.info .head {
-  text-indent: 5px;
-}
-.info .foot {
-  padding: 5px 0px;
-  border-top: solid 1px #ce1126;
-}
-.info a {
-  color: #fff;
 }
 
 .border-left {
@@ -103,7 +95,6 @@ body hr, html hr {
   border-bottom: solid 3px #ce1126;
   background-repeat: repeat-x;
   height: 40px;
-  padding-left: 5px;
   font-size: 1.5rem;
 }
 
