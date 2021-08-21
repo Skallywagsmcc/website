@@ -15,14 +15,17 @@ class EventsController
 
     public function index(Url $url)
     {
-        $events = Event::all();
+//        $events = Event::all();
         $day = date("d");
         $month = date("m");
         $year = date("Y");
         $first = Event::whereDay("start","<=",$day)->whereMonth("start","<=",$month)->whereYear("start","<=",$year)->get()->first();
-        $next = Event::whereDay("start",">",$day)->whereMonth("start",">=",$month)->whereYear("start",">=",$year)->limit(4)->get();
+        $paginate = new LaravelPaginator("5","page");
+        $next = Event::whereDay("start",">",$day)->whereMonth("start",">=",$month)->whereYear("start",">=",$year)->limit(4);
+        $events = $paginate->paginate($next);
+        $links = $paginate->page_links();
         $years = Event::selectRaw('year(start) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
-        echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events,"years"=>$years,"first"=>$first,"next"=>$next]);
+        echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events,"years"=>$years,"first"=>$first,"next"=>$next,"links"=>$links]);
     }
 
     public function show($slug,Url $url)
@@ -39,11 +42,10 @@ class EventsController
 
     public function view($year,Url $url)
     {
-        $events = Event::whereYear('created_at', $year);
-        $paginate = new LaravelPaginator("4","page");
+        $events = Event::whereYear('start', $year);
+        $paginate = new LaravelPaginator("5","page");
         $events = $paginate->paginate($events);
         $links = $paginate->page_links();
         echo TemplateEngine::View("Pages.Frontend.Events.year",["url"=>$url,"events"=>$events,"links"=>$links]);
-
     }
 }

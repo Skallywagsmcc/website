@@ -91,7 +91,7 @@ class EventsController
             $event->address .= trim($validate->Required("postcode")->Post() . ",");
             $event->save();
 
-            redirect($url->make("admin.events.home"));
+            redirect($url->make("auth.admin.events.home"));
         }
     }
 

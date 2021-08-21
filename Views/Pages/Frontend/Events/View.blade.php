@@ -26,9 +26,14 @@
                         {{$event->content}}
                     </div>
 
-
             </div>
         </div>
 
     </div>
+
+    <div class="profile_pic">
+        <img src="/img/uploads/{{$event->user->Profile->Image->name}}" height="50" width="50" alt="{{$event->user->username}} Profile Image">
+    </div>
+
+    <div class="col-sm-12">{{$event->user->username}}</div>
     @endsection
