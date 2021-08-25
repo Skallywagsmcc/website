@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/Assets/css/bootstrap.css">
     <link rel="stylesheet" href="/Assets/css/custom/base.css">
-    <script src="/Resources/js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/Resources/js/popper.js"></script>
     <script src="/Resources/js/bootstrap.min.js"></script>
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
