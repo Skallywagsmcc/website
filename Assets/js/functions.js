@@ -7,13 +7,28 @@ $(document).ready(function () {
     $("#help-toggle").text("Help ");
     $(".block").hide();
     $(".block").first().show();
+    // $(".etlink").html("View Address");
 
     $("body").on("click",".remove-btn",function(e){
         $(this).parents('.user-data').remove();
     });
 
 
-
+    $("#tabs").tabs();
+    $(".etlocations").hide();
+    $(".etlink").children("a").click(function () {
+        $(this).parents(".ettab").children(".etlocations").slideToggle("fast",function () {
+            if($(this).is(":visible")) {
+                $(this).parents(".ettab").children(".etlink").children("a").html("Close (X)")
+            }
+            else
+            {
+                $(this).parents(".ettab").children(".etlink").children("a").html("View Address")
+            }
+        });
+        return false
+    })
+    
 
 
 

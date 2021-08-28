@@ -84,7 +84,7 @@ class EventsController
             if ($validate->Post("me") == 1) {
                 $event->end = $validate->Required("end")->Post();
             }
-            $event->address = trim($validate->Required("name")->Post() . ",");
+            $event->address =  trim($validate->Required("name")->Post() . ",");
             $event->address .= trim($validate->Required("street")->Post() . ",");
             $event->address .= trim($validate->Required("city")->Post() . ",");
             $event->address .= trim($validate->Required("county")->Post() . ",");

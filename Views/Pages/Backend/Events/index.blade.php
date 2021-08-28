@@ -17,6 +17,7 @@
     @endisset
 
 
+
     {{--Add New events--}}
     <div class="container my-2">
         <div class="row ">

@@ -13,6 +13,17 @@
         </div>
     </div>
 
+    <div class="container">
+        <ul id="sortable">
+            @foreach($timelines as $et)
+                @php
+                    $address = explode(",",$et->location)
+                @endphp
+                <li>{{$address[0]}}</li>
+            @endforeach
+        </ul>
+        Value : <span id="span"></span>
+    </div>
 
     <div class="container my-2">
         @if($timelines->count() == 0)
@@ -75,15 +86,14 @@
                             <div class="col-sm-12 col-md-3 py-2 py-md-3">
                                 <label for="location">Number or building name </label>
                             </div>
-                            <div class="col-sm-12 col-md-8 py-2"><input type="text" name="name"
-                                                                        class="form-control tld-input"></div>
+                            <div class="col-sm-12 col-md-8 py-2"><input type="text" name="name" class="form-control tld-input"></div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-sm-12 col-md-3 py-2 py-md-3">
                                 <label for="location">Street name </label>
                             </div>
-                            <div class="col-sm-12 col-md-8 py-2"><input type="text" name="street_name"
+                            <div class="col-sm-12 col-md-8 py-2"><input type="text" name="street"
                                                                         class="form-control tld-input"></div>
                         </div>
 

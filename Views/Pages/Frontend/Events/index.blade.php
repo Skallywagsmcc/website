@@ -30,9 +30,6 @@
         <div class="row px-2">
             <div class="col-sm-12 col-md-3">
                 <div class="head text-left my-2">Events by year</div>
-                @foreach($years as $year)
-                    <div class="text-center py-2 info"><a href="{{$url->make("events.view.year",["year"=>$year->year])}}"> {{$year->year}}</a></div>
-                @endforeach
             </div>
             <div class="col-sm-12 col-md-9">
                 @if($events->count() ==0)

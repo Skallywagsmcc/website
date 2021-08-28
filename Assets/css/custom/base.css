@@ -194,6 +194,13 @@ body hr, html hr {
   min-height: 5vh;
 }
 
+.subnav {
+  list-style: none;
+}
+.subnav li {
+  list-style: none;
+}
+
 /*i will come back to this file this will be used to design the authentication Layout */
 #authcontainer {
   background-color: red;
