@@ -4,126 +4,124 @@
 namespace App\Http\Libraries\ImageManager;
 
 
-use App\Http\Libraries\ImageManager\Images;
 use Closure;
 
 class newImages
 {
 //  Storage variables
-private $validFiles;
-public $filename;
-private $upload_dir;
-private $hashed_name;
-private $file;
+    public $filename;
+    public $uploaded;
+    public $error_message;
+    public $is_valid;
 
 //  Error variables
 //  Request variables
-public $uploaded;
+    private $upload_dir;
 //  Success variables
-private $is_valid;
+    private $hashed_name;
+    private $is_valid;
+
+    public function __construct()
+    {
+        $this->is_valid = true;
+        $this->upload_dir = UPLOAD_DIR;
+    }
 
 
-public function __construct()
-{
-    $this->upload_dir = __DIR__ . '/../../../../../public_html/img/uploads/';
-}
+    public function validformat($allowed = null)
+    {
+        $this->is_valid = false;
+        $this->validFiles = $allowed;
 
+        return $this;
+    }
 
-
-private  function SetFile($name)
-{
-    $this->file = $_FILES['name'];
-}
-
-
-public function GetFile($key)
-{
-    return $this->file[$key];
-}
+    public function files($name, $key)
+    {
+        return $_FILES[$name][$key];
+    }
 
 //Private Functions
 
-    private function RequiredType($name,$allowed)
+    public function upload($name)
     {
-        $ext = Images::pathparts($name)["extension"];
-        if (!in_array($ext,$allowed))
-        {
-            return false;
+//
+        $this->filename = $this->SetFile($name);
+        if (!is_dir($this->upload_dir)) {
+            $this->error_message = "directotry does not exisit";
+        } elseif ($this->is_valid == false) {
+            $this->error_message = "Required Files are invalid";
+        } else {
+            $this->sethashedName($this->GetFile("name"));
+            if ($this->movefiles($this->gethashedname()) == false) {
+                $this->error_message = "image upload has failed Please check directory or filename is correct";
+            }
         }
-        else
-        {
-            return true;
-        }
+        return $this;
     }
+
 
 //    move uploaded files function goes here
 
-private  function sethashedName($name)
-{
-    $this->hashed_name = uniqid(md5($name . '-' . microtime()));
-}
+        private
+        function SetFile($name)
+        {
+            $this->file = $_FILES[$name];
+        }
 
-public  function gethashedname()
-{
-    return $this->hashed_name;
-}
+        private
+        function sethashedName($name)
+        {
+            $this->hashed_name = uniqid(md5($name . '-' . microtime()));
+        }
 
-private function movefiles($name)
-{
-    $tmp = $_FILES[$name]["tmp_name"];
-    if (move_uploaded_file($tmp, $this->upload_dir . $name)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+        public
+        function GetFile($key)
+        {
+            return $this->file[$key];
+        }
 
-/*the Functions listed below are designed to be on controllers meaning these are public and can be manipulated by the end user as they see fit */
-
-//Allowed image upload override
-
-public function OverideDir($dir)
-{
-    $this->upload_dir = $dir;
-    return $this;
-}
+        /*the Functions listed below are designed to be on controllers meaning these are public and can be manipulated by the end user as they see fit */
 
 //Check filetypes are valid
-public function validformat($allowed)
-{
-    $this->validFiles = $allowed;
-    return $this;
-}
+
+        private
+        function movefiles($name)
+        {
+            if (move_uploaded_file($this->GetFile("tmp_name"), $this->upload_dir . $name)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public
+        function gethashedname()
+        {
+
+            return $this->hashed_name . "." . Images::pathparts($this->GetFile("name"))["extension"];
+        }
+
+        public
+        function save(Closure $closure)
+        {
+            return $closure();
+        }
+
+        private
+        function RequiredType($allowed)
+        {
+
+            $ext = Images::pathparts($this->GetFile("name"))["extension"];
+            if (!in_array($ext, $allowed)) {
+                $this->is_valid = false;
+            } else {
+                $this->is_valid = true;
+            }
+
+        }
 
 
-public function files($name,$key)
-{
-    return $_FILES[$name][$key];
-}
-
-
-public function upload($name)
-{
-    echo $this->files($name,"tmp_name");
-//
-//    if($this->RequiredType($name,$this->validFiles) == false)
-//    {
-////        echo "An Error occurred";
-//    }
-//    $this->filename = $name;
-
-////    save() is required
-    return $this;
-}
-
-
-public function save(Closure $closure)
-{
-   return  $closure();
-}
-
-
-
-}
+    }
 
 
