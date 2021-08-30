@@ -8,6 +8,8 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
+use App\Http\Libraries\ImageManager\Images;
+use App\Http\Libraries\ImageManager\newImages;
 use App\Http\Models\Event;
 use MiladRahimi\PhpRouter\Url;
 
@@ -29,8 +31,10 @@ class EventsController
         echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url]);
     }
 
-    public function store(Url $url, Validate $validate, Csrf $csrf)
+    public function store(Url $url, Validate $validate, Csrf $csrf, newImages $images)
     {
+        $images->upload("upload");
+        exit();
         if($csrf->Verify() == true) {
         $event = new Event();
         $event->uuid = $validate->uuid();

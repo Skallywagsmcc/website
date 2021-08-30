@@ -17,6 +17,17 @@ class Images
 //    Add vaid type variable
     public static $name;
 
+//    Errors
+    public $error;
+
+//    Instatiation variables
+    public $allow_multiple;
+    public $allow_valid;
+
+//    Complete variables
+    public $filename;
+    public $complete;
+
 
     public function __construct()
     {
@@ -24,6 +35,27 @@ class Images
     }
 
 
+//    file input name , valid format (Array), $multiple == null or 1 empty = null
+
+    public function validformat($allowed)
+    {
+        self::$ValidType = $allowed;
+        $this->allow_valid = true;
+        return $this;
+    }
+
+    public function UploadImage($name)
+    {
+        if($this->allow_valid == true)
+        $ext = Images::pathparts($name)["extension"];
+        if (!in_array($ext,self::$ValidType))
+        {
+            $this->error = "files not allowed";
+        }
+
+        echo $this->error;
+        $this->filename = $name;
+    }
 
 
 //   input name goes in this field
@@ -88,7 +120,7 @@ class Images
 
         if (is_array(self::Files("name"))) {
             for ($i = 0; $i < count(self::Files("name")); $i++) {
-                $closure($id,$i);
+                $closure($id, $i);
             }
         } else {
             $closure($id);
@@ -100,7 +132,6 @@ class Images
     {
         return $_FILES[self::$name][$key];
     }
-
 
 
 }

@@ -36,7 +36,7 @@
                     <div class="col-sm-12 py-2 my-2 text-center">Error :{{$pwmessage}}</div>
                 </div>
             @endisset
-            <form action="{{$url->make("auth.admin.events.routes.delete")}}" method="post" class="tld-form">
+            <form action="{{$url->make("auth.admin.events.routes.delete")}}" method="post" enctype="multipart/form-data" class="tld-form">
                 {{csrf()}}
                 @foreach($timelines as $et)
 
@@ -123,8 +123,6 @@
                     </div>
                 </div>
             </div>
-
-
 
 
 
