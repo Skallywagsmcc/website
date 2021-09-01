@@ -6,6 +6,11 @@
 
 
 @section("content")
+    @isset($message)
+        <div class="container">
+            <div class="row col-sm-12">An Error Occurred : {{$message}}</div>
+        </div>
+        @endisset
 
 
     <div class="container my-2">

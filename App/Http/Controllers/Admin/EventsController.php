@@ -8,10 +8,10 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Libraries\ImageManager\Images;
-use App\Http\Libraries\ImageManager\ImageUploader;
 use App\Http\Libraries\ImageManager\newImages;
 use App\Http\Models\Event;
+use Illuminate\Support\Facades\File;
+use mbamber1986\Filemanager\Filemanager;
 use MiladRahimi\PhpRouter\Url;
 
 class EventsController
@@ -32,55 +32,48 @@ class EventsController
         echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url]);
     }
 
-    public function store(Url $url, Validate $validate, Csrf $csrf, ImageUploader $images)
+    public function store(Url $url, Validate $validate, Csrf $csrf, Filemanager $images)
     {
-        $images->validformat(["exe"])->upload("upload")->save(function () use($images)
+//        if($csrf->Verify() == true) {
+        $images->validformat(["png","jpg","jpeg"])->DirOverride("/var/www/html/public_html/img/uploads/")->upload("upload")->save(function() use ($images)
         {
-            if(empty($images->error_message)) {
-                echo $images->GetUniqueName();
+            if($images->success == true)
+            {
+//                $event = new Event();
+//                $event->uuid = $validate->uuid();
+//                $event->title = ucwords($validate->Required("title")->Post());
+//                $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
+//                $event->content = $validate->Post("content");
+//                $event->start = $validate->Required("start")->Post();
+//                $event->end = $validate->Required("end")->Post();
+//                $event->address = trim($validate->Required("name")->Post() . ",");
+//                $event->address .= trim($validate->Required("street")->Post() . ",");
+//                $event->address .= trim($validate->Required("city")->Post() . ",");
+//                $event->address .= trim($validate->Required("county")->Post() . ",");
+//                $event->address .= trim($validate->Required("postcode")->Post() . ",");
             }
             else
             {
-                echo $images->error_message;
-                echo "<hr>";
-                if($images->is_valid == false) {
-                    foreach ($images->validFiles as $valid) {
-                        echo $valid . "<br>";
-                    }
-                }
+//                echo $images->message;
             }
-
         });
-        exit();
-        if($csrf->Verify() == true) {
-        $event = new Event();
-        $event->uuid = $validate->uuid();
-        $event->title = ucwords($validate->Required("title")->Post());
-        $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
-        $event->content = $validate->Post("content");
-        $event->start = $validate->Required("start")->Post();
-        $event->end = $validate->Required("end")->Post();
-        $event->address = trim($validate->Required("name")->Post() . ",");
-        $event->address .= trim($validate->Required("street")->Post() . ",");
-        $event->address .= trim($validate->Required("city")->Post() . ",");
-        $event->address .= trim($validate->Required("county")->Post() . ",");
-        $event->address .= trim($validate->Required("postcode")->Post() . ",");
 
-            if($validate::isRequired(Validate::$values) == false)
-            {
-                var_dump($validate::$values);
-                echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url,"validate"=>$validate,"values"=>Validate::$values]);
-            }
-            else
-            {
-                $event->save();
-                if ($validate->Post("route") == 1) {
-                    redirect($url->make("auth.admin.events.routes.home", ["id" => base64_encode($event->id)]));
-                } else {
-                    redirect($url->make("auth.admin.events.home"));
-                }
-            }
-        }
+//            if($validate::isRequired(Validate::$values) == false)
+//            {
+//                var_dump($validate::$values);
+//
+//            }
+//            else
+//            {
+//                $event->save();
+//                if ($validate->Post("route") == 1) {
+//                    redirect($url->make("auth.admin.events.routes.home", ["id" => base64_encode($event->id)]));
+//                } else {
+//                    redirect($url->make("auth.admin.events.home"));
+//                }
+//            }
+            echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url,"validate"=>$validate,"values"=>Validate::$values,"message"=>$images->message]);
+//        }
     }
 
     public function edit(Url $url, $id, Validate $validate)

@@ -11,7 +11,6 @@ use App\Http\Controllers\Account\SettingsController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticles;
 use App\Http\Controllers\Admin\ChartersController;
 use App\Http\Controllers\Admin\EventsController;
-use App\Http\Controllers\Admin\EventTimelineController;
 use App\Http\Controllers\Admin\FeaturedController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\MembersController;
