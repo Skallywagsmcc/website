@@ -19,10 +19,9 @@ class HomeController
     {
         $pages = Article::orderBy("id", "desc")->limit(4)->get();
         $events = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get();
-
-
+        
         $featured = FeaturedImage::inRandomOrder()->where("status", 2)->limit(3)->get();
-        echo TemplateEngine::View("Pages.Frontend.Homepage.index", ["url" => $url, "featured" => $featured, "pages" => $pages,"member"=>$members,"events"=>$events]);
+        echo TemplateEngine::View("Pages.Frontend.Homepage.index", ["url" => $url, "featured" => $featured, "pages" => $pages,"events"=>$events]);
     }
 
 
