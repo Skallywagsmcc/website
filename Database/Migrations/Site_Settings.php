@@ -17,14 +17,8 @@ class Site_Settings
             $table->longtext("address");
             $table->biginterger("telephone");
             $table->text("email");
-            $table->biginteger("allow_comments")->default(0);
-            $table->biginteger("login")->default(1);
 //          Block Registration option
-            $table->biginteger("registration")->nullable()->default(0);
             $table->timestamps();
-
         });
     }
-
-
 }
