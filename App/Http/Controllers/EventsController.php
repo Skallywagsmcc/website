@@ -20,7 +20,7 @@ class EventsController
         $events = Event::Where("start_at",">",date("Y-m-d",strtotime($first->end_at)))->where("id","!=",$first->id)->Orderby("id","Asc");
         $paginate = new LaravelPaginator("5","page");
         $events = $paginate->paginate($events);
-        $years = Event::selectRaw('year(created_at) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
+        $years = Event::selectRaw('year(start_at) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
         $links = $paginate->page_links();
         echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events,"first"=>$first,"links"=>$links,"years"=>$years]);
     }
