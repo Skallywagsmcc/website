@@ -53,7 +53,7 @@ class EventsController
                 $event->user_id = $auth::id();
                 $event->title = ucwords($validate->Required("title")->Post());
                 $event->thumbnail = $image->id;
-                $event->slug = slug($event->title . '-' .  microtime());
+                $event->slug = slug($event->title . '-' . microtime());
                 $event->content = $validate->Post("content");
 
                 $event->start_at = $validate->Required("start")->Post();
@@ -137,7 +137,7 @@ class EventsController
 
 
             $event->title = ucwords($validate->Required("title")->Post());
-            $event->slug = slug($event->title . '-' . date('d-m-Y', strtotime($validate->Post("start"))));
+            $event->slug = slug($event->title . '-' . microtime());
             $event->content = $validate->Post("content");
             if ($validate->Post("ms") == 1) {
                 $event->start_at = $validate->Required("start")->Post();
