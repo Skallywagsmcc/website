@@ -14,15 +14,13 @@ class Images
         Capsule::schema()->create("images", function ($table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string("entry_name");
-            $table->foreignId('entry_id');
-            $table->foreignId('uuid');
+            $table->integer("nvtug");//Not visable to user gallery
+            $table->foreignId('uid');
             $table->string("title");
             $table->text("description");
             $table->string("name");
             $table->string("size");
             $table->string("type");
-            $table->BigInteger("featured");
             $table->timestamps();
         });
     }

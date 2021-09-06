@@ -36,7 +36,7 @@ class ChartersController
             $charter = new Charter();
             $charter->title = ucwords($validate->Required("title")->Post());
             $charter->slug = slug($charter->title);
-            $charter->uuid = $validate->uuid();
+            $charter->uid = $validate->uid();
             $charter->content = $validate->Required("content")->Post();
             $validate->Post("pinned") == 1 ? $charter->pinned = 1 : $charter->pinned = 0;
             $charter->pinned =
@@ -71,9 +71,9 @@ class ChartersController
             if($charter->count() == 1) {
                 $charter = $charter->first();
                 $charter->title = ucwords($validate->Required("title")->Post());#
-                if($charter->uuid == 0)
+                if($charter->uid == 0)
                 {
-                    $charter->uuid = $validate->uuid();
+                    $charter->uid = $validate->uid();
                 }
                 $charter->slug = slug($charter->title);
                 $charter->content = $validate->Required("content")->Post();

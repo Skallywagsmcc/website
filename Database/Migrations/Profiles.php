@@ -14,11 +14,12 @@ class Profiles
         Capsule::schema()->create("profiles", function ($table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->integer("is_crew")->default(0);
+            $table->string("profile_pic")->nullable();
             $table->string("first_name", 50);
             $table->string("last_name", 50);
             $table->longtext("about")->nullable();
             $table->date("dob")->nullable();
-            $table->string("profile_pic")->nullable();
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ class Validate
     }
 
 
-    public function uuid()
+    public function uid()
     {
         $start = 1*20;
         $end = 10000*2000;

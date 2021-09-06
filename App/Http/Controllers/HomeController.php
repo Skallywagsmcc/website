@@ -18,8 +18,7 @@ class HomeController
     public function index(Url $url)
     {
         $pages = Article::orderBy("id", "desc")->limit(4)->get();
-        $members = Member::orderBy("id","desc")->limit(1)->get();
-        $events = Event::where("end",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get();
+        $events = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get();
 
 
         $featured = FeaturedImage::inRandomOrder()->where("status", 2)->limit(3)->get();

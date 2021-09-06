@@ -30,10 +30,6 @@ class Event extends \App\Http\Controllers\Controller
         return $this->hasOne(Image::class,"id","thumbnail");
     }
 
-    public function Stops()
-    {
-        return $this->hasMany(EventTimeline::class);
-    }
 
 
 }

@@ -17,12 +17,15 @@ class Events
             $table->foreignid("thumbnail");
             $table->string("title");
             $table->foreignId('user_id');
-            $table->string("uuid");
+            $table->string("uid");
             $table->string("slug");
             $table->longtext("content");
-            $table->datetime("start")->nullable();
-            $table->datetime("end")->nullable();
-            $table->longtext("address")->nullable();
+//            EEL Event End Location ESL Event Start Location Start at and end at are the date and time of event
+            $table->datetime("start_at")->nullable();
+            $table->datetime("end_at")->nullable();
+            $table->longtext("esl")->nullable();
+            $table->longtext("eel")->nullable();
+            $table->string("map_url");
             $table->timestamps();
 
         });

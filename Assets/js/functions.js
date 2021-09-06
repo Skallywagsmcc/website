@@ -7,9 +7,10 @@ $(document).ready(function () {
     $("#help-toggle").text("Help ");
     $(".block").hide();
     $(".block").first().show();
+    $(".cancelfile").hide();
     // $(".etlink").html("View Address");
 
-    $("body").on("click",".remove-btn",function(e){
+    $("body").on("click", ".remove-btn", function (e) {
         $(this).parents('.user-data').remove();
     });
 
@@ -17,19 +18,15 @@ $(document).ready(function () {
     $("#tabs").tabs();
     $(".etlocations").hide();
     $(".etlink").children("a").click(function () {
-        $(this).parents(".ettab").children(".etlocations").slideToggle("fast",function () {
-            if($(this).is(":visible")) {
+        $(this).parents(".ettab").children(".etlocations").slideToggle("fast", function () {
+            if ($(this).is(":visible")) {
                 $(this).parents(".ettab").children(".etlink").children("a").html("Close (X)")
-            }
-            else
-            {
+            } else {
                 $(this).parents(".ettab").children(".etlink").children("a").html("View Address")
             }
         });
         return false
     })
-    
-
 
 
     $("#help-toggle").click(function () {
@@ -45,19 +42,22 @@ $(document).ready(function () {
         return false;
     })
 
+
     $(".nextbtn").children("a").click(function () {
         {
-            $(this).parent(".nextbtn").parent(".row").parent(".block").slideUp("fast")
-            $(this).parent(".nextbtn").parent(".row").parent(".block").next().slideDown("fast");
+            var $block = $(this).parents(".block");
+            $block.slideUp("fast")
+            $block.next().slideDown("fast");
             return false;
         }
     })
 
     $(".prevbtn").children("a").click(function () {
         {
-            $(this).parent(".prevbtn").parent(".row").parent(".block").slideUp("fast")
-                $(this).parent(".prevbtn").parent(".row").parent(".block").prev().slideDown("fast");
-                return false;
+            var $block = $(this).parents(".block");
+            $block.slideUp("fast")
+            $block.prev().slideDown("fast");
+            return false;
         }
     })
 

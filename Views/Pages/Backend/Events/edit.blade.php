@@ -8,25 +8,78 @@
 
 @section("content")
 
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12">
+                @isset($message)
+                    {{$message}}
+                @endisset()
+            </div>
+        </div>
+    </div>
+
 
     <div class="container my-2">
         <div class="row">
-            <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("auth.admin.events.home")}}">Back to Events Home</a></div>
-        </div>
-    </div>
-
-    <div class="container my-2">
-        <div class="row box">
-            <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Basic Event Details</div>
+            <div class="col-sm-12 text-center  text-md-left pl-md-1"><a href="{{$url->make("auth.admin.events.home")}}">Back
+                    to Events Home</a></div>
         </div>
     </div>
 
 
 
-    <form action="{{$url->make("auth.admin.events.update")}}" method="post" class="tld-form">
+
+
+    <form action="{{$url->make("auth.admin.events.update")}}" method="post" class="tld-form" enctype="multipart/form-data">
         {{csrf()}}
 
-        <div class="container">
+
+        <div class="container my-2">
+
+            <div class="row box my-2">
+                <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Edit Event : {{$event->title}}</div>
+            </div>
+            <div class="row box">
+                <div class="col-sm-12 d-flex justify-content-center">
+                    <div class="h-25 w-25">
+                        <img src="/img/uploads/{{$event->image->name}}" class="img-fluid"
+                             alt="{{$event->image->title}}">
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="file_box">
+                        <input type="file" class="file d-none" name="upload">
+                        <div class="file_value"></div>
+                        <input type="checkbox" id="update_thumb" class="d-none" name="update_thumb" value="1">
+                        <a href="#" class="addfile">Update Thumbnail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container block">
+            <div class="row box my-2">
+                <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Welcome to the Event Editor</div>
+                <div class="col-sm-12 text-center">Welcome to the Event Editor Please use the following Links to
+                    navigate to the next and previous section do not refresh as your content will not be saved
+                </div>
+            </div>
+
+            <div class="row box my-2">
+                <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a>
+                </div>
+                <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container  block">
+            <div class="row box">
+                <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Event Title</div>
+            </div>
             <div class="row box px-0">
                 <div class="col-sm-12 p-2">
                     <input type="text" value="{{$event->id}}" name="id">
@@ -43,16 +96,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row box my-2">
+                <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
+            </div>
+        </div>
 
-            <div class="container my-2 px-0">
-                <div class="row box px-0">
+
+            <div class="container my-2 px-0 block">
+                <div class="row box px-0 my-2">
                     <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update start and end time and
                         date
                     </div>
                 </div>
-            </div>
-
-            <div class="container my-2 px-0">
                 <div class="row box px-0">
                     <div class="col-sm 12 p-2">
                         <div class="my-2">
@@ -83,54 +139,120 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="container my-2 px-0">
-                <div class="row box px-0">
-                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Location Details
-                    </div>
+                <div class="row box my-2">
+                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
                 </div>
             </div>
 
-            <div class="container my-2 px-0">
+
+            <div class="container my-2 px-0 block">
+                <div class="row box px-0 my-2">
+                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Start Location Details
+                    </div>
+                </div>
                 <div class="row box px-0">
                     <div class="col-sm-12 p-2">
                         <div class="form-group">
                             <label for="name">Building Name or number</label>
-                            <input type="text" name="name" class="form-control tld-input" tld-input"
-                            value="{{$address[0]}}">
+                            <input type="text" name="esl_name" class="form-control tld-input"
+                                   value="{{$esl[0]}}">
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="street">Street name</label>
-                                <input type="text" name="street" class="form-control tld-input" tld-input"
-                                value="{{$address[1]}}">
+                                <input type="text" name="esl_street" class="form-control tld-input"
+                                       value="{{$esl[1]}}">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="city">City</label>
-                                <input type="text" name="city" class="form-control tld-input" tld-input"
-                                value="{{$address[2]}}">
+                                <input type="text" name="esl_city" class="form-control tld-input" t
+                                       value="{{$esl[2]}}">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="county">County</label>
-                                <input type="text" name="county" class="form-control tld-input"" value="{{$address[3]}}
+                                <input type="text" name="esl_county" class="form-control tld-input"" value="{{$esl[3]}}
                                 ">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="postcode">Postcode</label>
-                                <input type="text" name="postcode" class="form-control tld-input""
-                                value="{{$address[4]}}">
+                                <input type="text" name="esl_postcode" class="form-control tld-input""
+                                value="{{$esl[4]}}">
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="row box my-2">
+                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
+                </div>
             </div>
 
+
+            <div class="container my-2 px-0 block">
+                <div class="row box px-0 my-2">
+                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update End Location Details
+                    </div>
+                </div>
+                <div class="row box px-0">
+                    <div class="col-sm-12 p-2">
+                        <div class="form-group">
+                            <label for="name">Building Name or number</label>
+                            <input type="text" name="eel_name" class="form-control tld-input"
+                                   value="{{$esl[0]}}">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="street">Street name</label>
+                                <input type="text" name="eel_street" class="form-control tld-input"
+                                       value="{{$eel[1]}}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="city">City</label>
+                                <input type="text" name="eel_city" class="form-control tld-input" t
+                                       value="{{$eel[2]}}">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="county">County</label>
+                                <input type="text" name="eel_county" class="form-control tld-input""
+                                value="{{$eel[3]}}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="postcode">Postcode</label>
+                                <input type="text" name="eel_postcode" class="form-control tld-input""
+                                value="{{$eel[4]}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row box my-2">
+                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
+                </div>
+            </div>
+
+            <div class="container my-2 block">
+                <div class="row box my-2">
+                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Google Maps Link
+                    </div>
+                </div>
+                <div class="row box">
+                    <div class="col-sm-12"><input type="text" name="map_url" value="{{$event->map_url}}"></div>
+                </div>
+
+                <div class="row box my-2">
+                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
+                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
+                </div>
+            </div>
 
             <div class="container my-2 px-0">
                 <div class="row box px-0">
@@ -142,4 +264,41 @@
 
 
     </form>
+
+    <script>
+        $("document").ready()
+        {
+
+            // $(".file").hide()
+            $(".addfile").click(
+                function () {
+                    var Filebox = $(this).parents(".file_box");
+                    $(this).hide();
+                    Filebox.children(".file_value").text("File Currently being Chosen")
+                    Filebox.children(".file").click();
+                    $("#update_thumb").prop("checked", true);
+                    Filebox.children(".cancelfile").show();
+                    $(".file").on("change", function () {
+
+
+
+                        $(".file_value").text("Currently Chosen :" + $('.file').val().split('\\').pop())
+                        Filebox.append('<a href="#" class="cancelfile">Cancel File Upload</a>')
+                    })
+                    return false
+                })
+
+            $("body").on("click", ".cancelfile", function () {
+                var Filebox = $(this).parents(".file_box");
+                Filebox.children("#update_thumb").prop("checked", false);
+                if (Filebox.children("#update_thumb").prop("checked") == false) {
+                    Filebox.children(".file").val("");
+                    Filebox.children(".file_value").text("");
+                    Filebox.children(".addfile").show();
+                    Filebox.children(".cancelfile").remove();
+                }
+            })
+
+        }
+    </script>
 @endsection()

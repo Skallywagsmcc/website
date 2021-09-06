@@ -5,9 +5,8 @@ namespace App\Libraries\MigrationManager;
 
 class Core
 {
-
     protected $dir;
-    protected $class = "Migrations";
+    private $class = "Migrations";
 
     public function __construct()
     {
@@ -32,7 +31,6 @@ class Core
 
     public function callup($name)
     {
-
         return call_user_func($this->class ."\\$name::up");
     }
 

@@ -12,6 +12,7 @@ use App\Http\Models\FeaturedImage;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
+use mbamber1986\Filemanager\Filemanager;
 use MiladRahimi\PhpRouter\Url;
 
 class ImageController
@@ -29,7 +30,7 @@ class ImageController
 
     }
 
-    public function store(Url $url, Images $images, Auth $auth, Csrf $csrf)
+    public function store(Url $url, Images $images, Auth $auth, Csrf $csrf,Filemanager $files)
     {
 
         if ($csrf->Verify() == true) {

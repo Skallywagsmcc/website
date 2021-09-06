@@ -49,13 +49,6 @@
 {{--                <a href="{{$url->make("auth.admin.charters.home")}}" class="d-block text-center">Manage Comments</a>--}}
 {{--            </div>--}}
 
-            <div class="col-sm-12 col-md-4">
-                <div class="col-sm-12 px-5 bg-primary text-center">
-                    <h2>{{$comments->count()}} Members</h2>
-                </div>
-                <a href="{{$url->make("auth.admin.members.home")}}" class="d-block text-center">Manage Members</a>
-            </div>
-
             <div class="col-sm-12 col-md-8">
                 <div class="col-sm-12 px-5 bg-primary text-center">
                     <h2>{{$featured->count()}} Featured Image Requests</h2>

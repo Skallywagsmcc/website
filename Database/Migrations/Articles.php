@@ -14,7 +14,7 @@ class Articles
         Capsule::schema()->create("articles", function ($table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('uuid');
+            $table->foreignId('uid');
             $table->string("title");
             $table->string("slug");
             $table->longtext("content");

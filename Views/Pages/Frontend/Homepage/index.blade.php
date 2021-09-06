@@ -48,6 +48,7 @@
                 <div class="text-center text-md-left px-1 my-2 border-bottom py-2">19/06/2021 : Fixed Login Box Remember Me Session, Added Events Lisiting to the homepage</div>
                 <div class=" text-center text-md-left px-1 my-2 border-bottom py-2">22/07/2021 : Removed members and events while these sections are being worked on , backend is currently being built and migrated, addiional security messures have been added</div>
                 <div class="text-center text-md-left px-1 my-2 border-bottom py-2">15/08/2021 : Reimplemented Events Pages</div>
+                <div class="text-center text-md-left px-1 my-2 border-bottom py-2">06/09/2021 : Fixed Events Page to support the upcoming events and event shown after are placed in a list below</div>
 
 
         </div>
@@ -151,17 +152,17 @@
 
                 </div>
 
-            <div class="col-sm-12 col-md-4  px-0 pl-md-2 ">
-                    <div class="col-sm-12 head">Newest Club Member</div>
-                    @if($member->count() >= 1)
-                        <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}" height="200px"
-                             width="100%" alt="{{$member->first()->User->username}} Profile Image" class="my-1">
-                        <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>
-                    @else
-                        <div class="col-sm-12 text-center pr-md-0 px-0">No Members found</div>
-                    @endif
-                </div>
+{{--            <div class="col-sm-12 col-md-4  px-0 pl-md-2 ">--}}
+{{--                    <div class="col-sm-12 head">Newest Club Member</div>--}}
+{{--                    @if($member->count() >= 1)--}}
+{{--                        <img src="/img/uploads/{{$member->first()->User->Profile->image->image_name}}" height="200px"--}}
+{{--                             width="100%" alt="{{$member->first()->User->username}} Profile Image" class="my-1">--}}
+{{--                        <div class="col-sm-12 text-right"><a href="{{$url->make("members.home")}}">All members</a></div>--}}
+{{--                    @else--}}
+{{--                        <div class="col-sm-12 text-center pr-md-0 px-0">No Members found</div>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
 
-        </div>
+{{--        </div>--}}
     </div>
 @endsection

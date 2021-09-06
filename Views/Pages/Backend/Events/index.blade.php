@@ -48,10 +48,6 @@
             <div class="container my-2 my-md-0">
                 <div class="row text-center my-md-0 box withhover title">
                     <div class="col-sm-12 col-md-6 title py-2">{{$event->title}}</div>
-
-                    <div class="col-sm-12 col-md-2 py-2"><a
-                                href="{{$url->make("auth.admin.events.routes.home",["id"=>base64_encode($event->id)])}}">Event
-                            Route timeline</a></div>
                     <div class="col-sm-12 col-md-2 py-2"><a
                                 href="{{$url->make("auth.admin.events.edit",["id"=>base64_encode($event->id)])}}">edit this
                             event</a></div>

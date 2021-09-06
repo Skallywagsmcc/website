@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95bee0c20de2c8cf4700b99f3956490e",
+    "content-hash": "edfdeb961d7b1e871324ecb454055231",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -997,16 +997,16 @@
         },
         {
             "name": "mbamber1986/filemanager",
-            "version": "1.0.1",
+            "version": "v1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mbamber1986/FileManager.git",
-                "reference": "99dfc9d03833f350cd182f3771ad433a83b80ad9"
+                "reference": "0b053026b7de85ce32c095b9f70e62aefe1d1211"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mbamber1986/FileManager/zipball/99dfc9d03833f350cd182f3771ad433a83b80ad9",
-                "reference": "99dfc9d03833f350cd182f3771ad433a83b80ad9",
+                "url": "https://api.github.com/repos/mbamber1986/FileManager/zipball/0b053026b7de85ce32c095b9f70e62aefe1d1211",
+                "reference": "0b053026b7de85ce32c095b9f70e62aefe1d1211",
                 "shasum": ""
             },
             "type": "library",
@@ -1028,9 +1028,9 @@
             "description": "A small File Upload Class allowing users to upload files",
             "support": {
                 "issues": "https://github.com/mbamber1986/FileManager/issues",
-                "source": "https://github.com/mbamber1986/FileManager/tree/1.0.1"
+                "source": "https://github.com/mbamber1986/FileManager/tree/v1.2"
             },
-            "time": "2021-08-31T19:58:56+00:00"
+            "time": "2021-09-01T23:14:47+00:00"
         },
         {
             "name": "miladrahimi/phpcontainer",

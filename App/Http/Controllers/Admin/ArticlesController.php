@@ -55,7 +55,7 @@ class ArticlesController
             } else {
                 $article = new Article();
                 $article->user_id = Auth::id();
-                $article->uuid = $validate->uuid();
+                $article->uid = $validate->uid();
                 $article->title = $validate->Required("title")->Post();
                 echo $article->title;
                 $article->slug = str_replace(" ", "-", $article->title);
@@ -76,7 +76,7 @@ class ArticlesController
                             $image = new Image();
                             $image->entry_name = baseclass(get_called_class())->getShortName();
                             $image->entry_id = $article->first()->id;
-                            $image->uuid = $validate->uuid();
+                            $image->uid = $validate->uid();
                             $image->image_name = Images::get_hashed_name($name);
                             $image->title = "new title";
                             $image->description = "a new set of photos";
@@ -158,7 +158,7 @@ class ArticlesController
                         $image->user_id = Auth::id();
                         $image->entry_name = baseclass(get_called_class())->getShortName();
                         $image->entry_id = $validate->Post("id");
-                        $image->uuid = $validate->uuid();
+                        $image->uid = $validate->uid();
                         $image->image_name = Images::get_hashed_name($name);
                         $image->description = "A lot of pictures";
                         $image->image_size = $size;

@@ -30,7 +30,6 @@ class HomeController
 //        Count Images
         $images = Image::all();
 //        Count Comments
-        $comments = Comment::all();
         $featured = FeaturedImage::all();
 
         $options = ["url" => $url,
@@ -39,7 +38,6 @@ class HomeController
             "events" => $events,
             "charters" => $charters,
             "images"=>$images,
-            "comments"=>$comments,
             "featured"=>$featured];
 
         echo TemplateEngine::View("Pages.Backend.AdminCp.index", $options);

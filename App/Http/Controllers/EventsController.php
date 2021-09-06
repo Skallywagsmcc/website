@@ -15,17 +15,13 @@ class EventsController
 
     public function index(Url $url)
     {
-//        $events = Event::all();
-        $day = date("d");
-        $month = date("m");
-        $year = date("Y");
-        $first = Event::whereDay("start","<=",$day)->whereMonth("start","<=",$month)->whereYear("start","<=",$year)->get()->first();
+
+        $first = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get()->first();
+        $events = Event::Where("start_at",">",date("Y-m-d",strtotime($first->end_at)))->where("id","!=",$first->id)->Orderby("id","Asc");
         $paginate = new LaravelPaginator("5","page");
-        $next = Event::whereDay("start",">",$day)->whereMonth("start",">=",$month)->whereYear("start",">=",$year)->limit(4);
-        $events = $paginate->paginate($next);
+        $events = $paginate->paginate($events);
         $links = $paginate->page_links();
-        $years = Event::selectRaw('year(start) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
-        echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events,"years"=>$years,"first"=>$first,"next"=>$next,"links"=>$links]);
+        echo TemplateEngine::View("Pages.Frontend.Events.index",["url"=>$url,"events"=>$events,"first"=>$first,"links"=>$links]);
     }
 
     public function show($slug,Url $url)

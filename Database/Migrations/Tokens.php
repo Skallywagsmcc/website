@@ -17,7 +17,6 @@ class Tokens
             $table->string("key");
             $table->datetime("expires");
             $table->timestamps();
-
         });
     }
 

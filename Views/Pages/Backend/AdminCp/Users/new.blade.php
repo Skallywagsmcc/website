@@ -59,7 +59,6 @@
                 <form action="{{$url->make("auth.admin.users.store")}}" method="post" class="tld-form">
                     {{csrf()}}
                     <div class="block">
-
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="first_name">First name : </label>
