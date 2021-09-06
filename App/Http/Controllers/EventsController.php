@@ -43,6 +43,6 @@ class EventsController
         $paginate = new LaravelPaginator("5","page");
         $events = $paginate->paginate($events);
         $links = $paginate->page_links();
-        echo TemplateEngine::View("Pages.Frontend.Events.year",["url"=>$url,"events"=>$events,"links"=>$links]);
+//        echo TemplateEngine::View("Pages.Frontend.Events.year",["url"=>$url,"events"=>$events,"links"=>$links]);
     }
 }
