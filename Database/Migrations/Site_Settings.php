@@ -15,7 +15,7 @@ class Site_Settings
         {
             $table->id();
             $table->longtext("address");
-            $table->integer("telephone",11)->default(00000000000);
+            $table->integer("telephone",11);
             $table->text("email");
             $table->biginteger("allow_comments")->default(0);
             $table->biginteger("login")->default(1);
