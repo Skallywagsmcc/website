@@ -36,8 +36,8 @@
 
                 <div id="tabs-2">
                     <div class="col-sm-12 head">Event Dates and Times</div>
-                    <div class="col-sm-12 text-center info my-2 py-2">This event Starts at {{date("H:i",strtotime($event->start))}} {{date("d/m/Y",strtotime($event->start))}} </div>
-                    <div class="col-sm-12 text-center my-2 info py-2">This event Ends at {{date("H:i",strtotime($event->start))}} {{date("d/m/Y",strtotime($event->start))}} </div>
+                    <div class="col-sm-12 text-center info my-2 py-2">This event Starts at {{date("H:i",strtotime($event->start_at))}} {{date("d/m/Y",strtotime($event->start_at))}} </div>
+                    <div class="col-sm-12 text-center my-2 info py-2">This event Ends at {{date("H:i",strtotime($event->end_at))}} {{date("d/m/Y",strtotime($event->end_at))}} </div>
                 </div>
                 <div id="tabs-3" class="px-1">
                     @foreach($event->stops as $stops)
