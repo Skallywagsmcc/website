@@ -33,7 +33,8 @@ class EventsController
 
     public function store(Url $url, Auth $auth, Validate $validate, Csrf $csrf, Filemanager $filemanager)
     {
-//        if($csrf->Verify() == true) {
+        error_reporting(4);
+        if($csrf->Verify() == true) {
         $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("upload")->save(function () use ($filemanager, $validate, $auth, $url) {
             if ($filemanager->success == true) {
                 $image = new Image();
@@ -81,7 +82,7 @@ class EventsController
         });
 
 
-//        }
+        }
     }
 
     public function edit(Url $url, $id, Validate $validate)
