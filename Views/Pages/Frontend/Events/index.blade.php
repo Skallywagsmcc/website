@@ -31,7 +31,7 @@
             <div class="col-sm-12 col-md-3">
                 <div class="head text-left my-2">Events by year</div>
                 @foreach($years as $year)
-                    {{$year->year}}
+                    <a href="{{$url->make("events.view.year",["slug"=>$year->year])}}">{{$year->year}}</a>we
                 @endforeach
             </div>
             <div class="col-sm-12 col-md-9">
