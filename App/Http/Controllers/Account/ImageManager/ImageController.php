@@ -27,7 +27,7 @@ class ImageController
 
     public function index(Url $url, Auth $auth)
     {
-        $images = Image::where("user_id", $auth::id());
+        $images = Image::where("user_id", $auth::id())->where("nvtug","0");
         $pagiantion = new LaravelPaginator("6", "p");
         $images = $pagiantion->paginate($images);
         $links = $pagiantion->page_links();

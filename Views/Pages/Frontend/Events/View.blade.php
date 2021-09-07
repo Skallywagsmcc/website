@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-sm-12 head">{{$event->title}}</div>
             <div class="col-sm-12 d-flex justify-content-center h-50">
-                <img src="/img/uploads/{{$event->image->name}}" class="h-50 img-fluid w-50" alt="">
+                <img src="/img/uploads/{{$event->image->name}}" class="h-50 img-fluid  w-50" alt="">
             </div>
         </div>
     </div>
@@ -75,4 +75,13 @@
 
     </div>
 
+    <div class="container">
+        <div class="row info">
+            @if(empty($event->map_url))
+            <div class="col-sm-12">No Map Address Provided</div>
+            @else
+            <div class="col-sm-12"><a href="{{$event->map_url}}">View Our Map</a></div>
+                @endif
+        </div>
+    </div>
 @endsection

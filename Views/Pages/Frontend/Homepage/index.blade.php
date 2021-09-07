@@ -49,6 +49,7 @@
                 <div class=" text-center text-md-left px-1 my-2 border-bottom py-2">22/07/2021 : Removed members and events while these sections are being worked on , backend is currently being built and migrated, addiional security messures have been added</div>
                 <div class="text-center text-md-left px-1 my-2 border-bottom py-2">15/08/2021 : Reimplemented Events Pages</div>
                 <div class="text-center text-md-left px-1 my-2 border-bottom py-2">06/09/2021 : Fixed Events Page to support the upcoming events and event shown after are placed in a list below</div>
+                <div class="text-center text-md-left px-1 my-2 border-bottom py-2">07/09/2021 : Implemented the Crew Member Label to the Profile Page (needs Working on</div>
 
 
         </div>

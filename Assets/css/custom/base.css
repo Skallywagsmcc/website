@@ -189,6 +189,12 @@ body hr, html hr {
   text-decoration: underline;
 }
 
+.profile_pic {
+  border: 2px solid red;
+  border-radius: 100%;
+  clip: auto;
+}
+
 .footer {
   background-color: #00247d;
   min-height: 5vh;
