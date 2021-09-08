@@ -12,7 +12,7 @@
 
 
         @if($count >= 1)
-            @foreach($user->images as $gallery)
+            @foreach($user->images()->where("nvtug",0)->get() as $gallery)
 
                 {{--            <a href="/profile/{{$user->username}}/gallery/image/{{base64_encode($gallery->id}}">--}}
 

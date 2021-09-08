@@ -9,10 +9,10 @@
         <div class="row">
             <div class="col-sm-12 head">Gallery</div>
             @if($count >= 1)
-                @foreach($user->images as $gallery)
+                @foreach($user->images()->where("nvtug",0)->get() as $gallery)
                     <div class="col-sm-12 my-2 col-md-4 px sm-1">
                         <div class="col-sm-12 text-center">
-                            <img class="p-0  my-2" src="/img/uploads/{{$gallery->image_name}}"  height="200" alt="{{$gallery->image_name}}">
+                            <img class="p-0  my-2" src="/img/uploads/{{$gallery->name}}"  height="200" alt="{{$gallery->name}}">
                         </div>
                         <div class="col-sm-12 text-center"><a
                                     href="{{$url->make("profile.gallery.view",["username"=>$user->username,"id"=>base64_encode($gallery->id)])}}">View

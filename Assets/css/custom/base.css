@@ -189,9 +189,49 @@ body hr, html hr {
   text-decoration: underline;
 }
 
+.coverimg {
+  height: 350px;
+  position: relative;
+  background-color: red;
+  clip: auto;
+}
+.coverimg .frontimage {
+  margin: auto;
+  position: absolute;
+  justify-content: center;
+  left: 20px;
+  bottom: 20px;
+  z-index: 2000;
+}
+.coverimg .backimage {
+  position: absolute;
+  height: 100%;
+  background-color: green;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 1000;
+  clip: auto;
+  overflow: hidden;
+}
+.coverimg .name {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  z-index: 1500;
+  text-align: right;
+  padding: 5px 0px;
+  padding-right: 2rem;
+  font-size: 2rem;
+  width: 100%;
+  background-color: #00247d;
+  font-weight: bolder;
+  text-decoration: underline;
+}
+
 .profile_pic {
   border: 2px solid red;
-  border-radius: 100%;
+  border-radius: 50%;
   clip: auto;
 }
 

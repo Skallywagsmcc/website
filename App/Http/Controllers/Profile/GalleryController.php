@@ -29,7 +29,7 @@ class GalleryController
     {
         $id = base64_decode($id);
         $user = User::where("username", $username)->get()->first();
-        $image  = $user->first()->images()->where("id",$id);
+        $image  = $user->first()->images()->where("id",$id)->where("nvtug",0);
         $count = $image->count();
         $image = $image->get()->first();
         $featured = FeaturedImage::where("image_id",$image->id)->get()->first();

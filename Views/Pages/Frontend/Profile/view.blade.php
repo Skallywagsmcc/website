@@ -17,8 +17,8 @@
         @else
             <div class="row text-center my-3 border-primary border bg-dark d-flex justify-content-center">
                 <div class="col-sm-12 px-0">
-                    <img src="/img/uploads/{{$image->image_name}}" class="img-fluid px-0"
-                         alt="{{$image->image_name}}">
+                    <img src="/img/uploads/{{$image->name}}" class="img-fluid px-0"
+                         alt="{{$image->name}}">
                 </div>
                 <div class="col-sm-12 py-3">
                     {{$image->description}}
