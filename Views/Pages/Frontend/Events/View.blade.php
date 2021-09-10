@@ -6,15 +6,28 @@
 
 @section("content")
 
+    <div class="container my-2">
+        <div class="row mx-1 mx-md-0">
+            <div class="col-sm-12 px-0" id="cover_base">
+
+                <div class=" col-sm-12 px-0" id="cover_image">
+                    <img src="/Assets/img/coverphoto.png" alt=" {{$user->username}} Profile Image" width="100%">
+                </div>
+
+                <div id="profile_image" class=" col-sm-12"><img src="/img/uploads/{{$event->image->name}}" class="profile_pic justify-content-center"
+                                                                height="150" width="150" alt=" {{$event->image->title}}"></div>
+            </div>
+
+            <div class="col-sm-12" id="profile_name">{{$event->title}} </div>
+        </div>
+    </div>
 
     <div class="container my-2">
         <div class="row">
-            <div class="col-sm-12 col-md-4 d-flex justify-content-center h-75">
-                <img src="/img/uploads/{{$event->image->name}}" class="h-75 img-fluid  w-75" alt="">
-            </div>
-            <div class="col-sm-12 col-md-8">
-                <div class="head text-center text-md-left pl-md-1 px-0">{{$event->title}}</div>
-                <div class="text-center text-md-left pl-md-2">
+
+            <div class="col-sm-12">
+                <div class="head text-center text-md-left pl-md-1 px-0 lb3 ">{{$event->title}}</div>
+                <div class="text-center text-md-left pl-md- lb2 my-1">
                     {{$event->content}}
                 </div>
             </div>

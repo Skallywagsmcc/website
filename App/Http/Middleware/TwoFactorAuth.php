@@ -4,6 +4,7 @@
 namespace App\Http\Middleware;
 
 
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
@@ -29,16 +30,9 @@ class TwoFactorAuth
 
 //        step 1 check user settings with logged in user
 
-        $user = User::find(Auth::id());
-        if (($user->settings->two_factor_auth == 1)) {
-            if(isset($_SESSION['tfa_approved']) && (($_SESSION['tfa_approved']) == 0))
-            {
-                redirect($url->make("tfa.index"));
-            }
-            else
-            {
-                return $next($request);
-            }
+        if($user = User::find(Auth::id()))
+        {
+            echo TemplateEngine::View("Pages.Auth.Login.index",["url"=>$url]);
         }
         else
         {

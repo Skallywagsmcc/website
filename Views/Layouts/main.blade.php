@@ -36,7 +36,7 @@
 
  <div class="row py-3 mx-0 footer">
         <div class="col-sm-12 col-md-4 text-center text-md-left">
-            {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}}
+            {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}} | <a href="#">Site Status</a>
         </div>
         <div class="col-sm-12 col-md-8 text-center px-0">
             Social Media  Links will go here

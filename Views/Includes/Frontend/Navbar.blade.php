@@ -40,7 +40,7 @@
 
             @if(Auth())
                 <li class="nav-item">
-                    <a class="nav-link" href="{{$url->make("profile.home",["usernam"=>$user->username])}}">My Profile</a>
+                    <a class="nav-link" href="{{$url->make("profile.view",["username"=>$user->username])}}">My Profile</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{$url->make("backend.home")}}">My Account</a>

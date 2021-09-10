@@ -14,12 +14,12 @@ class Site_Settings
         Capsule::schema()->create("site_settings", function ($table)
         {
             $table->id();
-            $table->longtext("address");
-            $table->biginteger("telephone");
-            $table->text("email");
-            $table->biginteger("login")->default(1);
-//          Block Registration option
-            $table->biginteger("registration")->nullable()->default(0);
+            $table->longtext("contact_address");
+            $table->biginteger("contact_telephone");
+            $table->text("contact_email");
+            $table->biginteger("installed");
+//            Status 0 for down 1 for up
+            $table->biginteger("maintainence_status")->default(1);
             $table->timestamps();
         });
     }

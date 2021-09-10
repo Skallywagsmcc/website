@@ -195,7 +195,7 @@ body hr, html hr {
 }
 #cover_base #cover_image {
   padding: 0px;
-  height: 350px;
+  max-height: 350px;
   overflow: hidden;
 }
 #cover_base #badge {
@@ -287,4 +287,4 @@ body hr, html hr {
   background-color: #ce1126;
 }
 
-/*# sourceMappingURL=base.css.map */
+/*# sourceMappingURL=base.cs.map */

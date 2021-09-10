@@ -8,6 +8,7 @@ $dotenv->load();
 require "config.php";
 require "functions.php";
 require_once "Database.php";
+require "Router.php";
 
 ClearBladeCache();
 
