@@ -34,13 +34,14 @@ use MiladRahimi\PhpRouter\Router;
 
 $router = Router::create();
 //Frontend
+$router->get("/sql/install", [Base::class, 'index']);
 
 $router->group(["prefix"=>"","middleware"=>[Middleware\ServiceMode::class]],function (Router $router)
 {
     $router->get("/contact-us", [ContactController::class, 'index'], "contact-us");
     $router->post("/contact-us/send", [ContactController::class, 'store'], "contact-store");
     $router->get("/contact-us/thank-you", [ContactController::class, 'sent'], "contact-sent");
-    $router->get("/sql/install", [Base::class, 'index']);
+
 
     $router->group(["prefix" => "/search"], function (Router $router) {
         $router->get("/?", [SearchController::class, 'index'], "search.home");
