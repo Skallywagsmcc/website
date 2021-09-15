@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row head">List a new Charter</div>
-        <form action="{{$url->make("auth.admin.charters.update")}}" method="post">
+        <form action="{{$url->make("auth.admin.charters.update")}}" method="post" enctype="multipart/form-data">
             {{csrf()}}
             <input type="text" name='id' value="{{$charter->id}}">
             <div class="form-group">
@@ -25,6 +25,10 @@
                 <label for="url">Charter Url</label>
                 <input type="url" name="url" value="{{$charter->url}}" placeholder="url to charter group">
             </div>
+
+            Thumbnail Image :  <input type="file" name="thumb">
+            Cover Image : <input type="file" name="cover">
+
 
             <div class="form-group">
                 <button class="btn btn-primary btn-block">Save</button>

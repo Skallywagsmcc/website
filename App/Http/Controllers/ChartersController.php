@@ -17,18 +17,11 @@ class
     public function index(Url $url)
     {
       $sidebar = Charter::all();
-        $charter = Charter::where("default","1")->get();
-//        if($charter->count() == 1)
-//        {
-//            redirect($url->make("charters.view",["slug"=>$charter->first()->slug]));
-//        }
-//        else
-//        {
-////            redirect($url->make("homepage"));
-//                    echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
-//        }
+      $latest = Charter::orderBy("id","Desc")->limit(1)->get()->first();
+        $charters = Charter::where("id","<",$latest->id)->get();
 
-        echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
+        echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charters"=>$charters,"latest"=>$latest]);
+
 
     }
 

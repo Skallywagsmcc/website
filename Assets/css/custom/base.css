@@ -194,13 +194,14 @@ body hr, html hr {
 }
 #cover_base #cover_image {
   padding: 0px;
+  object-fit: contain;
   height: 350px;
   width: 100%;
   overflow: hidden;
 }
 #cover_base #cover_image img {
   width: 100%;
-  height: 350px;
+  height: inherit !important;
 }
 #cover_base #badge {
   position: absolute;
@@ -214,6 +215,7 @@ body hr, html hr {
 }
 #cover_base #profile_image {
   position: absolute;
+  object-fit: contain;
   display: flex;
   justify-content: center;
   z-index: 2000;
@@ -254,6 +256,11 @@ body hr, html hr {
 .footer {
   background-color: #00247d;
   min-height: 5vh;
+}
+
+.base_border {
+  border: solid 2px #ce1126;
+  border-radius: 1rem;
 }
 
 /*i will come back to this file this will be used to design the authentication Layout */

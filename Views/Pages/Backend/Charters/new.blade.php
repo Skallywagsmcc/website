@@ -15,7 +15,7 @@
     <div class="container my-2">
         <div class="row box">
             <div class="col-sm-12">
-                <form action="{{$url->make("auth.admin.charters.store")}}" method="post" class="tld-form">
+                <form action="{{$url->make("auth.admin.charters.store")}}" method="post" class="tld-form" enctype="multipart/form-data">
                     {{csrf()}}
                     <div class="form-group">
                         <label for="title">Charter Name</label>
@@ -33,6 +33,9 @@
                         <label for="url">Charter Url</label>
                         <input type="url" name="url" value="" placeholder="url to charter group">
                     </div>
+
+                   Thumbnail Image :  <input type="file" name="thumb">
+                    Cover Image : <input type="file" name="cover">
 
                     <div class="form-group">
                         <button class="btn tld-button btn-block">Save</button>
