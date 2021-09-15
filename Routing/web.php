@@ -158,7 +158,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Serv
 
     });
 //    Settings Controlled by Admins
-    $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings");
+    $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings.home");
     $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "auth.admin.settings.store");
 
     //    Users Images Controlled by Admins
@@ -187,6 +187,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Serv
     $router->group(["prefix" => "/charters"], function (Router $router) {
         $router->get("/?", [ChartersController::class, 'index'], "auth.admin.charters.home");
         $router->get("/view/{id}", [ChartersController::class, 'view'], "auth.admin.charters.view");
+        $router->post("/default/store",[ChartersController::class,'SetDefault'],'auth.admin.charters.default');
         $router->get("/new", [ChartersController::class, 'create'], "auth.admin.charters.create");
         $router->post("/create/save", [ChartersController::class, 'store'], "auth.admin.charters.store");
         $router->get("/edit/{id}", [ChartersController::class, 'edit'], "auth.admin.charters.edit");

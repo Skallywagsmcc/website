@@ -34,23 +34,12 @@ class ChartersController
     {
         if($csrf->Verify() == true) {
             $charter = new Charter();
+            $charter->uid = $validate->uid();
             $charter->title = ucwords($validate->Required("title")->Post());
             $charter->slug = slug($charter->title);
-            $charter->uid = $validate->uid();
             $charter->content = $validate->Required("content")->Post();
-            $validate->Post("pinned") == 1 ? $charter->pinned = 1 : $charter->pinned = 0;
-            $charter->pinned =
+            $charter->url = $validate->Post("url");
             $charter->save();
-
-//        unpin every other charter
-            if ($charter->pinned == 1) {
-                $charters = Charter::where("id", "!=", $charter->id)->get();
-                foreach ($charters as $charter) {
-                    echo $charter->id . "<br>";
-                    $charter->pinned = 0;
-                    $charter->save();
-                }
-            }
 
             redirect($url->make("auth.admin.charters.home"));
         }
@@ -70,25 +59,13 @@ class ChartersController
             $charter = Charter::where("id",$validate->Post("id"))->get();
             if($charter->count() == 1) {
                 $charter = $charter->first();
-                $charter->title = ucwords($validate->Required("title")->Post());#
-                if($charter->uid == 0)
-                {
-                    $charter->uid = $validate->uid();
-                }
+                $charter->title = ucwords($validate->Required("title")->Post());
+                $charter->uid = $validate->uid();
                 $charter->slug = slug($charter->title);
                 $charter->content = $validate->Required("content")->Post();
-                $validate->Post("pinned") == 1 ? $charter->pinned = 1 : $charter->pinned = 0;
-                $charter->save();
+                $charter->url = $validate->Post("url");
+              $charter->save();
 
-//        unpin every other charter
-                if ($charter->pinned == 1) {
-                    $charters = Charter::where("id", "!=", $charter->id)->get();
-                    foreach ($charters as $charter) {
-                        echo $charter->id . "<br>";
-                        $charter->pinned = 0;
-                        $charter->save();
-                    }
-                }
             }
 
             redirect($url->make("auth.admin.charters.home"));
@@ -102,21 +79,18 @@ class ChartersController
         echo TemplateEngine::View("Pages.Backend.Charters.defaults");
     }
 
-    public function StoreDefault(Validate $validate,Csrf $csrf)
+    public function SetDefault(Validate $validate,Url $url,Csrf $csrf)
     {
-
         $id = $validate->Post("id");
+        $charters = Charter::where("id",$id)->get();
 
-        if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {
-            if ($csrf->Verify() == true) {
-                $charters = Charter::find($id);
-                $charters->pinned = 1;
-                $charters->save();
-            }
-        }
-        else
+        if($charters->count() == 1)
         {
-            echo TemplateEngine::View("Pages.Backend.Charteres.");
+            $unsetDefault = Charter::where("id","!=","$id")->update(["default"=>0]);
+            $charters = $charters->first();
+            $charters->default = 1;
+            $charters->save();
+            redirect($url->make("auth.admin.charters.home"));
         }
 
 
@@ -127,7 +101,7 @@ class ChartersController
     {
         $id = base64_decode($id);
         $charters = Charter::where("id",$id);
-        if($charters->get()->first()->pinned == 1)
+        if($charters->get()->first()->default == 1)
         {
             $charters = Charter::all();
             $error = "This Charter is set to default and cannot be deleted";

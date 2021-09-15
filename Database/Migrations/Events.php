@@ -15,6 +15,7 @@ class Events
         {
             $table->id();
             $table->foreignid("thumbnail");
+            $table->foreignid("cover");
             $table->string("title");
             $table->foreignId('user_id');
             $table->string("uid");

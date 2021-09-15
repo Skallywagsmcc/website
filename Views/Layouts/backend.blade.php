@@ -9,6 +9,7 @@
     <script src="/Resources/js/popper.js"></script>
     <script src="/Resources/js/bootstrap.min.js"></script>
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
+    <script src="/Assets/js/Backend/ckeditor.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head

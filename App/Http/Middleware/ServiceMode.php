@@ -4,6 +4,7 @@
 namespace App\Http\Middleware;
 
 
+use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\User;
@@ -39,7 +40,8 @@ class ServiceMode
                     }
                     else
                     {
-                        echo "site is down for maintainence";
+                        echo "<h2 class='lb3 text-center'>Site is Down For Maintainence Login Is Accessable</h2>";
+                        echo TemplateEngine::View("Pages.Frontend.Maintainence.index",["url"=>$url]);
                     }
 
 

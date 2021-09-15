@@ -25,9 +25,16 @@ class Event extends \App\Http\Controllers\Controller
 
     }
 
+//    linked to thumbnail
     public function image()
     {
         return $this->hasOne(Image::class,"id","thumbnail");
+    }
+
+//    this will be linked to the events cover image
+    public function CoverImage()
+    {
+        return $this->hasOne(Image::class,"id","cover");
     }
 
 

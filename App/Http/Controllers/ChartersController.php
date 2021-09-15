@@ -17,17 +17,18 @@ class
     public function index(Url $url)
     {
       $sidebar = Charter::all();
-        $charter = Charter::where("pinned","1")->get();
-        if($charter->count() == 1)
-        {
-            redirect($url->make("charters.view",["slug"=>$charter->first()->slug]));
-        }
-        else
-        {
-//            redirect($url->make("homepage"));
-                    echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
-        }
+        $charter = Charter::where("default","1")->get();
+//        if($charter->count() == 1)
+//        {
+//            redirect($url->make("charters.view",["slug"=>$charter->first()->slug]));
+//        }
+//        else
+//        {
+////            redirect($url->make("homepage"));
+//                    echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
+//        }
 
+        echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"charter"=>$charter,"sidebar"=>$sidebar]);
 
     }
 

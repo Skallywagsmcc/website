@@ -21,8 +21,9 @@
                 <textarea name="content" id="" cols="30" rows="10" class="form-control">{{$charter->content}}</textarea>
             </div>
 
-            <div class="form group"><label for="pinned">Make This Charter Default</label>
-                <input type="checkbox" @if($charter->pinned == 1) checked @endif name="pinned" value="1"/>
+            <div class="form-group">
+                <label for="url">Charter Url</label>
+                <input type="url" name="url" value="{{$charter->url}}" placeholder="url to charter group">
             </div>
 
             <div class="form-group">

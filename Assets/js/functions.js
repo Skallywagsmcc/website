@@ -14,7 +14,6 @@ $(document).ready(function () {
         $(this).parents('.user-data').remove();
     });
 
-
     $("#tabs").tabs();
     $(".etlocations").hide();
     $(".etlink").children("a").click(function () {
@@ -51,6 +50,8 @@ $(document).ready(function () {
             return false;
         }
     })
+
+
 
     $(".prevbtn").children("a").click(function () {
         {

@@ -22,7 +22,6 @@ class ImageController
         $pages = new LaravelPaginator("10", "page");
         $images = $pages->paginate($images);
         $links = $pages->page_links();
-
         echo TemplateEngine::View("Pages.Backend.AdminCp.Images.index", ["url" => $url, "images" => $images, "links" => $links]);
     }
 

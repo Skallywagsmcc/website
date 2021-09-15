@@ -14,12 +14,13 @@ class Charters
         Capsule::schema()->create("charters",function($table)
         {
             $table->id();
-            $table->string("title");
             $table->string("uid");
+            $table->biginteger("default");
+            $table->string("title");
             $table->string("slug");
             $table->text("content");
+            $table->string("url");
 //            pinned will be used to change the default page
-            $table->integer("pinned");
             $table->timestamps();
         });
     }

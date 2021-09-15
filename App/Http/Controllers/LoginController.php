@@ -9,6 +9,7 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Cookies;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Authentication\Sessions;
+use App\Http\Models\SiteSettings;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 
@@ -24,6 +25,7 @@ class LoginController
     {
         $username = $validate->Required("username")->Post();
         $password = $validate->Required("password")->Post();
+        $mode = SiteSettings::where("id",1)->get()->first();
         if($validate::isRequired($validate::$values) == false)
         {
             $error = "required";
@@ -34,10 +36,13 @@ class LoginController
             if($user->count() == 1)
             {
                 $user = $user->first();
-
                 if(password_verify($password,$user->password))
             {
-                if($user->disable == 0)
+                if(($user->is_admin == 0) && $mode->maintainence_status == 0)
+                {
+                    $error = "Login Restricted to admins";
+                }
+                elseif($user->disable == 0)
                 {
                     if($validate->Post("remember") == 1)
                     {
@@ -58,6 +63,7 @@ class LoginController
                 {
                     $error = "User login has Been disabled  Click here to reactivate";
                 }
+
             }
             else
             {

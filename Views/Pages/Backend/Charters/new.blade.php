@@ -23,11 +23,15 @@
                     </div>
                     <div class="form-group">
                         <label for="content">Information about the charter</label>
-                        <textarea name="content" id="" cols="30" rows="10" class="form-control tld-input"></textarea>
+                        <div id="editor">
+                            <textarea name="content" id="" cols="30" rows="10" class="form-control tld-input"></textarea>
+                        </div>
+
                     </div>
 
-                    <div class="form group"><label for="pinned">Make This Charter Default</label>
-                        <input type="checkbox" name="pinned" value="1"/>
+                    <div class="form-group">
+                        <label for="url">Charter Url</label>
+                        <input type="url" name="url" value="" placeholder="url to charter group">
                     </div>
 
                     <div class="form-group">
@@ -38,5 +42,26 @@
         </div>
     </div>
 
-
+<script type="text/javascript">
+    ClassicEditor
+        .create( document.querySelector( '#editor' ),{
+            plugins: [Autosave],
+            isEnabled: true,
+        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ],
+        image: {
+        toolbar: [ 'imageStyle:block', 'imageStyle:side', '|', 'toggleImageCaption', 'imageTextAlternative' ],
+    },
+    autosave: {
+        save( editor ) {
+            // The saveData() function must return a promise
+            // which should be resolved when the data is successfully saved.
+            return saveData( editor.getData() );
+        })
+        .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
 @endsection

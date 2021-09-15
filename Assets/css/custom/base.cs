@@ -195,8 +195,13 @@ body hr, html hr {
 }
 #cover_base #cover_image {
   padding: 0px;
-  max-height: 350px;
+  min-height: 350px;
+  width: 100%;
   overflow: hidden;
+}
+#cover_base #cover_image img {
+  width: 100%;
+  height: 100%;
 }
 #cover_base #badge {
   position: absolute;
