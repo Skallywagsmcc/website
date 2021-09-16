@@ -15,9 +15,12 @@ class EventsController
 
     public function index(Url $url)
     {
+//        this needs redoing
 
-        $first = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get()->first();
-        $events = Event::Where("start_at",">",date("Y-m-d",strtotime($first->end_at)))->where("id","!=",$first->id)->Orderby("id","Asc");
+        $first = Event::orderBy("id","desc")->limit(1)->get()->first();
+        $events = Event::where("id","<",$first->id)->orderBy("start_at","desc");
+//        $first = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get()->first();
+//        $events = Event::Where("start_at",">",date("Y-m-d",strtotime($first->end_at)))->where("id","!=",$first->id)->Orderby("id","Asc");
         $paginate = new LaravelPaginator("5","page");
         $events = $paginate->paginate($events);
         $years = Event::selectRaw('year(start_at) year')->groupBy('year')->orderBy('year','desc')->limit(5)->get();
@@ -30,9 +33,13 @@ class EventsController
         $event = Event::where("slug",$slug)->get();
         if($event->count()==1)
         {
-            $likes = new LikeManager();
             $event = $event->first();
-            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event,"likes"=>$likes]);
+            echo $event->id;
+//            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event]);
+        }
+        else
+        {
+            echo "Not found";
         }
     }
 

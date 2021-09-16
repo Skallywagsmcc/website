@@ -8,6 +8,16 @@
 
 <?php $__env->startSection("content"); ?>
 
+<?php if($count == "0"): ?>
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-sm-12 head py-2">No Chaters found</div>
+            <div class="col-sm-12 py-2 text-center">
+                Sorry it seems that no charters have been found in the database Please try again later
+            </div>
+        </div>
+    </div>
+<?php else: ?>
     <div class="container my-2">
         <div class="row lb2 base_border my-lg-3 mx-1 mx-md-0">
             <div class="col-sm-12 col-lg-3 text-center text-lg-right pr-lg-2  py-2">
@@ -40,5 +50,7 @@
 
         </div>
     </div>
+
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make("Layouts.main", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/public_html/Views/Pages/Frontend/Charters/index.blade.php ENDPATH**/ ?>

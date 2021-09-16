@@ -15,7 +15,8 @@ class Charters
         {
             $table->id();
             $table->string("uid");
-            $table->biginteger("default");
+            $table->integer("thumbnail");
+            $table->integer("cover");
             $table->string("title");
             $table->string("slug");
             $table->text("content");

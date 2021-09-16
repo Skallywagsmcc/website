@@ -16,6 +16,7 @@ class Profiles
             $table->foreignId('user_id');
             $table->integer("is_crew")->default(0);
             $table->string("profile_pic")->nullable();
+            $table->string("cover")->nullable(); //coming soon
             $table->string("first_name", 50);
             $table->string("last_name", 50);
             $table->longtext("about")->nullable();
