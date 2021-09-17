@@ -18,7 +18,7 @@ class EventsController
 //        this needs redoing
 
         $first = Event::orderBy("id","desc")->limit(1)->get()->first();
-        $events = Event::where("id","<",$first->id)->orderBy("start_at","desc");
+        $events = Event::whereraw("id","<",$first->id)->orderBy("start_at","desc");
 //        $first = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get()->first();
 //        $events = Event::Where("start_at",">",date("Y-m-d",strtotime($first->end_at)))->where("id","!=",$first->id)->Orderby("id","Asc");
         $paginate = new LaravelPaginator("5","page");

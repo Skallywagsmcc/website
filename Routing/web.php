@@ -246,6 +246,14 @@ $router->group(["prefix" => "/user","middleware"=>[Middleware\ServiceMode::class
     $router->get("/activity", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.activity");
 });
 
+
+$router->group(["prefix"=>"/install"],function(Router $router)
+{
+    $router->get("/?",function()
+    {
+        echo "hello";
+    });
+});
 try {
     $router->dispatch();
 } catch (RouteNotFoundException $e) {
