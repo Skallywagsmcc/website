@@ -34,8 +34,7 @@ class EventsController
         if($event->count()==1)
         {
             $event = $event->first();
-            echo $event->id;
-//            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event]);
+            echo TemplateEngine::View("Pages.Frontend.Events.View",["url"=>$url,"event"=>$event]);
         }
         else
         {

@@ -29,7 +29,7 @@ class Auth
     protected $remember;
 
 
-    public static function Loggedin($name = "id")
+    public static function Loggedin($name = "token")
     {
         if ((isset($_COOKIE[$name])) || isset($_SESSION[$name])) {
             return true;
@@ -70,12 +70,14 @@ class Auth
 
     public static function id()
     {
-        if (isset($_COOKIE['id'])) {
-            return $_COOKIE['id'];
-        } elseif (isset($_SESSION['id'])) {
-            return $_SESSION['id'];
-        } else {
-            return self::$id;
+        if((isset($_COOKIE['token'])) || (isset($_SESSION['token'])))
+        {
+            $user = User::where("token",$_SESSION['token'])->orwhere("token",$_COOKIE['token'])->get();
+            if($user->count() == 1)
+            {
+                $user = $user->first();
+                return $user->id;
+            }
         }
     }
 
@@ -146,23 +148,5 @@ class Auth
         return $this;
     }
 
-    public function Redirect($value = null)
-    {
-        if (self::$redirect == true) {
-            if ($user = User::find(self::id())) {
-                header("location:/profile/{$user->username}");
-            } else {
-                if ($value != null)
-                if ($value != null)
-                {
-                    header("location$value");
-            }
-            else
-            {
-                header("location:/");
-            }
-        }
-    }
 
-}
 }

@@ -52,7 +52,7 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
         $router->get("/?", [Members::class, "index"], "members.home");
     });
 
-    $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\RequireLogin::class]], function (Router $router) {
+    $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\UserLogin::class]], function (Router $router) {
         $router->get("/?", [TwoFactorAuthController::class, "index"], "tfa.index");
         $router->post("/request", [TwoFactorAuthController::class, "create"], "tfa.get");
         $router->get("/request/user/{id}/token/{hex}", [TwoFactorAuthController::class, "show"], "tfa.retrieve");
@@ -128,7 +128,7 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
 //Api Requests go here
 
 //Admin
-$router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\ServiceMode::class]], function (Router $router) {
+$router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\ServiceMode::class,Middleware\AdminLogin::class]], function (Router $router) {
 //    Events manager controlled by Admins
     $router->group(["prefix" => "/events"], function (Router $router) {
         $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
@@ -200,7 +200,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Serv
 });
 
 //Account
-$router->group(["prefix" => "/user","middleware"=>[Middleware\ServiceMode::class]], function (Router $router) {
+$router->group(["prefix" => "/user","middleware"=>[Middleware\ServiceMode::class,Middleware\UserLogin::class]], function (Router $router) {
 
     $router->group(["prefix" => "/account"], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "account.home");
@@ -249,10 +249,16 @@ $router->group(["prefix" => "/user","middleware"=>[Middleware\ServiceMode::class
 
 $router->group(["prefix"=>"/install"],function(Router $router)
 {
-    $router->get("/?",function()
+    $router->get("/?",[\App\Http\Controllers\InstallerController::class,"index"],"installer.home");
+
+
+    $router->group(["prefix"=>"/{key}"],function(Router $router)
     {
-        echo "hello";
+        $router->post("/?",[\App\Http\Controllers\InstallerController::class,"termsstore"],"installer.terms.store");
+        $router->get("/profile",[\App\Http\Controllers\InstallerController::class,"profile"],'installer.profile.home');
+        $router->post("/profile",[\App\Http\Controllers\InstallerController::class,"profilestore"],'installer.profile.store');
     });
+
 });
 try {
     $router->dispatch();

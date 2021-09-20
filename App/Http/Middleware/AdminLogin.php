@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Laminas\Diactoros\Response\JsonResponse;
 use Closure;
 
-class AdminAuthMiddleware
+class AdminLogin
 {
     public function handle(ServerRequestInterface $request, Closure $next, Url $url)
     {

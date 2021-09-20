@@ -22,9 +22,7 @@ class ServiceMode
         if (($mode->count() == 1)) {
             $mode = $mode->first();
 //            complete Database Install
-            if ($mode->installed == 0) {
-                echo "Site Database Needs to be Installed";
-            } elseif ($mode->maintainence_status == 0) {
+         if ($mode->maintainence_status == 0) {
                     $user = User::where("id", $auth::id())->get();
                     if($user->count() == 1)
                     {
@@ -49,9 +47,7 @@ class ServiceMode
                 return $next($request);
             }
         } else {
-            $settings = new SiteSettings();
-            $settings->id = 1;
-            $settings->save();
+
         }
 
     }

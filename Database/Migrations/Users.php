@@ -18,10 +18,10 @@ class Users
             $table->string("username");
             $table->string("email");
             $table->string("password");
+            $table->string("token"); //remember me token
             $table->integer("is_admin")->default(0);
-            $table->string("exchange_key")->nullable();
+            $table->integer("login_attempts")->default(0);
             $table->integer("disable")->default(0);
-            $table->integer("deactivate")->default(0);
             $table->timestamps();
         });
     }

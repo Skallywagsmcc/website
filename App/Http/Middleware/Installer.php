@@ -4,10 +4,8 @@
 namespace App\Http\Middleware;
 
 
-use App\Http\Functions\TemplateEngine;
+
 use App\Http\Libraries\Authentication\Auth;
-use App\Http\Models\SiteSettings;
-use App\Http\Models\User;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use MiladRahimi\PhpRouter\Url;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,9 +15,9 @@ class Installer
 {
     public function handle(ServerRequestInterface $request, Closure $next, Url $url, Auth $auth)
     {
-        if(Capsule::schema()->hasTable("Site_settings"))
+        if(Capsule::schema()->hasTable("installers"))
         {
-            $settings = SiteSettings::where("id",1)->where("installed",1)->get();
+            $settings = \App\Http\Models\Installer::where("id",1)->where("status",2)->get();
             if($settings->count() == 1)
             {
                 return $next($request);
@@ -28,7 +26,6 @@ class Installer
             {
                 redirect("/install");
             }
-
         }
         else
         {

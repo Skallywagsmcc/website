@@ -31,6 +31,9 @@ class Csrf extends Auth
             }
     }
 
+
+
+
     public function GenerateToken($id)
     {
         $user = User::find($id);
@@ -56,7 +59,7 @@ class Csrf extends Auth
     public static function GenerateExpire()
     {
 //        Expirattion is now a session and will last for 2 minutes per interval
-        $_SESSION['csrf_expire'] = time() + 60 * 5;
+        $_SESSION['csrf_expire'] = time() + 60 * 60;
     }
 
     public static function NewToken($user_id, $key)
@@ -78,6 +81,12 @@ class Csrf extends Auth
             echo "<input type='text'  name='csrf' value='" . $user->csrf->key . "' id='csrf'>";
         }
     }
+
+    public function generatetemp()
+    {
+       return  $_SESSION['key'] = $this->set_key();
+    }
+
 
     /*Need to generate a verification based on sessions for login and register form when not logged in*/
 

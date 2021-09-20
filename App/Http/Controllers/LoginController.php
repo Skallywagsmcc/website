@@ -15,7 +15,6 @@ use MiladRahimi\PhpRouter\Url;
 
 class LoginController
 {
-
     public function index(Url $url)
     {
         echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url]);
@@ -44,19 +43,21 @@ class LoginController
                 }
                 elseif($user->disable == 0)
                 {
-                    if($validate->Post("remember") == 1)
-                    {
-                        Cookies::Create("id", $user->id)->Days(7)->Path("/")->Http(true)->Save();
-                    }
-                    else
-                    {
-                        Sessions::Create("id",$user->id);
-                    }
+
                     $csrf->GenerateToken($user->id);
-                    $id = User::find($user->id);
-                    $id->updated_at = date("Y-m-d H:i:s",strtotime("+1 Hour"));
-                    $id->save();
-                    $_SESSION['tfa_approved'] = 0;
+                    $login = User::find($user->id);
+                    $login->updated_at = date("Y-m-d H:i:s",strtotime("+1 Hour"));
+                    $login->login_attempts = 0;
+                    $login->token = bin2hex(random_bytes(32));
+                    $login->save();
+                    if($validate->Post("remember") == 1)
+                {
+                    Cookies::Create("token", $login->token)->Days(7)->Path("/")->Http(true)->Save();
+                }
+                else
+                {
+                    Sessions::Create("token",$login->token);
+                }
                     redirect($url->make("account.home"));
                 }
                 else
@@ -67,7 +68,26 @@ class LoginController
             }
             else
             {
-                $error = "Sorry the password does not match our database: Please try again";
+                $login = User::find($user->id);
+                if($login->login_attempts > 2)
+                {
+                    $login->disable = 1;
+                }
+                else {
+                    $login->login_attempts = $user->login_attempts + 1;
+
+                }
+                $login->save();
+                $max = 3;
+
+                if($login->disable == 1)
+                {
+                    $error = "Account disabled Please contact support";
+                }
+                else
+                {
+                    $error = "Sorry the password does not match our database: Please try again ".( $max-$login->login_attempts). " Attempts Remaining";
+                }
             }
             }
             else
@@ -86,12 +106,12 @@ class LoginController
         if(isset($_SESSION['id']))
         {
             echo "Im a session";
-            Sessions::Destroy("id");
+            Sessions::Destroy("token");
         }
 
         if(isset($_COOKIE['id']))
         {
-            setcookie("id",'',time()-3600,'/');
+            setcookie("token",'',time()-3600,'/');
         }
 
 //        Destroy Other Sessions and cookies

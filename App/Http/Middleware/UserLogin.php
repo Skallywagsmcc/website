@@ -10,7 +10,7 @@ use App\Http\Models\User;
 use App\Http\Libraries\Authentication\Auth;
 use Closure;
 
-class RequireLogin
+class UserLogin
 {
     public function handle(ServerRequestInterface $request, Closure $next, Url $url)
     {
@@ -18,10 +18,12 @@ class RequireLogin
       $user = User::where("id",Auth::id())->get();
       if($user->count() == 0)
       {
+          echo "Not logged in";
           redirect($url->make("login"));
       }
       else
       {
+          echo "login";
           return $next($request);
       }
 

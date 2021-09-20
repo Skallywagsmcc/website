@@ -8,9 +8,8 @@ $dotenv->load();
 require "config.php";
 require "functions.php";
 require_once "Database.php";
-require "Router.php";
 
-//ClearBladeCache();
+ClearBladeCache();
 
 if(Capsule::schema()->hasTable("users")){
 $csrf = new \App\Http\Libraries\Authentication\Csrf();
