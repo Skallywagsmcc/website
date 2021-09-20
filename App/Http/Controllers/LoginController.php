@@ -103,13 +103,12 @@ class LoginController
     public function logout(Url $url)
     {
 
-        if(isset($_SESSION['id']))
+        if(isset($_SESSION['token']))
         {
-            echo "Im a session";
             Sessions::Destroy("token");
         }
 
-        if(isset($_COOKIE['id']))
+        if(isset($_COOKIE['token']))
         {
             setcookie("token",'',time()-3600,'/');
         }
