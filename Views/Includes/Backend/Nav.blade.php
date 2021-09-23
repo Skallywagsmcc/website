@@ -25,7 +25,7 @@
             <li class="nav-item ml-md-5">
                 <a href="{{$url->make("homepage")}}" class="nav-link">Main Site</a>
             </li>
-            @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin == 1)
+            @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Authenticate::Auth()->id())->is_admin == 1)
                 <li class="nav-item ">
                     <a href="{{$url->make("auth.admin.home")}}" class="nav-link">Admin Manager</a>
                 </li>

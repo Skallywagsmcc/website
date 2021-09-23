@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ImageController
 {
-    public function index(Url $url)
+    public function index(Url)
     {
         $images = Image::orderBy("id", "desc");
         $pages = new LaravelPaginator("10", "page");
