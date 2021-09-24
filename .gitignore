@@ -5,5 +5,5 @@
 !/Storage/Cache/**/.gitkeep
 /img/uploads
 /vendor
-unused/*
+/unused
 /Packages
