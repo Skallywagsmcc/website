@@ -39,6 +39,12 @@
                     <div class="col-sm-12 border border-primary py-1">
                         <img src="/img/uploads/{{$image->name}}" class="img-fluid" alt="{{$image->name}}-{{$image->id}}">
                     </div>
+                    @if($image->nvtug==0)
+                        User uploaded content
+                    @else
+                        Uploaded using admin account
+                        @endif
+                    {{$image->count()}}
                     <div class="col-sm-12 border border-primary my-1"><a href="{{$url->make("admin.images.manage",["username"=>$image->user->username,"id"=>base64_encode($image->id)])}}">Manage Images</a></div>
                 </div>
             @endforeach

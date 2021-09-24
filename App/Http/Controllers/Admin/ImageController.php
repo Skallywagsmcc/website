@@ -18,7 +18,7 @@ class ImageController
 {
     public function index(Url $url)
     {
-        $images = Image::orderBy("id", "desc");
+        $images = Image::where("nvtug",1)->orderBy("id", "desc");
         $pages = new LaravelPaginator("10", "page");
         $images = $pages->paginate($images);
         $links = $pages->page_links();
@@ -28,9 +28,12 @@ class ImageController
     public function search(Url $url, ServerRequest $request)
     {
         $keyword = $request->getQueryParams()['keyword'];
-        $images = Image::where("title", "LIKE", "%$keyword%")->orwhereHas('user', function ($q) use ($keyword) {
+        $images = Image::where("title", "LIKE", "%$keyword%")->where("nvtug",1)->orwhereHas('user', function ($q) use ($keyword) {
             $q->where("username", "$keyword");
-        });
+        })->orwherehas('Profile', function($q) use ($keyword)
+        {
+            $q->where("first_name",$keyword)->orwhere("last_name",$keyword);
+        })->groupBy("user_id");
         $pages = new LaravelPaginator("5", "page");
         $images = $pages->paginate($images);
         $link = $pages->page_links("?keyword=$keyword&");
@@ -44,7 +47,7 @@ class ImageController
     public function view($username, $id, Url $url)
     {
         $id = base64_decode($id);
-        $image = User::where("username", $username)->get()->first()->Images()->where("id",$id)->get();
+        $image = User::where("username", $username)->get()->first()->Images()->where("id",$id)->where("nvtug",1)->get();
         echo TemplateEngine::View("Pages.Backend.AdminCp.Images.manage", ["url" => $url, "image" => $image]);
 
 

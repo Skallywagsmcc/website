@@ -7,6 +7,9 @@
 @section("content")
 
     @if($image->count() == 1)
+        @php
+        $image = $image->first();
+        @endphp
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center"><a href="{{$url->make("auth.admin.images.home")}}" class="d-block py-2">Back
@@ -19,10 +22,9 @@
         </div>
     </div>
     <div class="container my-2">
-
         <div class="row box">
             <div class="col-sm-12 p-2 d-md-flex justify-content-md-center">
-                <img src="/img/uploads/{{$image->name}}" class="img-fluid" alt="{{$image->title}}">
+                <img src="/img/uploads/{{$image->first()->name}}" class="img-fluid" alt="{{$image->title}}">
             </div>
         </div>
     </div>
