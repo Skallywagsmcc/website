@@ -1,3 +1,4 @@
+
 <?php
 
 
@@ -12,6 +13,6 @@ class HomeController
 {
     public function index(Url $url, Auth $auth)
     {
-        echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.index",["url"=>$url,"auth"=>$auth]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.index", ["url" => $url, "auth" => $auth]);
     }
 }

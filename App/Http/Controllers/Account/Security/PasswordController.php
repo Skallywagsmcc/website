@@ -18,13 +18,13 @@ class PasswordController
     public function index(Url $url)
     {
 
-        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.PasswordChange",["user",$user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.PasswordChange", ["user", $user, "url" => $url]);
     }
 
 
-    public function store(Url $url, Validate $validate,Csrf $csrf,Auth $auth)
+    public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
-        if($csrf->Verify()==true) {
+        if ($csrf->Verify() == true) {
             if ($auth->RequirePassword($validate->Post("password")) == true) {
                 if ($validate->Required("newpw")->Post() == $validate->Required("confirm")->Post()) {
                     $validate->HasStrongPassword($validate->Post("newpw"));
@@ -47,6 +47,4 @@ class PasswordController
             echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.PasswordChange", ["user", $user, "error" => Validate::$error, "url" => $url]);
         }
     }
-
-
 }

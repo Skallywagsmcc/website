@@ -46,8 +46,6 @@ class ServiceMode
             } else {
                 return $next($request);
             }
-        } else {
-
         }
 
     }

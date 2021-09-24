@@ -1,3 +1,4 @@
+
 <?php
 
 
@@ -55,6 +56,5 @@ class BasicInfoController
             echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.basic", ["user" => $user, "error" => $error, "values" => Validate::$values, "url" => $url]);
         }
     }
-
 
 }

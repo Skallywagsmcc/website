@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ce5f83d1133b77cde8b93c55fdbe7cf",
+    "content-hash": "4a1c43ffe11983d0772043d1e82c645c",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -932,16 +932,16 @@
         },
         {
             "name": "mbamber1986/authclient",
-            "version": "1.4",
+            "version": "1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mbamber1986/authclient.git",
-                "reference": "57a5957eeaec7124a054f26cbb25e1defcc2f43f"
+                "reference": "3123ee77a6b3f03251512096535756bd6567a084"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mbamber1986/authclient/zipball/57a5957eeaec7124a054f26cbb25e1defcc2f43f",
-                "reference": "57a5957eeaec7124a054f26cbb25e1defcc2f43f",
+                "url": "https://api.github.com/repos/mbamber1986/authclient/zipball/3123ee77a6b3f03251512096535756bd6567a084",
+                "reference": "3123ee77a6b3f03251512096535756bd6567a084",
                 "shasum": ""
             },
             "type": "library",
@@ -960,9 +960,9 @@
             "description": "A basic Auth class for my framework",
             "support": {
                 "issues": "https://github.com/mbamber1986/authclient/issues",
-                "source": "https://github.com/mbamber1986/authclient/tree/1.4"
+                "source": "https://github.com/mbamber1986/authclient/tree/1.5"
             },
-            "time": "2021-09-23T23:33:38+00:00"
+            "time": "2021-09-24T08:21:33+00:00"
         },
         {
             "name": "mbamber1986/filemanager",

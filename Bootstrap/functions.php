@@ -19,14 +19,10 @@ function redirect($location)
     return header('location:' . $location . '');
 }
 
-function rmimg($file)
-{
-    return unlink(Images::$upload_dir . $file);
-}
-
 
 function Auth()
 {
+
     return Auth::Loggedin() == true;
 }
 

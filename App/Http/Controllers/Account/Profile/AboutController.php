@@ -17,39 +17,34 @@ class AboutController
 {
 
 
-    public function index(Url $url,Auth $auth)
+    public function index(Url $url, Auth $auth)
     {
         $user = User::find($auth->id());
-        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["user" => $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["user" => $user, "url" => $url]);
     }
 
-    public function store(Url $url,Validate $validate,Csrf $csrf,Auth $auth)
+    public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
-        if($csrf->Verify()==true)
-        {
+        if ($csrf->Verify() == true) {
             $user = User::find($auth->id());
             $profile = $user->Profile()->where("user_id", $auth->id())->get();
             $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
             $profile->about = $validate->Post("about");
 
 //        leave this here
-            if($auth->RequirePassword($validate->Required("password")->Post()) == true)
-            {
+            if ($auth->RequirePassword($validate->Required("password")->Post()) == true) {
 
                 $profile->save();
                 redirect($url->make("backend.home"));
 
-            }
-            else
-            {
+            } else {
                 Validate::$error = " password empty or does not match";
             }
 
 
-            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["url"=>$url,"user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["url" => $url, "user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
         }
 
     }
-
 
 }

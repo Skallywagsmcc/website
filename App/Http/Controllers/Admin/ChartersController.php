@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
+use mbamber1986\Authclient\Auth;
 use App\Http\Models\Charter;
 use App\Http\Models\Event;
 use App\Http\Models\FeaturedImage;
@@ -40,7 +40,7 @@ class ChartersController
             $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
             if ($filemanager->success == true) {
                 $thumb = new Image();
-                $thumb->user_id = $auth::id();
+                $thumb->user_id = $auth->id();
                 $thumb->uid = $validate->uid();
                 $thumb->nvtug = 1;
                 $thumb->title = "Event Thumbnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
@@ -54,7 +54,7 @@ class ChartersController
             $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
             if ($filemanager->success == true) {
                 $cover = new Image();
-                $cover->user_id = $auth::id();
+                $cover->user_id = $auth->id();
                 $cover->uid = $validate->uid();
                 $cover->nvtug = 1;
                 $cover->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
@@ -66,7 +66,7 @@ class ChartersController
             }
 
 
-            $charter->user_id = $auth::id();
+            $charter->user_id = $auth->id();
             $charter->uid = $validate->uid();
             $charter->thumbnail = $thumb->id;
             $charter->cover = $cover->id;
@@ -95,7 +95,7 @@ class ChartersController
 
             if ($filemanager->success == true) {
                 $thumb = new Image();
-                $thumb->user_id = $auth::id();
+                $thumb->user_id = $auth->id();
                 $thumb->uid = $validate->uid();
                 $thumb->nvtug = 1;
                 $thumb->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
@@ -110,7 +110,7 @@ class ChartersController
             $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
             if ($filemanager->success == true) {
                 $cover = new Image();
-                $cover->user_id = $auth::id();
+                $cover->user_id = $auth->id();
                 $cover->uid = $validate->uid();
                 $cover->nvtug = 1;
                 $cover->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers\Account\ImageManager;
-
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
@@ -27,7 +25,7 @@ class ImageController
 
     public function index(Url $url, Auth $auth)
     {
-        $images = Image::where("user_id", $auth->id())->where("nvtug","0");
+        $images = Image::where("user_id", $auth->id())->where("nvtug", "0");
         $pagiantion = new LaravelPaginator("6", "p");
         $images = $pagiantion->paginate($images);
         $links = $pagiantion->page_links();
@@ -44,14 +42,12 @@ class ImageController
         echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.add", ["url" => $url, "auth" => $auth, "images" => $images]);
     }
 
-    public function store(Url $url,Filemanager $filemanager, Auth $auth, Csrf $csrf, Validate $validate)
+    public function store(Url $url, Filemanager $filemanager, Auth $auth, Csrf $csrf, Validate $validate)
     {
 
         if ($csrf->Verify() == true) {
-            $filemanager->AddDir("img/uploads/")->validformat(["png","jpg"])->upload("upload")->save(function () use ($filemanager, $auth,$validate,$url)
-            {
-                if($filemanager->success == true)
-                {
+            $filemanager->AddDir("img/uploads/")->validformat(["png", "jpg"])->upload("upload")->save(function () use ($filemanager, $auth, $validate, $url) {
+                if ($filemanager->success == true) {
                     $image = new Image();
                     $image->user_id = $auth->id();
                     $image->uid = $validate->uid();
@@ -67,13 +63,10 @@ class ImageController
                         $profile->save();
                     }
                     redirect($url->make("images.gallery.home"));
-                }
-                else
-                {
-                    echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.add", ["url" => $url,"auth"=>$auth,"validate"=>$validate,"message"=>$filemanager->message]);
+                } else {
+                    echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.add", ["url" => $url, "auth" => $auth, "validate" => $validate, "message" => $filemanager->message]);
                 }
             });
-
 
 
         }
@@ -117,13 +110,13 @@ class ImageController
 //        Save
     }
 
-    public function delete($id, Auth $auth,Url $url)
+    public function delete($id, Auth $auth, Url $url)
     {
 //        Name of
         $id = base64_decode($id);
         $profile = Profile::where("user_id", $auth->id())->get()->first();
         $image = Image::where("id", $id);
-        $featured = FeaturedImage::where("image_id",$image->get()->first()->id)->get();
+        $featured = FeaturedImage::where("image_id", $image->get()->first()->id)->get();
 
         $dir = UPLOAD_DIR;
 //        check for the directory
@@ -136,17 +129,18 @@ class ImageController
                     $profile->save();
                 }
 //                delete from the file structure
-                    unlink($dir.$image->get()->first()->name);
+                unlink($dir . $image->get()->first()->name);
 //                    delete the image from the database
-                    $image->delete();
+                $image->delete();
 //Delete from featured Requests database.
-                if($featured->count() == 1) {
+                if ($featured->count() == 1) {
                     $featured->first()->destroy($featured->id);
                 }
-                    redirect($url->make("images.gallery.home"));
+                redirect($url->make("images.gallery.home"));
             }
         } else {
             echo "No directory";
         }
     }
+
 }

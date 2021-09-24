@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Event;
 use App\Http\Models\Image;
@@ -38,7 +38,7 @@ class EventsController
         $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("upload")->save(function () use ($filemanager, $validate, $auth, $url) {
             if ($filemanager->success == true) {
                 $image = new Image();
-                $image->user_id = $auth::id();
+                $image->user_id = $auth->id();
                 $image->uid = $validate->uid();
                 $image->nvtug = 1;
                 $image->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
@@ -50,7 +50,7 @@ class EventsController
 
                 $event = new Event();
                 $event->uid = $validate->uid();
-                $event->user_id = $auth::id();
+                $event->user_id = $auth->id();
                 $event->title = ucwords($validate->Required("title")->Post());
                 $event->thumbnail = $image->id;
                 $event->slug = slug($event->title . '-' . microtime());
@@ -116,7 +116,7 @@ class EventsController
 
 //            instantiate a new image
                     $image = new Image();
-                    $image->user_id = $auth::id();
+                    $image->user_id = $auth->id();
                     $image->uid = $validate->uid();
                     $image->nvtug = 1;
                     $image->title = "Event Thumnail : " . str_replace(" ", "-", $event->title);

@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers\Account\Profile;
 
-
 use App\Http\Functions\TemplateEngine;
 use MiladRahimi\PhpRouter\Url;
 

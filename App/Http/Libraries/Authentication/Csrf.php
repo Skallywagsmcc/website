@@ -23,19 +23,15 @@ class Csrf
 
     public function checkexpire()
     {
-            if ((User::where("id", $this->id)->get()->count() == 1)) {
-                if (isset($_SESSION['csrf_expire']) && (time() > $_SESSION['csrf_expire'])) {
-                    $this->GenerateToken(self::id());
+        if ((User::where("id", $this->id)->get()->count() == 1)) {
+            if (isset($_SESSION['csrf_expire']) && (time() > $_SESSION['csrf_expire'])) {
+                $this->GenerateToken(self::id());
 //                    echo "its expired";
-                }
-                else
-                {
+            } else {
 //                    echo "the code hasnt expired";
-                }
             }
+        }
     }
-
-
 
 
     public function GenerateToken($id)
@@ -77,7 +73,8 @@ class Csrf
 
     public static function Key()
     {
-        $id = self::id();
+        $auth = new Auth();
+        $id = $auth->id();
         $result = User::where("id", $id)->get();
         $user = $result->first();
         $count = $result->count();
@@ -88,29 +85,31 @@ class Csrf
 
     public function generatetemp()
     {
-       return  $_SESSION['key'] = $this->set_key();
+        return $_SESSION['key'] = $this->set_key();
     }
 
 
     /*Need to generate a verification based on sessions for login and register form when not logged in*/
 
-    public function Verify(Auth $auth)
+    public function Verify()
     {
         $validate = new Validate();
-        $user = User::where("id", $this-->id)->get();
+        $auth = new Auth();
+        $user = User::where("id", $this->id)->get();
         if ($user->count() == 1) {
-                $user = $user->first();
-                $token = $user->csrf()->where("key", $validate->Post("csrf"))->get()->first();
+            $user = $user->first();
+            $token = $user->csrf()->where("key", $validate->Post("csrf"))->get()->first();
 //            Verify the code matches
-                if ($validate->Post("csrf") == $token->key) {
-                    $this->GenerateToken(self::id());
-                    return true;
-                } else {
-                    exit("invalid Token found");
-                }
+            if ($validate->Post("csrf") == $token->key) {
+                $this->GenerateToken($auth->id());
+                return true;
+            } else {
+                exit("invalid Token found");
+            }
 
         }
 
 
     }
+
 }

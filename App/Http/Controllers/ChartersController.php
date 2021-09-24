@@ -11,16 +11,14 @@ use Carbon\Carbon;
 use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
 
-class
- ChartersController
+class ChartersController
 {
 
     public function index(Url $url,Auth $auth)
     {
-        echo "Message " . $auth->id();
-//        $count = Charter::all()->count();
-//      $latest = Charter::orderBy("id","Desc")->limit(1)->get()->first();
-//        $charters = Charter::whereraw("id","<",$latest->id)->get();
+        $count = Charter::all()->count();
+      $latest = Charter::orderBy("id","Desc")->limit(1)->get()->first();
+        $charters = Charter::whereraw("id","<",$latest->id)->get();
 
         echo TemplateEngine::View("Pages.Frontend.Charters.index",["url"=>$url,"count"=>$count,"charters"=>$charters,"latest"=>$latest]);
 
