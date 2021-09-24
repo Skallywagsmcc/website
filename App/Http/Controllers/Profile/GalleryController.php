@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
