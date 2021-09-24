@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Libraries\ImageManager\Images;
 use App\Http\Models\Event;
 use App\Http\Models\User;
 
@@ -33,7 +32,8 @@ function Auth()
 
 function LastLogin()
 {
-    $user = User::find(Auth::id());
+    $auth = new Auth();
+    $user = User::find($auth->id());
     return date("H:i", strtotime($user->updated_at)) . "  " . date("d/m/Y", strtotime($user->updated_at));
 }
 

@@ -58,7 +58,7 @@ class Auth
     public function RequirePassword($password)
     {
 //        this will be used to update destructive settings such as  user or admin settings.
-        $user = User::where("id", self::Auth()->id())->get();
+        $user = User::where("id", $this->id())->get();
         if ($user->count() == 1) {
             if (empty($password) || !password_verify($password, $user->first()->password)) {
                 return false;

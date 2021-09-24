@@ -6,20 +6,24 @@ namespace App\Http\Libraries\Authentication;
 use App\Http\Functions\Validate;
 use App\Http\Models\Token;
 use App\Http\Models\User;
+use mbamber1986\Authclient\Auth;
 
-class Csrf extends Auth
+class Csrf
 {
 
+    protected $id;
     protected $key;
 
     public function __construct()
     {
         $this->checkexpire();
+        $auth = new Auth();
+        $this->id = $auth->id();
     }
 
     public function checkexpire()
     {
-            if ((User::where("id", self::id())->get()->count() == 1)) {
+            if ((User::where("id", $this->id)->get()->count() == 1)) {
                 if (isset($_SESSION['csrf_expire']) && (time() > $_SESSION['csrf_expire'])) {
                     $this->GenerateToken(self::id());
 //                    echo "its expired";
@@ -90,10 +94,10 @@ class Csrf extends Auth
 
     /*Need to generate a verification based on sessions for login and register form when not logged in*/
 
-    public function Verify()
+    public function Verify(Auth $auth)
     {
         $validate = new Validate();
-        $user = User::where("id", self::id())->get();
+        $user = User::where("id", $this-->id)->get();
         if ($user->count() == 1) {
                 $user = $user->first();
                 $token = $user->csrf()->where("key", $validate->Post("csrf"))->get()->first();

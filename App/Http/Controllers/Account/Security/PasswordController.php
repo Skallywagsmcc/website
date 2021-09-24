@@ -6,10 +6,10 @@ namespace App\Http\Controllers\Account\Security;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
-use App\Http\Libraries\Authentication\Authenticate;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\User;
+use MiladRahimi\PhpContainer\Tests\Classes\A;
 use MiladRahimi\PhpRouter\Url;
 
 class PasswordController
@@ -22,15 +22,15 @@ class PasswordController
     }
 
 
-    public function store(Url $url, Validate $validate,Csrf $csrf)
+    public function store(Url $url, Validate $validate,Csrf $csrf,Auth $auth)
     {
         if($csrf->Verify()==true) {
-            if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {
+            if ($auth->RequirePassword($validate->Post("password")) == true) {
                 if ($validate->Required("newpw")->Post() == $validate->Required("confirm")->Post()) {
                     $validate->HasStrongPassword($validate->Post("newpw"));
                     if (Validate::$ValidPassword == true) {
 
-                        $user = User::find(Auth::id());
+                        $user = User::find($auth->id());
                         $user->password = password_hash($validate->Post("newpw"), PASSWORD_DEFAULT);
                         $user->save();
                         redirect($url->make("logout"));

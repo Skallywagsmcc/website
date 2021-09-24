@@ -5,35 +5,35 @@ namespace App\Http\Controllers\Profile;
 
 
 use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 
 class HomeController
 {
 
-    public function index(Url $url, Auth $auth)
-    {
-        $user = User::where("id", $auth::id())->get();
-        /*
-         *This section is intended to be blank
-         * but rather than leaving a blank page
-         * anyone who accesses /Profile will
-         * be redirected to either there logged in profile page
-         * or the login page.*/
-
-//        check if user is found
-
-        if($user->count() == 1)
-        {
-            redirect($url->make("profile.view",["username"=>$user->first()->username]));
-        }
-        else
-        {
-            redirect($url->make("login"));
-        }
-
-    }
+//    public function index(Url $url, Auth $auth)
+//    {
+//        $user = User::where("id", $auth->id())->get();
+//        /*
+//         *This section is intended to be blank
+//         * but rather than leaving a blank page
+//         * anyone who accesses /Profile will
+//         * be redirected to either there logged in profile page
+//         * or the login page.*/
+//
+////        check if user is found
+//
+//        if($user->count() == 1)
+//        {
+//            redirect($url->make("profile.view",["username"=>$user->first()->username]));
+//        }
+//        else
+//        {
+//            redirect($url->make("login"));
+//        }
+//
+//    }
 
     public function show($username, Url $url)
     {

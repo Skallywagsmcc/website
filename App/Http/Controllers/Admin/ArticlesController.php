@@ -6,15 +6,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
-use App\Http\Libraries\Authentication\Authenticate;
-use App\Http\Libraries\Authentication\Cookies;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Libraries\ImageManager\Images;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Image;
 use App\Http\Models\Article;
-use App\Http\Models\User;
 use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
@@ -37,67 +33,66 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.index", ["articles" => $articles, "url" => $url]);
     }
 
-    public function create(Url $url)
+    public function create(Url $url,Auth $auth)
     {
+
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["url" => $url]);
 
     }
 
-    public function store(Url $url, Validate $validate, Images $images, Csrf $csrf)
+    public function store(Url $url,Auth $auth, Csrf $csrf, Validate $validate)
     {
-        $entry_name = baseclass(get_called_class())->getShortName();
         if ($csrf->Verify() == true) {
             $count = Article::where("slug", slug($validate->Post("title")))->get()->count();
 
             if ($count == 1) {
-                echo "this title exisits";
-                exit();
-            } else {
+                $error = "this post already Exisits";
+            }
+            else {
                 $article = new Article();
-                $article->user_id = Auth::id();
+                $article->user_id = $auth->id();
                 $article->uid = $validate->uid();
                 $article->title = $validate->Required("title")->Post();
-                echo $article->title;
                 $article->slug = str_replace(" ", "-", $article->title);
                 $article->content = $validate->Required("content")->Post();
                 $article->save();
-
-
-                if ($validate->Post('images') == 1) {
-                    $images->upload()->ValidFileType(["jpg", "png", "bmp", "gif"])->Save($article->id, function ($id, $i) use ($validate,$article,$csrf,$images) {
-                        $name = Images::Files("name")[$i];
-                        $tmp = Images::Files("tmp_name")[$i];
-                        $size = Images::Files("size")[$i];
-                        $type = Images::Files("type")[$i];
-                        $ext = Images::pathparts($name)["extension"];
-                        if (in_array($ext, Images::$ValidType)) {
-                            Images::set_hashed_name($name);
-                            move_uploaded_file($tmp, Images::$upload_dir . Images::get_hashed_name($name));
-                            $image = new Image();
-                            $image->entry_name = baseclass(get_called_class())->getShortName();
-                            $image->entry_id = $article->first()->id;
-                            $image->uid = $validate->uid();
-                            $image->image_name = Images::get_hashed_name($name);
-                            $image->title = "new title";
-                            $image->description = "a new set of photos";
-                            $image->image_size = $size;
-                            $image->image_type = $type;
-                            $image->save();
-                        } else {
-                            Images::$values[] = $name;
-                        }
-                    });
-                }
-                if ($validate::Array_Count($validate::$values) == false) {
-                    Authenticate::$errmessage = "Please see the valid errors";
-                } else {
-                    $article->save();
-                    redirect($url->make("auth.admin.articles.home"));
-                }
+//
+////
+////                if ($validate->Post('images') == 1) {
+////                    $images->upload()->ValidFileType(["jpg", "png", "bmp", "gif"])->Save($article->id, function ($id, $i) use ($validate,$article,$csrf,$images) {
+////                        $name = Images::Files("name")[$i];
+////                        $tmp = Images::Files("tmp_name")[$i];
+////                        $size = Images::Files("size")[$i];
+////                        $type = Images::Files("type")[$i];
+////                        $ext = Images::pathparts($name)["extension"];
+////                        if (in_array($ext, Images::$ValidType)) {
+////                            Images::set_hashed_name($name);
+////                            move_uploaded_file($tmp, Images::$upload_dir . Images::get_hashed_name($name));
+////                            $image = new Image();
+////                            $image->entry_name = baseclass(get_called_class())->getShortName();
+////                            $image->entry_id = $article->first()->id;
+////                            $image->uid = $validate->uid();
+////                            $image->image_name = Images::get_hashed_name($name);
+////                            $image->title = "new title";
+////                            $image->description = "a new set of photos";
+////                            $image->image_size = $size;
+////                            $image->image_type = $type;
+////                            $image->save();
+////                        } else {
+////                            Images::$values[] = $name;
+////                        }
+////                    });
+////                }
+////                if ($validate::Array_Count($validate::$values) == false) {
+////                    Authenticate::$errmessage = "Please see the valid errors";
+////                } else {
+////                    $article->save();
+////                    redirect($url->make("auth.admin.articles.home"));
+////                }
             }
         }
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["article" => $article, "values" => $validate::$values, "message" => Authenticate::$errmessage, "url" => $url, "error" => $error]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["article" => $article, "values" => $validate::$values, "message" => $error, "url" => $url, "error" => $error]);
     }
 
 //    Search

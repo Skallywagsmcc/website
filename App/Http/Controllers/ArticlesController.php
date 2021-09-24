@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Article;
 use App\Http\Models\User;

@@ -6,25 +6,24 @@ namespace App\Http\Controllers\Account\Profile;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
 use DateTime;
 use MiladRahimi\PhpRouter\Url;
-use theladsdad\auth\AuthManager;
 
 class BasicInfoController
 {
 
-    public function index(Url $url)
+    public function index(Url $url,Auth $auth)
     {
 
-        $user = User::find(Auth::id());
+        $user = User::find($auth->id());
         echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.basic", ["user" => $user,"url"=>$url]);
     }
 
-    public function store(Url $url, Validate $validate,Csrf $csrf)
+    public function store(Url $url, Validate $validate,Csrf $csrf,Auth $auth)
     {
         if($csrf->Verify()==true) {
             $validate = new Validate();
@@ -32,8 +31,8 @@ class BasicInfoController
             //check if the value us empty
 
 
-            $user = User::find(Auth::id());
-            $profile = $user->Profile()->where("user_id", Auth::id())->get();
+            $user = User::find($auth->id());
+            $profile = $user->Profile()->where("user_id", $auth->id())->get();
             $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
             $profile->first_name = $validate->Required("first_name")->Post();
             $profile->last_name = $validate->Required("last_name")->Post();
@@ -41,7 +40,7 @@ class BasicInfoController
 
 
             if (Validate::Array_Count(Validate::$values) == true) {
-                if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {
+                if ($auth->RequirePassword($validate->Post("password")) == true) {
                     $profile->save();
                     redirect($url->make("account.home"));
                 } else {

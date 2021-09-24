@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Account\Security;
 
 
 use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
 
 class Homecontroller

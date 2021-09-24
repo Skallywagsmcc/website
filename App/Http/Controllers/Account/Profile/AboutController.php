@@ -6,9 +6,8 @@ namespace App\Http\Controllers\Account\Profile;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Libraries\ImageManager\Images;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
@@ -18,28 +17,27 @@ class AboutController
 {
 
 
-    public function index(Url $url)
+    public function index(Url $url,Auth $auth)
     {
-        $user = User::find(Auth::id());
+        $user = User::find($auth->id());
         echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["user" => $user,"url"=>$url]);
     }
 
-    public function store(Url $url,Validate $validate,Csrf $csrf)
+    public function store(Url $url,Validate $validate,Csrf $csrf,Auth $auth)
     {
         if($csrf->Verify()==true)
         {
-            $user = User::find(Auth::id());
-            $profile = $user->Profile()->where("user_id", Auth::id())->get();
+            $user = User::find($auth->id());
+            $profile = $user->Profile()->where("user_id", $auth->id())->get();
             $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
             $profile->about = $validate->Post("about");
 
 //        leave this here
-            if(Auth::Auth()->RequirePassword($validate->Required("password")->Post()) == true)
+            if($auth->RequirePassword($validate->Required("password")->Post()) == true)
             {
 
                 $profile->save();
                 redirect($url->make("backend.home"));
-
 
             }
             else

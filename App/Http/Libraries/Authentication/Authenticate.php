@@ -116,11 +116,6 @@ class Authenticate extends Auth
 
 //    Reset Passwords
 
-    public function PasswordVerify($password, $hash = null)
-    {
-        if (is_null($hash)) {
-            $hash = self::$password;
-        }
-        return password_verify($password, $hash);
-    }
+
+
 }

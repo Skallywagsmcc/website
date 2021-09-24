@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Account\Security;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\User;
@@ -22,11 +22,11 @@ class EmailController
     }
 
 
-    public function store(Url $url,Validate $validate, Csrf $csrf)
+    public function store(Url $url,Validate $validate, Csrf $csrf,Auth $auth)
     {
         if ($csrf->Verify() == true) {
-            if (Auth::Auth()->RequirePassword($validate->Post("password")) == true) {
-                $user = User::find(Auth::id());
+            if ($auth->RequirePassword($validate->Post("password")) == true) {
+                $user = User::find($auth->id());
                 $user->email = $validate->Required("email")->Post();
 
                 if (Validate::Array_Count(Validate::$values) == false) {

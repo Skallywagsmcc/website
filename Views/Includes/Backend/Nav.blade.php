@@ -1,3 +1,7 @@
+@php
+use mbamber1986\Authclient\Auth;
+$auth = new Auth();
+@endphp
 <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="navbar-brand">
         <img src="/img/logo.png" alt="Logo">
@@ -25,7 +29,7 @@
             <li class="nav-item ml-md-5">
                 <a href="{{$url->make("homepage")}}" class="nav-link">Main Site</a>
             </li>
-            @if(\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->is_admin == 1)
+            @if(\App\Http\Models\User::find($auth->id())->is_admin == 1)
                 <li class="nav-item ">
                     <a href="{{$url->make("auth.admin.home")}}" class="nav-link">Admin Manager</a>
                 </li>

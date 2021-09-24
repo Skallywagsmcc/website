@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Account\ImageManager;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\FeaturedImage;
@@ -27,7 +27,7 @@ class ImageController
 
     public function index(Url $url, Auth $auth)
     {
-        $images = Image::where("user_id", $auth::id())->where("nvtug","0");
+        $images = Image::where("user_id", $auth->id())->where("nvtug","0");
         $pagiantion = new LaravelPaginator("6", "p");
         $images = $pagiantion->paginate($images);
         $links = $pagiantion->page_links();
@@ -53,7 +53,7 @@ class ImageController
                 if($filemanager->success == true)
                 {
                     $image = new Image();
-                    $image->user_id = $auth::id();
+                    $image->user_id = $auth->id();
                     $image->uid = $validate->uid();
                     $image->title = $validate->Required("title")->Post();
                     $image->name = $filemanager->GetUniqueName();
@@ -62,7 +62,7 @@ class ImageController
                     $image->description = $validate->Post("description");
                     $image->save();
                     if ($validate->Post("ppic") == 1) {
-                        $profile = Profile::where("user_id", $auth::id())->get()->first();
+                        $profile = Profile::where("user_id", $auth->id())->get()->first();
                         $profile->profile_pic = $image->id;
                         $profile->save();
                     }
@@ -82,7 +82,7 @@ class ImageController
 
     public function edit($id, Url $url, Auth $auth)
     {
-        $images = Image::where("user_id", $auth::id())->where("id", $id)->get();
+        $images = Image::where("user_id", $auth->id())->where("id", $id)->get();
         if ($images->count() == 1) {
             $image = $images->first();
         }
@@ -121,7 +121,7 @@ class ImageController
     {
 //        Name of
         $id = base64_decode($id);
-        $profile = Profile::where("user_id", $auth::id())->get()->first();
+        $profile = Profile::where("user_id", $auth->id())->get()->first();
         $image = Image::where("id", $id);
         $featured = FeaturedImage::where("image_id",$image->get()->first()->id)->get();
 

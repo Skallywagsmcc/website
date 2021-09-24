@@ -32,16 +32,21 @@
 
 @include("Includes.Backend.Nav")
 
+@php
+    use mbamber1986\Authclient\Auth;
+    $auth = new Auth();
+@endphp
+
 <div  class="container-fluid text-center text-md-left my-3 py-2" id="account_bar">
 
     <div class="row">
         <div class="col-sm-12 col-md-6">
-            @if(\App\Http\Models\Profile::where("user_id",\App\Http\Libraries\Authentication\Auth::id())->get()->first()->profile_pic == null)
+            @if(\App\Http\Models\Profile::where("user_id",$auth->id())->get()->first()->profile_pic == null)
                 <img src="/img/logo.png" alt="Logo" class="profile_pic">
-                {{\App\Http\Libraries\Authentication\Auth::getusername()}}
+                {{$auth->getusername()}}
             @else
-                <img src="/img/uploads/{{\App\Http\Models\User::find(\App\Http\Libraries\Authentication\Auth::id())->Profile->Image->name}}" alt="{{$image->name}}" class="profile_pic">
-                {{\App\Http\Libraries\Authentication\Auth::getusername()}}
+                <img src="/img/uploads/{{\App\Http\Models\User::find($auth->id())->Profile->Image->name}}" alt="{{$image->name}}" class="profile_pic">
+                {{$auth->getusername()}}
             @endif
         </div>
         <div class="col-sm-12 col-md-6">Your Last Login was : {{LastLogin()}}</div>

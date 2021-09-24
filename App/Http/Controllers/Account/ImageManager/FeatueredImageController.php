@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Account\ImageManager;
 
 
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
@@ -21,7 +21,7 @@ class FeatueredImageController
     public function add($id,Url $url,Auth $auth)
     {
         $id = base64_decode($id);
-        $user = User::where("id",$auth::id())->get();
+        $user = User::where("id",$auth->id())->get();
         if($user->count() == 1)
         {
             $featured = FeaturedImage::where("image_id",$id)->get();

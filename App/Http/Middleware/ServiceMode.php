@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 
 
 use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
@@ -23,7 +23,7 @@ class ServiceMode
             $mode = $mode->first();
 //            complete Database Install
          if ($mode->maintainence_status == 0) {
-                    $user = User::where("id", $auth::id())->get();
+                    $user = User::where("id", $auth->id())->get();
                     if($user->count() == 1)
                     {
                         if($user->first()->is_admin == 1)
