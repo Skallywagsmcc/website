@@ -112,13 +112,14 @@ class ImageController
 
     public function delete($id, Auth $auth, Url $url)
     {
+
 //        Name of
         $id = base64_decode($id);
         $profile = Profile::where("user_id", $auth->id())->get()->first();
         $image = Image::where("id", $id);
         $featured = FeaturedImage::where("image_id", $image->get()->first()->id)->get();
 
-        $dir = UPLOAD_DIR;
+        $dir = $_SERVER['DOCUMENT_ROOT'].'/img/uploads/';
 //        check for the directory
 
         if (is_dir($dir)) {
