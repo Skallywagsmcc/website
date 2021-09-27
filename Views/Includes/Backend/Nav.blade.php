@@ -2,6 +2,7 @@
 use mbamber1986\Authclient\Auth;
 $auth = new Auth();
 @endphp
+
 <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="navbar-brand">
         <img src="/img/logo.png" alt="Logo">

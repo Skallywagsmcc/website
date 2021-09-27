@@ -18,12 +18,10 @@ class UserLogin
       $user = User::where("id",$auth->id())->get();
       if($user->count() == 0)
       {
-          echo "Not logged in";
           redirect($url->make("login"));
       }
       else
       {
-          echo "login";
           return $next($request);
       }
 
