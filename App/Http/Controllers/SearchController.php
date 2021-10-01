@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Functions\TemplateEngine;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Article;
+use App\Http\Models\Charter;
+use App\Http\Models\Event;
 use App\Http\Models\User;
 use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
@@ -23,18 +25,47 @@ class SearchController
 
     public function view(Url $url, ServerRequest $request)
     {
+        echo "hello";
         $keyword = $request->getQueryParams()['keyword'];
-        $pages = Article::whereRaw('MATCH (title, content) AGAINST (?)' , array($keyword));
-        $count = $pages->count();
-        $page = new LaravelPaginator("1","p");
-        $result = $page->paginate($pages);
-//        Needs to be after paginate
-        $links = $page->page_links('?','&keyword='.$keyword);
+        echo $keyword;
 
-        $user = User::all();
-        echo TemplateEngine::View("Pages.Frontend.Search.view",["url"=>$url,"count"=>$count,"user"=>$user,"pages"=>$result,"links"=>$links]);
+        $users = User::where("username",$keyword)->orwherehas("Profile",function ($q)  use ($keyword)
+        {
+            $q->where("first_name",$keyword)->orwhere("last_name",$keyword);
+        });
+        echo $users->get();
+echo "<hr>";
+
+        $articles = Article::where("title","LIKE","%$keyword%")->orwhere("content","LIKE","%$keyword%")->orwherehas("User",function ($q)  use ($keyword) {
+            $q->where("username",$keyword);})->get();
+
+        $events = Event::where("title","LIKE","%$keyword%")->orwhere("content","LIKE","%$keyword%")->orwherehas("User",function ($q)  use ($keyword) {
+            $q->where("username",$keyword);})->get();
 
 
+        $charters = Charter::where("title","LIKE","%$keyword%")->orwhere("content","LIKE","%$keyword%")->orwherehas("User",function ($q)  use ($keyword) {
+            $q->where("username",$keyword);})->get();
+
+
+        foreach ($events as $event)
+        {
+            echo $event->title . "<br>";
+        }
+
+        echo "<hr> Articles";
+        foreach ($articles as $article)
+        {
+            echo $article->title . "<br>";
+        }
+
+        echo "<hr> Charters";
+
+        foreach ($charters as $charter)
+        {
+            echo $charter->title . "<br>";
+        }
+
+        exit();
     }
 
 
