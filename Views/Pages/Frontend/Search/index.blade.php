@@ -1,7 +1,7 @@
-@extends("Layouts.main")
+@extends("Layouts.main")M
 
 @section("content")
-    <form action="{{$url->make("articles.search")}}" method="get">
+    <form action="{{$url->make("search.view")}}" method="get">
         <input type="text" name="keyword">
         <button>Search</button>
     </form>

@@ -6,25 +6,147 @@
 
 @section("content")
 
-    @if($count == 1)
-        {{ redirect($url->make("pages.view",["category"=>$category->slug,"slug"=>$page->first()->slug]))}}
-    @elseif($count > 1)
-        @foreach($pages as $page)
-            <div class="row">
-                <div class="col-md-12 head">
-                    {{$page->title}}
+    @isset($type)
+        @if($type == "users")
+            <div class="container my-2">
+                <div class="row">
+                    Users
+                    @if($users->count() >=1)
+                        <div class="col-sm-12 head">Results for users</div>
+                        @foreach($users as $user)
+                            {{$user->username}}
+                        @endforeach
+                        <div class="col-sm-12 text-center text-lg-right pr-lg-2">
+                            {!! $p["users"] !!}
+                        </div>
+                    @else
+                        No Results found in users
+                    @endif
                 </div>
-                <div class="col-md-12">
-                    {!! nl2br($page->content) !!}
-                    <hr>
-                </div>
-                <div class="col-md-6">Date created {{$page->created_at}}</div>
-                <div class="col-md-6 text-right"><a href="{{$url->make("pages.view",["category"=>$page->category->slug,"slug"=>$page->slug])}}">View Article</a></div>
             </div>
-            {!! $links !!}
-        @endforeach
+        @elseif("$type" == "articles")
+            <div class="container my-2">
+                <div class="row">
+                    @if($articles->count() >=1)
+                        <div class="col-sm-12 head">Results for Articles</div>
+                        @foreach($articles as $article)
+                            <div class="col-sm-12">
+                                {{$article->title}}
+                            </div>
+                        @endforeach
+                        <div class="d-flex justify-content-center col-sm-12">
+                            {!!$p["articles"]!!}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @elseif($type=="charters")
+            <div class="container my-2">
+                <div class="row">
+                    @if($charters->count() >=1)
+                        <div class="col-sm-12 head">Results for Charters</div>
+                        @foreach($charters as $charter)
+                            {{$charter->title}}
+                            <br>
+                        @endforeach
+                        <div class="d-flex justify-content-center col-sm-12">
+                            {!!$p["charters"]!!}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @elseif($type=="events")
+            <div class="container my-2">
+                <div class="row">
+                    @if($events->count() >=1)
+                        <div class="col-sm-12 head">Results for Events</div>
+                        @foreach($events as $event)
+                            {{$event->title}}
+                            <br>
+                        @endforeach
+                        <div class="d-flex justify-content-center col-sm-12">
+                            {!!$p["events"]!!}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @else
+            No Results
+        @endif
     @else
-        No articles found;
-    @endif
+        <div class="container my-2">
+            <div class="row">
+                @if($users->count() >=1)
+                    <div class="col-sm-12 head">Results for users</div>
+                    @foreach($users as $user)
+                        {{$user->username}}
+
+                    @endforeach
+                    @if($users->count() == $limit)
+                        <div class="col-sm-12 text-center text-lg-right pr-lg-2">
+                            <a href="{{$url->make("search.view.type",["type"=>"users"])}}?keyword={{$keyword}}">View More
+                                Users</a>
+                        </div>
+                    @endif
+                @endif
+            </div>
+        </div>
+
+        <div class="container my-2">
+            <div class="row">
+                @if($articles->count() >=1)
+                    <div class="col-sm-12 head">Results for Articles</div>
+                    @foreach($articles as $article)
+                        <div class="col-sm-12">
+                            {{$article->title}}
+                        </div>
+                    @endforeach
+                    @if($articles->count() == $limit)
+                        <div class="col-sm-12 text-center text-lg-right pr-lg-2">
+                            <a href="{{$url->make("search.view.type",["type"=>"articles"])}}?keyword={{$keyword}}">View More
+                                Articles</a>
+                        </div>
+                    @endif
+                @endif
+            </div>
+        </div>
+
+        <div class="container my-2">
+            <div class="row">
+                @if($charters->count() >=1)
+                    <div class="col-sm-12 head">Results for Charters</div>
+                    @foreach($charters as $charter)
+                        {{$charter->title}}
+                        <br>
+                    @endforeach
+                    @if($charters->count() == $limit)
+                        <div class="col-sm-12 text-center text-lg-right pr-lg-2">
+                            <a href="{{$url->make("search.view.type",["type"=>"charters"])}}?keyword={{$keyword}}">View More
+                                Charters</a>
+                        </div>
+                    @endif
+                @endif
+            </div>
+        </div>
+
+        <div class="container my-2">
+            <div class="row">
+                @if($events->count() >=1)
+                    <div class="col-sm-12 head">Results for Events</div>
+                    @foreach($events as $event)
+                        {{$event->title}}
+                        <br>
+                    @endforeach
+                    @if($events->count() == $limit)
+                        <div class="col-sm-12 text-center text-lg-right pr-lg-2">
+                            <a href="{{$url->make("search.view.type",["type"=>"events"])}}?keyword={{$keyword}}">View More
+                                Events</a>
+                        </div>
+                    @endif
+                @endif
+            </div>
+        </div>
+    @endisset
+
 
 @endsection

@@ -44,6 +44,7 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
     $router->group(["prefix" => "/search"], function (Router $router) {
         $router->get("/?", [SearchController::class, 'index'], "search.home");
         $router->get("/view", [SearchController::class, 'view'], "search.view");
+        $router->get("/view/{type}", [SearchController::class, 'viewtype'], "search.view.type");
     });
 
     $router->group(["prefix" => "/members"], function (Router $router) {

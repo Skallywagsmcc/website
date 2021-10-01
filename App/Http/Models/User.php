@@ -23,40 +23,22 @@ class User extends Controller
         return $this->hasOne(Profile::class);
     }
 
+    public  function Article()
+    {
+        return $this->hasMany(Article::class);
+    }
+
     public function settings()
     {
         return $this->hasOne(UserSettings::class);
     }
 
-    public function Article()
-    {
-        return $this->hasOne(Article::class);
-    }
 
     public function image()
     {
         return $this->hasOne(Image::class);
     }
 
-    public function Members()
-    {
-        return $this->hasOne(Member::class);
-    }
-
-    public function CountMembers($id)
-    {
-        return $this->hasOne(Member::class)->where("user_id",$id)->count();
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(Likes::class);
-    }
-
-    public function terms()
-    {
-        return $this->hasMany(Terms::class);
-    }
 
     public function events()
     {
