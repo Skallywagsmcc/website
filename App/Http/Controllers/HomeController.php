@@ -8,6 +8,8 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Models\Event;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\Article;
+use App\Http\Models\Profile;
+use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 
 class HomeController
@@ -17,9 +19,10 @@ class HomeController
     {
         $pages = Article::orderBy("id", "desc")->limit(4)->get();
         $events = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get();
+        $profile = Profile::where("is_crew",1)->get();
 
         $featured = FeaturedImage::inRandomOrder()->where("status", 2)->limit(3)->get();
-        echo TemplateEngine::View("Pages.Frontend.Homepage.index", ["url" => $url, "featured" => $featured, "pages" => $pages,"events"=>$events]);
+        echo TemplateEngine::View("Pages.Frontend.Homepage.index", ["url" => $url, "featured" => $featured, "pages" => $pages,"events"=>$events,"members"=>$profile]);
     }
 
 

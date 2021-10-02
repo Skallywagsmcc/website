@@ -5,6 +5,26 @@
 @endsection
 
 @section("content")
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-sm-12">
+                <form action="{{$url->make("search.view")}}" method="get" class="tld-form">
+                    <input type="text" name="keyword" class="tld-input form-control my-2"
+                           placeholder="Search for Users, Articles ,Charters or Events">
+                    <button class="tld-button btn-block btn">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@if(empty($keyword) or !isset($keyword))
+    <div class="container my-2">
+        <div class="row mx-1">
+            <div class="col-sm-12 head">No search Results found</div>
+            <div class="col-sm-12 text-center">Sorry it seems you have entered an invalid Request</div>
+        </div>
+    </div>
+@else
+
 
     @isset($type)
         @if($type == "users")
@@ -147,6 +167,5 @@
             </div>
         </div>
     @endisset
-
-
+    @endif
 @endsection

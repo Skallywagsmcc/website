@@ -57,6 +57,7 @@ class User extends Controller
         return $this->hasMany(Comment::class);
     }
 
+
     public function PasswordRequests()
     {
        return $this->hasOne(PasswordRequest::class);
