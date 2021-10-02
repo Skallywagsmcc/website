@@ -56,39 +56,9 @@ class ArticlesController
                 $article->slug = str_replace(" ", "-", $article->title);
                 $article->content = $validate->Required("content")->Post();
                 $article->save();
-//
-////
-////                if ($validate->Post('images') == 1) {
-////                    $images->upload()->ValidFileType(["jpg", "png", "bmp", "gif"])->Save($article->id, function ($id, $i) use ($validate,$article,$csrf,$images) {
-////                        $name = Images::Files("name")[$i];
-////                        $tmp = Images::Files("tmp_name")[$i];
-////                        $size = Images::Files("size")[$i];
-////                        $type = Images::Files("type")[$i];
-////                        $ext = Images::pathparts($name)["extension"];
-////                        if (in_array($ext, Images::$ValidType)) {
-////                            Images::set_hashed_name($name);
-////                            move_uploaded_file($tmp, Images::$upload_dir . Images::get_hashed_name($name));
-////                            $image = new Image();
-////                            $image->entry_name = baseclass(get_called_class())->getShortName();
-////                            $image->entry_id = $article->first()->id;
-////                            $image->uid = $validate->uid();
-////                            $image->image_name = Images::get_hashed_name($name);
-////                            $image->title = "new title";
-////                            $image->description = "a new set of photos";
-////                            $image->image_size = $size;
-////                            $image->image_type = $type;
-////                            $image->save();
-////                        } else {
-////                            Images::$values[] = $name;
-////                        }
-////                    });
-////                }
-////                if ($validate::Array_Count($validate::$values) == false) {
-////                    Authenticate::$errmessage = "Please see the valid errors";
-////                } else {
-////                    $article->save();
-////                    redirect($url->make("auth.admin.articles.home"));
-////                }
+
+                    $article->save();
+                    redirect($url->make("auth.admin.articles.home"));
             }
         }
 
@@ -115,18 +85,13 @@ class ArticlesController
     public function edit($slug, $id, Url $url)
     {
         $id = base64_decode($id);
-        $entru_name = baseclass(get_called_class())->getShortName();
         $article = Article::where("slug", $slug)->where("id", $id)->get();
         $count = $article->count();
         $article = $article->first();
-        $images = $article->images()->orderBy("id","asc");
-        $pages = new LaravelPaginator('10', 'page');
-        $images = $pages->paginate($images);
-        $links = $pages->page_links();
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url,"images"=>$images,"links"=>$links]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url,"links"=>$links]);
     }
 
-    public function update(Url $url, Validate $validate, Images $images, Image $image, Csrf $csrf)
+    public function update(Url $url, Validate $validate,Csrf $csrf)
     {
 
         if ($csrf->Verify() == true) {
@@ -136,46 +101,7 @@ class ArticlesController
             $article->content = $validate->Required("content")->Post();
             $article->save();
 
-            $id = $article->id;
-            if ($validate->Post("images") == 1) {
-                $images->upload()->ValidFileType(["jpg", "png", "jpeg"])->save($id, function ($id, $i) {
-//                echo $id;
-                    $name = Images::Files("name")[$i];
-                    $tmp = Images::Files("tmp_name")[$i];
-                    $size = Images::Files("size")[$i];
-                    $type = Images::Files("type")[$i];
-                    $ext = Images::pathparts($name)["extension"];
-                    if (in_array($ext, Images::$ValidType)) {
-                        Images::set_hashed_name($name);
-                        move_uploaded_file($tmp, Images::$upload_dir . Images::get_hashed_name($name));
-                        $image = new Image();
-                        $validate = new Validate();
-                        $image->user_id = Auth::id();
-                        $image->entry_name = baseclass(get_called_class())->getShortName();
-                        $image->entry_id = $validate->Post("id");
-                        $image->uid = $validate->uid();
-                        $image->image_name = Images::get_hashed_name($name);
-                        $image->description = "A lot of pictures";
-                        $image->image_size = $size;
-                        $image->image_type = $type;
-                        $image->save();
-                    }
-//
-                });
-            }
-
-
             redirect($url->make("auth.admin.articles.home"));
-        }
-    }
-
-
-    public function deleteimages(Url $url, Validate $validate, Image $image)
-    {
-        $id = $validate->Post("id");
-        for ($i = 0; $i < count($id); $i++) {
-
-            $image->where("id", $id[$i])->delete();
         }
     }
 

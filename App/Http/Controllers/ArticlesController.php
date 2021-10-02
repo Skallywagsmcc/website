@@ -38,7 +38,6 @@ class ArticlesController
     {
         $article = Article::where("slug",$slug)->get();
         $entry_name = baseclass(get_called_class())->getShortName();
-        $likes = new LikeManager();
         $years = Article::selectRaw('year(created_at) year')
             ->groupBy('year')
             ->orderBy('year', 'desc')
@@ -46,10 +45,9 @@ class ArticlesController
         $count = $article->count();
         if(($count == 1))
         {
-            $images = $article->first()->images()->where("entry_name",$entry_name)->where("entry_id",$article->first()->id)->get();
 
 //            $date = new \DateTime($article->first()->created_at);
-            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"Auth"=>$auth,"images"=>$images,"years"=>$years]);
+            echo TemplateEngine::View("Pages.Frontend.Articles.view",['article'=>$article->first(),"count"=>$count,"url"=>$url,"likes"=>$likes,"Auth"=>$auth,"years"=>$years]);
         }
         else
         {

@@ -47,6 +47,9 @@
                         <h2>Other Settings</h2>
                         <label for="is_admin">Set this user as Administrator</label>
                         <input type="checkbox" name="is_admin" @if($user->is_admin == 1) checked @endif value="1">
+                        <br>
+                        <label for="is_admin">Set this user as Crew Member</label>
+                        <input type="checkbox" name="is_crew" @if($user->Profile->is_crew == 1) checked @endif value="1">
 
                         <button class="btn btn-primary btn-block">Update User Details</button>
                     </div>

@@ -112,7 +112,6 @@ class ImageController
 
     public function delete($id, Auth $auth, Url $url)
     {
-
 //        Name of
         $id = base64_decode($id);
         $profile = Profile::where("user_id", $auth->id())->get()->first();

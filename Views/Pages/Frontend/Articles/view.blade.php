@@ -19,55 +19,21 @@
                 </div>
 
                 {!! nl2br($article->content) !!}
-                <div class="col-sm-12 foot py-2 px-0 m-0">
-                    <a href="#" data-toggle="modal" data-target="#Likes">{{$likes->Likes($article->uuid)->count()}} People
-                        Like this</a>
-                    {!! $likes->links($article->uuid)!!}
-                </div>
 
                 <div class="row my-1">
                     <div class="col-sm-12">
                         <a href="{{$url->make("articles.home")}}">Back to Articles</a>
                     </div>
-                </div>
-
-                <!-- Modal -->
-                <div class="modal t h-100 overflow-auto moda fade" id="Likes" tabindex="-1" role="dialog"
-                     aria-labelledby="Likes" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content bg-primary">
-                            <div class="modal-header bg-danger text-white">
-                                <h5 class="modal-title" id="Likes">People who Have liked this article</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body bg-dark text-white">
-
-                                @foreach($likes->Likes($article->uuid); as $like)
-                                    <a href="{{$url->make("profile.home",["username"=>$like->user->username])}}">{{$like->user->username}}</a>
-                                    <br>
-                                @endforeach
-                            </div>
-                        </div>
+                    <div class="col-sm-12 col-lg-8 text-center text-lg-left pl-lg-2 py-2">Article created by {{$article->user->Profile->first_name}} {{$article->user->Profile->last_name}}</div>
+                    <div class="col-sm-12 col-lg-4 text-center text-lg-right pr-lg-2 py-2">
+                        @if($article->created_at == $article->updated_at)
+                            Created : {{date("H:i",strtotime($article->created_at))}} {{date("d/m/Y",strtotime($article->created_at))}}
+                        @else
+                            Updated : {{date("H:i",strtotime($article->updated_at))}} {{date("d/m/Y",strtotime($article->updated_at))}}
+                        @endif
                     </div>
                 </div>
 
-                <div class="row">
-                    @foreach($images as $image)
-                        <div class="col-sm-12 col-md-4">
-                            <div class="col-sm-12">
-                                <img height="200px" width="200px" src='/img/uploads/{{$image->image_name}}'>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12 col-md-6">{{$likes->Likes($image->uuid)->count()}} </div>
-                                <div class="col-sm-12 col-md-6">{!! $likes->links($image->uuid)!!}</div>
-                            </div>
-
-                        </div>
-
-                    @endforeach
-                </div>
             </div>
 
             {{--                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">--}}

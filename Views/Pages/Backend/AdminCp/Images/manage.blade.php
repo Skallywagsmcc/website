@@ -10,6 +10,8 @@
         @php
         $image = $image->first();
         @endphp
+
+        {{$image->id}}
     <div class="container">
         <div class="row">
             <div class="col-sm-12 text-center"><a href="{{$url->make("auth.admin.images.home")}}" class="d-block py-2">Back
@@ -24,7 +26,7 @@
     <div class="container my-2">
         <div class="row box">
             <div class="col-sm-12 p-2 d-md-flex justify-content-md-center">
-                <img src="/img/uploads/{{$image->first()->name}}" class="img-fluid" alt="{{$image->title}}">
+                <img src="/img/uploads/{{$image->name}}" class="img-fluid" alt="{{$image->title}}">
             </div>
         </div>
     </div>
@@ -32,7 +34,7 @@
     <div class="container my-2">
         <div class="row box">
             <div class="col-sm-12 p-2 text-center">
-                <a class="d-block" href="{{$url->make("auth.admin.images.delete",["id"=>base64_encode($image->id)])}}">Delete
+                <a class="d-block" href="{{$url->make("auth.admin.images.delete",["user_id"=>base64_encode($image->user->id),"id"=>base64_encode($image->id)])}}">Delete
                     Image</a>
             </div>
         </div>

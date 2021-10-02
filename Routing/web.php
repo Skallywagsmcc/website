@@ -103,6 +103,11 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/?", [LoginController::class, 'index'], "login");
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
+    $router->get("/register",function(){
+//        Register needs to integrated with open and closed register
+//        Closed means it needs a invite link to register the account Modification to user manager will be required
+        echo "Hello";
+    },"register");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
     $router->group(["prefix"=>"/tfa","middleware"=>[Middleware\ServiceMode::class]],function (Router $router)
@@ -145,7 +150,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Serv
         $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
         $router->get("/view/{username}/{id}", [ImageController::class, "view"], "admin.images.manage");
         $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
-        $router->get("/view/{id}", [ImageController::class, "delete"], "auth.admin.images.delete");
+        $router->get("/view/delete/{user_id}/{id}", [ImageController::class, "delete"], "auth.admin.images.delete");
     });
 
 //    Featured Images Controlled by Admins
@@ -166,7 +171,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Serv
         $router->get("/new", [UsersController::class, "create"], "auth.admin.users.new");
         $router->get("/edit/{id}/{username}", [UsersController::class, "edit"], "auth.admin.users.edit");
         $router->post("/store", [UsersController::class, "store"], "auth.admin.users.store");
-        $router->post("/update/", [UsersController::class, "update"], "auth.admin.users.update");
+        $router->post("/update", [UsersController::class, "update"], "auth.admin.users.update");
         $router->get("/search", [UsersController::class, "search"], "auth.admin.users.search");
     });
 

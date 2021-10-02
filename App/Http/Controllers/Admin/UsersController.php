@@ -129,10 +129,9 @@ class UsersController
         $id = base64_decode($id);
         $username = base64_decode($username);
         $user = User::withCount("settings")->where("id", $id)->where("username", $username)->get();
-        $members = $user->first()->Members()->where("user_id", $user->first()->id)->get();
 
         if ($user->count() == 1) {
-            echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["user" => $user->first(), "url" => $url, "members" => $members]);
+            echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["user" => $user->first(), "url" => $url]);
         } else {
             echo "user} doesnt exisit";
         }
@@ -142,6 +141,7 @@ class UsersController
 
     public function update(Url $url, Csrf $csrf, Validate $validate)
     {
+        echo "hello";
 //Get validation
 
         if ($csrf->Verify() == true) {
@@ -153,25 +153,10 @@ class UsersController
             $user->save();
 //
             $profile = Profile::find($user->id);
+            $profile->is_crew = $validate->Post("is_crew");
             $profile->first_name = $validate->Required("first_name")->Post();
             $profile->last_name = $validate->Required("last_name")->Post();
             $profile->save();
-
-
-            if ($validate->Post("make_member") == 1) {
-                $member = Member::where("user_id", $id)->get();
-                if ($member->count() == 0) {
-//                    Will check if the member does not exist and will create a new one;
-                    $member = new Member();
-                } else {
-                    $member = $member->first();
-                }
-                $member->user_id = $id;
-                $member->save();
-            } else {
-                $member = Member::where("user_id", $validate->Post("id"));
-                $member->delete();
-            }
 
             redirect($url->make("auth.admin.users.home"));
         }
@@ -184,7 +169,6 @@ class UsersController
         if ($user->count() == 1) {
             UserSettings::where("user_id", $id)->delete();
             Profile::where("user_id", $id)->delete();
-            Member::where("user_id", $id)->delete();
 
 
 //        FInd Images and delete them
