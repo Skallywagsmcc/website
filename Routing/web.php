@@ -103,11 +103,8 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
     $router->get("/?", [LoginController::class, 'index'], "login");
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
-    $router->get("/register",function(){
-//        Register needs to integrated with open and closed register
-//        Closed means it needs a invite link to register the account Modification to user manager will be required
-        echo "Hello";
-    },"register");
+    $router->get("/register",[\App\Http\Controllers\RegisterController::class,'index'],"register");
+    $router->get("/register/store",[\App\Http\Controllers\RegisterController::class,'store'],"register.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
     $router->group(["prefix"=>"/tfa","middleware"=>[Middleware\ServiceMode::class]],function (Router $router)

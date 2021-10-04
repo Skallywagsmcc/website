@@ -275,27 +275,27 @@ body hr, html hr {
   border-radius: 0px 0px 3px 3px;
 }
 
+.tld-form label {
+  padding: 5px 0px;
+  font-weight: bolder;
+  margin-top: 1rem;
+  color: #ce1126;
+}
 .tld-form .tld-input, .tld-form .tld-input:hover, .tld-form .tld-input:focus {
-  border: none;
-  border-bottom: solid 3px #ce1126;
   padding: 20px 0px;
-  background-color: transparent;
-  border-radius: 0px;
+  border: solid 1px #ce1126;
+  background-color: #2a373e;
   text-indent: 5px;
   color: white;
 }
-.tld-form .tld-input :hover, .tld-form .tld-input:hover :hover, .tld-form .tld-input:focus :hover {
-  background-color: red;
-}
 .tld-form .tld-button {
-  border: solid 5px #ce1126;
-  border-radius: 10px;
-  background-color: #31353a;
+  border: none;
+  border: solid 2px #ce1126;
+  background-color: #222d32;
   color: white;
 }
 .tld-form .tld-button:hover {
-  border-color: white;
-  background-color: #ce1126;
+  background-color: #28353b;
 }
 
 /*# sourceMappingURL=base.css.map */

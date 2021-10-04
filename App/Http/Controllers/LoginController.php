@@ -17,14 +17,15 @@ class LoginController
 {
     public function index(Url $url)
     {
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url]);
+        $mode = SiteSettings::where("id",1)->get();
+        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"mode"=>$mode]);
     }
 
     public function store(Url $url, Validate $validate,Csrf $csrf)
     {
         $username = $validate->Required("username")->Post();
         $password = $validate->Required("password")->Post();
-        $mode = SiteSettings::where("id",1)->get()->first();
+        $mode = SiteSettings::where("id",1)->get();
         if($validate::isRequired($validate::$values) == false)
         {
             $error = "required";
@@ -37,7 +38,11 @@ class LoginController
                 $user = $user->first();
                 if(password_verify($password,$user->password))
             {
-                if(($user->is_admin == 0) && $mode->maintainence_status == 0)
+                if($mode->first()->lock_submissions == 1)
+                {
+                    $error = "Login is Disabled";
+                }
+                elseif(($user->is_admin == 0) && $mode->first()->open_login == 0)
                 {
                     $error = "Login Restricted to admins";
                 }
@@ -95,7 +100,7 @@ class LoginController
                 $error = "Sorry the user you have entered does not seem to exist in our database : Please try again";
             }
         }
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate,"username"=>$username]);
+        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate,"username"=>$username,"mode"=>$mode]);
 
 
     }

@@ -10,15 +10,9 @@
 
     <div class="container my-2">
         <div class="row">
-            <div class="col-sm-12 text-center text-lg-right pl-lg-right-3"><a class="d-block py-2"
+           <div class="col-sm-12 text-center text-lg-right pl-lg-right-3"><a class="d-block py-2"
                                                                               href="{{$url->make("charters.home")}}">Back
                     to charters</a></div>
-        </div>
-    </div>
-
-    <div class="container my-2">
-        <div class="row mx-1 lb1">
-            <h2 class="col-sm-12 text-center head py-2 text-lg-left pl-lg-2">Our Charters</h2>
         </div>
     </div>
 
@@ -60,13 +54,13 @@
                 @if($charter->updated_at > $charter->created_at)
                     Updated: {{date("d/m/Y : H:i",strtotime($charter->updated_at))}}
                 @else
-                    Added: {{date("d/m/Y : H:i",strtotime($charter->created_at))}}
+                    Created : {{date("d/m/Y : H:i",strtotime($charter->created_at))}}
                 @endif
 
 
             </div>
-            <div class="col-sm-12 col-lg-6 my-2 my-lg-0 lb2 py-2 text-center">By:
-                <a href="{{$url->make("profile.view",["username"=>$charter->user->username])}}">{{$charter->user->username}}</a>
+            <div class="col-sm-12 col-lg-6 my-2 my-lg-0 lb2 py-2 text-center">Created by :
+                <a href="{{$url->make("profile.view",["username"=>$charter->user->username])}}">{{$charter->user->Profile->first_name}} {{$charter->user->Profile->last_name}}</a>
             </div>
 
         </div>
