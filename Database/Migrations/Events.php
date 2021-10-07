@@ -14,11 +14,11 @@ class Events
         Capsule::schema()->create("events",function($table)
         {
             $table->id();
+            $table->string("entry_name");
+            $table->foreignId('user_id');
             $table->foreignid("thumbnail");
             $table->foreignid("cover");
             $table->string("title");
-            $table->foreignId('user_id');
-            $table->string("uid");
             $table->string("slug");
             $table->longtext("content");
 //            EEL Event End Location ESL Event Start Location Start at and end at are the date and time of event

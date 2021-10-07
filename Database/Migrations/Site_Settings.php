@@ -19,8 +19,9 @@ class Site_Settings
             $table->text("contact_email");
 //            Status 0 for down 1 for up
             $table->biginteger("maintainence_status")->default(1);
-            $table->integer("open_login")->default(0);
+            $table->integer("open_login")->default(1);
             $table->integer("open_registration")->default(1);
+            $table->integer("lock_submissions")->default(0); // Add now and implement at a future date
             $table->timestamps();
         });
     }

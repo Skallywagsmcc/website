@@ -22,20 +22,18 @@ class InstallerController
     private $installed;
 
     private function setkey()
-    { $key =  bin2hex(random_bytes(32));
-    $_SESSION['key'] = $key;
+    {
+        $key = bin2hex(random_bytes(32));
+        $_SESSION['key'] = $key;
         return $key;
     }
 
-    private  function getkey($key,$url)
+    private function getkey($key, $url)
     {
-        $installer = Installer::where("id",1)->where("key",$key)->get();
-        if((empty($installer->first()->key)) || $installer->first()->key != $key)
-        {
+        $installer = Installer::where("id", 1)->where("key", $key)->get();
+        if ((empty($installer->first()->key)) || $installer->first()->key != $key) {
             redirect($url->make("installer.home"));
-        }
-        else
-        {
+        } else {
             return $installer;
         }
 
@@ -58,33 +56,32 @@ class InstallerController
         }
 
 
+
     }
 
     public function profile($key, Url $url)
     {
-        if (($this->getkey($key,$url)->count() == 1) && ($this->getkey($_SESSION['key'],$url)->count()==1)) {
+        if (($this->getkey($key, $url)->count() == 1) && ($this->getkey($_SESSION['key'], $url)->count() == 1)) {
             if ((!Capsule::schema()->hasTable("installers")) or (Installer::where("id", 1)->where("status", "<", 2)->get()->count() == 1)) {
                 echo TemplateEngine::View("Pages.Backend.Installer.Profile", ["url" => $url, "key" => $key]);
             } else {
                 echo "there is no setup";
             }
-        }
-        else
-        {
+        } else {
             echo "No code";
         }
 
     }
 
 
-    public function termsstore(Url $url, Validate $validate, Loader $loader,$key)
+    public function termsstore(Url $url, Validate $validate, Loader $loader, $key)
     {
 
         if ($validate->Post("key") == $key) {
             $accept = $validate->Post("accept");
             if ($accept != 1) {
                 $error = "you must Accept the terms and conditions";
-                $key = $this->generatekey();
+                $key = $this->setkey();
                 echo TemplateEngine::View("Pages.Backend.Installer.index", ["url" => $url, "key" => $key, "error" => $error]);
             } else {
                 $loader->install();
@@ -112,68 +109,92 @@ class InstallerController
 
 
 //        Create User Account
-        if (($validate->Post("key") == $key) && ($this->getkey($key,$url)->count()==1) && ($this->getkey($_SESSION['key'],$url)->count() == 1)) {
-            $username = $validate->Required("username")->Post();
-            $email = $validate->Required("email")->Post();
-            $first_name = $validate->Required("first_name")->Post();
-            $last_name = $validate->Required("last_name")->Post();
-            $password = $validate->Required("password")->Post();
+        $required = ["username", "email", "password", "confirm", "first_name", "last_name"];
+        $validate->AddRequired($required);
+        if ($validate->allowed == false) {
+            $error = "Missing fields";
+            $rmf = str_replace("_", " ", $required);
+        } elseif ($validate->Post("password") != $validate->Post("confirm")) {
+            $error = "Passwords do not match";
+        } else
+            if ($validate->HasStrongPassword($validate->Post("password")) == false) {
+                $error = "Password Must match our strong Password Policy";
+                $rmf = ["Minimum of 8 letters","one Upper case Letter"];
+            }
+            else
+            {
+                if (($validate->Post("key") == $key) && ($this->getkey($key, $url)->count() == 1) && ($this->getkey($_SESSION['key'], $url)->count() == 1)) {
+                    $username = $validate->Required("username")->Post();
+                    $email = $validate->Required("email")->Post();
+                    $first_name = $validate->Required("first_name")->Post();
+                    $last_name = $validate->Required("last_name")->Post();
+                    $password = $validate->Required("password")->Post();
 
-            if (User::where("id", 1)->get()->count() == 0) {
-                $user = new User();
+                    if (User::where("id", 1)->get()->count() == 0) {
+                        $user = new User();
 //        Default user id is 1
-                $user->id = 1;
-                $user->username = $username;
-                $user->email = $email;
-                $user->password = password_hash($password, PASSWORD_DEFAULT);
-                $user->is_admin = 1;
-                $_SESSION['user_id'] = $user->id;
-                $user->save();
-            }
+                        $user->id = 1;
+                        $user->username = $username;
+                        $user->email = $email;
+                        $user->password = password_hash($password, PASSWORD_DEFAULT);
+                        $user->is_admin = 1;
+                        $_SESSION['user_id'] = $user->id;
+                        $user->save();
+                    }
 
-            if (UserSettings::where("user_id", 1)->get()->count() == 0) {
-                $user_settings = new UserSettings();
-                $user_settings->user_id = $user->id;
-                $user_settings->save();
-            }
+                    if (UserSettings::where("user_id", 1)->get()->count() == 0) {
+                        $user_settings = new UserSettings();
+                        $user_settings->user_id = $user->id;
+                        $user_settings->save();
+                    }
 
 
 //        Create profile
-            if (Profile::where("user_id", 1)->get()->count() == 0) {
-                $profile = new Profile();
-                $profile->user_id = $user->id;
-                $profile->first_name = $first_name;
-                $profile->last_name = $last_name;
-                $profile->is_crew = 1;
-                $profile->profile_pic = null;
-                $profile->save();
-            }
-            //        Site Settings
-            $site_settings = SiteSettings::where("id", 1)->get();
+                    if (Profile::where("user_id", 1)->get()->count() == 0) {
+                        $profile = new Profile();
+                        $profile->user_id = $user->id;
+                        $profile->first_name = $first_name;
+                        $profile->last_name = $last_name;
+                        $profile->is_crew = 1;
+                        $profile->profile_pic = null;
+                        $profile->save();
+                    }
+                    //        Site Settings
+                    $site_settings = SiteSettings::where("id", 1)->get();
 
-            if ($site_settings->count() == 0) {
-                $site_settings = new SiteSettings();
-            } else {
-                $site_settings = $site_settings->first();
-            }
-            $site_settings->maintainence_status = 1;
-            $site_settings->save();
+                    if ($site_settings->count() == 0) {
+                        $site_settings = new SiteSettings();
+                    } else {
+                        $site_settings = $site_settings->first();
+                    }
+                    $site_settings->maintainence_status = 1;
+                    $validate->Post("open_reg") == 1 ? $site_settings->open_registration = 1 : $site_settings->open_registration = 0;
+                    $validate->Post("open_login") == 1 ? $site_settings->open_login = 1 : $site_settings->open_login = 0;
+                    $site_settings->save();
 
-            $installer = Installer::find(1);
-            $installer->user_id = $user->id;
-            $installer->key = "";
-            $installer->status = 2;
-            $installer->save();
+                    $installer = Installer::find(1);
+                    $installer->user_id = $user->id;
+                    $installer->key = "";
+                    $installer->status = 2;
+                    $installer->save();
 
 //unset Sessin Key
-            unset($_SESSION['key']);
-            redirect($url->make("login"));
-        } else {
-            exit("<h2>Invalid Request</h2>");
-        }
+                    unset($_SESSION['key']);
+                    redirect($url->make("login"));
+                } else {
+                    exit("<h2>Invalid Request</h2>");
+                }
+            }
+        echo TemplateEngine::View("Pages.Backend.Installer.Profile", ["url" => $url, "key" => $key, "error" => $error, "rmf" => $rmf]);
+
+
+
+
+
     }
 
-    public function settingsstore(Url $url, Validate $validate, $key)
+    public
+    function settingsstore(Url $url, Validate $validate, $key)
     {
         echo "hello" . $key;
     }

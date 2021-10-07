@@ -44,14 +44,13 @@ class ArticlesController
     {
         if ($csrf->Verify() == true) {
             $count = Article::where("slug", slug($validate->Post("title")))->get()->count();
-
             if ($count == 1) {
                 $error = "this post already Exisits";
             }
             else {
                 $article = new Article();
                 $article->user_id = $auth->id();
-                $article->uid = $validate->uid();
+                $article->entry_name = "Articles";
                 $article->title = $validate->Required("title")->Post();
                 $article->slug = str_replace(" ", "-", $article->title);
                 $article->content = $validate->Required("content")->Post();

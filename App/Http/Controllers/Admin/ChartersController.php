@@ -40,8 +40,8 @@ class ChartersController
             $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
             if ($filemanager->success == true) {
                 $thumb = new Image();
-                $thumb->user_id = $auth->id();
-                $thumb->uid = $validate->uid();
+                $thumb->user_id = $auth->i$article->entry_name = "Articles";d();
+                $thumb->entry_name = "Images";
                 $thumb->nvtug = 1;
                 $thumb->title = "Event Thumbnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
                 $thumb->name = $filemanager->GetUniqueName();
@@ -55,7 +55,7 @@ class ChartersController
             if ($filemanager->success == true) {
                 $cover = new Image();
                 $cover->user_id = $auth->id();
-                $cover->uid = $validate->uid();
+                $cover->entry_name = "Images";
                 $cover->nvtug = 1;
                 $cover->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
                 $cover->name = $filemanager->GetUniqueName();
@@ -67,7 +67,7 @@ class ChartersController
 
 
             $charter->user_id = $auth->id();
-            $charter->uid = $validate->uid();
+            $charter->entry_name = "Charters";
             $charter->thumbnail = $thumb->id;
             $charter->cover = $cover->id;
             $charter->title = ucwords($validate->Required("title")->Post());
@@ -96,7 +96,7 @@ class ChartersController
             if ($filemanager->success == true) {
                 $thumb = new Image();
                 $thumb->user_id = $auth->id();
-                $thumb->uid = $validate->uid();
+                $thumb->entry_name = "Images";
                 $thumb->nvtug = 1;
                 $thumb->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
                 $thumb->name = $filemanager->GetUniqueName();
@@ -111,7 +111,7 @@ class ChartersController
             if ($filemanager->success == true) {
                 $cover = new Image();
                 $cover->user_id = $auth->id();
-                $cover->uid = $validate->uid();
+                $cover->entry_name = "Images";
                 $cover->nvtug = 1;
                 $cover->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
                 $cover->name = $filemanager->GetUniqueName();
@@ -142,7 +142,7 @@ class ChartersController
                     unlink(UPLOAD_DIR."/covers/" . $charter->CoverImage->name);
                 }
 
-                $charter->uid = $validate->uid();
+                $charter->entry_name = "Charters";
                 $charter->thumbnail = $thumb->id;
                 $charter->cover = $cover->id;
                 $charter->slug = slug($charter->title);
@@ -175,8 +175,6 @@ class ChartersController
             $charters->save();
             redirect($url->make("auth.admin.charters.home"));
         }
-
-
     }
 
 

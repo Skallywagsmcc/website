@@ -40,6 +40,7 @@ class EventsController
                 $image = new Image();
                 $image->user_id = $auth->id();
                 $image->uid = $validate->uid();
+                $image->entry_name = "Images";
                 $image->nvtug = 1;
                 $image->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
                 $image->name = $filemanager->GetUniqueName();
@@ -49,7 +50,7 @@ class EventsController
                 $image->save();
 
                 $event = new Event();
-                $event->uid = $validate->uid();
+                $event->entry_name = "Events";
                 $event->user_id = $auth->id();
                 $event->title = ucwords($validate->Required("title")->Post());
                 $event->thumbnail = $image->id;
@@ -117,7 +118,7 @@ class EventsController
 //            instantiate a new image
                     $image = new Image();
                     $image->user_id = $auth->id();
-                    $image->uid = $validate->uid();
+                    $image->->entry_name = "Images";
                     $image->nvtug = 1;
                     $image->title = "Event Thumnail : " . str_replace(" ", "-", $event->title);
                     $image->name = $filemanager->GetUniqueName();

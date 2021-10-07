@@ -13,9 +13,9 @@ class Images
     {
         Capsule::schema()->create("images", function ($table) {
             $table->id();
+            $table->string("entry_name");
             $table->foreignId('user_id');
             $table->integer("nvtug");//Not visable to user gallery
-            $table->foreignId('uid');
             $table->string("title");
             $table->text("description");
             $table->string("name");

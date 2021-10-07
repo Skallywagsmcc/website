@@ -13,8 +13,8 @@ class Articles
     {
         Capsule::schema()->create("articles", function ($table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('uid');
+            $table->string("entry_name");
+            $table->integer("user_id");
             $table->string("title");
             $table->string("slug");
             $table->longtext("content");

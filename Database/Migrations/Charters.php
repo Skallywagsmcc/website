@@ -14,7 +14,7 @@ class Charters
         Capsule::schema()->create("charters",function($table)
         {
             $table->id();
-            $table->string("uid");
+            $table->string("entry_name");
             $table->integer("user_id");
             $table->integer("thumbnail")->nullable();
             $table->integer("cover");

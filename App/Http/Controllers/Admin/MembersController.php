@@ -12,7 +12,7 @@ use App\Http\Models\Member;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 
-class MembersController
+classMembersController
 {
 
     public function index(Url $url)

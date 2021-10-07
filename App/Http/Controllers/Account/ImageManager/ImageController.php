@@ -50,7 +50,7 @@ class ImageController
                 if ($filemanager->success == true) {
                     $image = new Image();
                     $image->user_id = $auth->id();
-                    $image->uid = $validate->uid();
+                    $image->entry_name = "Images";
                     $image->title = $validate->Required("title")->Post();
                     $image->name = $filemanager->GetUniqueName();
                     $image->size = $filemanager->GetFile("size");

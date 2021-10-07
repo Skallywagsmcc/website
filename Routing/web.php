@@ -51,7 +51,7 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
         $router->get("/?", [Members::class, "index"], "members.home");
     });
 
-    $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\UserLogin::class]], function (Router $router) {
+    $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\Installer::class,Middleware\UserLogin::class]], function (Router $router) {
         $router->get("/?", [TwoFactorAuthController::class, "index"], "tfa.index");
         $router->post("/request", [TwoFactorAuthController::class, "create"], "tfa.get");
         $router->get("/request/user/{id}/token/{hex}", [TwoFactorAuthController::class, "show"], "tfa.retrieve");
@@ -97,17 +97,17 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
 });
 
 //Authenitcation
-$router->group(["prefix" => "/auth"], function (Router $router) {
+$router->group(["prefix" => "/auth","middleware"=>[Middleware\Installer::class]], function (Router $router) {
 
 //    Must be available for login of administators
     $router->get("/?", [LoginController::class, 'index'], "login");
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
     $router->get("/register",[\App\Http\Controllers\RegisterController::class,'index'],"register");
-    $router->get("/register/store",[\App\Http\Controllers\RegisterController::class,'store'],"register.store");
+    $router->post("/register/store",[\App\Http\Controllers\RegisterController::class,'store'],"register.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
-    $router->group(["prefix"=>"/tfa","middleware"=>[Middleware\ServiceMode::class]],function (Router $router)
+    $router->group(["prefix"=>"/tfa","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class]],function (Router $router)
     {
         $router->get("/?",function ()
         {
@@ -115,7 +115,7 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
         },"tfa.home");
     });
 
-    $router->group(["prefix"=>"/reset-password","middleware"=>[Middleware\ServiceMode::class]],function (Router $router)
+    $router->group(["prefix"=>"/reset-password","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class]],function (Router $router)
     {
         $router->get("/?", [\App\Http\Controllers\PasswordController::class, "index"], "password-reset.index");
         $router->post("/request", [\App\Http\Controllers\PasswordController::class, "request"], "password-reset.request");
@@ -129,7 +129,7 @@ $router->group(["prefix" => "/auth"], function (Router $router) {
 //Api Requests go here
 
 //Admin
-$router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\ServiceMode::class,Middleware\AdminLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\AdminLogin::class]], function (Router $router) {
 //    Events manager controlled by Admins
     $router->group(["prefix" => "/events"], function (Router $router) {
         $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
@@ -201,7 +201,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Serv
 });
 
 //Account
-$router->group(["prefix" => "/user","middleware"=>[Middleware\ServiceMode::class,Middleware\UserLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/user","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\UserLogin::class]], function (Router $router) {
 
     $router->group(["prefix" => "/account"], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "account.home");
