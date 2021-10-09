@@ -3,9 +3,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Base;
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Installer;
 use App\Http\Models\Profile;
 use App\Http\Models\SiteSettings;
@@ -13,12 +13,10 @@ use App\Http\Models\User;
 use App\Http\Models\UserSettings;
 use App\Libraries\MigrationManager\Loader;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
-class InstallerController
+class InstallerController extends Base
 {
-
     private $installed;
 
     private function setkey()
@@ -106,37 +104,52 @@ class InstallerController
 
     public function profilestore(Url $url, Validate $validate, $key)
     {
-
-
 //        Create User Account
-        $required = ["username", "email", "password", "confirm", "first_name", "last_name"];
-        $validate->AddRequired($required);
-        if ($validate->allowed == false) {
+
+        $username = $validate->Required("username")->Post();
+        $email = $validate->Required("email")->Post();
+        $first_name = $validate->Required("first_name")->Post();
+        $last_name = $validate->Required("last_name")->Post();
+        $password = $validate->Required("password")->Post();
+        $confirm = $validate->Required("confirm")->Post();
+
+
+//        $validate->AddRequired(["username", "email", "password", "confirm", "first_name", "last_name"]);
+
+        if($validate->Allowed() == false)
+        {
+            echo "stay";
+        }
+        else
+        {
+            echo "go";
+        }
+        exit();
+        if ($validate->Allowed() == false) {
             $error = "Missing fields";
-            $rmf = str_replace("_", " ", $required);
+            $rmf = str_replace("_", " ", $validate->is_required);
         } elseif ($validate->Post("password") != $validate->Post("confirm")) {
             $error = "Passwords do not match";
         } else
-            if ($validate->HasStrongPassword($validate->Post("password")) == false) {
+            if (empty($this->password)  || empty($this->confirm) || $validate->HasStrongPassword($validate->Post("password")) == false) {
                 $error = "Password Must match our strong Password Policy";
-                $rmf = ["Minimum of 8 letters","one Upper case Letter"];
+                $rmf = ["Must not hold an empty value","Minimum of 8 letters","Have one Upper case Letter","Have At least one Lower case letter","At least one number"];
             }
             else
             {
                 if (($validate->Post("key") == $key) && ($this->getkey($key, $url)->count() == 1) && ($this->getkey($_SESSION['key'], $url)->count() == 1)) {
-                    $username = $validate->Required("username")->Post();
+                    $username = $this->username;
                     $email = $validate->Required("email")->Post();
                     $first_name = $validate->Required("first_name")->Post();
                     $last_name = $validate->Required("last_name")->Post();
                     $password = $validate->Required("password")->Post();
-
                     if (User::where("id", 1)->get()->count() == 0) {
                         $user = new User();
 //        Default user id is 1
                         $user->id = 1;
-                        $user->username = $username;
-                        $user->email = $email;
-                        $user->password = password_hash($password, PASSWORD_DEFAULT);
+                        $user->username = $this->username;
+                        $user->email = $this->email;
+                        $user->password = password_hash($this->password, PASSWORD_DEFAULT);
                         $user->is_admin = 1;
                         $_SESSION['user_id'] = $user->id;
                         $user->save();
@@ -153,8 +166,8 @@ class InstallerController
                     if (Profile::where("user_id", 1)->get()->count() == 0) {
                         $profile = new Profile();
                         $profile->user_id = $user->id;
-                        $profile->first_name = $first_name;
-                        $profile->last_name = $last_name;
+                        $profile->first_name = $this->first_name;
+                        $profile->last_name = $this->last_name;
                         $profile->is_crew = 1;
                         $profile->profile_pic = null;
                         $profile->save();
@@ -185,7 +198,8 @@ class InstallerController
                     exit("<h2>Invalid Request</h2>");
                 }
             }
-        echo TemplateEngine::View("Pages.Backend.Installer.Profile", ["url" => $url, "key" => $key, "error" => $error, "rmf" => $rmf]);
+
+        echo TemplateEngine::View("Pages.Backend.Installer.Profile", ["url" => $url, "key" => $key, "error" => $error, "rmf" => $rmf,"post"=>$this]);
 
 
 

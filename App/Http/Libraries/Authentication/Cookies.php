@@ -4,7 +4,7 @@
 namespace App\Http\Libraries\Authentication;
 
 
-class Cookies extends Auth
+class Cookies
 {
     private static $name;
     private static $destroy;

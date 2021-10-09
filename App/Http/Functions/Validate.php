@@ -10,10 +10,10 @@ class Validate
 {
 
     public static $values;
-    public $value;
 
 //    New Values
     public $is_required;
+    public $value;
     public $allowed = true;
 
 
@@ -46,17 +46,12 @@ class Validate
     }
 
 
-
     public function Required($value)
     {
         $this->value = $value;
         if (empty($_POST[$this->value])) {
-            self::$values[] = $this->value;
-//            Add new Values to Require
-
-//            $this will allow to use if($validate->Allowed == false;
+//            self::$values[] = $this->value;
             $this->is_required[] = $this->value;
-            $this->allowed = false;
         }
         return $this;
     }
@@ -65,12 +60,12 @@ class Validate
 
     public function Post($value = null)
     {
-            if (!is_null($value)) {
-                $this->value = $value;
-                $this->data = true;
-            }
+        if (!is_null($value)) {
+            $this->value = $value;
+            $this->data = true;
+        }
 //Will simply post the value out;
-            return $_POST[$this->value];
+        return $_POST[$this->value];
     }
 
     public function HasStrongPassword($password)
@@ -85,7 +80,7 @@ class Validate
         if (!$uppercase || !$lowercase || !$number || strlen($password) < 8) {
             return false;
         } else {
-           return true;
+            return true;
         }
         /*This scrip works as a standalone however i need to fix it to support chainloading conventsion*/
 //        return $this;
@@ -94,38 +89,28 @@ class Validate
 
 //    New Required validation Fields
 
-
-public function AddRequired($values)
-{
-    foreach ($values as $value)
+    public function AddRequired($values)
     {
-            $this->SetRequired($value);
+        foreach ($values as $value) {
+            if (empty($_POST[$value])) {
+                $this->is_required[] = $value;
+            }
+
+        }
     }
 
-    if($this->allowed == false)
+    public function Allowed()
     {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
-}
 
-public function SetRequired($values)
-{
-    if (empty($_POST[$values])) {
-
-        $this->is_required[] = $values;
-        $this->allowed = false;
+        $values = $this->is_required;
+        foreach ($values as $value) {
+            if (empty($_POST[$value])) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
-    else
-    {
-        $this->allowed = true;
-    }
-
-}
-
 
 
 }

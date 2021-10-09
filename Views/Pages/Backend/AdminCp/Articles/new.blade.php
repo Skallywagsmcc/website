@@ -7,11 +7,18 @@
 @section("content")
 
     <div class="container">
-       @isset($message) {{$message}}@endisset
-        @isset($values)
-            @foreach($values as $value)
-                Missing {{$value}}
-            @endforeach
+        {{--   Do Error handling here.--}}
+        @isset($error)
+            <div class="row">
+                <div class="col-sm-12">{{$error}}</div>
+            </div>
+
+                @isset($rmf)
+                    @foreach($rmf as $required)
+                        <div class="col-sm-12">{{$required}}</div>
+                    @endforeach
+                @endisset
+
         @endisset
     </div>
     <div class="container">
@@ -26,31 +33,24 @@
                     {{csrf()}}
                     <div class="form-group">
                         <label for="title">Article Title</label>
-                        <input type="text" class="form-control tld-input" name="title" value="@isset($article){{$article->title}}@endisset">
+                        <input type="text" class="form-control tld-input" name="title" value="">
                     </div>
                     <div class="form-group">
-            <textarea name="content" id="editor" cols="30" rows="10"
-                      class="form-control tld-input">@isset($article){{$article->content}}@endisset</textarea>
+            <textarea name="Content" class="form-control tld-input" required></textarea>
                     </div>
-                    {{--            <div>--}}
-                    {{--                Tick the following box if you wish to add images : <input type="checkbox" class="toggle_check" name="images"--}}
-                    {{--                                                                          value="1">--}}
-                    {{--                <div class="row toggled_content">--}}
-                    {{--                    <input type="file" class="form-control tld-input" name="upload[]" multiple>--}}
-                    {{--                    Description--}}
-                    {{--                    <hr>--}}
-                    {{--                    <textarea name="description" id="editor" cols="30" rows="10"--}}
-                    {{--                              class="form-control tld-input">@isset($image){{$image->description}}@endisset</textarea>--}}
-                    {{--                </div>--}}
+
+                    <div class="row">
+                        <div class="col-sm-12"><input type="file" name="thumb"></div>
+                    </div>
                     <div class="form-group text-right">
                         <button class="btn btn-primary">Create Page</button>
                     </div>
             </div>
 
             </form>
-            </div>
         </div>
+    </div>
     </div>
 
 
-   @endsection
+@endsection

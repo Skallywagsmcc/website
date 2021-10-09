@@ -40,7 +40,8 @@ class ChartersController
             $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
             if ($filemanager->success == true) {
                 $thumb = new Image();
-                $thumb->user_id = $auth->i$article->entry_name = "Articles";d();
+                $thumb->user_id = $auth->id();
+                $thumb->entry_name = "Articles";
                 $thumb->entry_name = "Images";
                 $thumb->nvtug = 1;
                 $thumb->title = "Event Thumbnail : " . str_replace(" ", "-", $validate->Required("title")->Post());

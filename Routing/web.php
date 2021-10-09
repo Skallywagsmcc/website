@@ -257,7 +257,7 @@ $router->group(["prefix"=>"/install"],function(Router $router)
     {
         $router->post("/?",[\App\Http\Controllers\InstallerController::class,"termsstore"],"installer.terms.store");
         $router->get("/profile",[\App\Http\Controllers\InstallerController::class,"profile"],'installer.profile.home');
-        $router->post("/profile",[\App\Http\Controllers\InstallerController::class,"profilestore"],'installer.profile.store');
+        $router->post("/profile/save",[\App\Http\Controllers\InstallerController::class,"profilestore"],'installer.profile.store');
     });
 
 });
