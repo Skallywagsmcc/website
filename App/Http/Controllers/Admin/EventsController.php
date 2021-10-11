@@ -95,7 +95,8 @@ class EventsController
         echo TemplateEngine::View("Pages.Backend.Events.edit", ["event" => $event, "esl" => $esl, "eel" => $eel, "url" => $url]);
     }
 
-    public function update(Validate $validate, Auth $auth, Url $url, Csrf $csrf, Filemanager $filemanager)
+    public function update(Validate $validate, Auth $auth, Url $url, Csr
+    f $csrf, Filemanager $filemanager)
     {
         if ($csrf->Verify() == true) {
 
@@ -118,7 +119,7 @@ class EventsController
 //            instantiate a new image
                     $image = new Image();
                     $image->user_id = $auth->id();
-                    $image->->entry_name = "Images";
+                    $image->entry_name = "Images";
                     $image->nvtug = 1;
                     $image->title = "Event Thumnail : " . str_replace(" ", "-", $event->title);
                     $image->name = $filemanager->GetUniqueName();

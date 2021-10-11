@@ -58,7 +58,7 @@
                 <div class="col-sm-12 col-lg-9">
                     <input type="text" name="keyword" class="tld-input form-control my-2"
                            placeholder="Search for Users, Articles ,Charters or Events"></div>
-                <div class="col-sm-12 col-lg-3">
+                <div class="col-sm-12 col-lg-3 my-2">
                     <button class="tld-button btn-block btn">Search</button>
 
                 </div>
