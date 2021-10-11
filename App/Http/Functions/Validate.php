@@ -103,12 +103,15 @@ class Validate
     {
 
         $values = $this->is_required;
+        if($this->is_required)
         foreach ($values as $value) {
             if (empty($_POST[$value])) {
                 return false;
-            } else {
-                return true;
             }
+        }
+        else
+        {
+            return true;
         }
     }
 

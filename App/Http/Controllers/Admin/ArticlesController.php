@@ -58,44 +58,41 @@ class ArticlesController
             if ($count == 1) {
                 $error = "this post already Exisits";
             }
-            elseif ($validate->allowed == false) {
+            elseif ($validate->Allowed() == false) {
                 $error = "Required Fields are missing";
                 $rmf = $validate->is_required;
-                print_r($rmf);
             }
             else {
-                echo "No Results";
+                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
 
-//                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-//
-//                if ($filemanager->success == true) {
-//                    $cover = new Image();
-//                    $cover->user_id = $auth->id();
-//                    $cover->entry_name = "Images";
-//                    $cover->nvtug = 1;
-//                    $cover->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
-//                    $cover->name = $filemanager->GetUniqueName();
-//                    $cover->size = $filemanager->GetFile("size");
-//                    $cover->type = $filemanager->GetFile("type");
-//                    $cover->description = $this->content;
-//                    $cover->save();
-//                }
-//
-//                $article = new Article();
-//                $article->user_id = $auth->id();
-//                $article->entry_name = "Articles";
-//                $article->thumb = $image->id;
-//                $article->title = $this->title;
-//                $article->slug = str_replace(" ", "-", $this->title);
-//                $article->content = $this->content;
-//                if($article->save())
-//                {
-//                    redirect($url->make("auth.admin.articles.home"));
-//                }
+                if ($filemanager->success == true) {
+                    $cover = new Image();
+                    $cover->user_id = $auth->id();
+                    $cover->entry_name = "Images";
+                    $cover->nvtug = 1;
+                    $cover->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
+                    $cover->name = $filemanager->GetUniqueName();
+                    $cover->size = $filemanager->GetFile("size");
+                    $cover->type = $filemanager->GetFile("type");
+                    $cover->description = $this->content;
+                    $cover->save();
+                }
+
+                $article = new Article();
+                $article->user_id = $auth->id();
+                $article->entry_name = "Articles";
+                $article->thumb = $image->id;
+                $article->title = $this->title;
+                $article->slug = str_replace(" ", "-", $this->title);
+                $article->content = $this->content;
+                if($article->save())
+                {
+                    redirect($url->make("auth.admin.articles.home"));
+                }
             }
         }
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["article" => $article, "url" => $url, "error" => $error,"rmf"=>$rmf,]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["article" => $article, "url" => $url, "error" => $error,"rmf"=>$rmf,"post"=>$this]);
     }
 
 //    Search
@@ -122,18 +119,35 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url, "links" => $links]);
     }
 
-    public function update(Url $url, Validate $validate, Csrf $csrf)
+    public function update(Url $url, Validate $validate, Csrf $csrf,$id,$slug)
     {
 
-        if ($csrf->Verify() == true) {
-            $article = Article::find($validate->Post("id"));
-            $article->title = $validate->Required("title")->Post();
-            $article->slug = str_replace(" ", "-", $article->title);
-            $article->content = $validate->Required("content")->Post();
-            $article->save();
 
-            redirect($url->make("auth.admin.articles.home"));
+        $id = base64_decode($id);
+        $article = Article::where("slug",$slug)->where("id",$id)->get();
+                $count = $article->count();
+                $article = $article->first();
+        $validate->AddRequired(["title","content"]);
+        if ($csrf->Verify() == true) {
+
+                if($validate->Allowed() == false)
+            {
+                $error = "Required Fields are missing";
+                $rmf = $validate->is_required;
+           }
+            else
+            {
+                $article->title = $validate->Required("title")->Post();
+                $article->slug = str_replace(" ", "-", $article->title);
+                $article->content = $validate->Required("content")->Post();
+                $article->save();
+                redirect($url->make("auth.admin.articles.home"));
+            }
+            echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url,"error"=>$error,"rmf"=>$rmf,"post"=>$this]);
         }
+
+
+
     }
 
 

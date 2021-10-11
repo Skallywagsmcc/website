@@ -9,15 +9,17 @@
     <div class="container">
         {{--   Do Error handling here.--}}
         @isset($error)
-            <div class="row">
+            <div class="row box">
+                <div class="col-sm-12 head py-2">An Errorm Occurred</div>
                 <div class="col-sm-12">{{$error}}</div>
-            </div>
 
-                @isset($rmf)
-                    @foreach($rmf as $required)
-                        <div class="col-sm-12">{{$required}}</div>
-                    @endforeach
-                @endisset
+            </div>
+            @isset($rmf)
+                @foreach($rmf as $required)
+                    <div class="col-sm-12 py-2">{{$required}}</div>
+                @endforeach
+            @endisset
+
 
         @endisset
     </div>
@@ -33,10 +35,10 @@
                     {{csrf()}}
                     <div class="form-group">
                         <label for="title">Article Title</label>
-                        <input type="text" class="form-control tld-input" name="title" value="">
+                        <input type="text" class="form-control tld-input" name="title" value="{{$post->title}}">
                     </div>
                     <div class="form-group">
-            <textarea name="Content" class="form-control tld-input" required></textarea>
+            <textarea name="Content" rows="10" class="form-control tld-input">{{$post->content}}</textarea>
                     </div>
 
                     <div class="row">

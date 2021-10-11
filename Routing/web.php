@@ -178,7 +178,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Inst
         $router->get("/new", [AdminArticles::class, 'create'], "auth.admin.articles.new");
         $router->post("/new/save", [AdminArticles::class, 'store'], "auth.admin.articles.store");
         $router->get("/edit/{slug}/{id}", [AdminArticles::class, 'edit'], "auth.admin.articles.edit");
-        $router->post("/edit", [AdminArticles::class, 'update'], "auth.admin.articles.update");
+        $router->post("/edit/{slug}/{id}", [AdminArticles::class, 'update'], "auth.admin.articles.update");
         $router->get("/delete/{id}", [AdminArticles::class, 'delete'], "auth.admin.articles.delete");
 //            $router->post("/delete/image", [AdminArticles::class, 'deleteimages'], "auth.admin.articles.images.delete");
 
