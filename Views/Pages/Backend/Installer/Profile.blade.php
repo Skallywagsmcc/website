@@ -32,14 +32,14 @@
                     <div class="col-sm-12 text-left pl-3 pl-0 py-1s"><Label>Username</Label></div>
 
 
-                    <div class="col-sm-12"><input type="text" class="form-control" name="username" value="{{$post->username}}"></div>
+                    <div class="col-sm-12"><input type="text" class="form-control" name="username" value="@isset($post){{$post->username}}@endisset"></div>
                 </div>
 
                 {{--                Email--}}
 
                 <div class="col-sm-12 col-lg-6 px-0 mx-0 text-center box my-1 py-2">
                     <div class="col-sm-12 text-left pl-3 pl-0 py-1s"><Label>Email Address</Label></div>
-                    <div class="col-sm-12 "><input type="text" class="form-control" name="email" value="{{$post->email}}"></div>
+                    <div class="col-sm-12 "><input type="text" class="form-control" name="email" value="@isset($post){{$post->email}}@endisset"></div>
                 </div>
             </div>
 
@@ -72,14 +72,14 @@
             <div class="form-row mx-1 mx-lg-0 mx-lg-0 my-2 ">
                 <div class="col-sm-12 col-lg-6 px-0 mx-0 text-center box my-1 py-2">
                     <div class="col-sm-12 text-left pl-3 pl-0 py-1s"><Label>first Name</Label></div>
-                    <div class="col-sm-12"><input type="text" class="form-control" name="first_name" value="{{$post->first_name}}"></div>
+                    <div class="col-sm-12"><input type="text" class="form-control" name="first_name" value="@isset($post){{$post->first_name}}@endisset"></div>
                 </div>
 
                 {{--                Email--}}
 
                 <div class="col-sm-12 col-lg-6 px-0 mx-0 text-center box my-1 py-2">
                     <div class="col-sm-12 text-left pl-3 pl-0 py-1s"><Label>Last Name</Label></div>
-                    <div class="col-sm-12 "><input type="text" class="form-control" name="last_name" value="{{$post->last_name}}"/></div>
+                    <div class="col-sm-12 "><input type="text" class="form-control" name="last_name" value="@isset($post){{$post->last_name}}@endisset"/></div>
                 </div>
             </div>
 

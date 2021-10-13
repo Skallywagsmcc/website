@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Base;
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Models\Installer;
@@ -15,9 +14,26 @@ use App\Libraries\MigrationManager\Loader;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use MiladRahimi\PhpRouter\Url;
 
-class InstallerController extends Base
+class InstallerController
 {
-    private $installed;
+    public $username;
+    public $email;
+    public $password;
+    public $confirm;
+    public $first_name;
+    public $last_name;
+
+    public function __construct(Validate $validate)
+    {
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->username = $validate->Post("username");
+            $this->email = $validate->Post("email");
+            $this->password = $validate->Post("password");
+            $this->confirm = $validate->Post("confirm");
+            $this->first_name = $validate->Post("first_name");
+            $this->last_name = $validate->Post("last_name");
+        }
+    }
 
     private function setkey()
     {
@@ -106,25 +122,9 @@ class InstallerController extends Base
     {
 //        Create User Account
 
-        $username = $validate->Required("username")->Post();
-        $email = $validate->Required("email")->Post();
-        $first_name = $validate->Required("first_name")->Post();
-        $last_name = $validate->Required("last_name")->Post();
-        $password = $validate->Required("password")->Post();
-        $confirm = $validate->Required("confirm")->Post();
 
+        $validate->AddRequired(["username", "email", "password", "confirm", "first_name", "last_name"]);
 
-//        $validate->AddRequired(["username", "email", "password", "confirm", "first_name", "last_name"]);
-
-        if($validate->Allowed() == false)
-        {
-            echo "stay";
-        }
-        else
-        {
-            echo "go";
-        }
-        exit();
         if ($validate->Allowed() == false) {
             $error = "Missing fields";
             $rmf = str_replace("_", " ", $validate->is_required);
@@ -138,11 +138,7 @@ class InstallerController extends Base
             else
             {
                 if (($validate->Post("key") == $key) && ($this->getkey($key, $url)->count() == 1) && ($this->getkey($_SESSION['key'], $url)->count() == 1)) {
-                    $username = $this->username;
-                    $email = $validate->Required("email")->Post();
-                    $first_name = $validate->Required("first_name")->Post();
-                    $last_name = $validate->Required("last_name")->Post();
-                    $password = $validate->Required("password")->Post();
+
                     if (User::where("id", 1)->get()->count() == 0) {
                         $user = new User();
 //        Default user id is 1

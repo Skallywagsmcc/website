@@ -11,7 +11,7 @@ class Gallery
 
     public static function up()
     {
-        Capsule::schema()->create("gallerys", function ($table) {
+        Capsule::schema()->create("galleryies", function ($table) {
             $table->id();
             $table->string("entry_name");
             $table->integer("entry_id");

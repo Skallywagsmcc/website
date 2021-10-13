@@ -22,6 +22,7 @@ class Site_Settings
             $table->integer("open_login")->default(1);
             $table->integer("open_registration")->default(1);
             $table->integer("lock_submissions")->default(0); // Add now and implement at a future date
+            $table->text("lock_message")->nullable();
             $table->timestamps();
         });
     }
