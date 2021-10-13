@@ -39,6 +39,9 @@ class RegisterController
     {
 
 
+        if ($this->SiteSettings()->where("lock_submissions", 1)->get()->count() == 1) {
+            $error = "Registration is locked";
+        } else {
         if ($this->Open_registration()->count() == 1 or $this->SiteSettings()->get()->first()->lock_submissions == 1) {
             redirect($url->make("login"));
         }
@@ -109,6 +112,7 @@ class RegisterController
                 }
             }
         }
+    }
         echo TemplateEngine::View("Pages.Auth.Register.index", ["url" => $url, "settings", $settings, "error" => $error, "required" => $required, "post" => $validate,
             "rfs" => $rfs,"settings" => $this->SiteSettings()->get(), "or" => $this->Open_registration()]);
     }

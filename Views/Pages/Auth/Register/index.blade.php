@@ -34,12 +34,15 @@
 
 
     @if($settings->first()->lock_submissions==1)
+        @isset($error)
+            @else
         <div class="container my-2">
             <div class="row">
                 <div class="col-sm-12 head text-center text-lg-left pl-lg-2 lb3">Registration Is locked</div>
                 <div class="col-sm-12 text-center my-2 lb2 py-2"> The System has Locked All Form submissions at this time</div>
             </div>
         </div>
+        @endisset
     @else
     @if($or->count()==1)
         <div class="container my-2">

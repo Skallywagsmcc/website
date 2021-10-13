@@ -241,6 +241,10 @@ $router->group(["prefix" => "/user","middleware"=>[Middleware\Installer::class,M
         $router->get("/featured/requests/delete/{id}", [FeatueredImageController::class, "delete"], "images.featured.delete");
     });
 
+    $router->group(["prefix"=>"/settings"],function (Router $router){
+       $router->get("/?",\App\Http\Models\SiteSettings::class,"index","auth.admin.settings.home");
+       $router->post("/store",\App\Http\Models\SiteSettings::class,"index","auth.admin.settings.store");
+    });
 //    Load Base Page
     $router->get("/?", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.home");
     $router->get("/whats-new", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.whatsnew");

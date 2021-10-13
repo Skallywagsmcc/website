@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
+use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\Article;
@@ -16,37 +16,72 @@ use MiladRahimi\PhpRouter\Url;
 class SettingsController
 {
 
+    public $maintainence_status;
+    public $address;
+    public $email;
+    public $telephone;
+    public $open_login;
+    public $open_registration;
+    public $lock_submissions;
+    public $lock_message;
+
+    public function __construct(Validate $validate)
+    {
+        $this->email = $validate->Post("email");
+        $this->address = $validate->Post("address");
+        $this->telephone = $validate->Post("telephone");
+        $this->open_login = $validate->Post("open_login");
+        $this->open_registration = $validate->Post("open_registration");
+        $this->lock_submissions = $validate->Post("lock_submissions");
+        $this->maintainence_status = $validate->Post("maintainence_status");
+        $this->maintainence_message = $validate->Post("maintainence_status");
+    }
+
+
     public function index(Url $url)
     {
         $settings = SiteSettings::find(1);
-        echo TemplateEngine::View("Pages.Backend.settings",["url"=>$url,"settings"=>$settings]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings]);
     }
 
-    public function store(Url $url, Validate $validate,Csrf $csrf)
+    public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
-        if($csrf->Verify() == true)
-        {
-            $user = User::where("id", Auth::id())->get();
-
-            if ($user->count() == 1) {
-                if (password_verify($validate->Post("password"), $user->first()->password)) {
-                    SiteSettings::all()->count() == 0 ? $settings = new SiteSettings() : $settings = SiteSettings::find(1);
+        if ($csrf->Verify() == true) {
+            $user = User::where("id", $auth->id())->where("is_admin", 1)->get();
 
 
-                    $settings->contact_email = $validate->Post("email");
-                    $settings->maintainence_status = $validate->Post("maintainence_status");
-
+            $settings = SiteSettings::where("id", 1)->get();
+            if ($settings->count() == 1) {
+                $settings = $settings->first();
+                if ($this->lock_submissions == 1) {
+                    $required = ["lock_message"];
+                    $settings->lock_message = $this->lock_message;
+                    if($validate->Allowed() == false)
+                    {
+                        $error = "Required fields are Missings";
+                        $rmf = $validate->is_required;
+                    }
+                    else
+                    {
                         $settings->save();
-                        redirect($url->make("auth.admin.settings.home"));
+                        redirect($url->make("logout"));
+                    }
 
                 } else {
-                    $error = "Sorry the password does not match the database (Access restricted)";
+                    $settings->contact_email = $this->email;
+                    $settings->contact_address = $this->address;
+                    $settings->contact_telephone = $this->telephone;
+                    $settings->maintainence_status = $this->maintainence_status;
+                    $settings->open_login = $this->open_login;
+                    $settings->open_registration = $this->open_registration;
+                    $settings->lock_submissions = $this->lock_submissions;
+                    $settings->save();
+                    redirect($url->make("auth.admin.home"));
                 }
-            } else {
-                redirect($url->make("homepage"));
             }
+
         }
 
-        echo TemplateEngine::View("Pages.Backend.settings",["url"=>$url,"error"=>$error,"user"=>$user->first(),"settings"=>$settings,"error"=>$error]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "error" => $error, "user" => $user->first(), "settings" => $settings, "post" => $this]);
     }
 }

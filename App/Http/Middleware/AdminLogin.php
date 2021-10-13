@@ -12,7 +12,7 @@ use Closure;
 
 class AdminLogin
 {
-    public function handle(ServerRequestInterface $request, Closure $next, Url $ur,Auth $auth)
+    public function handle(ServerRequestInterface $request, Closure $next, Url $url,Auth $auth)
     {
 
 //        we will check for roles here
