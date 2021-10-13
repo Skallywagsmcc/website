@@ -8,6 +8,7 @@
 
     <div class="container">
         <div class="row">
+            <a href="{{$url->make("auth.admin.settings.home")}}">Settings</a>
             <div class="col-sm-12 col-md-4">
                 {{--            Count users --}}
                 <div class="col-sm-12 px-5 bg-primary text-center">
@@ -57,5 +58,6 @@
             </div>
         </div>
     </div>
+
 
 @endsection

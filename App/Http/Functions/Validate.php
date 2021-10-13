@@ -60,12 +60,14 @@ class Validate
 
     public function Post($value = null)
     {
-        if (!is_null($value)) {
-            $this->value = $value;
-            $this->data = true;
-        }
+        if((isset($_SERVER['REQUEST_METHOD'])) && ($_SERVER['REQUEST_METHOD'] == "POST")) {
+            if (!is_null($value)) {
+                $this->value = $value;
+                $this->data = true;
+            }
 //Will simply post the value out;
-        return $_POST[$this->value];
+            return $_POST[$this->value];
+        }
     }
 
     public function HasStrongPassword($password)
