@@ -4,8 +4,7 @@
     Admin Panel : Home
 @endsection
 
-@section("content")
-
+@section("content")#
     <div class="container">
         <div class="row">
             <a href="{{$url->make("auth.admin.settings.home")}}">Settings</a>

@@ -16,53 +16,80 @@ use PHPMailer\PHPMailer\SMTP;
 class ContactController
 {
 
+    public $sum1;
+    public $sum2;
+    public $email;
+    public $first_name;
+    public $last_name;
+    public $club;
+    public $subject;
+    public $message;
+    public $total;
+    public $rmf;
+    public $error;
+    public $settings;
+    public $address;
+
+
+    public function __construct(Validate $validate)
+    {
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->email = $validate->Post("email");
+            $this->sum1 = $validate->Post("sum1");
+            $this->sum2 = $validate->Post("sum2");
+            $this->first_name = $validate->Post("first_name");
+            $this->last_name = $validate->Post("last_name");
+            $this->subject = $validate->Post("subject");
+            $this->message = $validate->Post("message");
+            $this->total = $validate->Post("total");
+            $this->club = $validate->Post("club");
+
+        }
+        $this->settings = $this->SiteSettings();
+        $this->address = explode(",",$this->settings->first()->contact_address);
+
+    }
+
+    public function matchsum($v1,$v2)
+    {
+        if($this->total == $v1 + $v2)
+        {;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public function SiteSettings()
     {
-        return SiteSettings::where("id",1);
+        return SiteSettings::where("id",1)->get();
     }
 
     public function index(Url $url,Validate $validate)
     {
-        $sum1 = rand(1,50);
-        $sum2 = rand(1,50);
+        $sum1 = rand(1, 50);
+        $sum2 = rand(1, 50);
         $settings = $this->SiteSettings()->first();
-        if($settings->lock_submissions == 1)
-        {
-            $error = "This Form is locked";
-        }
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"sum1"=>$sum1,"sum2"=>$sum2,"settings"=>$settings,"error"=>$error]);
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2, "requests" => $this]);
     }
 
     public function store(Url $url, Validate $validate)
     {
-        if($this->SiteSettings()->where("lock_submissions",1)->get()->count() == 1)
+        $sum1 = rand(1, 50);
+        $sum2 = rand(1, 50);
+        if(($this->settings->count() == 1 ) && ($this->settings->first()->lock_subumssions == 1))
         {
-            $error = "This form has been locked and conot be sumitted";
+            $this->error = "your fuckeed";
         }
         else {
-
-            $sum1 = rand(1, 50);
-            $sum2 = rand(1, 50);
-            $email = $validate->Required("email")->Post();
-            $first_name = $validate->Required("first_name")->Post();
-            $last_name = $validate->Required("last_name")->Post();
-            $club = $validate->Post("club");
-
-            if (empty($club)) {
-                $club = "N/a";
-            }
-
-            $subject = $validate->Required("subject")->Post();
-            $message = $validate->Required("message")->Post();
-            $answer1 = $validate->Required("sum1")->Post();
-            $answer2 = $validate->Required("sum2")->Post();
-            $total = $validate->Required("total")->Post();
-
+            $validate->AddRequired(["first_name","last_name","message","subject","total"]);
             if ($validate->Allowed() == false) {
-                $error = "The Following Missing fields are required";
-                $rmf = $validate->is_required;
+                $this->error = "The Following Missing fields are required";
+                $this->rmf = $validate->is_required;
             } else {
-                if($total == $answer1 + $answer2) {
+                if($this->matchsum($this->sum1,$this->sum2) == true) {
                     $mail = new PHPMailer(true);
                     try {
                         //Server settings
@@ -76,40 +103,39 @@ class ContactController
                         $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
                         //Recipients
-                        $mail->setFrom($email, $first_name . " " . $last_name);
+                        $mail->setFrom($this->email, $this->first_name . " " . $this->last_name);
                         $mail->addAddress("mail@skallywags.club", "Mail");     //Add a recipient
 
                         //Content
                         $mail->isHTML(true);                                  //Set email format to HTML
-                        if (empty($club)) {
-                            $mail->Subject = $subject;
+                        if (empty($this->club)) {
+                            $mail->Subject = $this->subject;
                         } else {
-                            $mail->Subject = "Club($club) : " . $subject;
+                            $mail->Subject = "Club($this->club) : " . $this->subject;
                         }
 
                         $mail->Body = "<img src='http://skallywags.club/img/logo.png' alt='logo' height='150' width='150'/><hr>";
-                        $mail->Body .= "Name : $first_name" . " $last_name <br><br>";
-                        $mail->Body .= "Current Club :" . $club . "<br><br>";
-                        $mail->Body .= "Message : <br><br>" . $message;
+                        $mail->Body .= "Name : $this->first_name" . " $this->last_name <br><br>";
+                        $mail->Body .= "Current Club :" . $this->club . "<br><br>";
+                        $mail->Body .= "Message : <br><br>" . $this->message;
 
                         $mail->send();
                         redirect($url->make("contact-sent"));
                     } catch (Exception $e) {
-                        $error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                        $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
                 } else {
-                    $error = "The Answer to the maths question is not correct";
+                    $this->error = "The Answer to the maths question is not correct";
                 }
             }
         }
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "error" => $error,"rmf"=>$rmf, "validate"=>$validate,"sum1"=>$sum1,"sum2"=>$sum2]);
-
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2,"requests" => $this, "error" => $this->error, "rmf"=>$this->rmf]);
     }
 
     public function sent(Url $url)
     {
+        echo TemplateEngine::View("Pages.Frontend.Contact.sent",["url"=>$url]);
 
-        echo TemplateEngine::View("Pages.Frontend.Contact.sent", ["url" => $url]);
     }
 
 }

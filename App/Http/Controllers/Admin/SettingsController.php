@@ -25,23 +25,36 @@ class SettingsController
     public $lock_submissions;
     public $lock_message;
 
+    public $name;
+    public $street;
+    public $city;
+    public $county;
+    public $postcode;
+
     public function __construct(Validate $validate)
     {
         $this->email = $validate->Post("email");
-        $this->address = $validate->Post("address");
+        $this->address =   explode(",",SiteSettings::where("id",1)->get()->first()->contact_address);
         $this->telephone = $validate->Post("telephone");
         $this->open_login = $validate->Post("open_login");
         $this->open_registration = $validate->Post("open_registration");
         $this->lock_submissions = $validate->Post("lock_submissions");
         $this->maintainence_status = $validate->Post("maintainence_status");
         $this->maintainence_message = $validate->Post("maintainence_status");
+
+        $this->name = $validate->Post("name");
+        $this->street = $validate->Post("street");
+        $this->city = $validate->Post("city");
+        $this->county = $validate->Post("county");
+        $this->postcode = $validate->Post("postcode");
     }
 
 
     public function index(Url $url)
     {
         $settings = SiteSettings::find(1);
-        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings]);
+        print_r($this->address);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings,"post"=>$this]);
     }
 
     public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
@@ -69,7 +82,11 @@ class SettingsController
 
                 } else {
                     $settings->contact_email = $this->email;
-                    $settings->contact_address = $this->address;
+                    $settings->contact_address =  trim($this->name).",";
+                    $settings->contact_address .=  trim($this->street).",";
+                    $settings->contact_address .= trim($this->city).",";
+                    $settings->contact_address .= trim($this->county).",";
+                    $settings->contact_address .=  trim($this->postcode);
                     $settings->contact_telephone = $this->telephone;
                     $settings->maintainence_status = $this->maintainence_status;
                     $settings->open_login = $this->open_login;

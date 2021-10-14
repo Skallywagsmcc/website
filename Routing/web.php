@@ -37,7 +37,7 @@ $router->get("/sql/install", [Base::class, 'index']);
 $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class]],function (Router $router)
 {
     $router->get("/contact-us", [ContactController::class, 'index'], "contact-us");
-    $router->post("/contact-us/send", [ContactController::class, 'store'], "contact-store");
+    $router->post("/contact-us", [ContactController::class, 'store'], "contact-store");
     $router->get("/contact-us/thank-you", [ContactController::class, 'sent'], "contact-sent");
 
 
