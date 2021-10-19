@@ -17,6 +17,7 @@ $capsule = new Capsule;
         'prefix' => $_ENV['DB_PREFIX'],
     ]);
 
+
 // Set the event dispatcher used by Eloquent models... (optional)
 
 $capsule->setEventDispatcher(new Dispatcher(new Container));

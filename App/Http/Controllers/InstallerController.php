@@ -25,7 +25,7 @@ class InstallerController
 
     public function __construct(Validate $validate)
     {
-        if($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->username = $validate->Post("username");
             $this->email = $validate->Post("email");
             $this->password = $validate->Post("password");
@@ -33,24 +33,6 @@ class InstallerController
             $this->first_name = $validate->Post("first_name");
             $this->last_name = $validate->Post("last_name");
         }
-    }
-
-    private function setkey()
-    {
-        $key = bin2hex(random_bytes(32));
-        $_SESSION['key'] = $key;
-        return $key;
-    }
-
-    private function getkey($key, $url)
-    {
-        $installer = Installer::where("id", 1)->where("key", $key)->get();
-        if ((empty($installer->first()->key)) || $installer->first()->key != $key) {
-            redirect($url->make("installer.home"));
-        } else {
-            return $installer;
-        }
-
     }
 
     public function index(Url $url)
@@ -70,7 +52,13 @@ class InstallerController
         }
 
 
+    }
 
+    private function setkey()
+    {
+        $key = bin2hex(random_bytes(32));
+        $_SESSION['key'] = $key;
+        return $key;
     }
 
     public function profile($key, Url $url)
@@ -87,6 +75,16 @@ class InstallerController
 
     }
 
+    private function getkey($key, $url)
+    {
+        $installer = Installer::where("id", 1)->where("key", $key)->get();
+        if ((empty($installer->first()->key)) || $installer->first()->key != $key) {
+            redirect($url->make("installer.home"));
+        } else {
+            return $installer;
+        }
+
+    }
 
     public function termsstore(Url $url, Validate $validate, Loader $loader, $key)
     {
@@ -131,12 +129,10 @@ class InstallerController
         } elseif ($validate->Post("password") != $validate->Post("confirm")) {
             $error = "Passwords do not match";
         } else
-            if (empty($this->password)  || empty($this->confirm) || $validate->HasStrongPassword($validate->Post("password")) == false) {
+            if (empty($this->password) || empty($this->confirm) || $validate->HasStrongPassword($validate->Post("password")) == false) {
                 $error = "Password Must match our strong Password Policy";
-                $rmf = ["Must not hold an empty value","Minimum of 8 letters","Have one Upper case Letter","Have At least one Lower case letter","At least one number"];
-            }
-            else
-            {
+                $rmf = ["Must not hold an empty value", "Minimum of 8 letters", "Have one Upper case Letter", "Have At least one Lower case letter", "At least one number"];
+            } else {
                 if (($validate->Post("key") == $key) && ($this->getkey($key, $url)->count() == 1) && ($this->getkey($_SESSION['key'], $url)->count() == 1)) {
 
                     if (User::where("id", 1)->get()->count() == 0) {
@@ -195,16 +191,12 @@ class InstallerController
                 }
             }
 
-        echo TemplateEngine::View("Pages.Backend.Installer.Profile", ["url" => $url, "key" => $key, "error" => $error, "rmf" => $rmf,"post"=>$this]);
-
-
-
+        echo TemplateEngine::View("Pages.Backend.Installer.Profile", ["url" => $url, "key" => $key, "error" => $error, "rmf" => $rmf, "post" => $this]);
 
 
     }
 
-    public
-    function settingsstore(Url $url, Validate $validate, $key)
+    public function settingsstore(Url $url, Validate $validate, $key)
     {
         echo "hello" . $key;
     }

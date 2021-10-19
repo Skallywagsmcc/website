@@ -2,8 +2,12 @@
 
 namespace App\Libraries\MigrationManager;
 
+use App\Http\Functions\Validate;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
+use Migrations\Resources;
+use Migrations;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Loader extends Core
@@ -23,32 +27,6 @@ class Loader extends Core
         }
     }
 
-    public function AddTable($name,$requires)
-    {
-        if(!is_null($requires))
-        {
-            if(Capsule::schema()->hasTable($requires))
-            {
-                echo "Table Installed already";
-            }
-            else
-            {
-                $this->callup($requires);
-            }
-        }
-        else
-        {
-            if(Capsule::schema()->hasTable($name))
-            {
-                echo "Table Installed already";
-            }
-            else
-            {
-                $this->callup($name);
-            }
-        }
-
-    }
 
 
     public function install()
@@ -66,6 +44,26 @@ class Loader extends Core
             {
                 $this->callup($name);
             }
+        }
+    }
+
+    public function drop()
+    {
+        $variables = scandir($this->dir);
+        $files = array_diff($variables, array('.', '..'));
+        foreach ($files as $index => $file) {
+            $name = $this->RemoveExtention($file,".");
+            $table = strtolower($name);
+
+                    if(method_exists("Migrations\\$name", "down")) {
+                        $this->calldown($name);
+                    }
+                    else
+                    {
+                        echo "the class . $name Does not have a method called down <br>";
+                    }
+
+
         }
     }
 

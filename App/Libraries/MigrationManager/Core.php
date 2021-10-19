@@ -1,12 +1,19 @@
 <?php
 
 namespace App\Libraries\MigrationManager;
+use Migrations;
+
 
 
 class Core
 {
     protected $dir;
     private $class = "Migrations";
+
+    public function getclass()
+    {
+        return $this->class;
+    }
 
     public function __construct()
     {
@@ -31,12 +38,15 @@ class Core
 
     public function callup($name)
     {
-        return call_user_func($this->class ."\\$name::up");
+        return call_user_func($this->getclass()."\\$name::up");
     }
 
     public function calldown($name)
     {
-        return call_user_func($this->class ."\\$name::down");
+            return call_user_func($this->getclass() ."\\$name::down");
+
+
+
     }
 
 }

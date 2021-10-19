@@ -21,5 +21,10 @@ class Two_Factor_Auths
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("two_factor_auths");
+    }
+
 
 }

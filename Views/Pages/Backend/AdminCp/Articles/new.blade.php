@@ -38,7 +38,7 @@
                         <input type="text" class="form-control tld-input" name="title" value="{{$post->title}}">
                     </div>
                     <div class="form-group">
-            <textarea name="Content" rows="10" class="form-control tld-input">{{$post->content}}</textarea>
+            <textarea name="content" rows="10" class="form-control tld-input">{{$post->content}}</textarea>
                     </div>
 
                     <div class="row">

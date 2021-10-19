@@ -13,7 +13,7 @@ class User_Settings
     {
         Capsule::schema()->create("user_settings", function ($table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->biginteger("user_id");
 //            if set to 1  twofactor Auth will be enable if set to 1.
             $table->integer("two_factor_auth");
 //            this will stop the website emailing the use if they choose to set this to 0.
@@ -27,5 +27,10 @@ class User_Settings
         });
     }
 
+
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("user_settings");
+    }
 
 }

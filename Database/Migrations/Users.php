@@ -26,9 +26,9 @@ class Users
         });
     }
 
-    public static function down()
+    public function down()
     {
-
+        Capsule::schema()->dropIfExists("users");
     }
 
 }

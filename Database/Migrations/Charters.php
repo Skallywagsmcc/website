@@ -27,5 +27,11 @@ class Charters
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("charters");
+    }
+
+
 
 }

@@ -20,10 +20,12 @@ class Tokens
         });
     }
 
-    public static function down()
-    {
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("tokens");
     }
+
 
 
 

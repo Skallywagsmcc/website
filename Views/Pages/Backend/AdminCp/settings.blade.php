@@ -29,6 +29,13 @@
     </div>
 
     <div class="container my-2">
+
+        <div class="row box my-2">
+            <div class="col-sm-12 head py-2">Site Settings : Database Manager</div>
+            <div class="col-sm-12 py-2 text-center text-lg-left pl-lg-2">Settings below will take you to a new page</div>
+            <div class=" col-sm-12 text-center text-lg-left pl-lg-2 py-2"><a href="{{$url->make("auth.admin.settings.database.home")}}">Reinstall Database</a></div>
+        </div>
+
         <form action="{{$url->make("auth.admin.settings.store")}}" method="post">
 
             <div class="row box my-2">

@@ -161,6 +161,9 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Inst
 //    Settings Controlled by Admins
     $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings.home");
     $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "auth.admin.settings.store");
+//    Database installer
+    $router->get("/settings/database",[\App\Http\Controllers\Admin\SettingsController::class,'dbinstall_index'],"auth.admin.settings.database.home");
+    $router->post("/settings/database",[\App\Http\Controllers\Admin\SettingsController::class,'dbinstall_store'],"auth.admin.settings.database.store");
 
     //    Users Images Controlled by Admins
     $router->group(["prefix" => "/users"], function (Router $router) {

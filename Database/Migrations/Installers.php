@@ -21,5 +21,11 @@ class Installers
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("installers");
+    }
+
+
 
 }

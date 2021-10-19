@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Functions\TemplateEngine;
+use App\Http\Functions\Validate;
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Article;
@@ -17,8 +18,10 @@ use MiladRahimi\PhpRouter\Url;
 class ArticlesController
 {
 
-    public function index(Url $url)
+    public function index(Url $url, Validate $validate)
     {
+
+
            $articles = Article::orderBy("created_at","desc");
            $count = $articles->count();
            $pages = new LaravelPaginator('2','p');
@@ -74,4 +77,5 @@ class ArticlesController
 
 
     }
+
 }

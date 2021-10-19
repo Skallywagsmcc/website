@@ -25,5 +25,11 @@ class Images
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("images");
+    }
+
+
 
 }

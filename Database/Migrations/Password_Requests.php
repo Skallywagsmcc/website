@@ -22,5 +22,11 @@ class Password_Requests
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("password_resets");
+    }
+
+
 
 }

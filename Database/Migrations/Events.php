@@ -32,5 +32,12 @@ class Events
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("events");
+    }
+
+
+
 
 }

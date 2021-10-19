@@ -22,5 +22,9 @@ class Featured_Images
         });
     }
 
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("featured_images");
+    }
 
 }

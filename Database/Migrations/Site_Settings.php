@@ -5,6 +5,7 @@ namespace Migrations;
 
 
 use Illuminate\Database\Capsule\Manager as Capsule;
+use Illuminate\Support\Facades\DB;
 
 class Site_Settings
 {
@@ -24,6 +25,13 @@ class Site_Settings
             $table->integer("lock_submissions")->default(0); // Add now and implement at a future date
             $table->text("lock_message")->nullable();
             $table->timestamps();
+            
         });
     }
+
+    public function down()
+    {
+        Capsule::schema()->dropIfExists("site_settings");
+    }
+
 }

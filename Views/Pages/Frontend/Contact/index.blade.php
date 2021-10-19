@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-sm-12">Please email us on :
                     @if(!empty($requests->settings->first()->contct_email))
-                    {{$requests->settings->first()->contact_email}}
+                        {{$requests->settings->first()->contact_email}}
                     @endif
                 </div>
             </div>
@@ -104,46 +104,57 @@
                         </form>
 
                     </div>
-                    <div class="col-sm-12 col-lg-4">
+                    <div class="col-sm-12 col-lg-4 my-3 my-lg-0">
                         @isset($requests)
-                        <div class="col-sm-12 head">Contact informtion </div>
-                        <div class="col-sm-12">
-                            Telehone Number :
-                        @if(!empty($requests->settings->first()->contact_telephone))
-                                0{{$requests->settings->first()->contact_telephone}}
-                            @else
-                                Not Prpovided
-                            @endif
-                        </div>
+                            <div class="col-sm-12 head">Contact informtion</div>
+                            <div class="col-sm-12 text-center">
+                                Telehone Number :
+                                @if(!empty($requests->settings->first()->contact_telephone))
+                                    0{{$requests->settings->first()->contact_telephone}}
+                                @else
+                                   Not Provided
+                                @endif
+                            </div>
 
-                            <div class="col-sm-12">
+                        <div class="col-sm-12 head">Email Address</div>
+                            <div class="col-sm-12 text-center">
                                 Email Address :
                                 @if(!empty($requests->settings->first()->contact_email))
                                     0{{$requests->settings->first()->contact_email}}
                                 @else
-                                    Not provided
+                                    No Email Added
                                 @endif
                             </div>
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-12 head">Club Address</div>
-                                @if(!empty($requests->settings->first()->contact_address))
-                                            <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[0]!!} {!!$requests->address[1]!!}, </div>
-                                            <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[2]!!} </div>
-                                            <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[3]!!}, </div>
-                                            <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[4]!!}, </div>
-                                @else
-                                    Not provided
-                                @endif
+                                    @if(!empty($requests->settings->first()->contact_address))
+                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[0]!!} {!!$requests->address[1]!!}
+                                            ,
+                                        </div>
+                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[2]!!} </div>
+                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[3]!!}
+                                            ,
+                                        </div>
+                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[4]!!}
+                                            ,
+                                        </div>
+                                    @else
+                                      No Address Added
+                                    @endif
+                                    @if(!empty($requests->settings->first()->contact_address))
+                                    <div class="row mx-0">
+                                        <div class="col-sm-12 head">More Resources</div>
 
-                                <div class="row">
-                                    <div class="col-sm-12 head">More Resources</div>
-                                    <a href="https://www.google.co.uk/maps/search/{{$requests->address[0]}}+{{$requests->address['1']}}+{{$requests->address[2]}}+{{$requests->address[4]}}" target="_new">Find us on google maps</a>
+                                        <a href="https://www.google.co.uk/maps/search/{{$requests->address[0]}}+{{$requests->address['1']}}+{{$requests->address[2]}}+{{$requests->address[4]}}"
+                                           target="_new">Find us on google maps</a>
+
+                                    </div>
+                                    @endif
                                 </div>
+
+                                @endisset
                             </div>
-
-
-                        @endisset
                     </div>
                 </div>
             </div>

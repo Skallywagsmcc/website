@@ -40,12 +40,13 @@ class Validate
 
     */
 
+
+
     public function RequestHexKey()
     {
         return bin2hex(random_bytes(35));
     }
-
-
+    
     public function Required($value)
     {
         $this->value = $value;

@@ -13,6 +13,7 @@ use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Image;
 use App\Http\Models\Article;
 use Laminas\Diactoros\ServerRequest;
+use MiladRahimi\PhpContainer\Tests\Classes\A;
 use MiladRahimi\PhpRouter\Url;
 
 class ArticlesController
@@ -20,8 +21,10 @@ class ArticlesController
 
     public $title;
     public $content;
+
     public function __construct(Validate $validate)
     {
+
         $this->title = $validate->Post("title");
         $this->content = $validate->Post("content");
     }
@@ -38,6 +41,7 @@ class ArticlesController
 
     public function index(Url $url)
     {
+
         $articles = Article::All();
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.index", ["articles" => $articles, "url" => $url]);
     }
@@ -48,11 +52,9 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["url" => $url]);
     }
 
-    public function store(Url $url, Auth $auth, Csrf $csrf, Filemanager $filemanager,Validate $validate)
+    public function store(Url $url, Auth $auth, Csrf $csrf, Filemanager $filemanager)
     {
-
-
-        $validate->AddRequired(["title","Content"]);
+        $validate->AddRequired(["title","content"]);
         if ($csrf->Verify() == true) {
             $count = Article::where("slug", slug($this->title))->get()->count();
             if ($count == 1) {
@@ -64,20 +66,19 @@ class ArticlesController
             }
             else {
                 $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-
+                echo $this->content;
                 if ($filemanager->success == true) {
-                    $cover = new Image();
-                    $cover->user_id = $auth->id();
-                    $cover->entry_name = "Images";
-                    $cover->nvtug = 1;
-                    $cover->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
-                    $cover->name = $filemanager->GetUniqueName();
-                    $cover->size = $filemanager->GetFile("size");
-                    $cover->type = $filemanager->GetFile("type");
-                    $cover->description = $this->content;
-                    $cover->save();
+                    $image = new Image();
+                    $image->user_id = $auth->id();
+                    $image->entry_name = "Images";
+                    $image->nvtug = 1;
+                    $image->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
+                    $image->name = $filemanager->GetUniqueName();
+                    $image->size = $filemanager->GetFile("size");
+                    $image->type = $filemanager->GetFile("type");
+                    $image->description = $this->content;
+                    $image->save();
                 }
-
                 $article = new Article();
                 $article->user_id = $auth->id();
                 $article->entry_name = "Articles";

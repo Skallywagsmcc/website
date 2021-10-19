@@ -17,16 +17,22 @@ use MiladRahimi\PhpRouter\Url;
 class SearchController
 {
 
+    public $request;
+
+    public function __construct(ServerRequest $request)
+    {
+        $request = $request->getQueryParams();
+    }
+
 
     public function index(Url $url)
     {
         echo TemplateEngine::View("Pages.Frontend.Search.index", ["url" => $url]);
     }
 
-    public function view(Url $url, ServerRequest $request)
+    public function view(Url $url,ServerRequest $request)
     {
         $keyword = $request->getQueryParams()['keyword'];
-
         $limit = 5;
         $ap = new LaravelPaginator($limit, "p");
         $ep = new LaravelPaginator($limit, "p");
@@ -78,7 +84,7 @@ class SearchController
     public function getusers($keyword)
     {
         return User::where("username", $keyword)->orwherehas("Profile", function ($q) use ($keyword) {
-            $q->whereraw("MATCH(first_name,last_name) AGAINST(?)",array($keyword));
+            $q->where("first_name","LIKE","%$keyword%")->orwhere("last_name","LIKE","%$keyword%")->orwhere("first_name","last_name",$keyword);
         })->orwherehas("Article",function($q) use ($keyword)
         {
             $q->where("title","LIKE","%$keyword%");
@@ -93,17 +99,17 @@ class SearchController
         return Article::where("title", "LIKE", "%$keyword%")->orwhere("content", "LIKE", "%$keyword%")->orwherehas("User", function ($q) use ($keyword) {
             $q->where("username", $keyword)->orwherehas("Profile",function ($q) use ($keyword)
             {
-                $q->whereraw("MATCH(first_name,last_name) AGAINST(?)",array($keyword));
+               $q->where("first_name","LIKE","%$keyword%")->orwhere("last_name","LIKE","%$keyword%");
             });
         });
     }
-
+//
     public function getcharters($keyword)
     {
         return Charter::where("title", "LIKE", "%$keyword%")->orwhere("content", "LIKE", "%$keyword%")->orwherehas("User", function ($q) use ($keyword) {
             $q->where("username", $keyword)->orwherehas("Profile",function ($q) use ($keyword)
             {
-                $q->whereraw("MATCH(first_name,last_name) AGAINST(?)",array($keyword));
+               $q->where("first_name","LIKE","%$keyword%")->orwhere("last_name","LIKE","%$keyword%");
             });
         });
     }
@@ -113,7 +119,7 @@ class SearchController
         return Event::where("title", "LIKE", "%$keyword%")->orwhere("content", "LIKE", "%$keyword%")->orwherehas("User", function ($q) use ($keyword) {
             $q->where("username", $keyword)->orwherehas("Profile",function ($q) use ($keyword)
             {
-                $q->whereraw("MATCH(first_name,last_name) AGAINST(?)",array($keyword));
+               $q->where("first_name","LIKE","%$keyword%")->orwhere("last_name","LIKE","%$keyword%");
             });
         });
 
