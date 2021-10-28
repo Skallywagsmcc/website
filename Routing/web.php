@@ -129,7 +129,7 @@ $router->group(["prefix" => "/auth","middleware"=>[Middleware\Installer::class]]
 //Api Requests go here
 
 //Admin
-$router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\AdminLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/Control/Administrator","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\AdminLogin::class]], function (Router $router) {
 //    Events manager controlled by Admins
     $router->group(["prefix" => "/events"], function (Router $router) {
         $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
@@ -204,7 +204,7 @@ $router->group(["prefix" => "/user/control/admin","middleware"=>[Middleware\Inst
 });
 
 //Account
-$router->group(["prefix" => "/user","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\UserLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/My-Account","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\UserLogin::class]], function (Router $router) {
 
     $router->group(["prefix" => "/account"], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "account.home");
@@ -249,7 +249,7 @@ $router->group(["prefix" => "/user","middleware"=>[Middleware\Installer::class,M
        $router->post("/store",\App\Http\Models\SiteSettings::class,"index","auth.admin.settings.store");
     });
 //    Load Base Page
-    $router->get("/?", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.home");
+    $router->get("/?",  [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "backend.home");
     $router->get("/whats-new", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.whatsnew");
     $router->get("/activity", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.activity");
 });

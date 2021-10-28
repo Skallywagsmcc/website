@@ -1,52 +1,87 @@
 <?php
 
 namespace App\Libraries\MigrationManager;
-use Migrations;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
+use Migrations;
 
 
 class Core
 {
-    protected $dir;
+    public $dir;
     private $class = "Migrations";
 
-    public function getclass()
-    {
-        return $this->class;
-    }
 
     public function __construct()
     {
-        $this->dir = __DIR__ . "/../../../Database/Migrations";
+        $this->dir = "/var/www/html/public_html/Database/Migrations";
+    }
+    public function filter($array,$value)
+    {
+            return array_diff($array, (is_array($value) ? $value : array($value)));
     }
 
-    public  static function RemoveExtention($file, $delimiter)
+
+
+    public function getfiles($file)
+    {
+
+        return file_get_contents("$this->dir/$file");
+    }
+
+
+    public function lower($value)
+    {
+        return strtolower($value);
+    }
+
+
+    public function RemoveExtention($file, $delimiter)
     {
         $explode = explode($delimiter, $file);
         array_pop($explode);
         return implode($delimiter, $explode);
     }
 
-
-    public function scandir($dir){
-
+    public function hastable($table)
+    {
+        if (Capsule::schema()->hasTable($table)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function scandir($dir)
+    {
         $variables = scandir($dir);
         $files = array_diff($variables, array('.', '..'));
         return $files;
     }
 
-
     public function callup($name)
     {
-        return call_user_func($this->getclass()."\\$name::up");
+        return call_user_func($this->getclass() . "\\$name::up");
+    }
+
+    public function getclass()
+    {
+        return $this->class;
     }
 
     public function calldown($name)
     {
-            return call_user_func($this->getclass() ."\\$name::down");
+        return call_user_func($this->getclass() . "\\$name::down");
 
+    }
 
+    protected final function hasmethod($name = null)
+    {
 
+        if (method_exists("Migrations\\$name", $name)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

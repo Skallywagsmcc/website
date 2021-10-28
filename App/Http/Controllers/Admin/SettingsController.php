@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Libraries\MigrationManager\Loader;
+use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\SiteSettings;
@@ -31,6 +32,7 @@ class SettingsController
     public $county;
     public $postcode;
     private $password;
+    private $drop;
 
     public function __construct(Validate $validate)
     {
@@ -43,19 +45,20 @@ class SettingsController
         $this->maintainence_status = $validate->Post("maintainence_status");
         $this->maintainence_message = $validate->Post("maintainence_status");
         $this->password = $validate->Post("password");
+        $this->drop = $validate->Post("drop");
 
         $this->name = $validate->Post("name");
         $this->street = $validate->Post("street");
         $this->city = $validate->Post("city");
         $this->county = $validate->Post("county");
         $this->postcode = $validate->Post("postcode");
+        $this->migration = $validate->Post("migration");
     }
 
 
     public function index(Url $url)
     {
         $settings = SiteSettings::find(1);
-        print_r($this->address);
         echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings, "post" => $this]);
     }
 
@@ -102,29 +105,28 @@ class SettingsController
     }
 
 
-//TODO : Add Edit method
 
-//ToDO : Add Update method
-
-//Todo Implement Database Reinstall Method index and store
-
-
-    public function dbinstall_index(Url $url)
+    public function dbinstall_index(Url $url,Loader $loader,ServerRequest $request)
     {
+      $type = $request->getQueryParams()["type"];
 //        Password for the user will be required before installing the database
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url,"loader"=>$loader,"type"=>$type]);
     }
 
     public function dbinstall_store(Csrf $csrf, Validate $validate, Url $url, Loader $loader)
     {
-        if ($validate->HasStrongPassword($this->password) == false) {
-            $error = "Password Cannot be empty";
-        } else {
+        if($csrf->Verify() == true) {
+            if ($validate->HasStrongPassword($this->password) == false) {
+                $error = "Password Cannot be empty";
+            } else {
+                if ($this->drop == 1)
+                {
+                    $loader->drop();
+                }
+                $loader->install();
+                redirect($url->make("auth.admin.settings.home"));
 
-            $loader->drop();
-            $loader->install();
-            redirect($url->make("auth.admin.settings.home"));
-
+            }
         }
         echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url, "error" => $error]);
     }

@@ -16,7 +16,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-class arPasswordController
+class PasswordController
 {
 
     public function index(Url $url)

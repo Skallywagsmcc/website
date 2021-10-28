@@ -52,7 +52,7 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["url" => $url]);
     }
 
-    public function store(Url $url, Auth $auth, Csrf $csrf, Filemanager $filemanager)
+    public function store(Url $url, Auth $auth, Csrf $csrf, Filemanager $filemanager,Validate $validate)
     {
         $validate->AddRequired(["title","content"]);
         if ($csrf->Verify() == true) {

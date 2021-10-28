@@ -7,4 +7,6 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-SetEnv TZ Europe/London
+
+  # directory browsing
+     Options All -Indexes

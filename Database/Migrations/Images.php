@@ -1,14 +1,9 @@
 <?php
-
-
 namespace Migrations;
-
-
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Images
 {
-
     public static function up()
     {
         Capsule::schema()->create("images", function ($table) {
@@ -29,7 +24,4 @@ class Images
     {
         Capsule::schema()->dropIfExists("images");
     }
-
-
-
 }

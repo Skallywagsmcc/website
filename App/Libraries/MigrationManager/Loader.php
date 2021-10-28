@@ -14,56 +14,34 @@ class Loader extends Core
 {
 
 
-    public function GetDefaults($name)
-    {
-        $table = strtolower($name);
-        if(Capsule::schema()->hasTable($table))
-        {
-            echo "table $table is already installed";
-        }
-        else
-        {
-            $this->callup($name);
-        }
-    }
 
+
+    public function ReadMigrations()
+    {
+           return $this->scandir($this->dir);
+    }
 
 
     public function install()
     {
-        $variables = scandir($this->dir);
-        $files = array_diff($variables, array('.', '..'));
+        $files = $this->scandir($this->dir);
         foreach ($files as $index => $file) {
-            $name = $this->RemoveExtention($file,".");
-            $table = strtolower($name);
-            if(Capsule::schema()->hasTable($table))
-            {
-                echo "$index : table $name is already installed <hr>";
-            }
-            else
-            {
+            $name = $this->RemoveExtention($file, ".");
+            $table = $this->lower($name);
+            if ($this->hastable($table) == false) {
                 $this->callup($name);
             }
         }
     }
 
-    public function drop()
+
+    public function drop($migrations=null)
     {
-        $variables = scandir($this->dir);
-        $files = array_diff($variables, array('.', '..'));
+        $files = $this->scandir($this->dir);
         foreach ($files as $index => $file) {
-            $name = $this->RemoveExtention($file,".");
+            $name = $this->RemoveExtention($file, ".");
             $table = strtolower($name);
-
-                    if(method_exists("Migrations\\$name", "down")) {
-                        $this->calldown($name);
-                    }
-                    else
-                    {
-                        echo "the class . $name Does not have a method called down <br>";
-                    }
-
-
+            $this->calldown($name);
         }
     }
 

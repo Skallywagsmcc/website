@@ -1,3 +1,7 @@
+<?php
+use App\Http\Controllers\SystemController;
+$system = new SystemController();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,13 +15,13 @@
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-{{--    toggle--}}
+    {{--    toggle--}}
 
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 </head>
 <body>
-    @include("Includes.Frontend.Navbar")
+@include("Includes.Frontend.Navbar")
 <div id="app" class="container-wrapper px-0">
 
     <div class="container-fluid m-0 p-0">
@@ -27,21 +31,31 @@
         <div class=" container-fluid breadcrumbs my-2">
             {!!breadcrumbs(' > ')!!}
         </div>
-            @yield("content")
+        @yield("content")
 
 
     </div>
 </div>
 
 
- <div class="row py-3 mx-0 footer">
-        <div class="col-sm-12 col-md-4 text-center text-md-left">
-            {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; :  {{$_SERVER['VERSION']}} | <a href="#">Site Status</a>
-        </div>
-        <div class="col-sm-12 col-md-8 text-center px-0">
-            Social Media  Links will go here
-        </div>
+<div class="row py-3 mx-0 footer">
+    <div class="col-sm-12 col-md-4 text-center text-md-left">
+
+        {{$_SERVER['APP_NAME']}} {{date("Y")}}  &copy; : {{$system->readini("System","Version")}} | <a href="{!!$system->readini("System","Repo")!!}">{{$system->readini("System","Repo_title")}}</a>
+
+        @foreach($system->parsefile(true,"Updates") as $key => $value)
+            {{$key}}
+            {{$value["Whats new"]}}
+            <br>
+            {{str_replace("\n\n","<br>",$value["Content"])}}
+        {{$value["Date"]}}
+            <br>
+        @endforeach
     </div>
+    <div class="col-sm-12 col-md-8 text-center px-0">
+        Social Media Links will go here
+    </div>
+</div>
 
 </body>
 </html>
