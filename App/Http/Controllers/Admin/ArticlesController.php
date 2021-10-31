@@ -13,6 +13,7 @@ use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Image;
 use App\Http\Models\Article;
 use Laminas\Diactoros\ServerRequest;
+use Migrations\Images;
 use MiladRahimi\PhpContainer\Tests\Classes\A;
 use MiladRahimi\PhpRouter\Url;
 
@@ -21,12 +22,15 @@ class ArticlesController
 
     public $title;
     public $content;
+    public $changethumb;
+    protected $isvalid;
 
     public function __construct(Validate $validate)
     {
 
         $this->title = $validate->Post("title");
         $this->content = $validate->Post("content");
+        $this->changethumb = $validate->Post("changethumb");
     }
 
     /*
@@ -66,7 +70,6 @@ class ArticlesController
             }
             else {
                 $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-                echo $this->content;
                 if ($filemanager->success == true) {
                     $image = new Image();
                     $image->user_id = $auth->id();
@@ -120,10 +123,8 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url, "links" => $links]);
     }
 
-    public function update(Url $url, Validate $validate, Csrf $csrf,$id,$slug)
+    public function update(Url $url, Validate $validate, Csrf $csrf,$id,$slug,Filemanager $filemanager,Auth $auth)
     {
-
-
         $id = base64_decode($id);
         $article = Article::where("slug",$slug)->where("id",$id)->get();
                 $count = $article->count();
@@ -138,9 +139,32 @@ class ArticlesController
            }
             else
             {
-                $article->title = $validate->Required("title")->Post();
+                if($this->changethumb == 1) {
+                    $images = Image::where("id",$article->thumb);
+                        $image = $images->get()->first();
+                     unlink($_SERVER['DOCUMENT_ROOT'] . "/img/uploads/".$image->name);
+                     $images->delete();
+
+                    $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
+                    if ($filemanager->success == true) {
+                        $image = new Image();
+                        $image->user_id = $auth->id();
+                        $image->entry_name = "Images";
+                        $image->nvtug = 1;
+                        $image->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
+                        $image->name = $filemanager->GetUniqueName();
+                        $image->size = $filemanager->GetFile("size");
+                        $image->type = $filemanager->GetFile("type");
+                        $image->description = $this->content;
+                        $image->save();
+                        $this->isvalid = true;
+                    }
+                }
+
+                $article->title = $this->title;
                 $article->slug = str_replace(" ", "-", $article->title);
-                $article->content = $validate->Required("content")->Post();
+                $this->isvalid == true ? $article->thumb=$image->id : $article->thumb = null;
+                $article->content = $this->content;
                 $article->save();
                 redirect($url->make("auth.admin.articles.home"));
             }

@@ -39,23 +39,16 @@
                           class="form-control tld-input">@isset($article){{$article->content}}@endisset</textarea>
                     </div>
 
-
-                    <div>
-                        Tick the following box if you wish to add images : <input type="checkbox" class="toggle_check"
-                                                                                  name="images" value="1">
-                        <div class="row toggled_content">
-                            @for($i=0;$i<5;$i++)
-                                <hr>
-                                <input type="file" class="form-control tld-input" name="upload[]" multiple>
-                                Description
-                                <hr>
-                                <textarea name="description" id="editor" cols="30" rows="10"
-                                          class="form-control tld-input">@isset($image){{$image->description}}@endisset</textarea>
-                                <hr>
-                            @endfor
+                    <div class="row">
+                        <div class="col-sm-12">
+                            Update thumbnail : <input type="checkbox" name="changethumb" value="1">
                         </div>
+                        <div class="col-sm-12">
+                            <input type="file" name="thumb">
+                        </div>
+                    </div>
                         <div class="form-group text-right">
-                            <button class="btn btn-primary">Update Page</button>
+                            <button class="btn btn-primary btn-block my-2">Update Page</button>
                         </div>
                 </form>
             </div>

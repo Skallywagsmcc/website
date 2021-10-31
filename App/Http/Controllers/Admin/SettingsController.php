@@ -99,8 +99,6 @@ class SettingsController
                 }
             }
         }
-
-
         echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "error" => $error, "user" => $user->first(), "settings" => $settings, "post" => $this]);
     }
 
