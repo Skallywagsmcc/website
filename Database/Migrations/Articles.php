@@ -16,7 +16,6 @@ class Articles
             $table->id();
             $table->string("entry_name");
             $table->integer("user_id");
-            $table->integer("thumb");
             $table->string("title");
             $table->string("slug");
             $table->longtext("content");

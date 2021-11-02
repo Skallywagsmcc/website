@@ -52,7 +52,7 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["url" => $url]);
     }
 
-    public function store(Url $url, Auth $auth, Csrf $csrf, Filemanager $filemanager,Validate $validate)
+    public function store(Url $url, Auth $auth, Csrf $csrf,Validate $validate)
     {
         $validate->AddRequired(["title","content"]);
         if ($csrf->Verify() == true) {
@@ -65,20 +65,6 @@ class ArticlesController
                 $rmf = $validate->is_required;
             }
             else {
-                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-                echo $this->content;
-                if ($filemanager->success == true) {
-                    $image = new Image();
-                    $image->user_id = $auth->id();
-                    $image->entry_name = "Images";
-                    $image->nvtug = 1;
-                    $image->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
-                    $image->name = $filemanager->GetUniqueName();
-                    $image->size = $filemanager->GetFile("size");
-                    $image->type = $filemanager->GetFile("type");
-                    $image->description = $this->content;
-                    $image->save();
-                }
                 $article = new Article();
                 $article->user_id = $auth->id();
                 $article->entry_name = "Articles";
