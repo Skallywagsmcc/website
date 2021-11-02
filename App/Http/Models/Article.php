@@ -15,15 +15,9 @@ class Article extends Controller
         return $this->belongsTo(User::class);
     }
 
-
-    public function images()
+    public function thumbnail()
     {
-        return $this->hasMany(Image::class,"entry_id","id");
-    }
-
-    public function image()
-    {
-        return $this->hasOne(Image::class,"enrtry_id","id");
+        return $this->hasOne(Image::class,"id","thumb");
     }
 
 

@@ -16,8 +16,8 @@ class Events
             $table->id();
             $table->string("entry_name");
             $table->foreignId('user_id');
-            $table->foreignid("thumbnail");
-            $table->foreignid("cover");
+            $table->foreignid("thumbnail")->nullable();
+            $table->foreignid("cover")->nullable();
             $table->string("title");
             $table->string("slug");
             $table->longtext("content");
