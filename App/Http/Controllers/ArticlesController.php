@@ -24,7 +24,7 @@ class ArticlesController
 
            $articles = Article::orderBy("created_at","desc");
            $count = $articles->count();
-           $pages = new LaravelPaginator('2','p');
+           $pages = new LaravelPaginator('5','page');
            $articles = $pages->paginate($articles);
            $links = $pages->page_links();
            $years = Article::selectRaw('year(created_at) year')
