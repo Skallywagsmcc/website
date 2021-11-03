@@ -14,10 +14,6 @@ class Articles
             $table->id();
             $table->string("entry_name");
             $table->integer("user_id");
-<<<<<<< HEAD
-=======
-            $table->integer("thumb")->nullable();
->>>>>>> 80ccd0fe3134e470ac1e969696bf9513f0d5c7cb
             $table->string("title");
             $table->string("slug");
             $table->longtext("content");
