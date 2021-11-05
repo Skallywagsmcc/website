@@ -23,7 +23,7 @@
                         <div class="col-sm-12 col-lg-4">
                             <div class="col-sm-12 head  px-0">{{$event->title}}</div>
                             <div class="col-sm-12 my-2 mx-0 p-0"><img class=" w-100" height="150px" src="/img/uploads/{{$event->image->name}}" alt="{{$event->title}}"></div>
-                            <div class="col-sm-12 text-center text-lg-right pr-lg-2"><a href="{{$url->make("events.view",["slug"=>$event->slug])}}" class="py-2">View Event</a></div>
+                            <div class="col-sm-12 text-center text-lg-right pr-lg-2 lb2 py-2"><a href="{{$url->make("events.view",["slug"=>$event->slug])}}" class="py-2 d-block d-lg-inline">View Event</a></div>
                         </div>
                     @endforeach
                 </div>
