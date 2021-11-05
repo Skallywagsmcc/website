@@ -51,7 +51,18 @@ class User extends Controller
         return $this->hasMany(Image::class);
     }
 
-
+    public function Fullname($user_id)
+    {
+        $settings = UserSettings::where("user_id",$user_id)->get()->first();
+        if($settings->display_full_name == 0)
+        {
+            return ucfirst($settings->user->username);
+        }
+        else
+        {
+            return ucfirst($settings->user->Profile->first_name) . " " .ucfirst($settings->user->Profile->last_name);
+        }
+    }
 
     public function PasswordRequests()
     {

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-12 text-right">
-        <a href="{{$url->make("homepage")}}">Cancel Login and back to make site</a>
+        <a href="{{$url->make("homepage")}}">Back to main Site</a>
     </div>
     <div class="logo_wrapper my-1 text-center col-sm-12">
         <img src="/img/logo.png" height="200px" width="200px" alt="">

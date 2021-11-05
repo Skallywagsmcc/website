@@ -33,13 +33,12 @@ class EventsController
 
     public function store(Url $url, Auth $auth, Validate $validate, Csrf $csrf, Filemanager $filemanager)
     {
-        error_reporting(4);
+        echo "its sorted";
         if($csrf->Verify() == true) {
-        $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("upload")->save(function () use ($filemanager, $validate, $auth, $url) {
+        $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("upload");
             if ($filemanager->success == true) {
                 $image = new Image();
                 $image->user_id = $auth->id();
-                $image->uid = $validate->uid();
                 $image->entry_name = "Images";
                 $image->nvtug = 1;
                 $image->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
@@ -48,7 +47,7 @@ class EventsController
                 $image->type = $filemanager->GetFile("type");
                 $image->description = $validate->Post("content");
                 $image->save();
-
+            }
                 $event = new Event();
                 $event->entry_name = "Events";
                 $event->user_id = $auth->id();
@@ -77,10 +76,9 @@ class EventsController
                 $event->map_url = $validate->Post("map_url");
                 $event->save();
                 redirect($url->make("auth.admin.events.home"));
-            } else {
+
                 echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "validate" => $validate, "values" => Validate::$values, "message" => $images->message]);
-            }
-        });
+
 
 
         }
@@ -95,8 +93,7 @@ class EventsController
         echo TemplateEngine::View("Pages.Backend.Events.edit", ["event" => $event, "esl" => $esl, "eel" => $eel, "url" => $url]);
     }
 
-    public function update(Validate $validate, Auth $auth, Url $url, Csr
-    f $csrf, Filemanager $filemanager)
+    public function update(Validate $validate, Auth $auth, Url $url, Csrf $csrf, Filemanager $filemanager)
     {
         if ($csrf->Verify() == true) {
 

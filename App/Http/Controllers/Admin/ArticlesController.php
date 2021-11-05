@@ -69,23 +69,9 @@ class ArticlesController
                 $rmf = $validate->is_required;
             }
             else {
-                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-                if ($filemanager->success == true) {
-                    $image = new Image();
-                    $image->user_id = $auth->id();
-                    $image->entry_name = "Images";
-                    $image->nvtug = 1;
-                    $image->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
-                    $image->name = $filemanager->GetUniqueName();
-                    $image->size = $filemanager->GetFile("size");
-                    $image->type = $filemanager->GetFile("type");
-                    $image->description = $this->content;
-                    $image->save();
-                }
                 $article = new Article();
                 $article->user_id = $auth->id();
                 $article->entry_name = "Articles";
-                $article->thumb = $image->id;
                 $article->title = $this->title;
                 $article->slug = str_replace(" ", "-", $this->title);
                 $article->content = $this->content;
@@ -139,31 +125,8 @@ class ArticlesController
            }
             else
             {
-                if($this->changethumb == 1) {
-                    $images = Image::where("id",$article->thumb);
-                        $image = $images->get()->first();
-                     unlink($_SERVER['DOCUMENT_ROOT'] . "/img/uploads/".$image->name);
-                     $images->delete();
-
-                    $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-                    if ($filemanager->success == true) {
-                        $image = new Image();
-                        $image->user_id = $auth->id();
-                        $image->entry_name = "Images";
-                        $image->nvtug = 1;
-                        $image->title = "Article Thumnail : " . str_replace(" ", "-", $this->title);
-                        $image->name = $filemanager->GetUniqueName();
-                        $image->size = $filemanager->GetFile("size");
-                        $image->type = $filemanager->GetFile("type");
-                        $image->description = $this->content;
-                        $image->save();
-                        $this->isvalid = true;
-                    }
-                }
-
                 $article->title = $this->title;
                 $article->slug = str_replace(" ", "-", $article->title);
-                $this->isvalid == true ? $article->thumb=$image->id : $article->thumb = null;
                 $article->content = $this->content;
                 $article->save();
                 redirect($url->make("auth.admin.articles.home"));
@@ -185,5 +148,4 @@ class ArticlesController
     }
 
 
->>>>>>> 80ccd0fe3134e470ac1e969696bf9513f0d5c7cb
 }
