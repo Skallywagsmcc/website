@@ -71,6 +71,7 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
 
     $router->group(["prefix" => "/events"], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\EventsController::class, 'index'], "events.home");
+        $router->get("/search", [\App\Http\Controllers\EventsController::class, 'search'], "events.search");
         $router->get("/view/{slug}", [\App\Http\Controllers\EventsController::class, 'show'], "events.view");
         $router->get("/view/year/{year}", [\App\Http\Controllers\EventsController::class, 'view'], "events.view.year");
     });

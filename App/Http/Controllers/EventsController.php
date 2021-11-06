@@ -8,6 +8,7 @@ use App\Http\Functions\TemplateEngine;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Event;
 use App\Libraries\LikesManager\LikeManager;
+use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
 class EventsController
@@ -50,5 +51,13 @@ class EventsController
         $events = $paginate->paginate($events);
         $links = $paginate->page_links();
         echo TemplateEngine::View("Pages.Frontend.Events.year",["url"=>$url,"events"=>$events,"links"=>$links,"contributers"=>$contributers,"years"=>$years]);
+    }
+
+    public function search(Url $url, ServerRequest $request)
+    {
+       $meetup = $request->getQueryParams()['meetup'];
+       $destination = $request->getQueryParams()['destination'];
+
+     echo  Event::where("esl","LIKE","%$meetup%")->where("eel","LIKE","%$destination%")->get()->count();
     }
 }
