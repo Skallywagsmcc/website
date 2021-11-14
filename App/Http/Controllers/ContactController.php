@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
+use App\Http\Models\Address;
 use App\Http\Models\SiteSettings;
 use MiladRahimi\PhpRouter\Url;
 use PHPMailer\PHPMailer\Exception;
@@ -72,7 +73,8 @@ class ContactController
         $sum1 = rand(1, 50);
         $sum2 = rand(1, 50);
         $settings = $this->SiteSettings()->first();
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2, "requests" => $this]);
+        $address = Address::where("contactus",1)->get();
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2, "requests" => $this,"address"=>$address]);
     }
 
     public function store(Url $url, Validate $validate)

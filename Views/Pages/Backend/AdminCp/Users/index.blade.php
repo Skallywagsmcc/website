@@ -65,7 +65,7 @@
                                     @endif
                                 </div>
                                 <div class="col-sm-12 px-0  my-2 py-2 text-center">
-                                    <a href="{{$url->make("auth.admin.users.edit",["id"=>base64_encode($user->id),"username"=>base64_encode($user->username)])}}"
+                                    <a href="{{$url->make("auth.admin.users.edit",["id"=>base64_encode($user->id)])}}"
                                        class="d-block">Manage {{$user->username}}</a>
                                 </div>
                             </div>

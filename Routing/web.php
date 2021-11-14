@@ -8,6 +8,7 @@ use App\Http\Controllers\Account\Security\EmailController;
 use App\Http\Controllers\Account\Security\PasswordController;
 use App\Http\Controllers\Account\Security\TfaController;
 use App\Http\Controllers\Account\SettingsController;
+use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\ArticlesController as AdminArticles;
 use App\Http\Controllers\Admin\ChartersController;
 use App\Http\Controllers\Admin\EventsController;
@@ -18,12 +19,15 @@ use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Frontend\TwoFactorAuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InstallerController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Members;
 use App\Http\Controllers\Profile\GalleryController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Libraries\SqlInstaller\Base;
 use App\Http\Middleware;
+use App\Http\Models\SiteSettings;
 use MiladRahimi\PhpRouter\Exceptions\RouteNotFoundException;
 use MiladRahimi\PhpRouter\Router;
 
@@ -34,8 +38,7 @@ $router = Router::create();
 //Frontend
 $router->get("/sql/install", [Base::class, 'index']);
 
-$router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class]],function (Router $router)
-{
+$router->group(["prefix" => "", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
     $router->get("/contact-us", [ContactController::class, 'index'], "contact-us");
     $router->post("/contact-us", [ContactController::class, 'store'], "contact-store");
     $router->get("/contact-us/thank-you", [ContactController::class, 'sent'], "contact-sent");
@@ -51,7 +54,7 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
         $router->get("/?", [Members::class, "index"], "members.home");
     });
 
-    $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\Installer::class,Middleware\UserLogin::class]], function (Router $router) {
+    $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\Installer::class, Middleware\UserLogin::class]], function (Router $router) {
         $router->get("/?", [TwoFactorAuthController::class, "index"], "tfa.index");
         $router->post("/request", [TwoFactorAuthController::class, "create"], "tfa.get");
         $router->get("/request/user/{id}/token/{hex}", [TwoFactorAuthController::class, "show"], "tfa.retrieve");
@@ -98,26 +101,23 @@ $router->group(["prefix"=>"","middleware"=>[Middleware\Installer::class,Middlewa
 });
 
 //Authenitcation
-$router->group(["prefix" => "/auth","middleware"=>[Middleware\Installer::class]], function (Router $router) {
+$router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::class]], function (Router $router) {
 
 //    Must be available for login of administators
     $router->get("/?", [LoginController::class, 'index'], "login");
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login/success", [LoginController::class, 'store'], "login.store");
-    $router->get("/register",[\App\Http\Controllers\RegisterController::class,'index'],"register");
-    $router->post("/register/store",[\App\Http\Controllers\RegisterController::class,'store'],"register.store");
+    $router->get("/register", [RegisterController::class, 'index'], "register");
+    $router->post("/register/store", [RegisterController::class, 'store'], "register.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
-    $router->group(["prefix"=>"/tfa","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class]],function (Router $router)
-    {
-        $router->get("/?",function ()
-        {
+    $router->group(["prefix" => "/tfa", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
+        $router->get("/?", function () {
             echo "hello";
-        },"tfa.home");
+        }, "tfa.home");
     });
 
-    $router->group(["prefix"=>"/reset-password","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class]],function (Router $router)
-    {
+    $router->group(["prefix" => "/reset-password", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\PasswordController::class, "index"], "password-reset.index");
         $router->post("/request", [\App\Http\Controllers\PasswordController::class, "request"], "password-reset.request");
         $router->get("/retrieve/{id}/{hex}", [\App\Http\Controllers\PasswordController::class, "retrieve"], "password-reset.retrieve");
@@ -130,7 +130,7 @@ $router->group(["prefix" => "/auth","middleware"=>[Middleware\Installer::class]]
 //Api Requests go here
 
 //Admin
-$router->group(["prefix" => "/Control/Administrator","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\AdminLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/Control/Administrator", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\AdminLogin::class]], function (Router $router) {
 //    Events manager controlled by Admins
     $router->group(["prefix" => "/events"], function (Router $router) {
         $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
@@ -138,17 +138,27 @@ $router->group(["prefix" => "/Control/Administrator","middleware"=>[Middleware\I
         $router->post("/store", [EventsController::class, "store"], "auth.admin.events.store");
         $router->get("/edit/{id}", [EventsController::class, "edit"], "auth.admin.events.edit");
         $router->post("/update", [EventsController::class, "update"], "auth.admin.events.update");
-        $router->post("/delete",[EventsController::class,"delete"],"auth.admin.events.delete");
+        $router->post("/delete", [EventsController::class, "delete"], "auth.admin.events.delete");
 
     });
 
-/*User manager Controlled By Admins*/
+    /*User manager Controlled By Admins*/
     $router->group(["prefix" => "/images"], function (Router $router) {
         $router->get("/?", [ImageController::class, "index"], "auth.admin.images.home");
         $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
         $router->get("/view/{username}/{id}", [ImageController::class, "view"], "admin.images.manage");
         $router->get("/search", [ImageController::class, "search"], "auth.admin.images.search");
         $router->get("/view/delete/{user_id}/{id}", [ImageController::class, "delete"], "auth.admin.images.delete");
+    });
+
+    $router->group(["prefix" => "/addresses"], function (Router $router) {
+        $router->get("/?", [AddressController::class, "index"], "auth.admin.addresses.home");
+        $router->get("/new", [AddressController::class, "create"], "auth.admin.addresses.new");
+        $router->get("/view/{id}", [AddressController::class, "show"], "auth.admin.addresses.view");
+        $router->get("/edit/{id}", [AddressController::class, "edit"], "auth.admin.addresses.edit");
+        $router->post("/new", [AddressController::class, "store"], "auth.admin.addresses.store");
+        $router->post("/edit/{id}", [AddressController::class, "update"], "auth.admin.addresses.update");
+        $router->get("/delete/{id}", [AddressController::class, "delete"], "auth.admin.addresses.delete");
     });
 
 //    Featured Images Controlled by Admins
@@ -163,16 +173,16 @@ $router->group(["prefix" => "/Control/Administrator","middleware"=>[Middleware\I
     $router->get("/settings", [\App\Http\Controllers\Admin\SettingsController::class, "index"], "auth.admin.settings.home");
     $router->post("/settings/save", [\App\Http\Controllers\Admin\SettingsController::class, "store"], "auth.admin.settings.store");
 //    Database installer
-    $router->get("/settings/database",[\App\Http\Controllers\Admin\SettingsController::class,'dbinstall_index'],"auth.admin.settings.database.home");
-    $router->post("/settings/database",[\App\Http\Controllers\Admin\SettingsController::class,'dbinstall_store'],"auth.admin.settings.database.store");
+    $router->get("/settings/database", [\App\Http\Controllers\Admin\SettingsController::class, 'dbinstall_index'], "auth.admin.settings.database.home");
+    $router->post("/settings/database", [\App\Http\Controllers\Admin\SettingsController::class, 'dbinstall_store'], "auth.admin.settings.database.store");
 
     //    Users Images Controlled by Admins
     $router->group(["prefix" => "/users"], function (Router $router) {
         $router->get("/?", [UsersController::class, "index"], "auth.admin.users.home");
         $router->get("/new", [UsersController::class, "create"], "auth.admin.users.new");
-        $router->get("/edit/{id}/{username}", [UsersController::class, "edit"], "auth.admin.users.edit");
+        $router->get("/edit/{id}", [UsersController::class, "edit"], "auth.admin.users.edit");
         $router->post("/store", [UsersController::class, "store"], "auth.admin.users.store");
-        $router->post("/update", [UsersController::class, "update"], "auth.admin.users.update");
+        $router->post("/edit/{id}", [UsersController::class, "update"], "auth.admin.users.update");
         $router->get("/search", [UsersController::class, "search"], "auth.admin.users.search");
     });
 
@@ -192,7 +202,7 @@ $router->group(["prefix" => "/Control/Administrator","middleware"=>[Middleware\I
     $router->group(["prefix" => "/charters"], function (Router $router) {
         $router->get("/?", [ChartersController::class, 'index'], "auth.admin.charters.home");
         $router->get("/view/{id}", [ChartersController::class, 'view'], "auth.admin.charters.view");
-        $router->post("/default/store",[ChartersController::class,'SetDefault'],'auth.admin.charters.default');
+        $router->post("/default/store", [ChartersController::class, 'SetDefault'], 'auth.admin.charters.default');
         $router->get("/new", [ChartersController::class, 'create'], "auth.admin.charters.create");
         $router->post("/create/save", [ChartersController::class, 'store'], "auth.admin.charters.store");
         $router->get("/edit/{id}", [ChartersController::class, 'edit'], "auth.admin.charters.edit");
@@ -205,7 +215,7 @@ $router->group(["prefix" => "/Control/Administrator","middleware"=>[Middleware\I
 });
 
 //Account
-$router->group(["prefix" => "/My-Account","middleware"=>[Middleware\Installer::class,Middleware\ServiceMode::class,Middleware\UserLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/My-Account", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\UserLogin::class]], function (Router $router) {
 
     $router->group(["prefix" => "/account"], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "account.home");
@@ -245,27 +255,25 @@ $router->group(["prefix" => "/My-Account","middleware"=>[Middleware\Installer::c
         $router->get("/featured/requests/delete/{id}", [FeatueredImageController::class, "delete"], "images.featured.delete");
     });
 
-    $router->group(["prefix"=>"/settings"],function (Router $router){
-       $router->get("/?",\App\Http\Models\SiteSettings::class,"index","auth.admin.settings.home");
-       $router->post("/store",\App\Http\Models\SiteSettings::class,"index","auth.admin.settings.store");
+    $router->group(["prefix" => "/settings"], function (Router $router) {
+        $router->get("/?", SiteSettings::class, "index", "auth.admin.settings.home");
+        $router->post("/store", SiteSettings::class, "index", "auth.admin.settings.store");
     });
 //    Load Base Page
-    $router->get("/?",  [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "backend.home");
+    $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "backend.home");
     $router->get("/whats-new", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.whatsnew");
     $router->get("/activity", [\App\Http\Controllers\Backend\Homecontroller::class, "index"], "backend.activity");
 });
 
 
-$router->group(["prefix"=>"/install"],function(Router $router)
-{
-    $router->get("/?",[\App\Http\Controllers\InstallerController::class,"index"],"installer.home");
+$router->group(["prefix" => "/install"], function (Router $router) {
+    $router->get("/?", [InstallerController::class, "index"], "installer.home");
 
 
-    $router->group(["prefix"=>"/{key}"],function(Router $router)
-    {
-        $router->post("/?",[\App\Http\Controllers\InstallerController::class,"termsstore"],"installer.terms.store");
-        $router->get("/profile",[\App\Http\Controllers\InstallerController::class,"profile"],'installer.profile.home');
-        $router->post("/profile/save",[\App\Http\Controllers\InstallerController::class,"profilestore"],'installer.profile.store');
+    $router->group(["prefix" => "/{key}"], function (Router $router) {
+        $router->post("/?", [InstallerController::class, "termsstore"], "installer.terms.store");
+        $router->get("/profile", [InstallerController::class, "profile"], 'installer.profile.home');
+        $router->post("/profile/save", [InstallerController::class, "profilestore"], 'installer.profile.store');
     });
 
 });

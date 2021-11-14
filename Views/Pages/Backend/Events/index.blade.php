@@ -8,10 +8,13 @@
 @section("content")
 
 
-    @isset($message)
+
+    @isset($error)
         <div class="container my-2">
             <div class="row box">
+                @foreach($error as $message)
                 <div class="col sm-12 p-2 text-center">{{$message}}</div>
+                @endforeach
             </div>
         </div>
     @endisset

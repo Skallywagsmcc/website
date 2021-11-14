@@ -28,7 +28,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 box text-center py-2 my-2 text-md-right pr-md-2">
+            <div class="col-sm-12 box text-center py-2 my-2 text-md-right pr-lg-2">
                 <a href="{{$url->make("auth.admin.articles.new")}}">Create an Article</a>
             </div>
         </div>

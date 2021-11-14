@@ -6,20 +6,45 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
-use App\Http\Libraries\Authentication\Authenticate;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\Image;
-use App\Http\Models\Member;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
 use Laminas\Diactoros\ServerRequest;
+use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
 
 class UsersController
 {
+
+    public $id;
+    public $email;
+    public $username;
+    public $first_name;
+    public $last_name;
+    public $password;
+    public $admin_password;
+    public $confirm_password;
+    public $is_crew;
+    public $is_admin;
+    public $required;
+
+    public function __construct(Validate $validate)
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") $this->id = $validate->Post("id");
+        $this->email = $validate->Post("email");
+        $this->username = $validate->Post("username");
+        $this->first_name = $validate->Post("first_name");
+        $this->last_name = $validate->Post("last_name");
+        $this->password = $validate->Post("password");
+        $this->admin_password = $validate->Post("admin_password");
+        $this->confirm_password = $validate->Post("confirm");
+        $this->is_crew = $validate->Post("is_crew");
+        $this->is_admin = $validate->Post("is_admin");
+
+    }
 
     public function index(Url $url)
     {
@@ -34,51 +59,49 @@ class UsersController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["users" => $users, "url" => $url]);
     }
 
-    public function store(Url $url, Csrf $csrf, Validate $validate)
+    public function store(Url $url, Csrf $csrf, Validate $validate,Auth $auth)
     {
         if ($csrf->Verify() == true) {
             $user = new User();
-            $user->email = $validate->Required("email")->Post();
-            $user->username = $validate->Required("username")->Post();
-            $user->first_name = $validate->Required("first_name")->Post();
-            $user->last_name = $validate->Required("last_name")->Post();
 //            if ($validate->Post("randompw") == 1) {
 //                $user->password = bin2hex(random_bytes(6));
-//            } else {
-//            Password is required Disabled Random Password for time  being to allow site functionality
-//            No email has been setup to be sent out.
-            $user->password = $validate->Required("password")->Post();
-            $validate->HasStrongPassword($user->password);
 //            }
 
-            if (User::where("username", $user->username)->get()->count() == 1) {
+            if (User::where("username", $this->username)->get()->count() == 1) {
                 $error = "that username is already taken";
-            } elseif (User::where("email", $user->email)->get()->count() == 1) {
+            } elseif (User::where("email", $this->email)->get()->count() == 1) {
                 $error = "That Email Address is already Taken";
-            }
-            elseif((empty($validate->Post("password"))) || (empty($validate->Post("confirm-password"))) ){
+            } elseif ((empty($this->password)) || (empty($this->confirm_password))) {
                 $error = "password or password confirmation cannot be empty";
-                }
-            elseif($validate->Post("password") != $validate->Post("confirm-password")) {
+            } elseif
+            ($this->password != $this->confirm_password) {
                 $error = "Passwords do not match";
-            }
-            else {
-                if ($validate::Array_Count(Validate::$values) == false) {
+            } else {
+                $validate->AddRequired(["email", "username", "first_name", "last_name", "password", "confirm"]);
+                if ($validate->Allowed() == false) {
                     $error = "invalid field";
+                    $required = $validate->is_required;
                 } else {
-                    if ($validate::$ValidPassword == true) {
-
+                    if ($validate->HasStrongPassword($this->password) == false) {
+                        $error = "Password Strengh Does not meet our Requirments";
+                    }
+                    elseif(!$auth->RequirePassword($this->admin_password))
+                    {
+                        $error = "Your User Password does not match the record";
+                    }
+                    else {
                         $users = new User();
-                        $users->username = $validate->Post("username");
-                        $users->email = $validate->Post("email");
-                        $users->password = password_hash($validate->Post("password"), PASSWORD_DEFAULT);
+                        $users->username = $this->username;
+                        $users->email = $this->email;
+                        $user->is_admin = $this->is_admin;
+                        $users->password = password_hash($this->password, PASSWORD_DEFAULT);
                         $users->save();
 
-                        $user->username = $validate->Post("username");
                         $profile = new Profile();
                         $profile->user_id = $users->id;
-                        $profile->first_name = $user->first_name;
-                        $profile->last_name = $user->last_name;
+                        $profile->is_crew = $this->is_crew;
+                        $profile->first_name = $this->first_name;
+                        $profile->last_name = $this->last_name;
                         $profile->save();
 
                         $settings = new UserSettings();
@@ -89,21 +112,13 @@ class UsersController
                         $settings->display_dob = 1;
                         $settings->display_email = 1;
                         $settings->save();
-
-                        if ($validate->Post("make_member") == 1) {
-//                    Will check if the member does not exist and will create a new one;
-                            $member = new Member();
-                            $member->user_id = $users->id;
-                            $member->save();
-                        } else {
-                        }
                         redirect($url->make("auth.admin.users.home"));
                     }
                 }
             }
         }
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $error, "values" => Validate::$values, "validpw" => $validate::$ShowRequirments]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $error, "required" => $required, "post" => $this]);
 
     }
 
@@ -124,11 +139,10 @@ class UsersController
 
     }
 
-    public function edit($id, $username, Url $url)
+    public function edit($id, Url $url)
     {
         $id = base64_decode($id);
-        $username = base64_decode($username);
-        $user = User::withCount("settings")->where("id", $id)->where("username", $username)->get();
+        $user = User::where("id", $id)->get();
 
         if ($user->count() == 1) {
             echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["user" => $user->first(), "url" => $url]);
@@ -139,26 +153,42 @@ class UsersController
 
     }
 
-    public function update(Url $url, Csrf $csrf, Validate $validate)
+    public function update($id, Url $url, Csrf $csrf, Validate $validate, Auth $auth)
     {
-        echo "hello";
 //Get validation
-
         if ($csrf->Verify() == true) {
-            $validate = new Validate();
-            $id = $validate->Post("id");
-            $user = User::find($validate->Post("id"));
-            $user->email = $validate->Required("email")->Post();
-            $user->is_admin = $validate->Post("is_admin");
-            $user->save();
-//
-            $profile = Profile::find($user->id);
-            $profile->is_crew = $validate->Post("is_crew");
-            $profile->first_name = $validate->Required("first_name")->Post();
-            $profile->last_name = $validate->Required("last_name")->Post();
-            $profile->save();
+            $id = base64_decode($id);
+            $user = User::where("id", $id)->get();
+            if ($user->count() == 1) {
+                $user = $user->first();
+                $validate->AddRequired(["username", "email", "first_name", "last_name"]);
 
-            redirect($url->make("auth.admin.users.home"));
+                if ($validate->Allowed() == false) {
+                    $error = "Some Missing fields are required";
+                    $required = $validate->is_required;
+                } else {
+                    if(!$auth->RequirePassword($this->admin_password))
+                    {
+                        $error = "Your User Password does not match the record";
+                    }
+                   else {
+                        $user->username = $this->username;
+                        $user->email = $this->email;
+                        $user->is_admin = $this->is_admin;
+                        $user->save();
+//
+                        $profile = Profile::find($user->id);
+                        $profile->is_crew = $this->is_crew;
+                        $profile->first_name = $this->first_name;
+                        $profile->last_name = $this->last_name;
+                        $profile->save();
+                        redirect($url->make("auth.admin.users.home"));
+                    }
+                }
+                echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["user" => $user, "url" => $url, "post" => $this, "error" => $error, "required" => $required]);
+                exit();
+            }
+
         }
 
     }

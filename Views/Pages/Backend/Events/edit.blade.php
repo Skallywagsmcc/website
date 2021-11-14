@@ -51,7 +51,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="file_box">
-                        <input type="file" class="file d-none" name="upload">
+                        <input type="file" class="file d-none" name="thumb">
                         <div class="file_value"></div>
                         <input type="checkbox" id="update_thumb" class="d-none" name="update_thumb" value="1">
                         <a href="#" class="addfile">Update Thumbnail</a>
@@ -147,91 +147,38 @@
 
 
             <div class="container my-2 px-0 block">
-                <div class="row box px-0 my-2">
-                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Start Location Details
-                    </div>
-                </div>
-                <div class="row box px-0">
-                    <div class="col-sm-12 p-2">
-                        <div class="form-group">
-                            <label for="name">Building Name or number</label>
-                            <input type="text" name="esl_name" class="form-control tld-input"
-                                   value="{{$esl[0]}}">
-                        </div>
+                <div class="container my-2">
+                    @if($addresses->count() == 0)
+                        No Addresses added for events : <a href="{{$url->make("auth.admin.addresses.home")}}">Manage
+                            Addresses</a>
+                    @else
+                        <div class="row box">
+                            <div class="col-sm-12 col-lg-6 pr-lg-2 px-0">
+                                <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Meet up Point</div>
+                                <div class="col-sm-12 p-2 ">
+                                    <select name="meet_id" id="" class="form-control">
+                                        <option value="0">Make a Selection</option>
+                                        @foreach($addresses as $address)
+                                            <option value="{{$address->id}}">{{$address->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="street">Street name</label>
-                                <input type="text" name="esl_street" class="form-control tld-input"
-                                       value="{{$esl[1]}}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="city">City</label>
-                                <input type="text" name="esl_city" class="form-control tld-input" t
-                                       value="{{$esl[2]}}">
-                            </div>
-                        </div>
+                            <div class="col-sm-12 col-lg-6 px-0 pl-lg-2">
+                                <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Destination</div>
+                                <div class="col-sm-12 p-2">
 
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="county">County</label>
-                                <input type="text" name="esl_county" class="form-control tld-input"" value="{{$esl[3]}}
-                                ">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="postcode">Postcode</label>
-                                <input type="text" name="esl_postcode" class="form-control tld-input""
-                                value="{{$esl[4]}}">
+                                    <select name="dest_id" id="" class="form-control">
+                                        <option value="0">Make a Selection</option>
+                                        @foreach($addresses as $address)
+                                            <option value="{{$address->id}}">{{$address->title}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row box my-2">
-                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
-                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
-                </div>
-            </div>
-
-
-            <div class="container my-2 px-0 block">
-                <div class="row box px-0 my-2">
-                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update End Location Details
-                    </div>
-                </div>
-                <div class="row box px-0">
-                    <div class="col-sm-12 p-2">
-                        <div class="form-group">
-                            <label for="name">Building Name or number</label>
-                            <input type="text" name="eel_name" class="form-control tld-input"
-                                   value="{{$esl[0]}}">
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="street">Street name</label>
-                                <input type="text" name="eel_street" class="form-control tld-input"
-                                       value="{{$eel[1]}}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="city">City</label>
-                                <input type="text" name="eel_city" class="form-control tld-input" t
-                                       value="{{$eel[2]}}">
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="county">County</label>
-                                <input type="text" name="eel_county" class="form-control tld-input""
-                                value="{{$eel[3]}}">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="postcode">Postcode</label>
-                                <input type="text" name="eel_postcode" class="form-control tld-input""
-                                value="{{$eel[4]}}">
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
                 <div class="row box my-2">
                     <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>

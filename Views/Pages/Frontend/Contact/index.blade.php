@@ -112,11 +112,11 @@
                                 @if(!empty($requests->settings->first()->contact_telephone))
                                     0{{$requests->settings->first()->contact_telephone}}
                                 @else
-                                   Not Provided
+                                    Not Provided
                                 @endif
                             </div>
 
-                        <div class="col-sm-12 head">Email Address</div>
+                            <div class="col-sm-12 head">Email Address</div>
                             <div class="col-sm-12 text-center">
                                 Email Address :
                                 @if(!empty($requests->settings->first()->contact_email))
@@ -125,39 +125,29 @@
                                     No Email Added
                                 @endif
                             </div>
-                            <div class="col-sm-12">
-                                <div class="row">
-                                    <div class="col-sm-12 head">Club Address</div>
-                                    @if(!empty($requests->settings->first()->contact_address))
-                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[0]!!} {!!$requests->address[1]!!}
-                                            ,
-                                        </div>
-                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[2]!!} </div>
-                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[3]!!}
-                                            ,
-                                        </div>
-                                        <div class="col-sm-12 mx-0 pl-lg-2 text-center text-lg-left">{!!$requests->address[4]!!}
-                                            ,
-                                        </div>
-                                    @else
-                                      No Address Added
-                                    @endif
-                                    @if(!empty($requests->settings->first()->contact_address))
-                                    <div class="row mx-0">
-                                        <div class="col-sm-12 head">More Resources</div>
-
-                                        <a href="https://www.google.co.uk/maps/search/{{$requests->address[0]}}+{{$requests->address['1']}}+{{$requests->address[2]}}+{{$requests->address[4]}}"
-                                           target="_new">Find us on google maps</a>
-
-                                    </div>
-                                    @endif
-                                </div>
-
-                                @endisset
-                            </div>
+                        @endisset
                     </div>
                 </div>
             </div>
         @endif
+
+
+        <div class="container my-2">
+            <div class="row">
+                @foreach($address as $address)
+                    <div class="col-sm-12 col-lg-4 my-2">
+                        <div class="col-sm-12 head">{{$address->title}}</div>
+                        <div class="col-sm-12 py-2 text-left pl-2">{{$address->name}}</div>
+                        <div class="col-sm-12 py-2 text-left pl-2">{{$address->street}}</div>
+                        @if(!empty($address->street_2))
+                            <div class="col-sm-12 py-2 text-left pl-2">{{$address->street_2}}</div>
+                        @endif
+                        <div class="col-sm-12 py-2 text-left pl-2">{{$address->city}}</div>
+                        <div class="col-sm-12 py-2 text-left pl-2">{{$address->county}}</div>
+                        <div class="col-sm-12 py-2 text-left pl-2">{{$address->postcode}}</div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     @endisset
 @endsection

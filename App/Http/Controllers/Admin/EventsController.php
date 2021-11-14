@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\Models\Address;
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Event;
@@ -15,6 +16,26 @@ use MiladRahimi\PhpRouter\Url;
 
 class EventsController
 {
+
+    public $thumbnail;
+    public $error;
+    public $cover;
+
+//    Post methods
+
+    public $title;
+    public $description;
+    public $upload_thumb;
+
+    public function __construct(Validate $validate)
+    {
+        $this->cover = true;
+//        todo rewrite variables
+        $this->error = [];
+
+        $this->title = $validate->Post("title");
+        $this->description = $validate->Post("content");
+    }
 
     public function index(Url $url, $message = null)
     {
@@ -28,69 +49,95 @@ class EventsController
 
     public function create(Url $url)
     {
-        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url]);
+        $addresses = Address::all();
+        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses]);
     }
 
     public function store(Url $url, Auth $auth, Validate $validate, Csrf $csrf, Filemanager $filemanager)
     {
-        echo "its sorted";
-        if($csrf->Verify() == true) {
-        $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("upload");
+        $addresses = Address::all();
+        if ($csrf->Verify() == true) {
+//            Do a verification
+            $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
             if ($filemanager->success == true) {
-                $image = new Image();
-                $image->user_id = $auth->id();
-                $image->entry_name = "Images";
-                $image->nvtug = 1;
-                $image->title = "Event Thumnail : " . str_replace(" ", "-", $validate->Required("title")->Post());
-                $image->name = $filemanager->GetUniqueName();
-                $image->size = $filemanager->GetFile("size");
-                $image->type = $filemanager->GetFile("type");
-                $image->description = $validate->Post("content");
-                $image->save();
+                if ($filemanager->GetFile("error") != 4) {
+                    $image = new Image();
+                    $image->user_id = $auth->id();
+                    $image->entry_name = "Images";
+                    $image->nvtug = 1;
+                    $image->title = "Event Thumnail : " . str_replace(" ", "-", $this->title);
+                    $image->name = $filemanager->GetUniqueName();
+                    $image->size = $filemanager->GetFile("size");
+                    $image->type = $filemanager->GetFile("type");
+                    $image->description = $this->description;
+                    $this->thumbnail = true;
+                }
             }
+
+
+            $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
+            if ($filemanager->success == true) {
+                $cover = new Image();
+                $cover->user_id = $auth->id();
+                $cover->entry_name = "Images";
+                $cover->nvtug = 1;
+                $cover->title = "Event Thumnail : " . str_replace(" ", "-", $this->title);
+                $cover->name = $filemanager->GetUniqueName();
+                $cover->size = $filemanager->GetFile("size");
+                $cover->type = $filemanager->GetFile("type");
+                $cover->description = $this->description;
+                $this->cover = 1;
+            }
+            $this->Error($this->thumbnail, "ThumbNail Image is empty and required");
+            $this->Error($this->cover, "Cover image cannot be left empty");
+            if ($this->thumbnail == true) {
+//                    Save fields
+                $image->save();
+                $cover->save();
+
+
                 $event = new Event();
                 $event->entry_name = "Events";
                 $event->user_id = $auth->id();
-                $event->title = ucwords($validate->Required("title")->Post());
+                $event->title = ucwords($this->title);
                 $event->thumbnail = $image->id;
+                $event->cover = $cover->id;
                 $event->slug = slug($event->title . '-' . microtime());
-                $event->content = $validate->Post("content");
+                $event->content = $this->description;
 
                 $event->start_at = $validate->Required("start")->Post();
                 $event->end_at = $validate->Required("end")->Post();
-
-//                Event Start Location
-                $event->esl = trim($validate->Required("esl_name")->Post() . ",");
-                $event->esl .= trim($validate->Required("esl_street")->Post() . ",");
-                $event->esl .= trim($validate->Required("esl_city")->Post() . ",");
-                $event->esl .= trim($validate->Required("esl_county")->Post() . ",");
-                $event->esl .= trim($validate->Required("esl_postcode")->Post() . ",");
-
-//                Event end Location
-                $event->eel = trim($validate->Required("eel_name")->Post() . ",");
-                $event->eel .= trim($validate->Required("eel_street")->Post() . ",");
-                $event->eel .= trim($validate->Required("eel_city")->Post() . ",");
-                $event->eel .= trim($validate->Required("eel_county")->Post() . ",");
-                $event->eel .= trim($validate->Required("eel_postcode")->Post() . ",");
-
+//                Meet_id;
+                $event->meet_id = $validate->Post("meet_id");
+//            Dest_id
+                $event->dest_id = $validate->Post("dest_id");
                 $event->map_url = $validate->Post("map_url");
                 $event->save();
                 redirect($url->make("auth.admin.events.home"));
+            }
 
-                echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "validate" => $validate, "values" => Validate::$values, "message" => $images->message]);
 
+//                End else verify
+            echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "validate" => $validate, "values" => Validate::$values, "addresses" => $addresses, "error" => $this->error]);
 
 
         }
     }
 
+    public function Error($property, $string)
+    {
+        if ($property == false) {
+            return $this->error[] = $string;
+        }
+    }
+
     public function edit(Url $url, $id, Validate $validate)
     {
+        echo UPLOAD_DIR;
         $id = base64_decode($id);
         $event = Event::find($id);
-        $esl = explode(",", $event->esl);
-        $eel = explode(",", $event->eel);
-        echo TemplateEngine::View("Pages.Backend.Events.edit", ["event" => $event, "esl" => $esl, "eel" => $eel, "url" => $url]);
+        $addresses = Address::all();
+        echo TemplateEngine::View("Pages.Backend.Events.edit", ["event" => $event, "url" => $url, "addresses" => $addresses]);
     }
 
     public function update(Validate $validate, Auth $auth, Url $url, Csrf $csrf, Filemanager $filemanager)
@@ -100,65 +147,85 @@ class EventsController
             $id = $validate->Post("id");
             $event = Event::where("id", $id)->get()->first();
 
-            if($validate->Post("update_thumb") == 1)
-            {
-            $filemanager->validformat(["jpg","png"])->ChangeRoot(UPLOAD_DIR)->AddDir("/")->upload("upload");
+            if ($validate->Post("update_thumb") == 1) {
+                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
 
                 if ($filemanager->success == true) {
 //            destroy the current image
-                    if($event->image()->count() == 1)
-                    {
+                    if ($event->image()->count() == 1) {
                         Image::destroy($event->image->id);
 //            Unlink the file
-                        unlink(UPLOAD_DIR . $event->image->name);
+                        unlink(UPLOAD_DIR . "/" . $event->image->name);
                     }
 
 //            instantiate a new image
-                    $image = new Image();
-                    $image->user_id = $auth->id();
-                    $image->entry_name = "Images";
-                    $image->nvtug = 1;
-                    $image->title = "Event Thumnail : " . str_replace(" ", "-", $event->title);
-                    $image->name = $filemanager->GetUniqueName();
-                    $image->size = $filemanager->GetFile("size");
-                    $image->type = $filemanager->GetFile("type");
-                    $image->description = "Thumbnail image for event " . $event->title;
-                    $image->save();
-                    $event->thumbnail = $image->id;
-                } else {
-                    $esl = explode(",", $event->esl);
-                    $eel = explode(",", $event->eel);
-                    echo TemplateEngine::View("Pages.Backend.Events.edit", ["event" => $event, "esl" => $esl, "eel" => $eel, "url" => $url,"message"=>$filemanager->message]);
-                    exit();
-              }
+                    if ($filemanager->GetFile("error") != 4) {
+                        $image = new Image();
+                        $image->user_id = $auth->id();
+                        $image->entry_name = "Images";
+                        $image->nvtug = 1;
+                        $image->title = "Event Thumnail : " . str_replace(" ", "-", $this->title);
+                        $image->name = $filemanager->GetUniqueName();
+                        $image->size = $filemanager->GetFile("size");
+                        $image->type = $filemanager->GetFile("type");
+                        $image->description = $this->description;
+                        $this->thumbnail = true;
+                    }
+
+                }
+            }
+
+            if ($validate->Post("update_cover") == 1) {
+                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
+
+                if ($filemanager->success == true) {
+//            destroy the current image
+                    if ($event->cover()->count() == 1) {
+                        Image::destroy($event->cover->id);
+//            Unlink the file
+                        unlink(UPLOAD_DIR . "/" . $event->cover->name);
+                    }
+
+//            instantiate a new image
+                    $cover = new Image();
+                    $cover->user_id = $auth->id();
+                    $cover->entry_name = "Images";
+                    $cover->nvtug = 1;
+                    $cover->title = "Event Thumnail : " . str_replace(" ", "-", $event->title);
+                    $cover->name = $filemanager->GetUniqueName();
+                    $cover->size = $filemanager->GetFile("size");
+                    $cover->type = $filemanager->GetFile("type");
+                    $cover->description = "Thumbnail image for event " . $event->title;
+                }
             }
 
 
+            if ($this->thumbnail == true) {
+                $image->save();
+//                $cover->save();
 
-            $event->title = ucwords($validate->Required("title")->Post());
-            $event->slug = slug($event->title . '-' . microtime());
-            $event->content = $validate->Post("content");
-            if ($validate->Post("ms") == 1) {
-                $event->start_at = $validate->Required("start")->Post();
+                $event->title = ucwords($this->title);
+                $event->slug = slug($event->title . '-' . microtime());
+                $event->thumbnail = $image->id;
+                $event->cover = $cover->id;
+                $event->content = $validate->Post("content");
+                if ($validate->Post("ms") == 1) {
+                    $event->start_at = $validate->Required("start")->Post();
+                }
+                if ($validate->Post("me") == 1) {
+                    $event->end_at = $validate->Required("end")->Post();
+                }
+//                Meet_id;
+                $event->meet_id = $validate->Post("meet_id");
+//            Dest_id
+                $event->dest_id = $validate->Post("dest_id");
+                $event->map_url = $validate->Post("map_url");
+                $event->save();
+                redirect($url->make("auth.admin.events.home"));
+            } else {
+                echo "no saving";
             }
-            if ($validate->Post("me") == 1) {
-                $event->end_at = $validate->Required("end")->Post();
-            }
-            $event->esl = trim($validate->Required("esl_name")->Post() . ",");
-            $event->esl .= trim($validate->Required("esl_street")->Post() . ",");
-            $event->esl .= trim($validate->Required("esl_city")->Post() . ",");
-            $event->esl .= trim($validate->Required("esl_county")->Post() . ",");
-            $event->esl .= trim($validate->Required("esl_postcode")->Post() . ",");
 
-            $event->eel = trim($validate->Required("eel_name")->Post() . ",");
-            $event->eel .= trim($validate->Required("eel_street")->Post() . ",");
-            $event->eel .= trim($validate->Required("eel_city")->Post() . ",");
-            $event->eel .= trim($validate->Required("eel_county")->Post() . ",");
-            $event->eel .= trim($validate->Required("eel_postcode")->Post() . ",");
-            $event->map_url = $validate->Post("map_url");
-            $event->save();
-
-            redirect($url->make("auth.admin.events.home"));
 
         }
     }
@@ -168,27 +235,38 @@ class EventsController
         if ($csrf->Verify() == true) {
             if ($auth->RequirePassword($validate->Post("password")) == true) {
                 $id = $validate->Post("id");
-                for ($i = 0; $i < count($id); $i++) {
-                    $event = Event::where("id", $id[$i])->get()->first();
-                    Event::destroy($id[$i]);
-                    if ($event->image()->count() == 1) {
-                        Image::destroy($event->image->id);
-                        if (unlink(UPLOAD_DIR . $event->image->name) == false) {
-                            echo "image could not be delete";
-                        }
-                    }
 
-                    redirect($url->make("auth.admin.events.home"));
+                if ($id) {
+                    for ($i = 0; $i < count($id); $i++) {
+                        $event = Event::where("id", $id[$i])->get()->first();
+                        Event::destroy($id[$i]);
+                        if ($event->image()->count() == 1) {
+                            Image::destroy($event->image->id);
+                            if (unlink(UPLOAD_DIR . "/" . $event->image->name) == false) {
+                                $$this->error[] =  "image could not be delete";
+                            }
+                        }
+
+                        if ($event->Cover()->count() == 1) {
+                            Image::destroy($event->Cover->id);
+                            if (unlink(UPLOAD_DIR . "/covers/" . $event->Cover->name) == false) {
+                              $this->error[] = "Cover could not be deleted";
+                            }
+                        }
+
+                        redirect($url->make("auth.admin.events.home"));
+                    }
+                } else {
+                    $this->error[] = "You must select at least one item";
+
                 }
             } else {
-                $message = "Your Password Has been entered Wrong, Please try again";
-
+                $this->error[] = "Your Password Has been entered Wrong, Please try again";
             }
-        } else {
-            $message = "your Csrf Token is not valid";
         }
-//        $events = Event::all();
-//        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url,"message"=>$message]);
+
+        $events = Event::all();
+        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url,"error"=>$this->error]);
     }
 
 }

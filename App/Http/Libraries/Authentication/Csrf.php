@@ -79,7 +79,7 @@ class Csrf
         $user = $result->first();
         $count = $result->count();
         if ($count == 1) {
-            echo "<input type='text'  name='csrf' value='" . $user->csrf->key . "' id='csrf'>";
+            echo "<input type='hidden'  readonly name='csrf' value='" . $user->csrf->key . "' id='csrf'>";
         }
     }
 
@@ -104,7 +104,7 @@ class Csrf
                 $this->GenerateToken($auth->id());
                 return true;
             } else {
-                exit("invalid Token found");
+             echo "There is an issue with the csrf token.";
             }
 
         }
