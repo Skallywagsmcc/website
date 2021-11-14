@@ -39,6 +39,7 @@
             <div class="col-sm-12 box py-2">
                 <form action="{{$url->make("auth.admin.users.store")}}" method="post" class="tld-form">
                     {{csrf()}}
+                    @if($status == true)
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="first_name">First name : </label>
@@ -50,23 +51,22 @@
                                 <input type="text" class="form-control tld-input" name="last_name"
                                        value="@isset($post){{$post->last_name}} @endisset">
                             </div>
-
-
-
                     </div>
-                        <div class="form-row">
+                    @endif
+                    <div class="form-row">
                             <label for="email">Email Address : </label>
                             <input type="text" class="form-control tld-input" name="email"
                                    value="@isset($post){{$post->email}}@endisset"
-
+                        @if($status == true)
                             <label for="last_name">Username : </label>
                             <input type="text" class="form-control tld-input" name="username"
                                    value="@isset($post){{$post->username}}@endisset"/>
+                        @endif
                         </div>
 
 
 
-
+                    @if($status == true)
                         <div class="form-row">
                             {{--                <div class="form-group col-md-6">--}}
                             {{--                    <label for="first_name">Generate Random Password (tick the checkbox) </label>--}}
@@ -81,6 +81,7 @@
                                 <input type="password" class="form-control tld-input" name="confirm" value="">
                             </div>
                         </div>
+
 
 
 
@@ -113,10 +114,11 @@
                         </div>
                     </div>
 
+                    @endif
+
                         <div class="form-group text-right">
                             <button class="btn btn-primary btn-block">Create User</button>
                         </div>
-
 
                 </form>
             </div>

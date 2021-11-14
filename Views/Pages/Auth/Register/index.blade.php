@@ -18,22 +18,11 @@
                 </ol>
             @endisset
 
-            @isset($rfs)
-                <ol>
-                    @foreach($rfs as $required)
-                        <li class="col-sm-12  text-center text-lg-left pl-lg-1 py-2">
-                            {{$required}}
-                        </li>
-                    @endforeach
-                </ol>
-            @endisset
-
         </div>
     </div>
     @endisset
 
-    @if($settings->first()->open_registration == 1)
-
+    @if(($showform == true))
             <div class="container my-2">
                 <div class="row my-2 lb3 mx-1">
                     <div class="col-sm-12 head text-center text-lg-left pl-lg-2">Create An Account</div>
@@ -43,8 +32,13 @@
                         <div class="col-sm-12 mx-3">
                             <label for="username">Username</label>
                         </div>
+                        @if((!is_null($request->token)) || (!is_null($post->token)))
+                        <div class="col-sm-12">
+                            <input type="text" name="token" value="@isset($post){{$post->token}}@else{{$request->token}}@endisset">
+                        </div>
+                        @endif
                         <div class="col-sm-12 mx-3">
-                            <input type="text" class="form-control tld-input" name="username" @isset($post)value="{{$post->Post("username")}}"@endisset>
+                            <input type="text" class="form-control tld-input" name="username" value="@isset($post){{$post->username}}@endisset">
                         </div>
                     </div>
 
@@ -53,7 +47,8 @@
                             <label for="email">Email</label>
                         </div>
                         <div class="col-sm-12 mx-3">
-                            <input type="text" class="form-control tld-input" name="email" @isset($post)value="{{$post->Post("email")}}"@endisset>
+                            {{$request->email}}
+                            <input type="text" class="form-control tld-input" @isset($request->email) readonly @endisset @isset($post->email)readonly @endisset name="email" value="@isset($post){{$post->email}}@else{{$request->email}}@endisset">
                         </div>
                     </div>
 
@@ -85,11 +80,11 @@
                     <div class="form-row">
                         <div class="col-sm-12 col-lg-6">
                             <div class="col-sm-12"><label for="first_name">First Name </label></div>
-                            <div class="col-sm-12"><input type="text"  name="first_name" class="form-control tld-input" @isset($post)value="{{$post->Post("first_name")}}"@endisset></div>
+                            <div class="col-sm-12"><input type="text"  name="first_name" class="form-control tld-input" value="@isset($post){{$post->first_name}}@endisset"></div>
                         </div>
                         <div class="col-sm-12 col-lg-6">
                             <div class="col-sm-12"><label for="last_name">Last Name </label></div>
-                            <div class="col-sm-12"><input type="text"  name="last_name" class="form-control tld-input" placeholder="" @isset($post)value="{{$post->Post("last_name")}}"@endisset></div>
+                            <div class="col-sm-12"><input type="text"  name="last_name" class="form-control tld-input" placeholder="" value="@isset($post){{$post->last_name}}@endisset"></div>
                         </div>
                     </div>
                     <div class="row">

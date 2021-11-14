@@ -26,7 +26,7 @@ class Events
             $table->datetime("end_at");
             $table->biginteger("meet_id");
             $table->biginteger("dest_id");
-            $table->string("map_url")->nullable()
+            $table->string("map_url")->nullable();
             $table->timestamps();
 
         });

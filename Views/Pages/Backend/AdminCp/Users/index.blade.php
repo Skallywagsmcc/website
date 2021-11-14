@@ -73,8 +73,24 @@
                     </div>
 
                 </div>
-                <div class="col-sm-12 py-2 text-center"><a href="#" class="d-block">Help Uploading a user</a></div>
             </div>
         </div>
     </div>
+
+    @if($settings->where("open_registration",0)->count()==1)
+    <div class="container my-2">
+        <div class="row box">
+            <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Manager User Requests</div>
+        </div>
+            @foreach($requests as $request)
+                <div class="row box my-2 text-center">
+                    <div class="col-sm-12 col-lg-6 py-2">{{$request->email}}</div>
+                    <div class="col-sm-12 col-lg-3 py-2">Email Account request</div>
+                    <div class="col-sm-12 col-lg-3 py-2">Delete Request</div>
+
+                </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
 @endsection
