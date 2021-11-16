@@ -106,7 +106,7 @@ class ContactController
 
                         //Recipients
                         $mail->setFrom($this->email, $this->first_name . " " . $this->last_name);
-                        $mail->addAddress("mail@skallywags.club", "Mail");     //Add a recipient
+                        $mail->addAddress("martin_bamber@hotmail.co.uk", "Mail");     //Add a recipient
 
                         //Content
                         $mail->isHTML(true);                                  //Set email format to HTML

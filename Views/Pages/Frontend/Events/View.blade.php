@@ -15,11 +15,14 @@
         <div class="row mx-1 mx-md-0">
             <div class="col-sm-12 px-0" id="cover_base">
 
+
                 <div class=" col-xs-12 px-0" id="cover_image">
-                    <img src="/img/uploads/{{$event->CoverImage->name}}" alt=" {{$user->username}} Profile Image">
+                    @if(is_null($event->cover))
+                    <img src="/Assets/img/coverphoto.png" alt=" {{$user->username}} Profile Image">
+                    @else
+                    <img src="/img/uploads/covers/{{$event->Cover->name}}" alt=" {{$user->username}} Profile Image">
+                    @endif
                 </div>
-
-
                 <div id="profile_image" class=" col-sm-12"><img src="/img/uploads/{{$event->image->name}}" class="profile_pic justify-content-center"
                                                                 height="150" width="150" alt=" {{$event->image->title}}"></div>
             </div>

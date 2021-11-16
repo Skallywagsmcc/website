@@ -17,10 +17,15 @@ class ImageController
 {
 
     public static $uploaderror;
+    public $title;
+    public $description;
+    public $ppic;
 
-    public function __construct()
+    public function __construct(Validate $validate)
     {
-        self::$uploaderror = true;
+        $this->title = $validate->Post("title");
+        $this->description = $validate->Post("description");
+        $this->ppic = $validate->Post("ppic");
     }
 
     public function index(Url $url, Auth $auth)
@@ -46,32 +51,40 @@ class ImageController
     {
 
         if ($csrf->Verify() == true) {
-            $filemanager->AddDir("img/uploads/")->validformat(["png", "jpg"])->upload("upload")->save(function () use ($filemanager, $auth, $validate, $url) {
+
+            $validate->AddRequired(["title", "description"]);
+            $filemanager->AddDir("img/uploads/")->validformat(["png", "jpg"])->upload("upload");
+            if ($validate->Allowed() == false) {
+                $error = "Required Fields are Missing";
+                $required = $validate->is_required;
+            }
+            elseif($filemanager->GetFile("error") == 4)
+            {
+                $error = "No Image Uploaded";
+            }
+            else {
                 if ($filemanager->success == true) {
                     $image = new Image();
                     $image->user_id = $auth->id();
                     $image->entry_name = "Images";
-                    $image->title = $validate->Required("title")->Post();
+                    $image->title = $this->title;
                     $image->name = $filemanager->GetUniqueName();
                     $image->size = $filemanager->GetFile("size");
                     $image->type = $filemanager->GetFile("type");
-                    $image->description = $validate->Post("description");
+                    $image->description = $this->description;
                     $image->save();
-                    if ($validate->Post("ppic") == 1) {
+                    if ($this->ppic== 1) {
                         $profile = Profile::where("user_id", $auth->id())->get()->first();
                         $profile->profile_pic = $image->id;
                         $profile->save();
                     }
                     redirect($url->make("images.gallery.home"));
-                } else {
-                    echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.add", ["url" => $url, "auth" => $auth, "validate" => $validate, "message" => $filemanager->message]);
                 }
-            });
-
-
+            }
+            echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.add", ["url" => $url, "auth" => $auth, "validate" => $validate, "error" => $error, "required" => $required]);
         }
-
     }
+
 
     public function edit($id, Url $url, Auth $auth)
     {
@@ -82,22 +95,16 @@ class ImageController
         echo TemplateEngine::View("Pages.Backend.UserCp.ImageManager.manage", ["url" => $url, "auth" => $auth, "image" => $image]);
     }
 
-    public function update(Url $url, Auth $auth, Csrf $csrf, Validate $validate)
+    public function update($id,Url $url, Auth $auth, Csrf $csrf, Validate $validate)
     {
-//        images.gallery.edit
-        $id = $validate->Post("id");
-//        Setup the csrf token
-
+        $profile = Profile::where("user_id",$auth->id())->get()->first();
         if ($csrf->Verify() == true) {
-
-            if ($validate->Post("featured") == 1) {
-
+            if($this->ppic == 1)
+            {
+                $profile->profile_pic = $id;
+                $profile->save();
             }
-
-            if ($validate->Post("make_ppic") == 1) {
-
-            }
-
+            redirect($url->make("images.gallery.home"));
         } else {
             echo "Invalid token";
         }
@@ -118,18 +125,18 @@ class ImageController
         $image = Image::where("id", $id);
         $featured = FeaturedImage::where("image_id", $image->get()->first()->id)->get();
 
-        $dir = $_SERVER['DOCUMENT_ROOT'].'/img/uploads/';
+        $dir = UPLOAD_DIR;
 //        check for the directory
 
         if (is_dir($dir)) {
-            if (file_exists($dir . $image->get()->first()->name)) {
+            if (file_exists($dir . "/" . $image->get()->first()->name)) {
 //                check if the profile_pic id and the image id match
                 if ($image->first()->id == $profile->profile_pic) {
                     $profile->profile_pic = null;
                     $profile->save();
                 }
 //                delete from the file structure
-                unlink($dir . $image->get()->first()->name);
+                unlink($dir . "/" . $image->get()->first()->name);
 //                    delete the image from the database
                 $image->delete();
 //Delete from featured Requests database.

@@ -16,43 +16,54 @@ use MiladRahimi\PhpRouter\Url;
 class BasicInfoController
 {
 
-    public function index(Url $url,Auth $auth)
+    public $first_name;
+    public $last_name;
+    public $dob;
+    public $password;
+
+    public function __construct(Validate $validate)
+    {
+        $this->first_name = $validate->Post("first_name");
+        $this->last_name = $validate->Post("last_name");
+        $this->dob = $validate->Post("dob");
+        $this->password = $validate->Post("password");
+    }
+
+    public function index(Url $url, Auth $auth)
     {
 
         $user = User::find($auth->id());
-        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.basic", ["user" => $user,"url"=>$url]);
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.basic", ["user" => $user, "url" => $url]);
     }
 
-    public function store(Url $url, Validate $validate,Csrf $csrf,Auth $auth)
+    public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
-        if($csrf->Verify()==true) {
-            $validate = new Validate();
-            $dob = new DateTime($validate->Post("dob"));
+        if ($csrf->Verify() == true) {
+            $dob = new DateTime($this->dob);
             //check if the value us empty
 
+            $validate->AddRequired(["first_name", "last_name"]);
 
-            $user = User::find($auth->id());
-            $profile = $user->Profile()->where("user_id", $auth->id())->get();
-            $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
-            $profile->first_name = $validate->Required("first_name")->Post();
-            $profile->last_name = $validate->Required("last_name")->Post();
-            $profile->dob = $dob->format("Y-m-d");
-
-
-            if (Validate::Array_Count(Validate::$values) == true) {
-                if ($auth->RequirePassword($validate->Post("password")) == true) {
-                    $profile->save();
-                    redirect($url->make("account.home"));
-                } else {
-                    $error = "Sorry it seems the password you entered does match the database password . please try again";
-                }
-
+            if ($validate->Allowed() == false) {
+                $error = "Required fields are missing";
+                $required = $validate->is_required;
+            } elseif ($auth->RequirePassword($this->password) == false) {
+                $error = "The Password you hae entered could not be found in our database! Please try again.";
+            } elseif ($validate->HasStrongPassword($this->password) == false) {
+                $error = "The Passsword you have entered does not follow our secure password policy";
             } else {
-                $error = "Some fields are missing";
+                $user = User::find($auth->id());
+                $profile = $user->Profile()->where("user_id", $auth->id())->get();
+                $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
+                $profile->first_name = $this->first_name;
+                $profile->last_name = $this->last_name;
+                $profile->dob = $dob->format("Y-m-d");
+                $profile->save();
+                    redirect($url->make("account.home"));
             }
 
 //        leave this here
-            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.basic", ["user" => $user, "error" => $error, "values" => Validate::$values, "url" => $url]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.basic", ["user" => $user, "error" => $error,"required"=>$required,"url" => $url,"post"=>$this]);
         }
     }
 

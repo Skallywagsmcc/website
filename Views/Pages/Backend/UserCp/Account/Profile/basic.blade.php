@@ -12,6 +12,8 @@ Account Manager : Basic Informatiomn
         </div>
     </div>
 
+    @include("Includes.Backend.Error")
+
     <div class="container my-1">
         <div class="row box">
             <div class="col-sm-12 head py-2">Edit Basic Information</div>
@@ -22,42 +24,27 @@ Account Manager : Basic Informatiomn
     <div class="row">
         <div class="col-md-12 px-0 px-md-1 box py-2">
             <form action="{{$url->make("account.basic.store")}}" method="post">
-                @isset($error)
-                    <div class="alert-dark text-center">{{$error}}</div>
-                @endisset
-                @isset($values)
-
-                    @foreach($values as $data)
-                        <ul>
-                            <li>
-                                {{ $data }}
-                            </li>
-                        </ul>
-                    @endforeach
-                @endisset
 {{--                     check csrf--}}
                 {{csrf()}}
-                <div class="form-group col-md-6">
-                    <label for="first_name">Your username : </label>
-                    <input type="text" class="form-control-plaintext text-white" readonly name="username"
-                           value="@isset($user){{$user->username}}@endisset">
-                </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="first_name">First name : </label>
                         <input type="text" class="form-control" name="first_name"
-                               value="@isset($user){{$user->Profile->first_name}}@endisset">
+                               value="@isset($post){{$post->first_name}}@else{{$user->Profile->first_name}}@endisset">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="last_name">Last name : </label>
                         <input type="text" class="form-control" name="last_name"
-                               value="@isset($user){{$user->Profile->last_name}} @endisset">
+                               value="@isset($post){{$post->last_name}}@else{{$user->Profile->last_name}}@endisset">
                     </div>
                 </div>
 
                 <div class="form-group col-sm-12">
                     <label for="dob">Date of birth </label>
-                    <input type="date" class="form-control" name="dob" value="@isset($user){{$user->profile->dob}}@endisset">
+                    @isset($user)
+                    {{$user->Profile->dob}}
+                    @endisset
+                    <input type="date" class="form-control" name="dob">
                 </div>
 
                 <div class="form-group col-sm-12">
@@ -74,6 +61,6 @@ Account Manager : Basic Informatiomn
     </div>
 </div>
 
-    {{--    the profile information will show down here.--}}
+{{--  Refactor Complete on 15/11/2021--}}
 
 @endsection

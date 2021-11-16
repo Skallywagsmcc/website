@@ -22,6 +22,8 @@
     </div>
 
 
+    @include("Includes.Backend.Error");
+
     <div class="container my-2">
         <div class="row box">
             <div class="col-sm-12 head py-2">Upload a new Image</div>

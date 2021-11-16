@@ -30,7 +30,7 @@
                             <img src="/img/uploads/{{$image->name}}" class="img-fluid" alt="$image->id">
                         </div>
                         <div class="box py-2 text-center my-2"><a class="d-block"
-                                                                  href="{{$url->make("images.gallery.update",["id"=>$image->id])}}">Manage
+                                                                  href="{{$url->make("images.gallery.edit",["id"=>$image->id])}}">Manage
                                 Image</a></div>
                     </div>
                 @endforeach

@@ -9,6 +9,10 @@
             <div class="col-sm-12 text-center text-md-left pl-md-1"><a href="{{$url->make("security.home")}}">Back to Security Home</a></div>
         </div>
     </div>
+
+
+    @include("Includes.Backend.Error")
+
     <div class="container my-2">
         <div class="row box">
             <div class="col-sm-12 py-2 head">Update Email Address</div>
@@ -26,7 +30,7 @@
                         </div>
                         <div class="col-sm-12 col-md-9">
                             <input type="email" name="email" class="form-control"
-                                   value="@isset($user){{$user->email}}@endisset">
+                                   value="@isset($post){{$post->email}}@else{{$user->email}}@endisset">
                         </div>
 
                     </div>
@@ -42,7 +46,6 @@
         </div>
     </div>
 
-
-    {{--    the profile information will show down here.--}}
+    {{--  Refactor Complete on 15/11/2021--}}
 
 @endsection

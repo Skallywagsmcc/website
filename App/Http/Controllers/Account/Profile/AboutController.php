@@ -15,6 +15,14 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class AboutController
 {
+    public $about;
+    public $password;
+
+    public function __construct(Validate $validate)
+    {
+        $this->about = $validate->Post("about");
+        $this->password = $validate->Post("password");
+    }
 
 
     public function index(Url $url, Auth $auth)
@@ -25,24 +33,28 @@ class AboutController
 
     public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
+
+        //Refactor done on 15/11/2021
         if ($csrf->Verify() == true) {
             $user = User::find($auth->id());
             $profile = $user->Profile()->where("user_id", $auth->id())->get();
             $profile->count() == 0 ? $profile = new Profile() : $profile = $profile->first();
-            $profile->about = $validate->Post("about");
+            $profile->about = $this->about;
 
 //        leave this here
-            if ($auth->RequirePassword($validate->Required("password")->Post()) == true) {
-
+            if($validate->Allowed()==false)
+            {
+                $error = "Required fields are missing";
+                $required = $validate->is_required;
+            }
+            elseif ($auth->RequirePassword($this->password) == false) {
+                $error = "Password does not match our secure password policy";
+            } else {
                 $profile->save();
                 redirect($url->make("backend.home"));
-
-            } else {
-                Validate::$error = " password empty or does not match";
             }
 
-
-            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["url" => $url, "user" => $user, "error" => Validate::$error, "values" => Validate::$values]);
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.About", ["url" => $url, "user" => $user, "error" => $error,"required"=>$required,"post"=>$this]);
         }
 
     }

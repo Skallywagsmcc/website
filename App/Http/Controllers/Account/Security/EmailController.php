@@ -19,42 +19,36 @@ class EmailController
 
     public function __construct(Validate $validate)
     {
-        $this->email = $validate->Required("email")->Post();
+        $this->email = $validate->Post("email");
     }
 
-    public function index(Url $url)
+    public function index(Url $url, Auth $auth)
     {
-
-        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.EmailChange", ["user", $user,"url"=>$url]);
+        $user = User::find($auth->id());
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.EmailChange", ["user" => $user, "url" => $url]);
     }
 
-    public function store(Url $url,Validate $validate, Csrf $csrf,Auth $auth)
+    public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
-        //Todo Implement the $post variable into email veiw and also refactor this code.
+
         if ($csrf->Verify() == true) {
-            if ($auth->RequirePassword($validate->Post("password")) == true) {
-                $user = User::find($auth->id());
-                $user->email = $this->email;
-
-                if ($validate->Allowed() == false) {
-                    $error = "Required fields missing";
-                    $required = $validate->is_required;
-                } else {
-                    if($user->email == $this->email)
-                    {
-                     $error = "This is already your current email";
-                    }
-                    else {
-                        $user->save();
-                        redirect($url->make("logout"));
-                    }
-                }
-
+            $validate->AddRequired(["email"]);
+            $user = User::find($auth->id());
+//            Step 1 validate
+            if ($validate->Allowed() == false) {
+                $error = "Required fields missing";
+                $required = $validate->is_required;
+            } elseif ($user->email == $this->email) {
+                $error = "This is already your current email";
+            } elseif ($auth->RequirePassword($validate->Post("password")) == false) {
+                $error = "this does not follow Our secure password Policy";
             } else {
-                $errror = "Sorry the PasswordRequest does not match the database";
+                $user->save();
+                redirect($url->make("logout"));
             }
-            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.EmailChange", ["user", $user,"post"=>$this, "error" => $error, "url" => $url]);
+
+            echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.EmailChange", ["user", $user, "error" => $error, "url" => $url, "post" => $this]);
         }
     }
-
+//Refactor done on 15/11/2021
 }

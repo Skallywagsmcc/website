@@ -2,9 +2,11 @@
 
 @section("title")
     Account Manager : About
-    @endsection
+@endsection
 
 @section("content")
+
+
     <div class="container my-3">
         <div class="row px-0 py-2">
             <div class="col-sm-12 px-0  text-center text-md-left pl-md-1">
@@ -12,6 +14,8 @@
             </div>
         </div>
     </div>
+
+    @include("Includes.Backend.Error")
 
     <div class="container">
         <div class="row">
@@ -26,19 +30,20 @@
         <div class="row">
             <div class="col-sm-12 box">
                 <form action="{{$url->make("account.about.store")}}" method="post" enctype="multipart/form-data">
-                {{csrf()}}
-                <div class="form-group col-sm-12">
-                    <label for="about">About yourself : </label>
-                    <textarea name="about" rows="10" class="form-control">@isset($user){{$user->Profile->about}}@endisset</textarea>
-                </div>
-                <div class="form-group col-sm-12">
-                    <label for="password">Enter Your Password (this is required) </label>
-                    <input type="password" class="form-control" name="password">
-                </div>
+                    {{csrf()}}
+                    <div class="form-group col-sm-12">
+                        <label for="about">About yourself : </label>
+                        <textarea name="about" rows="10"
+                                  class="form-control">@isset($post){{$post->about}}@else{{$user->Profile->about}}@endisset</textarea>
+                    </div>
+                    <div class="form-group col-sm-12">
+                        <label for="password">Enter Your Password (this is required) </label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
 
-                <div class="form-group col-sm-12 text-right">
-                    <button class="btn btn-primary">Save</button>
-                </div>
+                    <div class="form-group col-sm-12 text-right">
+                        <button class="btn btn-primary">Save</button>
+                    </div>
 
                 </form>
             </div>
@@ -47,6 +52,5 @@
 
 
 
-    {{--    the profile information will show down here.--}}
-
+{{--Refactor done on 15/11/2021--}}
 @endsection

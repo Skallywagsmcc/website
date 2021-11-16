@@ -245,7 +245,8 @@ $router->group(["prefix" => "/My-Account", "middleware" => [Middleware\Installer
 //        Crud
         $router->get("/?", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "index"], "images.gallery.home");
         $router->get("/add", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "create"], "images.gallery.add");
-        $router->get("/update/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "edit"], "images.gallery.update");
+        $router->get("/update/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "edit"], "images.gallery.edit");
+        $router->post("/update/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "update"], "images.gallery.update");
         $router->get("/delete/{id}", [\App\Http\Controllers\Account\ImageManager\ImageController::class, "delete"], "images.gallery.delete");
 //        Requests
 //        Post requests

@@ -76,7 +76,20 @@
             @endif
             @endif
         </div>
+    </div>
 
+    <div class="container my-2">
+        <form action="{{$url->make("images.gallery.update",["id"=>$image->id])}}" method="post">
+            <div class="row box">
+                <div class="col-sm-12 head py-2 text-center text-lg-2 py-2 pl-lg-2">Profile Picuture</div>
+                <div class="col-sm-12">Make Image profle Picture<input type="checkbox" name="ppic" value="1"></div>
+            </div>
+            <div class="row my-2">
+                <div class="col-sm-12">
+                    <button class="btn btn-block btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
 
     </div>
 
