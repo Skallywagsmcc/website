@@ -49,7 +49,6 @@ class InstallerController
 
     public function index( Url $url)
     {
-
             if ((!Capsule::schema()->hasTable("installers")) or (Installer::where("id", 1)->where("status", "<", 2)->get()->count() == 1)) {
                 echo TemplateEngine::View("Pages.Backend.Installer.index", ["url" => $url]);
             } else {

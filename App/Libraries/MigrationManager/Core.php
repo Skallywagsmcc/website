@@ -14,7 +14,7 @@ class Core
 
     public function __construct()
     {
-        $this->dir = "/var/www/html/public_html/Database/Migrations";
+        $this->dir = ROOT."/Database/Migrations";
     }
     public function filter($array,$value)
     {
@@ -25,7 +25,6 @@ class Core
 
     public function getfiles($file)
     {
-
         return file_get_contents("$this->dir/$file");
     }
 
