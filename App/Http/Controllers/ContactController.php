@@ -70,6 +70,7 @@ class ContactController
 
     public function index(Url $url,Validate $validate)
     {
+       ini_set(error_reporting(4));
         $sum1 = rand(1, 50);
         $sum2 = rand(1, 50);
         $settings = $this->SiteSettings()->first();

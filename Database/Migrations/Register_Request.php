@@ -19,7 +19,7 @@ class Register_Request
 
     public function down()
     {
-        Capsule::schema()->dropIfExists("addresses");
+        Capsule::schema()->dropIfExists("register_requests");
     }
 
 
