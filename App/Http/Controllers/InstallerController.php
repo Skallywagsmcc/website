@@ -48,7 +48,7 @@ class InstallerController
     }
 
 
-    public function index(Url $url,)
+    public function index(Url $url)
     {
         if (isset($_SESSION['token'])) {
             $this->verifykey($_SESSION['token']);
