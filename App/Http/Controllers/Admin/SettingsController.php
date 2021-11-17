@@ -106,22 +106,23 @@ class SettingsController
 
     public function dbinstall_index(Url $url,Loader $loader,ServerRequest $request)
     {
+
       $type = $request->getQueryParams()["type"];
 //        Password for the user will be required before installing the database
         echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url,"loader"=>$loader,"type"=>$type]);
     }
 
-    public function dbinstall_store(Csrf $csrf, Validate $validate, Url $url, Loader $loader)
+    public function dbinstall_store(Csrf $csrf,Auth $auth, Validate $validate, Url $url, Loader $loader)
     {
+
         if($csrf->Verify() == true) {
-            if ($validate->HasStrongPassword($this->password) == false) {
+            if ($auth->RequirePassword($this->password) == false) {
                 $error = "Password Cannot be empty";
             } else {
                 if ($this->drop == 1)
                 {
                     $loader->drop();
                 }
-                $loader->install();
                 redirect($url->make("auth.admin.settings.home"));
 
             }

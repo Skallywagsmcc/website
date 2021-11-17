@@ -17,7 +17,7 @@ class Installer
     {
         if(Capsule::schema()->hasTable("installers"))
         {
-            $settings = \App\Http\Models\Installer::where("id",1)->where("status",2)->get();
+            $settings = \App\Http\Models\Installer::where("id",1)->where("status",1)->get();
             if($settings->count() == 1)
             {
                 return $next($request);

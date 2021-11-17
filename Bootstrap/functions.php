@@ -5,9 +5,6 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Event;
 use App\Http\Models\User;
 
-define("UPLOADS_PATH", $_SERVER['DOCUMENT_ROOT'] . '/img/uploads');
-define("LOGO", "/img/logo.png");
-
 function slug($slug)
 {
     return str_replace(" ", "-", $slug);

@@ -269,15 +269,13 @@ $router->group(["prefix" => "/My-Account", "middleware" => [Middleware\Installer
 
 $router->group(["prefix" => "/install"], function (Router $router) {
     $router->get("/?", [InstallerController::class, "index"], "installer.home");
-
-
-    $router->group(["prefix" => "/{key}"], function (Router $router) {
-        $router->post("/?", [InstallerController::class, "termsstore"], "installer.terms.store");
-        $router->get("/profile", [InstallerController::class, "profile"], 'installer.profile.home');
-        $router->post("/profile/save", [InstallerController::class, "profilestore"], 'installer.profile.store');
-    });
-
+    $router->get("/request/generate/token", [InstallerController::class, "generatekey"], "installer.generate.key");
+    $router->get("/request/verify/token/{token}", [InstallerController::class, "verifykey"], "installer.verify.key");
+    $router->post("/profile/save", [InstallerController::class, "profilestore"], 'installer.profile.store');
 });
+
+//End Routing here
+
 try {
     $router->dispatch();
 } catch (RouteNotFoundException $e) {

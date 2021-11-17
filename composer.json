@@ -15,6 +15,7 @@
         "miladrahimi/phprouter": "5.*",
         "ext-json": "*",
         "mbamber1986/filemanager": "v1.2",
-        "mbamber1986/authclient": "^1.5"
+        "mbamber1986/authclient": "^1.5",
+        "ext-curl": "^7.4"
     }
 }
