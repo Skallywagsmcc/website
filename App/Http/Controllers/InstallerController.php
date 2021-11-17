@@ -45,6 +45,7 @@ class InstallerController
             $this->post_token = $validate->Post("post_token");
             $this->status = false;
         }
+    }
 
 
     public function index(Url $url)
