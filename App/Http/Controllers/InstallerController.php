@@ -69,14 +69,14 @@ class InstallerController
                 if ($this->status == false) {
                     echo TemplateEngine::View("Pages.Backend.Installer.index", ["url" => $url]);
                 } else {
-//                    redirect($url->make("homepage"));
+                    redirect($url->make("homepage"));
                 }
             }
             else
             {
             }
         } else {
-            redirect("http://skallywagsmcc.club/install/request/verify/token");
+            redirect($url->make("installer.generate.key"));
         }
 
 
