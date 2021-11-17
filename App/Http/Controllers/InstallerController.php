@@ -85,7 +85,7 @@ class InstallerController
     {
         $key = $validate->RequestHexKey();
         $_SESSION['token'] = $key;
-//            redirect($url->make("installer.home"));
+        redirect($url->make("installer.home"));
     }
 
 
