@@ -47,7 +47,9 @@ class InstallerController
             $this->status = false;
         }
 
-        $this->token = $_SESSION['token'];
+        if(!isset($_SESSION['token'])) {
+            $this->token = $_SESSION['token'];
+        }
     }
 
     public function index(Url $url)
