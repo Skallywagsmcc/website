@@ -27,7 +27,6 @@ class InstallerController
     public $open_reg;
     public $open_login;
     public $status;
-    public $token;
     public $token_verfied;
     public $post_token;
     public $request;
@@ -47,15 +46,11 @@ class InstallerController
             $this->status = false;
         }
 
-        if(!isset($_SESSION['token'])) {
-            $this->token = $_SESSION['token'];
-        }
-    }
 
     public function index(Url $url)
     {
-        if (isset($this->token)) {
-            $this->verifykey($this->token);
+        if (isset($_SESSION['token'])) {
+            $this->verifykey($_SESSION['token']);
             if($this->token_verfied == true)
             {
                 if (Capsule::schema()->hasTable("installers")) {
@@ -76,6 +71,7 @@ class InstallerController
             }
             else
             {
+            echo "failed";
             }
         } else {
             redirect($url->make("installer.generate.key"));
@@ -87,14 +83,14 @@ class InstallerController
     public function generatekey(Url $url, Validate $validate)
     {
         $key = $validate->RequestHexKey();
-        $this->token = $key;
+        $_SESSION['token'] = $key;
 //            redirect($url->make("installer.home"));
     }
 
 
     public function verifykey($token)
     {
-        if ($this->token == $token) {
+        if ($_SESSION['token'] == $token) {
             $this->token_verfied = true;
         } else {
             $this->token_verfied = false;
