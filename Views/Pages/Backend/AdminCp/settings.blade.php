@@ -56,56 +56,28 @@
 
             <div class="row box my-2">
                 <div class="col-sm-12 py-2 head">Site Settings : Contact Address</div>
-                {{--                building --}}
-                <div class="col-sm-12 col-lg-3">
-                    <label for="street" class="my-2 py-2">building Number or name</label>
-                </div>
-
-                <div class="col-sm-12 col-lg-9">
-                    <input class="form-control my-2" type="text" name="name" value="@isset($post){{$post->address[0]}}@endisset">
-                </div>
-
-
-          {{--                street--}}
-                <div class="col-sm-12 col-lg-3">
-                    <label for="street" class="my-2 py-2">Street name</label>
-                </div>
-
-                <div class="col-sm-12 col-lg-9">
-                    <input class="form-control my-2" type="text" name="street" value="@isset($post){{$post->address[1]}}@endisset">
-                </div>
-
-
-          {{--                city--}}
-                <div class="col-sm-12 col-lg-3">
-                    <label for="city" class="my-2 py-2">City</label>
-                </div>
-
-                <div class="col-sm-12 col-lg-9">
-                    <input class="form-control my-2" type="text" name="city" value="@isset($post){{$post->address[2]}}@endisset">
-                </div>
-
-          {{--                country--}}
-                <div class="col-sm-12 col-lg-3">
-                    <label for="county" class="my-2 py-2">County</label>
-                </div>
-
-                <div class="col-sm-12 col-lg-9">
-                    <input class="form-control my-2" type="text" name="county" value="@isset($post){{$post->address[3]}}@endisset">
-                </div>
-
-                <div class="col-sm-12 col-lg-3">
-                    <label for="postcode" class="my-2 py-2">Postcode</label>
-                </div>
-
-                <div class="col-sm-12 col-lg-9">
-                    <input class="form-control my-2" type="text" name="postcode" value="@isset($post){{$post->address[4]}}@endisset">
-                </div>
-
-
-
             </div>
-
+            @if($addresses->count() == 0)
+                <div class="row box">
+                    <div class="col-sm-12 text-center py-2">
+                        No Addresses Have Been created yet <a href="{{$url->make("auth.admin.addresses.new")}}">Add new Address</a>
+                    </div>
+                </div>
+            @else
+                <div class="row box">
+                    <div class="col-sm-12 text-center py-2 text-center text-lg-right pr-lg-2">
+                        <a href="{{$url->make("auth.admin.addresses.new")}}">Add new Address</a>
+                    </div>
+                </div>
+                @foreach($addresses as $address)
+                <div class="row box my-2">
+                    <div class="col-sm-12 col-lg-8 py-2 text">{{$address->title}}</div>
+                    <div class="col-sm-12 col-lg-4 py-2 text-center"><a class="d-block" href="{{$url->make("auth.admin.addresses.view",["id"=>base64_encode($address->id)])}}">View Address</a></div>
+                </div>
+                @endforeach
+            @endif
+            <div class="row box m-2">
+            </div>
             <div class="row my-2 box">
                 <div class="col-sm-12 head py-2">Site Settings : maintainence Status</div>
                 <div class="col-sm-12">

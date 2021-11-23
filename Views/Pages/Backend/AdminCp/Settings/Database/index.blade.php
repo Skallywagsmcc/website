@@ -42,10 +42,6 @@
 
         <div class="row my-2 box">
             <div class="col-sm-12 py-2 text-center head pl-lg-2 text-lg-left">Your installed Database Tables</div>
-            @foreach($loader->ReadMigrations() as $file)
-
-                <div class="col-sm-12 text-center">{{$loader->RemoveExtention($file,".php")}}</div>
-                @endforeach
         </div>
 
         <form action="{{$url->make("auth.admin.settings.database.store")}}" method="post">

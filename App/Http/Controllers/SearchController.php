@@ -17,14 +17,6 @@ use MiladRahimi\PhpRouter\Url;
 class SearchController
 {
 
-    public $request;
-
-    public function __construct(ServerRequest $request)
-    {
-        $request = $request->getQueryParams();
-    }
-
-
     public function index(Url $url)
     {
         echo TemplateEngine::View("Pages.Frontend.Search.index", ["url" => $url]);

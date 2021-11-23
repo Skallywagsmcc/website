@@ -25,7 +25,7 @@
                                 @endif
                             @endisset
                         </label>
-                        <input type="text" class="form-control tld-input" name="title" value="@isset($article){{$article->title}}@endisset">
+                        <input type="text" class="form-control tld-input" name="title" value="@isset($post){{$post->title}}@else{{$article->title}}@endisset">
                     </div>
                     <div class="form-group">
                         <label class="font-weight-bolder tu py-2 my-1" for="title">Article Content
@@ -36,17 +36,9 @@
                             @endisset
                         </label>
                 <textarea name="content" id="" cols="30" rows="10"
-                          class="form-control tld-input">@isset($article){{$article->content}}@endisset</textarea>
+                          class="form-control tld-input">@isset($post){{$post->content}}@else{{$article->content}}@endisset</textarea>
                     </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            Update thumbnail : <input type="checkbox" name="changethumb" value="1">
-                        </div>
-                        <div class="col-sm-12">
-                            <input type="file" name="thumb">
-                        </div>
-                    </div>
                         <div class="form-group text-right">
                             <button class="btn btn-primary btn-block my-2">Update Page</button>
                         </div>

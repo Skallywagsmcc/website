@@ -10,8 +10,8 @@
                 <div class="col-sm-12 col-lg-8">
                     @foreach($articles as $article)
                         <div class="my-2">
-                            <div class="col sm-12 head text-center text-lg-left pl-lg-2">{{$article->title}}</div>
-                            <div class="col-sm-12">{{substr($article->content,0,200)}}</div>
+                            <div class="col sm-12 head text-center text-lg-left pl-lg-2">@isset($article){{$article->title}}@endisset</div>
+                            <div class="col-sm-12">@isset($article){{substr($article->content,0,200)}}@endisset</div>
                             <div class="row border-top border-dark my-2 mx-0">
                                 <div class="col-sm-12 col-lg-4 text-center text-lg-left pl-lg-1 py-2">
                                     @if($article->created_at == $article->updated_at)

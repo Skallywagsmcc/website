@@ -50,9 +50,7 @@ $router->group(["prefix" => "", "middleware" => [Middleware\Installer::class, Mi
         $router->get("/view/{type}", [SearchController::class, 'viewtype'], "search.view.type");
     });
 
-    $router->group(["prefix" => "/members"], function (Router $router) {
-        $router->get("/?", [Members::class, "index"], "members.home");
-    });
+
 
     $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\Installer::class, Middleware\UserLogin::class]], function (Router $router) {
         $router->get("/?", [TwoFactorAuthController::class, "index"], "tfa.index");
@@ -130,8 +128,25 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
 //Api Requests go here
 
 //Admin
-$router->group(["prefix" => "/Control/Administrator", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\AdminLogin::class]], function (Router $router) {
-//    Events manager controlled by Admins
+$router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\AdminLogin::class]], function (Router $router) {
+
+    $router->group(["prefix"=>"/resources"],function(Router $router)
+    {
+
+        $router->group(["prefix"=>"/categories"],function(Router $router)
+        {
+            $router->get("/?",[\App\Http\Controllers\Admin\ResourceController::class,'index'],"auth.admin.resources.categories.home");
+            $router->post("/category/store",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'store'],"auth.admin.resource.category.store");
+            $router->any("/delete/category/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'delete'],"auth.admin.resource.category.delete");
+        });
+
+        $router->get("/?",[\App\Http\Controllers\Admin\ResourceController::class,'index'],"auth.admin.resources.home");
+        $router->get("/view/{resource_id}",[\App\Http\Controllers\Admin\ResourceController::class,'view'],"auth.admin.resources.view");
+        $router->post("/view/{resource_id}",[\App\Http\Controllers\Admin\ResourceController::class,'store'],"auth.admin.resources.store");
+        $router->get("/delete/{id}",[\App\Http\Controllers\Admin\ResourceController::class,'delete'],"auth.admin.resources.delete");
+
+    });
+    //    Events manager controlled by Admins
     $router->group(["prefix" => "/events"], function (Router $router) {
         $router->get("/?", [EventsController::class, "index"], "auth.admin.events.home");
         $router->get("/create", [EventsController::class, "create"], "auth.admin.events.new");

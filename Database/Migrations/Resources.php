@@ -16,7 +16,8 @@ class Resources
     {
         Capsule::schema()->create("resources", function ($table) {
             $table->id();
-            $table->string("type");
+            $table->biginteger("user_id");
+            $table->biginteger("resource_id");
             $table->string("name");
             $table->string("value");
             $table->timestamps();

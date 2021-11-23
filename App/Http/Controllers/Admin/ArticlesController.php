@@ -30,7 +30,6 @@ class ArticlesController
 
         $this->title = $validate->Post("title");
         $this->content = $validate->Post("content");
-        $this->changethumb = $validate->Post("changethumb");
     }
 
     /*
@@ -56,7 +55,7 @@ class ArticlesController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.new", ["url" => $url]);
     }
 
-    public function store(Url $url, Auth $auth, Csrf $csrf, Filemanager $filemanager,Validate $validate)
+    public function store(Url $url, Auth $auth, Csrf $csrf,Validate $validate)
     {
         $validate->AddRequired(["title","content"]);
         if ($csrf->Verify() == true) {
@@ -90,13 +89,10 @@ class ArticlesController
     public function search(Url $url, ServerRequest $request)
     {
         $keyword = $request->getQueryParams()['keyword'];
-
-        $articles = Article::all();
-        if ($users->count() == 0) {
-            $message = "No Username With that Name has Been found in our database";
-        }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.articles.index", ["articles" => $articles, "url" => $url, "message" => $message]);
-
+        $articles = Article::where("title","LIKE","%$keyword%")->orwherehas("user",function($q) use ($keyword){
+            $q->where("username","LIKE","%$keyword%");
+        })->get();
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.index", ["articles" => $articles, "url" => $url]);
 
     }
 
@@ -112,12 +108,11 @@ class ArticlesController
     public function update(Url $url, Validate $validate, Csrf $csrf,$id,$slug,Filemanager $filemanager,Auth $auth)
     {
         $id = base64_decode($id);
+        $validate->AddRequired("title","content");
         $article = Article::where("slug",$slug)->where("id",$id)->get();
                 $count = $article->count();
                 $article = $article->first();
-        $validate->AddRequired(["title","content"]);
         if ($csrf->Verify() == true) {
-
                 if($validate->Allowed() == false)
             {
                 $error = "Required Fields are missing";

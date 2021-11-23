@@ -18,7 +18,7 @@ use App\Http\Models\User;
 use App\Http\Models\UserSettings;
 use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
-use Migrations\Register_Request;
+use Migrations\Register_Requests;
 use MiladRahimi\PhpRouter\Url;
 
 class UsersController

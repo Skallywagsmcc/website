@@ -11,7 +11,7 @@ use App\Http\Models\RegisterRequest;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
-use Migrations\Register_Request;
+use Migrations\Register_Requests;
 use MiladRahimi\PhpRouter\Url;
 
 class RegisterController

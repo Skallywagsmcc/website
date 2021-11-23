@@ -13,10 +13,6 @@ class Profiles
 
     public static function up()
     {
-        Blueprint::macro('fulltext', function ($columns, $name = null, $algorithm = null)
-        {
-            return $this->indexCommand('fulltext', $columns, $name, $algorithm);
-        });
 
         Capsule::schema()->create("profiles", function ($table) {
             $table->id();

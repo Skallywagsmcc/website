@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__.'/../System/includes/AuthFunctions.php';
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Event;

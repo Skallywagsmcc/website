@@ -3,6 +3,11 @@
     (Home)
 @endsection
 @section("content")
+    @if(im_admin() == true)
+        I am An Admin user
+    @else
+        I am Not an admin
+    @endif
     <div class="container">
         <div class="row my-2 text-center py-2 px-0 lb2 mx-2 mx-md-0">
             @if($events->count() == 0)
@@ -75,7 +80,8 @@
                         @foreach($featured as $image)
                             <div class="col-sm-12 col-md-4 my-2">
                                 <div class="col-sm-12 text-center">
-                                    <img class="border border-primary profile_pic" src="/img/uploads/{{$image->Image->name}}"
+                                    <img class="border border-primary profile_pic"
+                                         src="/img/uploads/{{$image->Image->name}}"
                                          height="150" width="150" alt=""/>
                                 </div>
                                 <div class="col-sm-12 text-sm-center text-right">
@@ -101,7 +107,8 @@
                                 </div>
 
                             @endforeach
-                            <div class="col-sm-12 px-0 text-center text-md-right"><a href="{{$url->make("articles.home")}}">View
+                            <div class="col-sm-12 px-0 text-center text-md-right"><a
+                                        href="{{$url->make("articles.home")}}">View
                                     More articles</a></div>
                         @else
                             <div class="col-sm-12 text-center px-0">No Articles Found</div>
@@ -117,7 +124,8 @@
                     <div class="col-sm-12 lb2 head">Latest Members</div>
                     @foreach($members as $member)
                         <div class="col-sm-12 text-center mx-0">
-                            <a href="{{$url->make("profile.view",["username"=>$member->user->username])}}" class="d-block py-2 mx-0 px-0">{{$member->first_name}} {{$member->last_name}}</a>
+                            <a href="{{$url->make("profile.view",["username"=>$member->user->username])}}"
+                               class="d-block py-2 mx-0 px-0">{{$member->first_name}} {{$member->last_name}}</a>
                         </div>
 
                     @endforeach

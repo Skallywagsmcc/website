@@ -9,11 +9,6 @@ use App\Http\Controllers\Controller;
 class Image extends Controller
 {
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
     public function user()
     {
         return $this->belongsTo(User::class);

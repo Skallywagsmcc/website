@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\Models\Address;
 use App\Libraries\MigrationManager\Loader;
 use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
@@ -59,7 +60,8 @@ class SettingsController
     public function index(Url $url)
     {
         $settings = SiteSettings::find(1);
-        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings, "post" => $this]);
+        $addresses = Address::where("contactus",1)->get();
+        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings,"addresses"=>$addresses,"post" => $this]);
     }
 
     public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
@@ -104,12 +106,10 @@ class SettingsController
 
 
 
-    public function dbinstall_index(Url $url,Loader $loader,ServerRequest $request)
+    public function dbinstall_index(Url $url,ServerRequest $request)
     {
 
-      $type = $request->getQueryParams()["type"];
-//        Password for the user will be required before installing the database
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url,"loader"=>$loader,"type"=>$type]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url]);
     }
 
     public function dbinstall_store(Csrf $csrf,Auth $auth, Validate $validate, Url $url, Loader $loader)
@@ -119,12 +119,8 @@ class SettingsController
             if ($auth->RequirePassword($this->password) == false) {
                 $error = "Password Cannot be empty";
             } else {
-                if ($this->drop == 1)
-                {
-                    $loader->drop();
-                }
+                $loader->install();
                 redirect($url->make("auth.admin.settings.home"));
-
             }
         }
         echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url, "error" => $error]);

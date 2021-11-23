@@ -35,14 +35,10 @@
                     {{csrf()}}
                     <div class="form-group">
                         <label for="title">Article Title</label>
-                        <input type="text" class="form-control tld-input" name="title" value="{{$post->title}}">
+                        <input type="text" class="form-control tld-input" name="title" value="@isset($post){{$post->title}}@endisset">
                     </div>
                     <div class="form-group">
-            <textarea name="content" rows="10" class="form-control tld-input">{{$post->content}}</textarea>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12"><input type="file" name="thumb"></div>
+            <textarea name="content" rows="10" class="form-control tld-input">@isset($post){{$post->content}}@endisset</textarea>
                     </div>
                     <div class="form-group text-right">
                         <button class="btn btn-primary">Create Page</button>
