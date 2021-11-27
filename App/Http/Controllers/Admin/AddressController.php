@@ -31,12 +31,14 @@ class AddressController
     public $county;
     public $postcode;
     public $contactus;
+    public $error;
+    public $required;
 
     public function __construct(Validate $validate)
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->title = $validate->Post("title");
-            $this->slug = $validate->Post("slug");
+            $this->slug = slug($validate->Post("title"));
             $this->name = $validate->Post("name");
             $this->street = $validate->Post("street");
             $this->street_2 = $validate->Post("street_2");
@@ -76,14 +78,14 @@ class AddressController
         if ($csrf->Verify() == true) {
             $validate->AddRequired(["title", "name", "street", "city", "county", "postcode","contactus"]);
             if ($validate->Allowed() == false) {
-                $error = "The Following Fields have been left empty and are Required";
-                $required = $validate->is_required;
+                $this->error = "The Following Fields have been left empty and are Required";
+                $this->required = $validate->is_required;
             } else {
                 $address = new Address();
                 $address->user_id = $auth->id();
                 $address->contactus = $this->contactus;
                 $address->title = $this->title;
-                $address->slug = slug($this->title);
+                $address->slug = $this->slug;
                 $address->name = $this->name;
                 $address->street = $this->street;
                 $address->street_2 = $this->street_2;
@@ -96,11 +98,11 @@ class AddressController
                 }
                 else
                 {
-                    $error = "An Error Occurred when Saving";
+                    $this->error = "An Error Occurred when Saving";
                 }
             }
         }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url,"post"=>$this,"error"=>$error,"required"=>$required]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url,"post"=>$this,"error"=>$this->error,"required"=>$this->required]);
     }
 
     public function edit($id, Url $url)
@@ -125,8 +127,8 @@ class AddressController
                 $validate->AddRequired(["title", "name", "street", "city", "county", "postcode"]);
 //                Check if validation is false;
                 if ($validate->Allowed() == false) {
-                    $error = "The Following Fields have been left empty and are Required";
-                    $required = $validate->is_required;
+                    $this->error = "The Following Fields have been left empty and are Required";
+                    $this->required = $validate->is_required;
                 } else {
 //                    Update the settings
 
@@ -148,12 +150,12 @@ class AddressController
                     else
                     {
 //                        Throw and error
-                        $error = "Update Failed";
+                        $this->error = "Update Failed";
                     }
                 }
             }
 //            Display the template
-            echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.edit", ["url" => $url, "address" => $address, "post" => $this, "error" => $error, "required" => $required]);
+            echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.edit", ["url" => $url, "address" => $address, "post" => $this, "error" => $this->error, "required" => $this->required]);
         }
     }
 

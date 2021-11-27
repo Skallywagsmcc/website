@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Token extends Model
 {
 
+
     public function User()
     {
         return $this->belongsTo(User::class);
