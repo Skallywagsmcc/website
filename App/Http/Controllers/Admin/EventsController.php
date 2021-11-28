@@ -49,7 +49,7 @@ class EventsController
 
     public function create(Url $url)
     {
-        $addresses = Address::all();
+        $addresses = Address::where("contactus",0)->get();
         echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses]);
     }
 

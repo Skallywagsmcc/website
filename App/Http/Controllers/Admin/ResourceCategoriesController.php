@@ -52,13 +52,14 @@ class ResourceCategoriesController
 
     public function edit($id, Url $url)
     {
+        $id = base64_decode($id);
         $category = ResourceCategories::where("id", $id)->get();
 
         if ($category->count() == 0) {
             $error = "The page or result you are looking for cannot be found";
         }
-
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Resources.category.home", ["url" => $url, "category" => $category]);
+        echo $category->first()->name;
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Resources.edit", ["url" => $url, "category" => $category->first()]);
     }
 
     public function update($id, Csrf $csrf, Validate $validate)
@@ -82,12 +83,13 @@ class ResourceCategoriesController
         $category = ResourceCategories::where("id", $id);
         if($category->count() == 1)
         {
-            foreach ($category->get()->first()->resources()->get() as $resource)
+            foreach ($category->get()->first()->Resources() as $resource)
             {
                Resource::destroy($resource->id);
             }
             $category->delete();
         }
+        redirect($url->make("auth.admin.resources.home"));
     }
 
 }

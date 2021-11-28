@@ -19,6 +19,7 @@
         </div>
     @endisset
 
+    @if($addresses->count() >= 2)
 
     <div class="container my-2">
         <div class="row">
@@ -81,11 +82,6 @@
             </div>
         </div>
 
-        <div class="container my-2">
-            @if($addresses->count() == 0)
-                No Addresses added for events : <a href="{{$url->make("auth.admin.addresses.home")}}">Manage
-                    Addresses</a>
-            @else
                 <div class="row">
                     <div class="col-sm-12 col-lg-6 pr-lg-2 px-0 box my-2">
                         <div class="col-sm-12"><label for="meet_id">Event Meet up</label></div>
@@ -112,7 +108,6 @@
                         </div>
                     </div>
                 </div>
-            @endif
         </div>
 
 
@@ -150,6 +145,16 @@
                     </div>
                 </div>
             </div>
+    @else
+        <div class="container my-2">
+            <div class="row box">
+                <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Not Enough Addresses</div>
+                <div class="col-sm-12 text-center py-2">Sorry in order to add a new Event a Minimum of 2 addresses must be added  Before you can create a new event <a href="{{$url->make("auth.admin.addresses.home")}}">Add a new
+                        Address</a></div>
+            </div>
+        </div>
+    @endif
+
 
 
 

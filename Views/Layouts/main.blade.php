@@ -22,6 +22,12 @@ $system = new SystemController();
 </head>
 <body>
 @include("Includes.Frontend.Navbar")
+
+
+@foreach(explode("/",$_SERVER['REQUEST_URI']) as $value)
+    {{$value}}
+@endforeach
+
 <div id="app" class="container-wrapper px-0">
 
     <div class="container-fluid m-0 p-0">
@@ -53,7 +59,7 @@ $system = new SystemController();
         @endforeach
     </div>
     <div class="col-sm-12 col-md-8 text-center px-0">
-        Social Media Links will go here
+        <a href="{{$url->make("resources.home")}}">Useful Links</a>
     </div>
 </div>
 

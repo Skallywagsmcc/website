@@ -44,6 +44,12 @@ $router->group(["prefix" => "", "middleware" => [Middleware\Installer::class, Mi
     $router->get("/contact-us/thank-you", [ContactController::class, 'sent'], "contact-sent");
 
 
+    $router->group(["prefix"=>"/resources"],function (Router $router)
+    {
+        $router->get("/?",[\App\Http\Controllers\ResourceController::class,"index"],"resources.home");
+        $router->get("/?view/{slug}",[\App\Http\Controllers\ResourceController::class,"view"],"resources.view");
+    });
+
     $router->group(["prefix" => "/search"], function (Router $router) {
         $router->get("/?", [SearchController::class, 'index'], "search.home");
         $router->get("/view", [SearchController::class, 'view'], "search.view");
@@ -136,7 +142,9 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
         $router->group(["prefix"=>"/categories"],function(Router $router)
         {
             $router->get("/?",[\App\Http\Controllers\Admin\ResourceController::class,'index'],"auth.admin.resources.categories.home");
+            $router->get("/?category/?edit/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'edit'],"auth.admin.resource.category.edit");
             $router->post("/category/store",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'store'],"auth.admin.resource.category.store");
+            $router->post("/category/update",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'update'],"auth.admin.resource.category.update");
             $router->any("/delete/category/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'delete'],"auth.admin.resource.category.delete");
         });
 

@@ -76,14 +76,14 @@ class AddressController
     {
 
         if ($csrf->Verify() == true) {
-            $validate->AddRequired(["title", "name", "street", "city", "county", "postcode","contactus"]);
+            $validate->AddRequired(["title", "name", "street", "city", "county", "postcode"]);
             if ($validate->Allowed() == false) {
                 $this->error = "The Following Fields have been left empty and are Required";
                 $this->required = $validate->is_required;
             } else {
                 $address = new Address();
                 $address->user_id = $auth->id();
-                $address->contactus = $this->contactus;
+                $this->contactus == 1 ? $address->contactus = $this->contactus : $address->contactus = 0;
                 $address->title = $this->title;
                 $address->slug = $this->slug;
                 $address->name = $this->name;

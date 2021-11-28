@@ -9,15 +9,15 @@
 
     <div class="container my-2">
         <div class="row box mx-0 my-2">
-            <div class="col-sm-12 head py-2 text-left">Add a new Resource</div>
+            <div class="col-sm-12 head py-2 text-left">Edit Resource Category</div>
         </div>
-        <form action="{{$url->make("auth.admin.resource.category.store")}}" method="post">
+        <form action="{{$url->make("auth.admin.resource.category.update")}}" method="post">
             {{csrf()}}
 
             <div class="col-sm-12 col-lg-9 my-2 my-lg-0">
                 <div class="col-sm-12"><label for="type">Resource Name</label></div>
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" name="name">
+                    <input type="text" class="form-control" name="name" value="{{$category->name}}">
                 </div>
             </div>
             <div class="col-sm-12 col-lg-3 my-2 my-lg-0">
