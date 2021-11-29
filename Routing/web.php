@@ -139,20 +139,27 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
     $router->group(["prefix"=>"/resources"],function(Router $router)
     {
 
-        $router->group(["prefix"=>"/categories"],function(Router $router)
+        $router->group(["prefix"=>"/manage"],function (Router $router)
         {
-            $router->get("/?",[\App\Http\Controllers\Admin\ResourceController::class,'index'],"auth.admin.resources.categories.home");
-            $router->get("/?category/?edit/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'edit'],"auth.admin.resource.category.edit");
+//            Manage Categories
+            $router->get("/category/edit/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'edit'],"auth.admin.resource.category.edit");
             $router->post("/category/store",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'store'],"auth.admin.resource.category.store");
             $router->post("/category/update",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'update'],"auth.admin.resource.category.update");
-            $router->any("/delete/category/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'delete'],"auth.admin.resource.category.delete");
+            $router->get("/category/delete/{id}",[\App\Http\Controllers\Admin\ResourceCategoriesController::class,'delete'],"auth.admin.resource.category.delete");
+
+//            Edit Resources
+
+            $router->post("/store/{resource_id}",[\App\Http\Controllers\Admin\ResourceController::class,'store'],"auth.admin.resources.store");
+            $router->post("/update",[\App\Http\Controllers\Admin\ResourceController::class,'update'],"auth.admin.resources.update");
+            $router->get("/edit/{id}",[\App\Http\Controllers\Admin\ResourceController::class,'edit'],"auth.admin.resources.edit");
+            $router->get("/delete/{id}",[\App\Http\Controllers\Admin\ResourceController::class,'delete'],"auth.admin.resources.delete");
+
         });
 
+//        Views below
         $router->get("/?",[\App\Http\Controllers\Admin\ResourceController::class,'index'],"auth.admin.resources.home");
-        $router->get("/view/{resource_id}",[\App\Http\Controllers\Admin\ResourceController::class,'view'],"auth.admin.resources.view");
-        $router->post("/view/{resource_id}",[\App\Http\Controllers\Admin\ResourceController::class,'store'],"auth.admin.resources.store");
-        $router->get("/delete/{id}",[\App\Http\Controllers\Admin\ResourceController::class,'delete'],"auth.admin.resources.delete");
-
+        $router->get("/category/view/{resource_id}",[\App\Http\Controllers\Admin\ResourceController::class,'view'],"auth.admin.resources.view");
+//
     });
     //    Events manager controlled by Admins
     $router->group(["prefix" => "/events"], function (Router $router) {

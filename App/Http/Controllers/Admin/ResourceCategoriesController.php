@@ -16,10 +16,12 @@ use MiladRahimi\PhpRouter\Url;
 class ResourceCategoriesController
 {
 
+    public $id;
     public $name;
 
     public function __construct(Validate $validate)
     {
+        $this->id = $validate->Post("id");
         $this->name = $validate->Post("name");
     }
 
@@ -59,17 +61,18 @@ class ResourceCategoriesController
             $error = "The page or result you are looking for cannot be found";
         }
         echo $category->first()->name;
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Resources.edit", ["url" => $url, "category" => $category->first()]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Resources.editCategory", ["url" => $url, "category" => $category->first()]);
     }
 
-    public function update($id, Csrf $csrf, Validate $validate)
+    public function update( Csrf $csrf, Url $url, Validate $validate)
     {
 
         if ($csrf->Verify() == true) {
-            $category = ResourceCategories::where("id", $id)->get();
+            $category = ResourceCategories::where("id", $this->id)->get();
             if ($category->count() == 1) {
                 $category = $category->first();
                 $category->name = $this->name;
+                $category->slug = slug($this->name);
                 if ($category->save()) {
                     redirect($url->make("auth.admin.resources.home"));
                 }

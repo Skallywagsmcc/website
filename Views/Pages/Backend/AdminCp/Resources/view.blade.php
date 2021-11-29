@@ -12,6 +12,7 @@
         <form action="{{$url->make("auth.admin.resources.store",["resource_id"=>base64_encode($category->first()->id)])}}" method="post">
         <div class="row box">
 
+            <div class="col-sm-12 head py-2">Create a new Resource {{$category->first()->name}}</div>
                 <div class="col-sm-12 col-lg-4 py-2">
                     <div class="col-sm-12 py-2">Resource Name</div>
                     <div class="col-sm-12"><input type="text" class="form-control" name="name"></div>
@@ -32,17 +33,19 @@
 
 
     <div class="container my-2">
-        <div class="row box">
-            <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">{{$category->first()->name}}</div>
-
 
         @foreach($category->first()->Resources() as $resource)
-
-            <div class="col-sm-12 py-2 col-lg-6"></div>
-            {{$resource->name}}
+                <div class="row box my-2">
+                    <div class="col-sm-12 col-lg-6 py-2 text-center">{{$resource->name}}</div>
+            <div class="col-sm-12 py-2 col-lg-3">
+                <a href="{{$url->make("auth.admin.resources.edit",["id"=>base64_encode($resource->id)])}}">Rename Resouce</a>
+            </div>
+                    <div class="col-sm-12 py-2 col-lg-3">
                 <a href="{{$url->make("auth.admin.resources.delete",["id"=>base64_encode($resource->id)])}}">Delete</a>
+            </div>
+             </div>
                 @endforeach
-        </div>
+
     </div>
 
 @endsection

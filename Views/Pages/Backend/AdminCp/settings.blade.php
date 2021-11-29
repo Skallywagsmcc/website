@@ -22,23 +22,13 @@
 
     <div class="container my-2">
         <div class="row">
-            <div class="col-sm-12 text-center text-lg-right pr-lg-2 py-2"><a class="d-block"
-                                                                             href="{{$url->make("auth.admin.home")}}">Back
+            <div class="col-sm-12 text-center text-lg-right pr-lg-2 py-2"><a class="d-block" href="{{$url->make("auth.admin.home")}}">Back
                     to Admin Home</a></div>
         </div>
     </div>
-
+    {{--todo need to find a away to add multiple Addresses and Tephone Numbers to contact page may require a pivot table--}}
     <div class="container my-2">
-
-        <div class="row box my-2">
-            <div class="col-sm-12 head py-2">Site Settings : Database Manager</div>
-            <div class="col-sm-12 py-2 text-center text-lg-left pl-lg-2">Settings below will take you to a new page</div>
-            <div class=" col-sm-12  col-lg-6 text-center text-lg-left pl-lg-2 py-2"><a href="{{$url->make("auth.admin.settings.database.home")}}?type=partial">Partial Database Rebuild</a></div>
-            <div class=" col-sm-12  col-lg-6 text-center text-lg-left pl-lg-2 py-2"><a href="{{$url->make("auth.admin.settings.database.home")}}?type=full">Full Database Rebuild</a></div>
-        </div>
-
         <form action="{{$url->make("auth.admin.settings.store")}}" method="post">
-
             <div class="row box my-2">
                 <div class="col-sm-12 py-2 head">Site Settings : Contact Email Address:</div>
                 <div class="col-sm-12">

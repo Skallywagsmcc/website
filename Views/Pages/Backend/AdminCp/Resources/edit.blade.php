@@ -7,54 +7,43 @@
 
 @section("content")
 
-    <div class="container my-2">
-        <div class="row box mx-0 my-2">
-            <div class="col-sm-12 head py-2 text-left">Edit Resource Category</div>
+    @isset($error)
+        <div class="container my-2">
+            <div class="row box">
+                <div class="col-sm-12 head py-2">An error Occurred</div>
+
+                @isset($required)
+                    @foreach($required as $required)
+                        {{$required}} <br>
+                    @endforeach
+                @endisset
+            </div>
         </div>
-        <form action="{{$url->make("auth.admin.resource.category.update")}}" method="post">
-            {{csrf()}}
+        @endisset
 
-            <div class="col-sm-12 col-lg-9 my-2 my-lg-0">
-                <div class="col-sm-12"><label for="type">Resource Name</label></div>
-                <div class="col-sm-12">
-                    <input type="text" class="form-control" name="name" value="{{$category->name}}">
-                </div>
-            </div>
-            <div class="col-sm-12 col-lg-3 my-2 my-lg-0">
-                <div class="col-sm-12"><label for="type"></div>
-                <div class="col-sm-12 pt-2">
-                    <button class="btn btn-block btn-primary">Save</button>
-                </div>
-            </div>
+    <div class="container my-2">
+        <form action="{{$url->make("auth.admin.resources.update")}}" method="post">
+        <div class="row box">
 
+            <input type="text" name="id" value="@isset($post){{$post->id}}@else{{$resource->id}}@endisset">
+            <div class="col-sm-12 head py-2">Edit Resource : {{$resource->name}}</div>
+                <div class="col-sm-12 col-lg-4 py-2">
+                    <div class="col-sm-12 py-2">Resource Name</div>
+                    <div class="col-sm-12"><input type="text" class="form-control" name="name" value="@isset($post){{$post->name}}@else{{$resource->name}}@endisset"></div>
+                </div>
+                <div class="col-sm-12 col-lg-4 py-2">
+                    <div class="col-sm-12 py-2">Resource Value</div>
+                    <div class="col-sm-12"><input type="text" class="form-control" name="value"  value="@isset($post){{$post->value}}@else{{$resource->value}}@endisset"></div>
+                </div>
+                <div class="col-sm-12 col-lg-4 py-2">
+                    <div class="col-sm-12 my-2 my-3">
+                     <button>Save</button>
+                    </div>
+                </div>
+
+        </div>
         </form>
     </div>
 
-    @isset($categories)
-        <div class="container my-2">
-            <div class="row box mt-2">
-                <div class="col-sm-12 head py-2 text-left">Resource Categories</div>
-            </div>
-            @foreach($categories as $category)
-
-                <div class="row box my-2">
-                    <div class="col-sm-12 col-lg-3 py-2"> {{$category->name}}</div>
-                    <div class="col-sm-12 col-lg-3 py-2">Resource({{$category->resources()->count()}})</div>
-                    <div class="col-sm-12 col-lg-2 py-2"><a
-                                href="{{$url->make("auth.admin.resources.view",["resource_id"=>base64_encode($category->id)])}}}">View
-                            Category</a>
-                    </div>
-                    <div class="col-sm-12 col-lg-2 py-2"><a
-                                href="{{$url->make("auth.admin.resource.category.edit",["id"=>base64_encode($category->id)])}}">Rename
-                            Category</a>
-                    </div>      <div class="col-sm-12 col-lg-2 py-2"><a
-                                href="{{$url->make("auth.admin.resource.category.delete",["id"=>base64_encode($category->id)])}}">Delete
-                            Category</a>
-                    </div>
-
-                </div>
-            @endforeach
-        </div>
-    @endisset
 
 @endsection
