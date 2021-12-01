@@ -152,19 +152,6 @@ these settings will be used to import the chosen stylesheet
   .withhover:hover a, .withhover:hover a:link, .withhover:hover a:hover {
     color: white;
   }
-
-  #sidebar {
-    height: 100vh;
-  }
-  #sidebar div {
-    width: 200px;
-    height: 100vh;
-    background: red;
-    transition: width 2s;
-  }
-  #sidebar div:hover {
-    width: 500px;
-  }
 }
 @media (max-width: 998.91px) {
   #navbar {
@@ -256,6 +243,19 @@ these settings will be used to import the chosen stylesheet
     display: block;
   }
 }
+#sidebar {
+  height: 100vh;
+}
+#sidebar div {
+  width: 200px;
+  height: 100vh;
+  background: red;
+  transition: width 2s;
+}
+#sidebar div:hover {
+  width: 500px;
+}
+
 .footer {
   min-height: 5vh;
   border-top: solid 1px #fff;
@@ -263,4 +263,4 @@ these settings will be used to import the chosen stylesheet
   text-align: center;
 }
 
-/*# sourceMappingURL=base.css.map */
+/*# sourceMappingURL=backend.css.map */

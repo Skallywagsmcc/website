@@ -4,7 +4,7 @@
     <title>Skallywags MCC @yield("title") </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/Assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/Assets/custom/css/backend/backend.css"/>
+    <link rel="stylesheet" href="/Assets/themes/css/backend/base.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="/Resources/js/popper.js"></script>
     <script src="/Resources/js/bootstrap.min.js"></script>
@@ -29,13 +29,18 @@
 {{--    </div>--}}
 
 
-
+<div id="sidebar">
+    <div>
+        hello
+    </div>
+</div>
 @include("Includes.Backend.Nav")
 
 @php
     use mbamber1986\Authclient\Auth;
     $auth = new Auth();
 @endphp
+
 
 <div  class="container-fluid text-center text-md-left my-3 py-2" id="account_bar">
 

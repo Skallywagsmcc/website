@@ -42,6 +42,11 @@ $(document).ready(function () {
     })
 
 
+    $("#toggle_menu").click()
+    {
+
+    }
+
     $(".nextbtn").children("a").click(function () {
         {
             var $block = $(this).parents(".block");
