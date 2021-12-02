@@ -1,4 +1,4 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.Backend.default")
 
 @section("title")
     Backend Control panel : Home

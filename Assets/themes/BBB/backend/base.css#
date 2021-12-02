@@ -1,0 +1,44 @@
+body {
+  background-color: red;
+  color: white;
+  margin: 0;
+  height: 100%;
+  font-size: 16px;
+}
+
+.wrap {
+  min-height: 95vh;
+}
+
+.footer {
+  border-top: #000 2px solid;
+  background-color: #000;
+  color: white;
+  min-height: 5vh;
+}
+
+.box {
+  background-color: #515151;
+  color: #fff;
+}
+
+@media (min-width: 998.91px) {
+  #navbar {
+    min-height: 100vh;
+    background-color: #000;
+    border-right: 2px #000 solid;
+  }
+  #navbar a {
+    color: #fff;
+    text-align: center;
+  }
+  #navbar a:hover {
+    background: red;
+    color: white;
+  }
+  #navbar a:hover:not(.active) {
+    background-color: white;
+  }
+}
+
+/*# sourceMappingURL=base.css%23.map */

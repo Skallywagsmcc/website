@@ -129,7 +129,7 @@ class InstallerController
 
 
                     $user = new User();
-//        Default user id is 1
+//        DefaultOld user id is 1
                     $user->id = 1;
                     $user->username = $this->username;
                     $user->email = $this->email;
