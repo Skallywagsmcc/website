@@ -22,7 +22,7 @@
 <div class="wrap">
     <div id="container" class="container-fluid">
         <div class="row">
-            <div class="col-sm-12 px-0 col-md-4 col-lg-1 d-none d-lg-block" id="navbar">
+            <div class="col-sm-12 px-0 col-md-4 col-lg-2 d-none d-lg-block" id="navbar">
                 <div class="row">
                     <div class="col-sm-12"><img src="/img/logo.png" class="img-fluid p-1" alt=""></div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="col-sm-12"><a href="" class="d-block py-2">Link D</a></div>
                 </div>
             </div>
-            <div class="col-sm-12  col-md-8 col-lg-11" id="content">
+            <div class="col-sm-12  col-md-8 col-lg-10" id="content">
                 <div class="row box m-2">
                     <div class="col-sm-12 py-2 head">
                         Welcome to the website
