@@ -13,12 +13,24 @@ body {
 .footer {
   border-top: #353535 2px solid;
   color: white;
+  text-align: center;
   min-height: 5vh;
+  font-size: 1.3rem;
+  font-weight: bolder;
 }
 
 #topbar {
   background-color: #353535;
   color: #fff;
+}
+#topbar a.menu, #topbar a.closemenu {
+  background-color: #515151;
+  color: white;
+  border-radius: 20%;
+}
+#topbar a.menu:hover, #topbar a.closemenu:hover {
+  background-color: white;
+  color: #000;
 }
 
 .box {
@@ -48,6 +60,19 @@ body {
     color: white;
     font-weight: bolder;
     text-decoration: underline;
+  }
+}
+@media (max-width: 998.91px) {
+  .wrap {
+    position: relative;
+    z-index: 0;
+  }
+
+  #navbar {
+    position: absolute;
+    z-index: 1;
+    height: 100%;
+    background-color: #515151;
   }
 }
 
