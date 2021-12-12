@@ -1,4 +1,4 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Admin")
 
 @section("title")
 @endsection
@@ -7,34 +7,34 @@
 
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12 text-center text-md-left pl-md-1 py-2">
-                <a href="{{$url->make("auth.admin.users.home")}}">Back to User List</a>
+
+    <div class="row my-2">
+        <div class="col-sm-12 text-center text-md-left pl-md-1 py-2">
+            <a href="{{$url->make("auth.admin.users.home")}}">Back to User List</a>
+        </div>
+    </div>
+
+
+    <div class=" my-2 box">
+        {{--    Create user information--}}
+        <div class="alert-danger">Message :
+            @isset($error)
+                {{$error}}
+                @isset($required)
+                    @foreach($required as $required)
+                        {{$required}}
+                    @endforeach
+                @endif
+            @endisset
+
+
+            <div class="row box text-center text-md-right pr-md-2 py-2 my-2">
+                <div class="col-sm-12 ">Create a new user</div>
             </div>
         </div>
     </div>
 
-    <div class="container box">
-        {{--    Create user information--}}
-        <div class="alert-danger">Message :
-            @isset($error)
-            {{$error}}
-            @isset($required)
-                @foreach($required as $required)
-                    {{$required}}
-                    @endforeach
-                    @endif
-            @endisset
 
-    <div class="container">
-        <div class="row box text-center text-md-right pr-md-2 py-2 my-2">
-            <div class="col-sm-12 ">Create a new user</div>
-        </div>
-    </div>
-
-
-    <div class="container">
         <div class="row">
             <div class="col-sm-12 box py-2">
                 <form action="{{$url->make("auth.admin.users.store")}}" method="post" class="tld-form">
@@ -51,19 +51,18 @@
                                 <input type="text" class="form-control tld-input" name="last_name"
                                        value="@isset($post){{$post->last_name}} @endisset">
                             </div>
-                    </div>
+                        </div>
                     @endif
                     <div class="form-row">
-                            <label for="email">Email Address : </label>
-                            <input type="text" class="form-control tld-input" name="email"
-                                   value="@isset($post){{$post->email}}@endisset"
+                        <label for="email">Email Address : </label>
+                        <input type="text" class="form-control tld-input" name="email"
+                               value="@isset($post){{$post->email}}@endisset"
                         @if($status == true)
                             <label for="last_name">Username : </label>
                             <input type="text" class="form-control tld-input" name="username"
                                    value="@isset($post){{$post->username}}@endisset"/>
                         @endif
-                        </div>
-
+                    </div>
 
 
                     @if($status == true)
@@ -85,40 +84,40 @@
 
 
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h2>Other Settings</h2>
-                            <label for="is_admin">Set this user as Administrator</label>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2>Other Settings</h2>
+                                <label for="is_admin">Set this user as Administrator</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="checkbox" name="is_admin" value="1">
+                            </div>
                         </div>
-                        <div class="col-sm-12">
-                            <input type="checkbox" name="is_admin" value="1">
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h2>Other Settings</h2>
-                            <label for="is_admin">Set this user as Crew Member</label>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2>Other Settings</h2>
+                                <label for="is_admin">Set this user as Crew Member</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="checkbox" name="is_crew" value="1">
+                            </div>
                         </div>
-                        <div class="col-sm-12">
-                            <input type="checkbox" name="is_crew" value="1">
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <label for="admin_password">Your Admin Password</label>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="admin_password">Your Admin Password</label>
+                            </div>
+                            <div class="col-sm-12 my-2 py-2">
+                                <input type="password" class="form-control px-1" name="admin_password">
+                            </div>
                         </div>
-                        <div class="col-sm-12 my-2 py-2">
-                            <input type="password" class="form-control px-1" name="admin_password">
-                        </div>
-                    </div>
 
                     @endif
 
-                        <div class="form-group text-right">
-                            <button class="btn btn-primary btn-block">Create User</button>
-                        </div>
+                    <div class="form-group text-right">
+                        <button class="btn btn-primary btn-block">Create User</button>
+                    </div>
 
                 </form>
             </div>

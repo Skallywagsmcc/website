@@ -1,17 +1,15 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Admin")
 
 @section("title")
     Admin Panel : list users
 @endsection
 
 @section("content")
-    <div class="container">
-        <div class="row">
+        <div class="row box m-1">
             <div class="col-sm-12 text-center text-md-left pl-md-1 py-2">
                 <a href="{{$url->make("auth.admin.home")}}">Back to admin home</a>
             </div>
         </div>
-    </div>
 
     <div class="container">
 

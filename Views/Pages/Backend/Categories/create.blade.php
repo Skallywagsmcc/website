@@ -1,4 +1,5 @@
-@extends("Layouts.main")
+@extends("Layouts.Themes.BaseGrey.Admin")
+
 @section("title")
 @endsection()
 

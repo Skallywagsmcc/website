@@ -1,4 +1,4 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Admin")
 
 @section("title")
     {{$_ENV['APP_NAME']}} Admin panel Addresses

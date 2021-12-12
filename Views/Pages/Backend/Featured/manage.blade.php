@@ -1,4 +1,5 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Admin")
+
 
 @section("title")
     Manage Featured Request

@@ -1,4 +1,4 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Admin")
 
 @section("tite")
     Admin Panel : Blogs
