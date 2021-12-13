@@ -38,8 +38,8 @@ $auth = new Auth();
                 <img src="/img/uploads/{{\App\Http\Models\User::find($auth->id())->Profile->Image->name}}"
                      alt="{{$image->name}}" class="profile_pic">
             @endif
-            <a href="{{$url->make("account.home")}}" class="py-1 px-2">{{ucfirst($auth->getusername())}}</a> <a
-                    href="{{$url->make("logout")}}" class="py-1 px-2">Logout</a>
+            <a href="{{$url->make("account.home")}}" class="py-1 px-2">{{ucfirst($auth->getusername())}}</a>
+{{--                <a href="{{$url->make("logout")}}" class="py-1 px-2">Logout</a>--}}
         </div>
     </div>
 </div>
@@ -99,6 +99,13 @@ $auth = new Auth();
                         Site Settings</a></div>
                 <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.resources.home")}}" class="d-block py-2">Manage External Resources</a></div>
             </div>
+  
+
+
+
+                <div class="footer py-2">
+                    {{$_ENV["APP_NAME"]}} &copy; {{date("Y")}}
+                </div>
         </div>
         <div class="col-sm-12  col-md-8 col-lg-10" id="content">
             @yield("content")
@@ -106,9 +113,7 @@ $auth = new Auth();
     </div>
 </div>
 </div>
-<div class="footer py-2">
-    The footer goes here
-</div>
+
 
 </body>
 </html>

@@ -12,6 +12,7 @@ class Register_Requests
     {
         Capsule::schema()->create("register_requests", function ($table) {
             $table->id();
+            $table->string("email");
             $table->string("token");
             $table->timestamps();
         });

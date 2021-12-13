@@ -38,16 +38,19 @@ class UsersController
 
     public function __construct(Validate $validate)
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") $this->id = $validate->Post("id");
-        $this->email = $validate->Post("email");
-        $this->username = $validate->Post("username");
-        $this->first_name = $validate->Post("first_name");
-        $this->last_name = $validate->Post("last_name");
-        $this->password = $validate->Post("password");
-        $this->admin_password = $validate->Post("admin_password");
-        $this->confirm_password = $validate->Post("confirm");
-        $this->is_crew = $validate->Post("is_crew");
-        $this->is_admin = $validate->Post("is_admin");
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $this->id = $validate->Post("id");
+            $this->email = $validate->Post("email");
+            $this->username = $validate->Post("username");
+            $this->first_name = $validate->Post("first_name");
+            $this->last_name = $validate->Post("last_name");
+            $this->password = $validate->Post("password");
+            $this->admin_password = $validate->Post("admin_password");
+            $this->confirm_password = $validate->Post("confirm");
+            $this->is_crew = $validate->Post("is_crew");
+            $this->is_admin = $validate->Post("is_admin");
+        }
 
     }
 
@@ -56,42 +59,39 @@ class UsersController
         $id = User::orderBy("id", "desc")->limit(1)->get()->first();
         $users = User::all();
         $latest = User::orderBy("id", "DESC")->take(5)->get();
-        $requests = RegisterRequest::orderBy("id","desc");
-        $pagination = new LaravelPaginator("10","request_per_page");
+        $requests = RegisterRequest::orderBy("id", "desc");
+        $pagination = new LaravelPaginator("10", "request_per_page");
         $requests = $pagination->paginate($requests);
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest" => $latest,"settings"=>SiteSettings::where("id",1), "url" => $url, "id" => $id,"requests"=>$requests]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest" => $latest, "settings" => SiteSettings::where("id", 1), "url" => $url, "id" => $id, "requests" => $requests]);
     }
 
     public function create(URL $url)
     {
-        $settings = SiteSettings::where("id",1)->where("open_registration", 0)->count();
-        $settings ==1 ? $status = false : $status = true;
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["users" => $users, "url" => $url,"status"=>$status]);
+        $settings = SiteSettings::where("id", 1)->where("open_registration", 0)->count();
+        $settings == 1 ? $status = false : $status = true;
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["users" => $users, "url" => $url, "status" => $status]);
     }
 
     public function store(Url $url, Csrf $csrf, Validate $validate, Auth $auth)
     {
         if ($csrf->Verify() == true) {
-            $settings = SiteSettings::where("id",1)->where("open_registration", 0)->count();
+            $settings = SiteSettings::where("id", 1)->where("open_registration", 0)->count();
 
             if ($settings == 1) {
                 $status = false;
-                if(RegisterRequest::where("email",$this->email)->get()->count()==1)
-                {
+                if (RegisterRequest::where("email", $this->email)->get()->count() == 1) {
                     $error = "There is already a Pending Request for that Account";
-                }
-                else
-                {
-                   if (User::where("email", $this->email)->get()->count() == 1) {
+                } else {
+                    if (User::where("email", $this->email)->get()->count() == 1) {
                         $error = "An Account with that email Address already Exists";
-                    }
-                   else
-                    {
+                    } else {
                         $request = new RegisterRequest();
-                        $request->email = $this->email;
                         $request->token = $validate->RequestHexKey();
                         $request->save();
+
+
+//                        todo Send Email Request to user note need chris to give details to sort this issues out
                         redirect($url->make("auth.admin.users.home"));
                     }
                 }
@@ -122,7 +122,7 @@ class UsersController
                             $users = new User();
                             $users->username = $this->username;
                             $users->email = $this->email;
-                            $user->is_admin = $this->is_admin;
+                            $users->is_admin = $this->is_admin;
                             $users->password = password_hash($this->password, PASSWORD_DEFAULT);
                             $users->save();
 
@@ -149,8 +149,7 @@ class UsersController
         }
 
 
-
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $error, "required" => $required, "post" => $this,"status"=>$status]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $error, "required" => $required, "post" => $this, "status" => $status]);
 
     }
 
