@@ -47,6 +47,21 @@ $auth = new Auth();
     <div id="container" class="container-fluid">
         <div class="row">
             <div class="col-sm-12 px-0 mx-0 col-md-4 col-lg-2 d-none d-lg-block" id="navbar">
+                <div class="row  my-1 mx-0 px-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1 pl-lg-1">Account Options</div>
+                    <div class="col-sm-6 text-center ml-lg-auto px-0"><a href="{{$url->make("account.home")}}" class="py-2 d-block"> My Account</a>
+                    </div>
+                    <div class="col-sm-6 text-center mr-lg-auto px-0">
+                        <a href="{{$url->make("logout")}}" class="d-block py-2">Logout</a>
+                    </div>
+                </div>
+                <div class="row my-1 pb-1 mx-0">
+                        <div class="col-sm-12 px-0">
+                            <a class="d-block py-2" href="{{$url->make("auth.admin.home")}}">Admin home</a>
+                        </div>
+
+                </div>
+
 
                 <div class="row  my-1 pb-1 mx-0">
                     <div class="col-sm-12 head py-2 pl-lg-1 pl-lg-1">User Managerment</div>
@@ -99,7 +114,7 @@ $auth = new Auth();
                         Site Settings</a></div>
                 <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.resources.home")}}" class="d-block py-2">Manage External Resources</a></div>
             </div>
-  
+
 
 
 
@@ -107,7 +122,7 @@ $auth = new Auth();
                     {{$_ENV["APP_NAME"]}} &copy; {{date("Y")}}
                 </div>
         </div>
-        <div class="col-sm-12  col-md-8 col-lg-10" id="content">
+        <div class="col-sm-12 col-lg-10" id="content">
             @yield("content")
         </div>
     </div>

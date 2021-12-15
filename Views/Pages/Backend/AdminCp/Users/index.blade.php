@@ -5,30 +5,32 @@
 @endsection
 
 @section("content")
-        <div class="row box m-1">
+        <div class="row box m-1 d-lg-none">
             <div class="col-sm-12 text-center text-md-left pl-md-1 py-2">
                 <a href="{{$url->make("auth.admin.home")}}">Back to admin home</a>
             </div>
         </div>
 
-    <div class="container">
-
-        <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form ">
-            <div class="form-row">
-                <div class="col-sm-12 col-md-9 my-3">
-                    <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">
-                </div>
-                <div class="col-sm-12 col-md-3 my-3 ">
-                    <button class="btn btn-block btn-dark">Search</button>
-                </div>
+        <div class="row box m-1">
+            <div class="col-sm-12">
+                <form action="{{$url->make("auth.admin.users.search")}}" class="tld-form ">
+                    <div class="form-row">
+                        <div class="col-sm-12 col-md-9 my-3">
+                            <input type="search" class="form-control tld-input" name="keyword" placeholder="Search for a user">
+                        </div>
+                        <div class="col-sm-12 col-md-3 my-3 ">
+                            <button class="btn btn-block btn-dark">Search</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
+        </div>
 
 
 
 
-    <div class="container my-2">
+
+    <div class="row m-1">
         <div class="col-sm-12 text-md-right text-center py-2 new">
             <a href="{{$url->make("auth.admin.users.new")}}" class="p-2">Create a New User</a>
         </div>

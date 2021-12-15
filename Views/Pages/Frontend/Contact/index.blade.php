@@ -46,18 +46,30 @@
                             <div class="row">
                                 <div class="col-sm-12 head">Contact us</div>
                             </div>
+
+{{--                            TODO Add Subject here with a drop down--}}
+                            <div class="form-group">
+                                <label for="email">Reason for contacting us:</label>
+                                <select name="subject" id="" class="form-control bg-dark text-white">
+                                    <option value="General Question" class="form-control py-2">General Question</option>
+                                    <option value="Membership Question" class="form-control py-2">Membership Question</option>
+                                </select>
+                            </div>
+
+
                             <div class="form-group">
                                 <label for="email">Email Address:</label>
                                 <input type="text" class="form-control tld-input" name="email"
                                        value="@isset($requests){{$requests->email}}@endisset">
                             </div>
 
-                            <div class="form row">
+                            <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="">First Name :</label>
                                     <input type="text" class="form-control tld-input" name="first_name"
                                            value="@isset($requests){{$requests->first_name}}@endisset">
                                 </div>
+
 
                                 <div class="form-group col-md-6">
                                     <label for="">Last Name :</label>
@@ -66,19 +78,22 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="form-group">
-                                <label for="subject">Club Name if Applicable</label>
+
+
+
+
+                            <div class="form-row">
+                                    <label for="clubmember">Are you Part of Club</label>
+                                <div class="col-sm-12  text-right pr-2">Yes : <input type="radio" class="scn" name="clubmember" value="1"></div>
+                                <div class="col-sm-12  text-right pr-2">No : <input type="radio" class="hcn" checked name="clubmember" value="0"></div>
+                            </div>
+
+
+                            <div class="form-row clubname">
+                                <label for="clubmember">Your Current Club Name</label>
                                 <input type="text" class="form-control tld-input" name="club"
                                        value="@isset($requests){{$requests->club}}@endisset">
                             </div>
-
-                            <hr>
-                            <div class="form-group">
-                                <label for="subject">Subject</label>
-                                <input type="text" class="form-control tld-input" name="subject"
-                                       value="@isset($requests){{$requests->subject}}@endisset">
-                            </div>
-
 
                             <div class="form-group">
                                 <label for="message">Your Message </label>
@@ -150,4 +165,21 @@
             </div>
         </div>
     @endisset
+
+    <script>
+        $("document").ready(function () {
+        //    hide content
+            $(".clubname").hide();
+
+            $(".scn").click(function () {
+                $(".clubname").show();
+            })
+
+            $(".hcn").click(function () {
+                $(".clubname").hide();
+            })
+        })
+    </script>
 @endsection
+
+

@@ -18,7 +18,7 @@ body {
   min-height: 50px;
   font-size: 1.3rem;
   font-weight: bolder;
-  position: relative;
+  position: static;
   bottom: 0px;
   left: 0px;
   width: 100%;
@@ -75,7 +75,7 @@ body {
 @media (min-width: 998.91px) {
   #navbar {
     border-right: solid 1px #fff;
-    height: 100vh;
+    min-height: 100vh;
   }
   #navbar .head {
     border-bottom: solid 1px #fff;

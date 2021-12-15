@@ -23,11 +23,6 @@ $system = new SystemController();
 <body>
 @include("Includes.Frontend.Navbar")
 
-
-@foreach(explode("/",$_SERVER['REQUEST_URI']) as $value)
-    {{$value}}
-@endforeach
-
 <div id="app" class="container-wrapper px-0">
 
     <div class="container-fluid m-0 p-0">
@@ -38,7 +33,6 @@ $system = new SystemController();
             {!!breadcrumbs(' > ')!!}
         </div>
         @yield("content")
-
 
     </div>
 </div>

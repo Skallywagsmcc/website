@@ -3,11 +3,6 @@
     (Home)
 @endsection
 @section("content")
-    @if(im_admin() == true)
-        I am An Admin user
-    @else
-        I am Not an admin
-    @endif
     <div class="container">
         <div class="row my-2 text-center py-2 px-0 lb2 mx-2 mx-md-0">
             @if($events->count() == 0)
