@@ -72,7 +72,7 @@ class ContactController
         return SiteSettings::where("id",1)->get();
     }
 
-    public function index(Url $url,Validate $validate)
+    public function index(Url $url,Validate $validate,Mailer $mailer)
     {
         $sum1 = rand(1, 50);
         $sum2 = rand(1, 50);
@@ -81,7 +81,7 @@ class ContactController
         echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2, "requests" => $this,"address"=>$address]);
     }
 
-    public function store(Url $url, Validate $validate)
+    public function store(Url $url, Validate $validate,Mailer $mailer)
     {
         $sum1 = rand(1, 50);
         $sum2 = rand(1, 50);
