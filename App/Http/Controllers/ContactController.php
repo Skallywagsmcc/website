@@ -74,6 +74,19 @@ class ContactController
 
     public function index(Url $url,Validate $validate,Mailer $mailer)
     {
+
+
+        $mail = new PHPMailer();
+        $mail->setFrom('mail@skallywags.club', 'Martin Bamber');
+        $mail->addAddress('mbamber1986@gmail.com', 'My Friend');
+        $mail->Subject = 'First PHPMailer Message';
+        $mail->Body = 'Hi! This is my first e-mail sent through PHPMailer.';
+        if (!$mail->send()) {
+            echo 'Message was not sent.';
+            echo 'Mailer error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent.';
+        }
         $sum1 = rand(1, 50);
         $sum2 = rand(1, 50);
         $settings = $this->SiteSettings()->first();
@@ -105,7 +118,7 @@ class ContactController
                     $mail = new PHPMailer(true);
                     try {
                         //Server settings
-                        $mail->SMTPDebug = SMTP::DEBUG_OFF;         //Enable verbose debug output
+                        $mail->SMTPDebug = SMTP::DEBUG_SERVER;         //Enable verbose debug output
                         $mail->isSMTP();                                            //Send using SMTP
                         $mail->Host = $_ENV['SMTP_HOST'];          //Set the SMTP server to send through
                         $mail->SMTPAuth = true;                                   //Enable SMTP authentication
@@ -115,29 +128,30 @@ class ContactController
                         $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
                         $mail->isHTML(true);
                         //Recipients
-                        $mail->setFrom($this->email, $this->first_name . " " . $this->last_name);
-                        $mail->addAddress("mbamber1986@gmail.com","Martin Bamber");
+                        $mail->setFrom("no-reply@skallywags.club","no-reply@skallywags.club");
+                        $mail->addAddress("mail@skallywags.club"."mail");
+                        $mail->addReplyTo("mbamber1986@gmail.com","Martin Bamber");
                         //Content
-                            $mail->Subject = $this->subject;
-
+                            $mail->Subject = "test";
+                            $mail->Body = "hello";
 
 //                   completed:      Manage the logo
-                        $mail->Body = $mailer->logo("http://skallywags.club/img/bike.jpg");
+//                        $mail->Body = $mailer->logo("http://skallywags.club/img/bike.jpg");
+////
+//////                      todo  Setup First and last name
+//                        $mail->Body .= "Fullname :". $this->first_name . " $this->last_name <br><br>";
+////
+//////                   TODO   topic : general question or membership Question
+////
+//////                    TODO  Define that the user is in a club
+/////
+//                        if($this->clubmember == 1)
+//                        {
+//                            $mail->Body .= "I am currently a member of the club :  " . $this->club . "<br><br>";
+//                        }
 //
-////                      todo  Setup First and last name
-                        $mail->Body .= "Fullname :". $this->first_name . " $this->last_name <br><br>";
-//
-////                   TODO   topic : general question or membership Question
-//
-////                    TODO  Define that the user is in a club
-///
-                        if($this->clubmember == 1)
-                        {
-                            $mail->Body .= "I am currently a member of the club :  " . $this->club . "<br><br>";
-                        }
-
-//                        Submit message
-                        $mail->Body .= "Message : <br><br>" . $this->message;
+////                        Submit message
+//                        $mail->Body .= "Message : <br><br>" . $this->message;
                         $mail->send();
                         redirect($url->make("contact-sent"));
                     } catch (Exception $e) {
