@@ -77,8 +77,9 @@ class ContactController
 
 
         $mail = new PHPMailer();
-        $mail->setFrom('mail@skallywags.club', 'Martin Bamber');
-        $mail->addAddress('mbamber1986@gmail.com', 'My Friend');
+        $mail->setFrom('no-reply@skallywags.club', 'Martin Bamber');
+        $mail->addAddress('mail@skallywags.club', 'Martin Bamber');
+        $mail->addReplyTo('mbamber1986@gmail.com', 'My Friend');
         $mail->Subject = 'First PHPMailer Message';
         $mail->Body = 'Hi! This is my first e-mail sent through PHPMailer.';
         if (!$mail->send()) {
