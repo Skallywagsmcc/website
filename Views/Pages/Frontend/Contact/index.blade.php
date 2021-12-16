@@ -42,7 +42,13 @@
             <div class="container my-2">
                 <div class="row mx-1">
                     <div class="col-sm-12 col-md-8">
-                        <form action="{{$url->make("contact-store")}}" class="tld-form" method="post">
+                        <script src="https://www.google.com/recaptcha/api.js"></script>
+                        <script>
+                            function onSubmit(token) {
+                                document.getElementById("contactus-form").submit();
+                            }
+                        </script>
+                        <form action="{{$url->make("contact-store")}}" class="tld-form" method="post" id="contactus-form">
                             <div class="row">
                                 <div class="col-sm-12 head">Contact us</div>
                             </div>
@@ -115,7 +121,10 @@
 
                             </div>
 
-                            <button class="btn tld-button btn-block">Send message</button>
+                            <button class="g-recaptcha form-control tld-input"
+                                    data-sitekey="6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"
+                                    data-callback='onSubmit'
+                                    data-action='submit'>Sent message</button>
                         </form>
 
                     </div>
@@ -167,8 +176,11 @@
     @endisset
 
     <script>
+
+
         $("document").ready(function () {
         //    hide content
+
             $(".clubname").hide();
 
             $(".scn").click(function () {

@@ -75,19 +75,6 @@ class ContactController
     public function index(Url $url,Validate $validate,Mailer $mailer)
     {
 
-
-        $mail = new PHPMailer();
-        $mail->setFrom('no-reply@skallywags.club', 'Martin Bamber');
-        $mail->addAddress('mail@skallywags.club', 'Martin Bamber');
-        $mail->addReplyTo('mbamber1986@gmail.com', 'My Friend');
-        $mail->Subject = 'First PHPMailer Message';
-        $mail->Body = 'Hi! This is my first e-mail sent through PHPMailer.';
-        if (!$mail->send()) {
-            echo 'Message was not sent.';
-            echo 'Mailer error: ' . $mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent.';
-        }
         $sum1 = rand(1, 50);
         $sum2 = rand(1, 50);
         $settings = $this->SiteSettings()->first();
@@ -116,7 +103,7 @@ class ContactController
                 $this->rmf = $validate->is_required;
             } else {
                 if($this->matchsum($this->sum1,$this->sum2) == true) {
-                    $mail = new PHPMailer(true);
+                    $mail = new PHPMailer();
                     try {
                         //Server settings
                         $mail->SMTPDebug = SMTP::DEBUG_SERVER;         //Enable verbose debug output
@@ -129,30 +116,28 @@ class ContactController
                         $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
                         $mail->isHTML(true);
                         //Recipients
-                        $mail->setFrom("no-reply@skallywags.club","no-reply@skallywags.club");
-                        $mail->addAddress("mail@skallywags.club"."mail");
-                        $mail->addReplyTo("mbamber1986@gmail.com","Martin Bamber");
+                        $mail->setFrom('no-reply@skallywags.club', 'Martin Bamber');
+                        $mail->addAddress("mail@skallywags.club","skallywags Mail");
+                        $mail->addReplyTo($this->email,$this->first_name." ". $this->last_name);
                         //Content
-                            $mail->Subject = "test";
-                            $mail->Body = "hello";
+                            $mail->Subject = $this->subject;
 
 //                   completed:      Manage the logo
-//                        $mail->Body = $mailer->logo("http://skallywags.club/img/bike.jpg");
+                        $mail->Body = $mailer->logo();
 ////
 //////                      todo  Setup First and last name
-//                        $mail->Body .= "Fullname :". $this->first_name . " $this->last_name <br><br>";
-////
-//////                   TODO   topic : general question or membership Question
-////
-//////                    TODO  Define that the user is in a club
-/////
-//                        if($this->clubmember == 1)
-//                        {
-//                            $mail->Body .= "I am currently a member of the club :  " . $this->club . "<br><br>";
-//                        }
-//
-////                        Submit message
-//                        $mail->Body .= "Message : <br><br>" . $this->message;
+                        $mail->Body .= "You have recieved an message from : ".$this->first_name . " ". $this->last_name . "<br><hr>";
+
+//                TODO   topic : general question or membership Question
+
+                        $mail->Body .= "Reason for contact : " . $this->subject . "<br><br>";
+                        $mail->Body .= "Are they already in a club : ". $this->clubmember = 0 ? "No":"Yes" . "<br><br>";
+                        $mail->Body .= $this->clubmember = 1 ? "Clubname : " . $this->club."" : "";
+                        $mail->Body .= "<br><br>";
+
+//                        Submit message
+                        $mail->Body .= "Message from ". $this->first_name . "<br><br>" . $this->message;
+
                         $mail->send();
                         redirect($url->make("contact-sent"));
                     } catch (Exception $e) {
