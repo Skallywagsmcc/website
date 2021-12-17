@@ -6,6 +6,7 @@
             document.getElementById("login-form").submit();
         }
     </script>
+    
 @endsection
 @section("content")
 
