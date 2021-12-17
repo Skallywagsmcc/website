@@ -39,13 +39,11 @@ class ContactController
     {
         if($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->email = $validate->Post("email");
-            $this->sum1 = $validate->Post("sum1");
-            $this->sum2 = $validate->Post("sum2");
             $this->first_name = $validate->Post("first_name");
             $this->last_name = $validate->Post("last_name");
             $this->subject = $validate->Post("subject");
             $this->message = $validate->Post("message");
-            $this->total = $validate->Post("total");
+
             $this->club = $validate->Post("club");
             $this->clubmember = $validate->Post("clubmember");
 
@@ -75,23 +73,28 @@ class ContactController
     public function index(Url $url,Validate $validate,Mailer $mailer)
     {
 
-        $sum1 = rand(1, 50);
-        $sum2 = rand(1, 50);
         $settings = $this->SiteSettings()->first();
         $address = Address::where("contactus",1)->get();
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2, "requests" => $this,"address"=>$address]);
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"requests" => $this,"address"=>$address]);
     }
 
     public function store(Url $url, Validate $validate,Mailer $mailer)
     {
-        $sum1 = rand(1, 50);
-        $sum2 = rand(1, 50);
+
+            $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
+            $recaptcha_secret = $_SERVER['GRK'];
+            $recaptcha_response = $_POST['g-recaptcha-response'];
+
+            $recaptcha = file_get_contents($recaptcha_url. '?secret='.$recaptcha_secret.'&response='.$recaptcha_response);
+            $recaptcha = json_decode($recaptcha,true);
+
+
         if(($this->settings->count() == 1 ) && ($this->settings->first()->lock_subumssions == 1))
         {
             $this->error = "Submissions Are locked";
         }
         else {
-            $validate->AddRequired(["first_name","last_name","message","subject","total"]);
+            $validate->AddRequired(["first_name","last_name","message","subject"]);
 
             if($this->clubmember == 1)
             {
@@ -102,7 +105,7 @@ class ContactController
                 $this->error = "The Following Missing fields are required";
                 $this->rmf = $validate->is_required;
             } else {
-                if($this->matchsum($this->sum1,$this->sum2) == true) {
+                if(($recaptcha['success'] == 1) && ($recaptcha['score'] >= 0.5) && ($recaptcha['action'] == "contactus")){
                     $mail = new PHPMailer();
                     try {
                         //Server settings
@@ -144,11 +147,11 @@ class ContactController
                         $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
                 } else {
-                    $this->error = "The Answer to the maths question is not correct";
+                    $this->error = "Sorry we was unable to verify your request! Please try again";
                 }
             }
         }
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "sum1" => $sum1, "sum2" => $sum2,"requests" => $this, "error" => $this->error, "rmf"=>$this->rmf]);
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"requests" => $this, "error" => $this->error, "rmf"=>$this->rmf]);
     }
 
     public function sent(Url $url)

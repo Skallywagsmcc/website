@@ -4,6 +4,15 @@
     Contact us
 @endsection
 
+@section("head")
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("contactus-form").submit();
+        }
+    </script>
+@endsection
+
 @section("content")
 
 
@@ -42,23 +51,19 @@
             <div class="container my-2">
                 <div class="row mx-1">
                     <div class="col-sm-12 col-md-8">
-                        <script src="https://www.google.com/recaptcha/api.js"></script>
-                        <script>
-                            function onSubmit(token) {
-                                document.getElementById("contactus-form").submit();
-                            }
-                        </script>
-                        <form action="{{$url->make("contact-store")}}" class="tld-form" method="post" id="contactus-form">
+                        <form action="/contact-us" class="tld-form" method="post" id="contactus-form">
                             <div class="row">
                                 <div class="col-sm-12 head">Contact us</div>
                             </div>
 
-{{--                            TODO Add Subject here with a drop down--}}
+
+                            {{--                            TODO Add Subject here with a drop down--}}
                             <div class="form-group">
                                 <label for="email">Reason for contacting us:</label>
                                 <select name="subject" id="" class="form-control bg-dark text-white">
                                     <option value="General Question" class="form-control py-2">General Question</option>
-                                    <option value="Membership Question" class="form-control py-2">Membership Question</option>
+                                    <option value="Membership Question" class="form-control py-2">Membership Question
+                                    </option>
                                 </select>
                             </div>
 
@@ -86,12 +91,12 @@
                             <hr>
 
 
-
-
                             <div class="form-row">
-                                    <label for="clubmember">Are you Part of Club</label>
-                                <div class="col-sm-12  text-right pr-2">Yes : <input type="radio" class="scn" name="clubmember" value="1"></div>
-                                <div class="col-sm-12  text-right pr-2">No : <input type="radio" class="hcn" checked name="clubmember" value="0"></div>
+                                <label for="clubmember">Are you Part of Club</label>
+                                <div class="col-sm-12  text-right pr-2">Yes : <input type="radio" class="scn"
+                                                                                     name="clubmember" value="1"></div>
+                                <div class="col-sm-12  text-right pr-2">No : <input type="radio" class="hcn" checked
+                                                                                    name="clubmember" value="0"></div>
                             </div>
 
 
@@ -107,24 +112,10 @@
                                           class="form-control tld-input">@isset($requests){{$requests->message}}@endisset</textarea>
                             </div>
 
-
-                            <div class="form-group mx-0">
-                                <input type="hidden" name="sum1" value="{{$sum1}}">
-                                <input type="hidden" name="sum2" value="{{$sum2}}">
-                                <div class="col-sm-12 py-2 text-left pl-lg-1">
-                                    <label for="sum">What is : {{$sum1}} + {{$sum2}} ? (Answer Below)</label>
-                                </div>
-                                <div class=" col-sm-12">
-                                    <input type="text" class="form-control tld-input" name="total">
-                                </div>
-
-
-                            </div>
-
-                            <button class="g-recaptcha form-control tld-input"
+                            <button class="g-recaptcha btn btn-primary"
                                     data-sitekey="6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"
                                     data-callback='onSubmit'
-                                    data-action='submit'>Sent message</button>
+                                    data-action='login'>Save</button>
                         </form>
 
                     </div>
@@ -179,7 +170,7 @@
 
 
         $("document").ready(function () {
-        //    hide content
+            //    hide content
 
             $(".clubname").hide();
 
@@ -190,6 +181,9 @@
             $(".hcn").click(function () {
                 $(".clubname").hide();
             })
+
+            // when form is submit
+
         })
     </script>
 @endsection
