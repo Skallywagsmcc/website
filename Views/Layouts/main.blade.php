@@ -14,8 +14,6 @@ $system = new SystemController();
     <script src="/Resources/js/bootstrap.min.js"></script>
     <script src="/Assets/js/functions.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render=6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"></script>
-
     @yield("head")
 </head>
 <body>

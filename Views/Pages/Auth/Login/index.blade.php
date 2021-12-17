@@ -6,8 +6,8 @@
             document.getElementById("login-form").submit();
         }
     </script>
-    
-@endsection
+
+main@endsection
 @section("content")
 
     <style type="text/css">
