@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="col-sm-12">
-        <form action="{{$url->make("login.store")}}" method="post" class="tld-form">
+        <form action="{{$url->make("login.store")}}" method="post" class="tld-form" id="login-form">
             <div class="form-group tld-form">
                 <label for="username">Your Username/Email Address</label>
                 <input type="text" name="username" class=" form-control tld-input" value="@isset($username){{$username}}@endisset" placeholder="Email Address or username">
@@ -25,7 +25,9 @@
                 <div class="col-sm-6 text-center">
                     <input type="checkbox" name="remember" value="1" class="tld-input">
                 </div>
-                <button class="btn btn-block tld-button my-2">Login</button>
+                <button class="g-recaptcha btn btn-block tld-button my-2"  data-sitekey="6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"
+                        data-callback='onSubmit'
+                        data-action='login'>Login</button>
             </div>
 
         </form>

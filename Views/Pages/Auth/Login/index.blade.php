@@ -1,4 +1,12 @@
 @extends("Layouts.Auth")
+@section("head")
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("login-form").submit();
+        }
+    </script>
+@endsection
 @section("content")
 
     <style type="text/css">

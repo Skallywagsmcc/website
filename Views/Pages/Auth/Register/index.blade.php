@@ -1,4 +1,13 @@
 @extends("Layouts.main")
+
+@section("head")
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("register-form").submit();
+        }
+    </script>
+@endsection
 @section("content")
 
 
@@ -27,7 +36,7 @@
                 <div class="row my-2 lb3 mx-1">
                     <div class="col-sm-12 head text-center text-lg-left pl-lg-2">Create An Account</div>
                 </div>
-                <form action="{{$url->make("register.store")}}" method="post" class="tld-form">
+                <form action="{{$url->make("register.store")}}" method="post" class="tld-form" id="register-form">
                     <div class="form-row">
                         <div class="col-sm-12 mx-3">
                             <label for="username">Username</label>
@@ -89,7 +98,10 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 text-right my-2 mx-3">
-                            <button class="btn tld-button btn-block">Create Account</button>
+                            <button class="g-recaptcha btn btn-primary"
+                                    data-sitekey="6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"
+                                    data-callback='onSubmit'
+                                    data-action='register'>Save</button>
                         </div>
                     </div>
                 </form>

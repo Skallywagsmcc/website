@@ -15,6 +15,7 @@ class Validate
     public $is_required;
     public $value;
     public $allowed = true;
+    public $captchaerror;
 
 
     /*How to use Validation Setup
@@ -40,13 +41,17 @@ class Validate
 
     */
 
+    public function __construct()
+    {
+        $this->captchaerror = "Sorry we was unable to verify your request! Please try again";
+    }
 
 
     public function RequestHexKey()
     {
         return bin2hex(random_bytes(35));
     }
-    
+
     public function Required($value)
     {
         $this->value = $value;
@@ -61,13 +66,29 @@ class Validate
 
     public function Post($value = null)
     {
-        if((isset($_SERVER['REQUEST_METHOD'])) && ($_SERVER['REQUEST_METHOD'] == "POST")) {
+        if ((isset($_SERVER['REQUEST_METHOD'])) && ($_SERVER['REQUEST_METHOD'] == "POST")) {
             if (!is_null($value)) {
                 $this->value = $value;
                 $this->data = true;
             }
 //Will simply post the value out;
             return $_POST[$this->value];
+        }
+    }
+
+
+    public  function Recaptcha($success, $score, $action)
+    {
+        $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
+        $recaptcha_secret = $_SERVER['GRK'];
+        $recaptcha_response = $_POST['g-recaptcha-response'];
+
+        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+        $recaptcha = json_decode($recaptcha, true);
+        if (($recaptcha['success'] == $success) && ($recaptcha['score'] >= $score) && ($recaptcha['action'] == $action)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -106,14 +127,13 @@ class Validate
     {
 
         $values = $this->is_required;
-        if($this->is_required)
-        foreach ($values as $value) {
-            if (empty($_POST[$value])) {
-                return false;
+        if ($this->is_required)
+            foreach ($values as $value) {
+                if (empty($_POST[$value])) {
+                    return false;
+                }
             }
-        }
-        else
-        {
+        else {
             return true;
         }
     }

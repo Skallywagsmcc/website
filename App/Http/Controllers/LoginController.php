@@ -47,18 +47,25 @@ class LoginController
                         } elseif (($user->is_admin == 0) && $mode->first()->open_login == 0) {
                             $error = "Login Restricted to admins";
                         } elseif ($user->disable == 0) {
-                            $csrf->GenerateToken($user->id);
-                            $login = User::find($user->id);
-                            $login->updated_at = date("Y-m-d H:i:s", strtotime("+1 Hour"));
-                            $login->login_attempts = 0;
-                            $login->token = bin2hex(random_bytes(32));
-                            $login->save();
-                            if ($validate->Post("remember") == 1) {
-                                Cookies::Create("token", $login->token)->Days(7)->Path("/")->Http(true)->Save();
-                            } else {
-                                Sessions::Create("token", $login->token);
+
+                            if($validate->Recaptcha(1,0.5,"login") == true) {
+                                $csrf->GenerateToken($user->id);
+                                $login = User::find($user->id);
+                                $login->updated_at = date("Y-m-d H:i:s", strtotime("+1 Hour"));
+                                $login->login_attempts = 0;
+                                $login->token = bin2hex(random_bytes(32));
+                                $login->save();
+                                if ($validate->Post("remember") == 1) {
+                                    Cookies::Create("token", $login->token)->Days(7)->Path("/")->Http(true)->Save();
+                                } else {
+                                    Sessions::Create("token", $login->token);
+                                }
+                                redirect($url->make("account.home"));
                             }
-                            redirect($url->make("account.home"));
+                            else
+                            {
+                                $error = $validate->captchaerror;
+                            }
                         } else {
                             $error = "User login has Been disabled  Click here to reactivate";
                         }

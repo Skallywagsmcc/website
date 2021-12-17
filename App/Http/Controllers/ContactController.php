@@ -53,17 +53,6 @@ class ContactController
 
     }
 
-    public function matchsum($v1,$v2)
-    {
-        if($this->total == $v1 + $v2)
-        {;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     public function SiteSettings()
     {
@@ -80,13 +69,6 @@ class ContactController
 
     public function store(Url $url, Validate $validate,Mailer $mailer)
     {
-
-            $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
-            $recaptcha_secret = $_SERVER['GRK'];
-            $recaptcha_response = $_POST['g-recaptcha-response'];
-
-            $recaptcha = file_get_contents($recaptcha_url. '?secret='.$recaptcha_secret.'&response='.$recaptcha_response);
-            $recaptcha = json_decode($recaptcha,true);
 
 
         if(($this->settings->count() == 1 ) && ($this->settings->first()->lock_subumssions == 1))
@@ -105,7 +87,7 @@ class ContactController
                 $this->error = "The Following Missing fields are required";
                 $this->rmf = $validate->is_required;
             } else {
-                if(($recaptcha['success'] == 1) && ($recaptcha['score'] >= 0.5) && ($recaptcha['action'] == "contactus")){
+                if($validate->Recaptcha("1",0.5,"contactus")){
                     $mail = new PHPMailer();
                     try {
                         //Server settings
@@ -147,7 +129,7 @@ class ContactController
                         $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
                 } else {
-                    $this->error = "Sorry we was unable to verify your request! Please try again";
+                    $this->error = $validate->captchaerror;
                 }
             }
         }

@@ -117,7 +117,11 @@ class RegisterController
 
             $this->showform = true;
         }
-
+        elseif($validate->Recaptcha(1,0.5,"register")==false)
+        {
+         $error = $validate->captchaerror;
+         $this->showform = true;
+        }
         else {
             if ($this->SiteSettings()->where("open_registration", "0")->count() == 1) {
                 $request = RegisterRequest::where("token", $this->token)->get();
@@ -135,6 +139,8 @@ class RegisterController
 
         if($status == true)
         {
+
+
             //                Create user account;
                 $user = new User();
                 $user->username = $this->username;
