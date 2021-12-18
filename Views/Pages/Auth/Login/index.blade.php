@@ -1,4 +1,8 @@
 @extends("Layouts.Auth")
+
+@section("title")
+    Login to your account
+@endsection
 @section("head")
     <script src="https://www.google.com/recaptcha/api.js"></script>
     <script>
@@ -6,8 +10,7 @@
             document.getElementById("login-form").submit();
         }
     </script>
-
-main@endsection
+@endsection
 @section("content")
 
     <style type="text/css">
