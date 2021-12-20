@@ -29,7 +29,7 @@
 
 
     <div class="container my-2">
-        <div class="row">
+        <div class="row mx-lg-0 mx-1">
 
              <div class="col-sm-12 head">Login To your account</div>
             <div class="col-sm-12">
