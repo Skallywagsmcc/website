@@ -30,6 +30,16 @@ class PasswordController
     public function request(Url $url, Validate $validate)
     {
 
+/*Account Status codes
+
+0 : account disabled will rely on token table
+1 : banned : Banned needs to link to banning table
+2 : active
+*/
+
+//        TODO Implement Recaptcha
+
+
         $user = User::where("email", $validate->Post("email"))->get();
         if ($user->count() == 1) {
             $now = new DateTime();
@@ -58,12 +68,12 @@ class PasswordController
                 $mail->Port = $_ENV["SMTP_PORT"];        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
                 //Recipients
-                $mail->setFrom("mail@skallywags.club", "Password Reset");
+                $mail->setFrom("no-reply@skallywags.club", "no reply");
                 $mail->addAddress($user->email, $user->Profile->first_name . " " . $user->Profile->last_name);     //Add a recipient
 
                 //Content
                 $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = "You have requested a new Password reset";
+                $mail->Subject = "Password Reset Request";
                 $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
                 $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
                 $mail->Body .= "Sorry to hear you have forgot your password, Please find below a link to continue this process <br><br>";

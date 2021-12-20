@@ -13,13 +13,19 @@ class Csrf
 
     protected $id;
     protected $key;
+    public $entity_name;
 
+
+//    TODO Update tokens to support an expiry date and entity name
     public function __construct()
     {
+        $this->entity_name = "csrf_token";
         $this->checkexpire();
         $auth = new Auth();
         $this->id = $auth->id();
     }
+
+
 
     public function checkexpire()
     {
@@ -52,6 +58,7 @@ class Csrf
     {
         $token = Token::where("id", $id)->get()->first();
         $token->key = $key;
+        $token->expires = date("Y-m-d H:i:s");
         $token->save();
         self::GenerateExpire();
     }
@@ -67,6 +74,7 @@ class Csrf
         $token = new Token();
         $token->user_id = $user_id;
         $token->key = $key;
+        $token->expires = date("Y-m-d H:i:s");
         $token->save();
         self::GenerateExpire();
     }

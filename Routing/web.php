@@ -110,7 +110,7 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
 //    Must be available for login of administators
     $router->get("/?", [LoginController::class, 'index'], "login");
     $router->get("/login", [LoginController::class, 'index'], "login");
-    $router->post("/login/success", [LoginController::class, 'store'], "login.store");
+    $router->post("/login", [LoginController::class, 'store'], "login.store");
     $router->get("/register/?{token?}", [RegisterController::class, 'index'], "register");
     $router->post("/register/store/?", [RegisterController::class, 'store'], "register.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");

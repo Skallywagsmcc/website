@@ -10,6 +10,8 @@ use App\Http\Models\FeaturedImage;
 use App\Http\Models\Article;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
+use MiladRahimi\PhpRouter\Router;
+use MiladRahimi\PhpRouter\Routing\Route;
 use MiladRahimi\PhpRouter\Url;
 
 class HomeController

@@ -15,83 +15,158 @@ use MiladRahimi\PhpRouter\Url;
 
 class LoginController
 {
-    public function index(Url $url)
+
+    public $username;
+    public $password;
+    public $error;
+    public $open_registration;
+
+    public function __construct(Validate $validate)
     {
-        $mode = SiteSettings::where("id",1)->get();
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"mode"=>$mode]);
+        $this->username = $validate->Post("username");
+        $this->password = $validate->Post("password");
+        $this->open_registration = false;
     }
 
-    public function store(Url $url, Validate $validate,Csrf $csrf)
+    public function index(Url $url)
+    {
+
+        $this->checkopenreg();
+        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url, "value" => $this]);
+    }
+
+    public function checkopenreg()
+    {
+        $mode = SiteSettings::where("id", 1)->get();
+
+        if ($mode->count() == 1) {
+            $mode = $mode->first();
+
+            if ($mode->open_registration == 1) {
+                $this->open_registration = true;
+            } else {
+                $this->open_registration = false;
+            }
+        }
+
+    }
+
+    public function store(Url $url, Validate $validate, Csrf $csrf)
     {
 
 
+//        Add Required
+        $user = User::where("username", $this->username)->orwhere("email", $this->username)->get();
+//
 
+        $validate->AddRequired(["username", "password"]);
 
-        $username = $validate->Required("username")->Post();
-        $password = $validate->Required("password")->Post();
-        $mode = SiteSettings::where("id",1)->get();
-
-            $user = User::where("username", $username)->orwhere("email", $username)->get();
-            if($validate->allowed == false)
-            {
-                $error = "An Error Occurred Missing fields : ";
-                 foreach ($validate->is_required as $required){ $error .="( ". $required . " ) ";
-                 }
-            }
-            else {
-                if ($user->count() == 1) {
-                    $user = $user->first();
-                    if (password_verify($password, $user->password)) {
-                        if ($mode->first()->lock_submissions == 1) {
-                            $error = "Login is Disabled";
-                        } elseif (($user->is_admin == 0) && $mode->first()->open_login == 0) {
-                            $error = "Login Restricted to admins";
-                        } elseif ($user->disable == 0) {
-
-                            if($validate->Recaptcha(1,0.5,"login") == true) {
-                                $csrf->GenerateToken($user->id);
-                                $login = User::find($user->id);
-                                $login->updated_at = date("Y-m-d H:i:s", strtotime("+1 Hour"));
-                                $login->login_attempts = 0;
-                                $login->token = bin2hex(random_bytes(32));
-                                $login->save();
-                                if ($validate->Post("remember") == 1) {
-                                    Cookies::Create("token", $login->token)->Days(7)->Path("/")->Http(true)->Save();
-                                } else {
-                                    Sessions::Create("token", $login->token);
-                                }
-                                redirect($url->make("account.home"));
-                            }
-                            else
-                            {
-                                $error = $validate->captchaerror;
-                            }
-                        } else {
-                            $error = "User login has Been disabled  Click here to reactivate";
-                        }
-
-                    } else {
+        if ($validate->allowed() == false) {
+            $this->error = "Invalid or required Fields";
+        } else {
+//            Check if the user exisits
+            $this->checkopenreg();
+            if ($user->count() == 1) {
+                $user = $user->first();
+//                Verify the password exists and matches the database
+                if (password_verify($this->password, $user->password)) {
+//                    Do Recaptcha
+                    if ($validate->Recaptcha(1, 0.5, "login") == true) {
+//                        Validate a csrf token
+                        $csrf->GenerateToken($user->id);
+//                        Find the user (again)
                         $login = User::find($user->id);
-                        if ($login->login_attempts > 2) {
-                            $login->disable = 1;
-                        } else {
-                            $login->login_attempts = $user->login_attempts + 1;
-
-                        }
+                        $login->updated_at = date("Y-m-d H:i:s", strtotime("+1 Hour"));
+                        $login->login_attempts = 0;
+                        $login->token = bin2hex(random_bytes(32));
                         $login->save();
-                        $max = 3;
-
-                        if ($login->disable == 1) {
-                            $error = "Account disabled Please contact support";
+//                        Set cookies or sessions
+                        if ($validate->Post("remember") == 1) {
+                            Cookies::Create("token", $login->token)->Days(7)->Path("/")->Http(true)->Save();
                         } else {
-                            $error = "Sorry the password does not match our database: Please try again " . ($max - $login->login_attempts) . " Attempts Remaining";
+                            Sessions::Create("token", $login->token);
                         }
+//                        Redirect
+                        if($login->is_admin==1)
+                        {
+                            redirect($url->make("auth.admin.home"));
+                        }
+                        else
+                        {
+                            redirect($url->make("account.home"));
+                        }
+                    } else {
+                        $this->error = $validate->captchaerror;
                     }
                 } else {
-                    $error = "Sorry the user you have entered does not seem to exist in our database : Please try again";
+                    $this->error = "Password does not match";
                 }
+            } else {
+                $this->error = "No user found";
             }
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url,"error"=>$error,"validate"=>$validate,"username"=>$username,"mode"=>$mode]);
+//            exit();
+        }
+
+//            if($validate->allowed == false)
+//            {
+//                $error = "An Error Occurred Missing fields : ";
+//                 foreach ($validate->is_required as $required){ $error .="( ". $required . " ) ";
+//                 }
+//            }
+//            else {
+//                if ($user->count() == 1) {
+//                    $user = $user->first();
+//                    if (password_verify($password, $user->password)) {
+//                        if ($mode->first()->lock_submissions == 1) {
+//                            $error = "Login is Disabled";
+//                        } elseif (($user->is_admin == 0) && $mode->first()->open_login == 0) {
+//                            $error = "Login Restricted to admins";
+//                        } elseif ($user->disable == 0) {
+//
+//                            if($validate->Recaptcha(1,0.5,"login") == true) {
+//
+//                                $login = User::find($user->id);
+//                                $login->updated_at = date("Y-m-d H:i:s", strtotime("+1 Hour"));
+//                                $login->login_attempts = 0;
+//                                $login->token = bin2hex(random_bytes(32));
+//                                $login->save();
+//                                if ($validate->Post("remember") == 1) {
+//                                    Cookies::Create("token", $login->token)->Days(7)->Path("/")->Http(true)->Save();
+//                                } else {
+//                                    Sessions::Create("token", $login->token);
+//                                }
+//                                redirect($url->make("account.home"));
+//                            }
+//                            else
+//                            {
+//                                $error = $validate->captchaerror;
+//                            }
+//                        } else {
+//                            $error = "User login has Been disabled  Click here to reactivate";
+//                        }
+//
+//                    } else {
+//                        $login = User::find($user->id);
+//                        if ($login->login_attempts > 2) {
+//                            $login->disable = 1;
+//                        } else {
+//                            $login->login_attempts = $user->login_attempts + 1;
+//
+//                        }
+//                        $login->save();
+//                        $max = 3;
+//
+//                        if ($login->disable == 1) {
+//                            $error = "Account disabled Please contact support";
+//                        } else {
+//                            $error = "Sorry the password does not match our database: Please try again " . ($max - $login->login_attempts) . " Attempts Remaining";
+//                        }
+//                    }
+//                } else {
+//                    $error = "Sorry the user you have entered does not seem to exist in our database : Please try again";
+//                }
+//            }
+        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url, "error" => $this->error, "validate" => $validate, "username" => $this->username, "mode" => $mode, "value" => $this]);
 
 
     }
@@ -99,20 +174,18 @@ class LoginController
     public function logout(Url $url)
     {
 
-        if(isset($_SESSION['token']))
-        {
+        if (isset($_SESSION['token'])) {
             Sessions::Destroy("token");
         }
 
-        if(isset($_COOKIE['token']))
-        {
-            setcookie("token",'',time()-3600,'/');
+        if (isset($_COOKIE['token'])) {
+            setcookie("token", '', time() - 3600, '/');
         }
 
 //        Destroy Other Sessions and cookies
         Sessions::Destroy("tfa_approved");
         Sessions::Destroy("csrf_expire");
-            redirect($url->make("login"));
+        redirect($url->make("login"));
 
 
     }
