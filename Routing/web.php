@@ -125,7 +125,8 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
         $router->get("/?", [\App\Http\Controllers\PasswordController::class, "index"], "passwordreset.home");
         $router->get("/{token_hex}", [\App\Http\Controllers\PasswordController::class, "request"], "passwordreset.request");
         $router->post("/?", [\App\Http\Controllers\PasswordController::class, "store"], "passwordreset.store");
-        $router->post("/update", [\App\Http\Controllers\PasswordController::class, "update"], "passwordreset.update");
+        $router->post("/update/{token_hex}", [\App\Http\Controllers\PasswordController::class, "update"], "passwordreset.update");
+        $router->get("/cancel-request/{user_id}/{token_hex}/{token_key}", [\App\Http\Controllers\PasswordController::class, "delete"], "passwordreset.delete");
 //        $router->post("/request", [\App\Http\Controllers\PasswordController::class, "request"], "password-reset.request");
 //        $router->get("/retrieve/{id}/{hex}", [\App\Http\Controllers\PasswordController::class, "retrieve"], "password-reset.retrieve");
 //        $router->post("/store", [\App\Http\Controllers\PasswordController::class, "store"], "password-reset.store");

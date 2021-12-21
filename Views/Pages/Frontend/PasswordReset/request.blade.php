@@ -1,18 +1,48 @@
 @extends("Layouts.main")
 
 
+@section("head")
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script>
+        function onSubmit(token) {
+            document.getElementById("password-reset-form").submit();
+        }
+    </script>
+@endsection
 
 @section("content")
+
+    @isset($value->error)
+        <div class="container my-2">
+            <div class="row">
+                <div class="col-sm-12 head">An Error Occurred</div>
+                <div class="col-sm-12">
+                    {{$value->error}}
+                    <br><br>
+                    @isset($value->required)
+                        @foreach($value->required as $required)
+                            {{$required}} <br>
+                        @endforeach
+                    @endisset
+                </div>
+
+
+            </div>
+        </div>
+
+    @endisset
+
     @isset($value)
+
         <div class="container my-2">
             <div class="row">
                 <div class="col-sm-12 col-lg-8">
                     {{--                DO a count to see if the request is valid--}}
-                    @if($value->request->count() == 1)
+                    @if($value->count == true)
                         @if(date("d/m/Y H:i:s") < date("d/m/Y H:i:s",strtotime($value->request->first()->expires)))
                             <div class="col-sm-12 head">Reset Password: Request Found</div>
 
-                            <form action="{{$url->make("passwordreset.update")}}" method="post" class="tld-form" id="password-reset">
+                            <form action="{{$url->make("passwordreset.update",["token_hex"=>$value->token_hex])}}" method="post" class="tld-form" id="password-reset-form">
                                 <input type="hidden" name="token_hex" readonly value="{{$token_hex}}">
                                 <div class="form-group px-0">
                                     <label for="">New Password </label>
@@ -24,6 +54,7 @@
                                     <label for="">Confirm New Password </label>
                                     <div class="col-sm-12 my-1"><input type="password" class="tld-input form-control"
                                                                        name="confirm"></div>
+
                                 </div>
 
                                 <div class="form-group px-0">
@@ -33,7 +64,13 @@
                                 </div>
 
 
-                                <button class="btn tld-button btn-block">Update Password</button>
+                                <div class="col-sm-12">
+                                    <button class="g-recaptcha btn btn-block tld-button my-2"
+                                            data-sitekey="6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"
+                                            data-callback='onSubmit'
+                                            data-action='password_reset'>Reset Password
+                                    </button>
+                                </div>
                             </form>
                         @else
                         <div class="col-sm-12 head">An Error Occurred</div>
@@ -42,7 +79,8 @@
 
                         {{--                    End Request--}}
                     @else
-                        This page cannot be found
+                        <div class="col-sm-12 head">An Error Occurred</div>
+                        <div class="col-sm-12">Sorry it seems the request you are looking for has been deleted</div>
                     @endif
                 </div>
                 <div class="col-sm-12 col-lg-4">

@@ -35,8 +35,6 @@
 
     </div>
 
-    <a href="{{$url->make("account.home")}}">Admin</a>
-
     <div class="container my-2">
         <div class="row mx-lg-0 mx-1">
 
