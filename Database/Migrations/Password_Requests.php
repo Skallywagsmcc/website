@@ -14,8 +14,10 @@ class Password_Requests
         Capsule::schema()->create("password_requests", function ($table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string("hex");
-            $table->string("exchange_key")->nullable();
+            $table->biginteger("entity_id")->nullable();
+            $table->string("entity_name");
+            $table->string("token_hex");
+            $table->string("token_key")->nullable();
             $table->datetime("expires");
             $table->timestamps();
 

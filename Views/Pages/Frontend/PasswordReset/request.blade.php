@@ -42,26 +42,7 @@
 
                         {{--                    End Request--}}
                     @else
-                        <div class="col-sm-12 head">Password Reset : New Request</div>
-                        <form action="{{$url->make("passwordreset.store")}}" method="post" class="tld-form">
-                            <div class="form-group">
-                                <label for="emaik">Your Email Address</label>
-                                <div class="col-sm-12 py-2">
-                                    <input type="text" name="email" class="form-control tld-input">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <button class="btn btn-block tld-button">Sent Request</button>
-                            </div>
-                        </form>
-                        <div class="col-sm-12 head">What happens?</div>
-                        <div class="col-sm-12 text-center">Once you submit your request you will be emailed a unique 32
-                            bit token and a token key,
-                            <br><br>The token hex and key used alone will not work and must be used as a combination
-                            <br><br>Once the link has been requested you will be given a set time to complete the
-                            request and the token key must be given to complete the request (again this will be found
-                            within the password reset email
-                        </div>
+                        This page cannot be found
                     @endif
                 </div>
                 <div class="col-sm-12 col-lg-4">

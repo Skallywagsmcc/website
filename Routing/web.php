@@ -122,12 +122,15 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
     });
 
     $router->group(["prefix" => "/reset-password", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
-        $router->get("/?", [\App\Http\Controllers\PasswordController::class, "index"], "password-reset.index");
-        $router->post("/request", [\App\Http\Controllers\PasswordController::class, "request"], "password-reset.request");
-        $router->get("/retrieve/{id}/{hex}", [\App\Http\Controllers\PasswordController::class, "retrieve"], "password-reset.retrieve");
-        $router->post("/store", [\App\Http\Controllers\PasswordController::class, "store"], "password-reset.store");
-        $router->post("/cancel", [\App\Http\Controllers\PasswordController::class, "cancelrequest"], "password.cancel.index");
-        $router->post("cancel/store", [\App\Http\Controllers\PasswordController::class, "cancelStore"], "password.cancel.store");
+        $router->get("/?", [\App\Http\Controllers\PasswordController::class, "index"], "passwordreset.home");
+        $router->get("/{token_hex}", [\App\Http\Controllers\PasswordController::class, "request"], "passwordreset.request");
+        $router->post("/?", [\App\Http\Controllers\PasswordController::class, "store"], "passwordreset.store");
+        $router->post("/update", [\App\Http\Controllers\PasswordController::class, "update"], "passwordreset.update");
+//        $router->post("/request", [\App\Http\Controllers\PasswordController::class, "request"], "password-reset.request");
+//        $router->get("/retrieve/{id}/{hex}", [\App\Http\Controllers\PasswordController::class, "retrieve"], "password-reset.retrieve");
+//        $router->post("/store", [\App\Http\Controllers\PasswordController::class, "store"], "password-reset.store");
+//        $router->post("/cancel", [\App\Http\Controllers\PasswordController::class, "cancelrequest"], "password.cancel.index");
+//        $router->post("cancel/store", [\App\Http\Controllers\PasswordController::class, "cancelStore"], "password.cancel.store");
     });
 
 });
