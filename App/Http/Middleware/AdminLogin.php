@@ -22,7 +22,7 @@ class AdminLogin
         }
         else
         {
-            redirect($url->make("homepage")."?error=restricted");
+            redirect($url->make("login")."/?ref=".$_SERVER["REQUEST_URI"]."&access=restricted");
         }
 //
     }

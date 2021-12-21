@@ -11,6 +11,7 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Authentication\Sessions;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\User;
+use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
 class LoginController
@@ -28,11 +29,11 @@ class LoginController
         $this->open_registration = false;
     }
 
-    public function index(Url $url)
+    public function index(Url $url,ServerRequest $request)
     {
-
+        $request = array("ref"=>$request->getQueryParams()["ref"],"access"=>$request->getQueryParams()["access"]);
         $this->checkopenreg();
-        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url, "value" => $this]);
+        echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url, "value" => $this,"request"=>$request]);
     }
 
     public function checkopenreg()
@@ -51,10 +52,10 @@ class LoginController
 
     }
 
-    public function store(Url $url, Validate $validate, Csrf $csrf)
+    public function store(Url $url, Validate $validate, Csrf $csrf,ServerRequest $request)
     {
-
-
+        
+        $ref = $request->getQueryParams()["ref"];
 //        Add Required
         $user = User::where("username", $this->username)->orwhere("email", $this->username)->get();
 //
@@ -87,14 +88,22 @@ class LoginController
                             Sessions::Create("token", $login->token);
                         }
 //                        Redirect
-                        if($login->is_admin==1)
+                        if(isset($ref))
                         {
-                            redirect($url->make("auth.admin.home"));
+                            redirect($ref);
                         }
                         else
                         {
-                            redirect($url->make("account.home"));
+                            if($login->is_admin==1)
+                            {
+                                redirect($url->make("auth.admin.home"));
+                            }
+                            else
+                            {
+                                redirect($url->make("account.home"));
+                            }
                         }
+
                     } else {
                         $this->error = $validate->captchaerror;
                     }
