@@ -21,7 +21,7 @@ class Users
             $table->string("token"); //remember me token
             $table->integer("is_admin")->default(0);
             $table->integer("login_attempts")->default(0);
-            $table->integer("disable")->default(0);
+            $table->integer("status")->default(1);
             $table->timestamps();
         });
     }

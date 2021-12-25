@@ -39,7 +39,6 @@
             <div class="col-sm-12 box py-2">
                 <form action="{{$url->make("auth.admin.users.store")}}" method="post" class="tld-form">
                     {{csrf()}}
-                    @if($status == true)
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="first_name">First name : </label>
@@ -52,7 +51,6 @@
                                        value="@isset($post){{$post->last_name}} @endisset">
                             </div>
                         </div>
-                    @endif
                     <div class="form-row">
                         <label for="email">Email Address : </label>
                         <input type="text" class="form-control tld-input" name="email"
@@ -63,8 +61,6 @@
                                    value="@isset($post){{$post->username}}@endisset"/>
                         @endif
                     </div>
-
-
                     @if($status == true)
                         <div class="form-row">
                             {{--                <div class="form-group col-md-6">--}}

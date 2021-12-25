@@ -111,7 +111,7 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
     $router->get("/?", [LoginController::class, 'index'], "login");
     $router->get("/login", [LoginController::class, 'index'], "login");
     $router->post("/login", [LoginController::class, 'store'], "login.store");
-    $router->get("/register/?{token?}", [RegisterController::class, 'index'], "register");
+    $router->get("/register/?{token_hex}?", [RegisterController::class, 'index'], "register");
     $router->post("/register/store/?", [RegisterController::class, 'store'], "register.store");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
@@ -218,6 +218,7 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
         $router->post("/store", [UsersController::class, "store"], "auth.admin.users.store");
         $router->post("/edit/{id}", [UsersController::class, "update"], "auth.admin.users.update");
         $router->get("/search", [UsersController::class, "search"], "auth.admin.users.search");
+        $router->get("/delete/{user_id}/{token_hex}/{token_key}", [UsersController::class, "deleterequest"], "auth.admin.users.delete.request");
     });
 
     $router->group(["prefix" => "/articles"], function (Router $router) {
