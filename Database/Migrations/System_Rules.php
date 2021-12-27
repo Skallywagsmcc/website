@@ -22,7 +22,6 @@ class System_Rules
             $table->integer("status")->default(0);
             $table->text("notes");
             $table->timestamps();
-
         });
     }
 

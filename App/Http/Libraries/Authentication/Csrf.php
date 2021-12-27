@@ -33,6 +33,7 @@ class Csrf
         }
         $this->entity_name = "request/csrf";
         $this->token_hex = bin2hex(random_bytes(32));
+        $this->token_key = rand(00000,10000)."-".rand(00000,100000);
     }
 
     public function FindToken($user_id)
@@ -72,6 +73,7 @@ class Csrf
     {
         $token = Token::where("id", $id)->where("entity_name", "$this->entity_name")->get()->first();
         $token->token_hex = $this->token_hex;
+        $token->token_key = $this->token_key;
         $token->expires = $this->NewExpiry("15 mins");
         $token->save();
     }
@@ -84,6 +86,7 @@ class Csrf
         $token->user_id = $user_id;
         $token->entity_name = $this->entity_name;
         $token->token_hex = $this->token_hex;
+        $token->token_key = $this->token_key;
         $token->expires = $this->NewExpiry("15 mins");
         $token->save();
     }

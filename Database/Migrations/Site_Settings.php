@@ -15,15 +15,11 @@ class Site_Settings
         Capsule::schema()->create("site_settings", function ($table)
         {
             $table->id();
-            $table->longtext("contact_address");
-            $table->biginteger("contact_telephone");
-            $table->text("contact_email");
-//            Status 0 for down 1 for up
-            $table->biginteger("maintainence_status")->default(1);
-            $table->integer("open_login")->default(1);
-            $table->integer("open_registration")->default(1);
-            $table->integer("lock_submissions")->default(0); // Add now and implement at a future date
-            $table->text("lock_message")->nullable();
+            $table->string("admin_email");
+            $table->string("entity_name");
+            $table->integer("current");
+            $table->string("site_version");
+            $table->string("site_token") //Will be  hashed code for verification
             $table->timestamps();
             
         });
