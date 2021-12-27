@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 namespace App\Http\Libraries\Authentication;
@@ -129,5 +130,4 @@ class Csrf
 
         }
     }
-
 }
