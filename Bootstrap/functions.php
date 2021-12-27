@@ -34,7 +34,8 @@ function LastLogin()
 
 function csrf()
 {
-    return Csrf::Key();
+    $csrf = new Csrf();
+    return $csrf->Key();
 }
 
 function baseclass($value)
@@ -45,8 +46,8 @@ function baseclass($value)
 
 function ClearBladeCache()
 {
-    $path = __DIR__ . '/../Storage/Cache/*';
-    array_map('unlink', array_filter((array)glob($path)));
+//    $path = __DIR__ . '/../Storage/Cache/*';
+//    array_map('unlink', array_filter((array)glob($path)));
 }
 
 function events()

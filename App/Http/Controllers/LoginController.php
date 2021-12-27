@@ -49,7 +49,6 @@ class LoginController
                 $this->open_registration = false;
             }
         }
-
     }
 
     public function store(Url $url, Validate $validate, Csrf $csrf, ServerRequest $request)

@@ -14,7 +14,10 @@ class Tokens
         Capsule::schema()->create("tokens", function ($table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string("key");
+            $table->biginteger("entity_id")->nullable();
+            $table->string("entity_name")
+            $table->string("token_hex");
+            $table->string("token_key")->nullable();
             $table->datetime("expires");
             $table->timestamps();
         });
