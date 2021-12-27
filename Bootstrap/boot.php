@@ -11,7 +11,8 @@ require "functions.php";
 require_once "Database.php";
 
 ClearBladeCache();
-if(Capsule::schema()->hasTable("users")){
-$csrf = new \App\Http\Libraries\Authentication\Csrf();
+if(Capsule::schema()->hasTable("users")) {
+    $csrf = new \App\Http\Libraries\Authentication\Csrf();
+}
 require_once ROOT ."/Routing/web.php";
 
