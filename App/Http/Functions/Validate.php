@@ -77,6 +77,22 @@ class Validate
     }
 
 
+
+
+    public  function TestCaptcha($success, $score, $action)
+    {
+        $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
+        $recaptcha_secret = $_SERVER['GRK'];
+        $recaptcha_response = $_POST['g-recaptcha-response'];
+
+        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+        $recaptcha = json_decode($recaptcha, true);
+
+
+        exit($recaptcha['success'] . "  Action : " . $recaptcha["action"] . "Score : " . $recaptcha["score"]);
+    }
+
+
     public  function Recaptcha($success, $score, $action)
     {
         $recaptcha_url = "https://www.google.com/recaptcha/api/siteverify";
