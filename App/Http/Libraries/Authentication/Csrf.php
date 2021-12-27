@@ -46,9 +46,9 @@ class Csrf
 
         $today = date("Y-m-d H:i:s");
         if ($this->CountToken() == true) {
-            if ($today < date("Y-m-d H:i:s",strtotime($this->FindToken()->expires))
+            if ($today < date("Y-m-d H:i:s",strtotime($this->FindToken()->expires)))
                 {
-                    "your token has expired Please regenerate one";
+                    echo  "your token has expired Please regenerate one";
                 }
         }
 
