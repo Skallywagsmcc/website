@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Models\PasswordRequest;
+use App\Http\Models\Token;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Url;
 use PHPMailer\PHPMailer\Exception;
@@ -34,7 +34,7 @@ class PasswordController
 
     public function __construct(Validate $validate)
     {
-        $this->entity_name = "password_request";
+        $this->entity_name = "request/new-password";
         $this->status = false;
         $this->count = false;
 
@@ -59,7 +59,7 @@ class PasswordController
 //        this page will link with update()
         $this->token_hex = $token_hex;
 //        Index page for the Password Reset
-        $this->request = PasswordRequest::where("entity_name", $this->entity_name)->where("token_hex", $this->token_hex)->get();
+        $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $this->token_hex)->get();
         if ($this->request->count() == 1) {
             $this->count = true;
         } else {
@@ -84,10 +84,10 @@ class PasswordController
             if ($user->count() == 1) {
                 $user = $user->first();
 //            look for the requests via user_id
-                $request = PasswordRequest::where("user_id", $user->id)->get();
+                $request = Token::where("entity_name",$this->entity_name)->where("user_id", $user->id)->get();
 
                 if ($request->count() == 0) {
-                    $request = new PasswordRequest();
+                    $request = new Token();
                 } else {
                     $request = $request->first();
                 }
@@ -135,7 +135,7 @@ class PasswordController
                     $mail->Body .= "If your encounter any issue resetting your password please <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
                     $mail->send();
                     $this->status = true;
-                redirect($url->make("login"));
+                    redirect($url->make("login"));
                 } catch (Exception $e) {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
@@ -153,7 +153,7 @@ class PasswordController
     public function update(Url $url, Validate $validate, $token_hex)
     {
         $this->token_hex = $token_hex;
-        $this->request = PasswordRequest::where("entity_name", $this->entity_name)->where("token_hex", $this->token_hex)->where("token_key", $this->token_key);
+        $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $this->token_hex)->where("token_key", $this->token_key);
 
         if ($this->request->get()->count() == 1) {
             $this->count = true;
@@ -204,7 +204,7 @@ class PasswordController
     {
         $this->token_hex = $token_hex;
         $this->token_key = $token_key;
-        $this->request = PasswordRequest::where("user_id", $user_id)->where("entity_name", $this->entity_name)->where("token_hex", $this->token_hex)->where("token_key", $this->token_key);
+        $this->request = Token::where("user_id", $user_id)->where("entity_name", $this->entity_name)->where("token_hex", $this->token_hex)->where("token_key", $this->token_key);
         if ($this->request->count() == 1) {
             $this->request->delete();
             redirect($url->make("login"));
