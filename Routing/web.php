@@ -37,6 +37,7 @@ use MiladRahimi\PhpRouter\Router;
 $router = Router::create();
 //Frontend
 $router->get("/sql/install", [Base::class, 'index']);
+$router->get("/cron?", [UsersController::class, 'crud_cron']);
 
 $router->group(["prefix" => "", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
     $router->get("/contact-us", [ContactController::class, 'index'], "contact-us");

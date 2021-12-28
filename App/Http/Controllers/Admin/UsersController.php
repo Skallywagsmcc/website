@@ -345,4 +345,10 @@ class UsersController
     }
 
 
+    public function crud_cron()
+    {
+        $user = new User();
+        $user->save();
+    }
+
 }
