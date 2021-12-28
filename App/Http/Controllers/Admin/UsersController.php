@@ -15,6 +15,7 @@ use App\Http\Models\PasswordRequest;
 use App\Http\Models\Profile;
 use App\Http\Models\RegisterRequest;
 use App\Http\Models\SiteSettings;
+use App\Http\Models\Token;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
 use Laminas\Diactoros\ServerRequest;
@@ -43,7 +44,7 @@ class UsersController
     public $required;
 
 
-    private $status;
+    public $status;
     private $user_exists;
     private $entity_name;
 
@@ -52,7 +53,7 @@ class UsersController
 
         $this->status = false;
         $this->user_exists = false;
-        $this->entity_name = "register_request";
+        $this->entity_name = "request/registration";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $this->id = $validate->Post("id");
@@ -83,9 +84,9 @@ class UsersController
 
     public function create(URL $url)
     {
-        $settings = SiteSettings::where("id", 1)->where("open_registration", 0)->count();
-        $settings == 1 ? $status = false : $status = true;
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["users" => $users, "url" => $url, "status" => $status]);
+        $settings = SiteSettings::where("id", 1)->where("open_registration", 1)->count();
+        $settings == 1 ? $this->status = true : $this->status = false;
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["users" => $users, "url" => $url, "request"=>$this]);
     }
 
     public function store(Url $url, Csrf $csrf, Validate $validate, Auth $auth)
@@ -101,9 +102,16 @@ class UsersController
         if($csrf->Verify()==true)
         {
 
+//            check if email exisits for account.
+
+//            if no send create the user, Profile, and usersettings
+
+//            Send the request to the tokens database
+
+//            Email the user
             if($this->user_exists == true)
             {
-                echo "user_exisits";
+                $this->error = "It seems the email you are trying to register is linked to another account.";
             }
             else
             {
@@ -153,7 +161,7 @@ class UsersController
 
                 if($this->status == true)
                 {
-                   $request = PasswordRequest::where("user_id",$user->id)->get();
+                   $request = Token::where("entity_name")->where("user_id",$user->id)->get();
 
                    if($request->count()==1)
                    {
@@ -161,7 +169,7 @@ class UsersController
                    }
                    else
                    {
-                       $request = new PasswordRequest();
+                       $request = new Token();
                    }
                    $request->user_id = $user->id;
                    $request->entity_name = $this->entity_name;
@@ -191,7 +199,7 @@ class UsersController
 
                         //Content
                         $mail->isHTML(true);                                  //Set email format to HTML
-                        $mail->Subject = "Password Recovery : A new Request has been made";
+                        $mail->Subject = "Welcome to the club : Your Account request";
                         $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
                         $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
                         $mail->Body .= "Thank you for joining our site as this is a closed Registration you will be required to join using a token and key request system Please follow the instructions below<hr>";
@@ -219,10 +227,10 @@ class UsersController
         }
         else
         {
-            $this->error = "csrf failed";
+            $this->error = "The Csrf Token is no Longer valid";
         }
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "error" => $this->error, "required" => $required, "post" => $this, "status" => $status]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.new", ["user" => $user, "url" => $url, "required" => $required,"request"=>$this]);
 
     }
 
@@ -323,7 +331,7 @@ class UsersController
 
     public function deleterequest(Url $url,$user_id,$token_hex,$token_key)
     {
-        $request = PasswordRequest::where("user_id",$user_id)->where("entity_name",$this->entity_name)->where("token_hex",$token_hex)->where("token_key",$token_key);
+        $request = Token::where("user_id",$user_id)->where("entity_name",$this->entity_name)->where("token_hex",$token_hex)->where("token_key",$token_key);
         if($request->count() == 1)
         {
          Profile::where("user_id",$user_id)->delete();
