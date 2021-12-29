@@ -345,14 +345,6 @@ class UsersController
     }
 
 
-    public function crud_cron()
-    {
-        $users = User::where("id",">",1)->get();
-            foreach($users as $user )
-            {
-                User::destroy($user->id);
-            }
-
-    }
+    
 
 }
