@@ -70,7 +70,11 @@ class LoginController
 //                Verify the password exists and matches the database
                 if (password_verify($this->password, $user->password)) {
 //                    Do Recaptcha
-                    if ($validate->Recaptcha(1, 0.5, "login") == true) {
+                    if($user->first()->status <= 1)
+                    {
+                        $this->error = "Your account has not been activated";
+                    }
+                elseif ($validate->Recaptcha(1, 0.5, "login") == true) {
 //                        Validate a csrf token
                     $csrf->GenerateToken($user->id);
 //                        Find the user (again)

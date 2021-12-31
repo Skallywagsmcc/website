@@ -15,8 +15,8 @@ class Tokens
             $table->id();
             $table->foreignId('user_id');
             $table->biginteger("entity_id")->nullable();
-            $table->string("entity_name")
-            $table->string("token_hex");
+            $table->string("entity_name");
+            $table->string("token_hex")->nullable();
             $table->string("token_key")->nullable();
             $table->datetime("expires");
             $table->timestamps();
