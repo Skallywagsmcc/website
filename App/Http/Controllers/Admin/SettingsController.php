@@ -34,26 +34,29 @@ class SettingsController
     public $postcode;
     private $password;
     private $drop;
+    public $settings;
 
     public function __construct(Validate $validate)
     {
-        $this->email = $validate->Post("email");
-        $this->address = explode(",", SiteSettings::where("id", 1)->get()->first()->contact_address);
-        $this->telephone = $validate->Post("telephone");
-        $this->open_login = $validate->Post("open_login");
-        $this->open_registration = $validate->Post("open_registration");
-        $this->lock_submissions = $validate->Post("lock_submissions");
-        $this->maintainence_status = $validate->Post("maintainence_status");
-        $this->maintainence_message = $validate->Post("maintainence_status");
-        $this->password = $validate->Post("password");
-        $this->drop = $validate->Post("drop");
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->email = $validate->Post("email");
+            $this->address = explode(",", SiteSettings::where("id", 1)->get()->first()->contact_address);
+            $this->telephone = $validate->Post("telephone");
+            $this->open_login = $validate->Post("open_login");
+            $this->open_registration = $validate->Post("open_registration");
+            $this->lock_submissions = $validate->Post("lock_submissions");
+            $this->maintainence_status = $validate->Post("maintainence_status");
+            $this->maintainence_message = $validate->Post("maintainence_status");
+            $this->password = $validate->Post("password");
+            $this->drop = $validate->Post("drop");
 
-        $this->name = $validate->Post("name");
-        $this->street = $validate->Post("street");
-        $this->city = $validate->Post("city");
-        $this->county = $validate->Post("county");
-        $this->postcode = $validate->Post("postcode");
-        $this->migration = $validate->Post("migration");
+            $this->name = $validate->Post("name");
+            $this->street = $validate->Post("street");
+            $this->city = $validate->Post("city");
+            $this->county = $validate->Post("county");
+            $this->postcode = $validate->Post("postcode");
+            $this->migration = $validate->Post("migration");
+        }
     }
 
 
@@ -66,42 +69,24 @@ class SettingsController
 
     public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
+//        Variables
+
         if ($csrf->Verify() == true) {
-            $user = User::where("id", $auth->id())->where("is_admin", 1)->get();
 
-
-            $settings = SiteSettings::where("id", 1)->get();
-            if ($settings->count() == 1) {
-                $settings = $settings->first();
-                if ($this->lock_submissions == 1) {
-                    $required = ["lock_message"];
-                    $settings->lock_message = $this->lock_message;
-                    if ($validate->Allowed() == false) {
-                        $error = "Required fields are Missings";
-                        $rmf = $validate->is_required;
-                    } else {
-                        $settings->save();
-                        redirect($url->make("logout"));
-                    }
-
-                } else {
-                    $settings->contact_email = $this->email;
-                    $settings->contact_address = trim($this->name) . ",";
-                    $settings->contact_address .= trim($this->street) . ",";
-                    $settings->contact_address .= trim($this->city) . ",";
-                    $settings->contact_address .= trim($this->county) . ",";
-                    $settings->contact_address .= trim($this->postcode);
-                    $settings->contact_telephone = $this->telephone;
-                    $settings->maintainence_status = $this->maintainence_status;
-                    $settings->open_login = $this->open_login;
-                    $settings->open_registration = $this->open_registration;
-                    $settings->lock_submissions = $this->lock_submissions;
-                    $settings->save();
+            $this->settings = SiteSettings::where("id", 1)->get();
+            $addresses = Address::where("contactus",1)->get();
+            if ($this->settings->count() == 1) {
+                $this->settings = $this->settings->first();
+                    $this->settings->contact_email = $this->email;
+                    $this->settings->maintainence_status = $this->maintainence_status;
+                    $this->settings->open_login = $this->open_login;
+                    $this->settings->open_registration = $this->open_registration;
+                    $this->settings->lock_submissions = $this->lock_submissions;
+                    $this->settings->save();
                     redirect($url->make("auth.admin.home"));
-                }
             }
         }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "error" => $error, "user" => $user->first(), "settings" => $settings, "post" => $this]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "error" => $error,"addresses"=>$addresses,"post" => $this]);
     }
 
 

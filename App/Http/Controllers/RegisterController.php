@@ -230,7 +230,6 @@ class RegisterController
     public function activate(Url $url, $token_hex=null)
     {
         $this->entity_name = "request/activation";
-
         $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $token_hex);
 
         if ($this->request->count() == 1) {

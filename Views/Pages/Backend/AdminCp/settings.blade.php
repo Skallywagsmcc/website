@@ -30,6 +30,8 @@
     {{--todo need to find a away to add multiple Addresses and Tephone Numbers to contact page may require a pivot table--}}
     <div class="container my-2">
         <form action="{{$url->make("auth.admin.settings.store")}}" method="post">
+
+            {{csrf()}}
             <div class="row box my-2">
                 <div class="col-sm-12 py-2 head">Site Settings : Contact Email Address:</div>
                 <div class="col-sm-12">
