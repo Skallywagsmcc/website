@@ -114,6 +114,8 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
     $router->post("/login", [LoginController::class, 'store'], "login.store");
     $router->get("/register/?{token_hex}?", [RegisterController::class, 'index'], "register");
     $router->post("/register/store", [RegisterController::class, 'store'], "register.store");
+    $router->get("/activate/account/?{token_hex}?",[RegisterController::class,"activate"],"activate.home");
+    $router->post("/activate/resent",[RegisterController::class,"resend_activation"],"activate.resend");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
     $router->group(["prefix" => "/tfa", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
