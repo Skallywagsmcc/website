@@ -210,7 +210,7 @@ class RegisterController
                     $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
                     $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
                     $mail->Body .= "Welcome to the Skallywags, Your account has been created, all that is left is to simply activate your account <hr>";
-                    $mail->Body .= " <a href='" . $_ENV['DOMAIN'] . $url->make("register.activate", ["token_hex" => $token->token_hex]) . "'>Click Here</a> to activate your account <br><br>";
+                    $mail->Body .= " <a href='" . $_ENV['DOMAIN'] . $url->make("activate.home", ["token_hex" => $token->token_hex]) . "'>Click Here</a> to activate your account <br><br>";
                     $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
                     $mail->send();
 
@@ -282,14 +282,14 @@ class RegisterController
         else
         {
             $this->entity_name = "request/activation";
-            $users = User::where("email", $this->email)->where("status", 2)->get();
+            $users = User::where("email", $this->email)->where("status", 1)->get();
             if ($users->count() == 1) {
                 $users = $users->first();
 //            Pull up token
 
-                $this->request = Token::where("entity_name", $this->entity_name)->where("user_id", $user->id);
-                $this->request->count() == 1 ? $token = Token::find($token->id) : $token = new Token();
-                $token->user_id = $user->id;
+                $this->request = Token::where("entity_name", $this->entity_name)->where("user_id", $users->id)->get();
+                $this->request->count() == 1 ? $token = Token::find($this->request->first()->id) : $token = new Token();
+                $token->user_id = $users->id;
                 $token->entity_name = $this->entity_name;
                 $token->token_hex = bin2hex(random_bytes(32));
                 $token->expires = date("Y-m-d H:i:s", strtotime("+7 days"));
@@ -314,7 +314,7 @@ class RegisterController
 
                     //Recipients
                     $mail->setFrom("no-reply@skallywags.club", "no reply");
-                    $mail->addAddress($user->email, $user->Profile->first_name . " " . $user->Profile->last_name);     //Add a recipient
+                    $mail->addAddress($users->email, $users->Profile->first_name . " " . $users->Profile->last_name);     //Add a recipient
 
                     //Content
                     $mail->isHTML(true);                                  //Set email format to HTML
@@ -322,9 +322,10 @@ class RegisterController
                     $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
                     $mail->Body .= "Hello " . $token->first()->User->Profile->first_name . "<hr>";
                     $mail->Body .= "You have requested a new Account activation Request <hr>";
-                    $mail->Body .= " <a href='" . $_ENV['DOMAIN'] . $url->make("register.activate", ["token_hex" => $token->token_hex]) . "'>Click Here</a> to activate your account <br><br>";
+                    $mail->Body .= " <a href='" . $_ENV['DOMAIN'] . $url->make("activate.home", ["token_hex" => $token->token_hex]) . "'>Click Here</a> to activate your account <br><br>";
                     $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
                     $mail->send();
+                    redirect($url->make("login"));
                 }
 
                 catch (Exception $e) {
