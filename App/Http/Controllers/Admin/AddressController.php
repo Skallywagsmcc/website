@@ -33,6 +33,8 @@ class AddressController
     public $contactus;
     public $error;
     public $required;
+    private $entity_name;
+    public $request;
 
     public function __construct(Validate $validate)
     {
@@ -47,11 +49,12 @@ class AddressController
             $this->postcode = $validate->Post("postcode");
             $this->contactus = $validate->Post("contactus");
         }
+        $this->entity_name = "address/general";
     }
 
     public function index(Url $url)
     {
-        $address = Address::orderBy("id", "ASC");
+        $address = Address::where("entity_name",$this->entity_name)->orderBy("id", "ASC");
         $paginator = new LaravelPaginator("10", "page");
         $address = $paginator->paginate($address);
         $links = $paginator->page_links();
@@ -66,9 +69,10 @@ class AddressController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.view", ["url" => $url, "address" => $address,]);
     }
 
-    public function create(Url $url)
+    public function create(Url $url,ServerRequest $request)
     {
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url]);
+        $this->request = $request->getQueryParams()["action"];
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url,"action"=>$this]);
     }
 
 
@@ -83,7 +87,7 @@ class AddressController
             } else {
                 $address = new Address();
                 $address->user_id = $auth->id();
-                $this->contactus == 1 ? $address->contactus = $this->contactus : $address->contactus = 0;
+                $this->contactus == 1 ? $address->entity_name = $this->entity_name : $address->contactus = 0;
                 $address->title = $this->title;
                 $address->slug = $this->slug;
                 $address->name = $this->name;

@@ -50,13 +50,13 @@
             @if($addresses->count() == 0)
                 <div class="row box">
                     <div class="col-sm-12 text-center py-2">
-                        No Addresses Have Been created yet <a href="{{$url->make("auth.admin.addresses.new")}}">Add new Address</a>
+                        No Addresses Have Been created yet <a href="{{$url->make("auth.admin.addresses.new")}}?action=contact">Add new Address</a>
                     </div>
                 </div>
             @else
                 <div class="row box">
                     <div class="col-sm-12 text-center py-2 text-center text-lg-right pr-lg-2">
-                        <a href="{{$url->make("auth.admin.addresses.new")}}">Add new Address</a>
+                        <a href="{{$url->make("auth.admin.addresses.new")}}?action=contact">Add new Address</a>
                     </div>
                 </div>
                 @foreach($addresses as $address)

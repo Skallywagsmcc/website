@@ -48,9 +48,6 @@ $system = new SystemController();
             <br>
         @endforeach
     </div>
-    <div class="col-sm-12 col-md-8 text-center px-0">
-        <a href="{{$url->make("resources.home")}}">Useful Links</a>
-    </div>
 </div>
 
 </body>

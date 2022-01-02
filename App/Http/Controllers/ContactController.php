@@ -19,8 +19,6 @@ use Plugins\Mailer\Mailer;
 class ContactController
 {
 
-    public $sum1;
-    public $sum2;
     public $email;
     public $first_name;
     public $last_name;
@@ -33,7 +31,7 @@ class ContactController
     public $clubmember;
     public $settings;
     public $address;
-
+    private  $entity_name;
 
     public function __construct(Validate $validate)
     {
@@ -49,8 +47,7 @@ class ContactController
 
         }
         $this->settings = $this->SiteSettings();
-        $this->address = explode(",",$this->settings->first()->contact_address);
-
+        $this->entity_name = "address/contact-us";
     }
 
 
@@ -63,14 +60,12 @@ class ContactController
     {
 
         $settings = $this->SiteSettings()->first();
-        $address = Address::where("contactus",1)->get();
+        $address = Address::where("entity_name",$this->entity_name)->get();
         echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"requests" => $this,"address"=>$address]);
     }
 
     public function store(Url $url, Validate $validate,Mailer $mailer)
     {
-
-
         if(($this->settings->count() == 1 ) && ($this->settings->first()->lock_subumssions == 1))
         {
             $this->error = "Submissions Are locked";

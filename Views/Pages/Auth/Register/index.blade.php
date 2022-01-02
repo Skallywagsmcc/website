@@ -44,7 +44,7 @@
                     </div>
                     @if((!is_null($request->token)))
                         <div class="col-sm-12">
-                            <input type="text" name="token_hex" value="@isset($request){{$request->token}}@endisset">
+                            <input type="text" name="token_hex" readonly value="@isset($request){{$request->token}}@endisset">
                         </div>
                     @endif
                     <div class="col-sm-12 mx-3">

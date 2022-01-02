@@ -1,5 +1,4 @@
-@extends("Layouts.backend")
-
+@extends("Layouts.Themes.BaseGrey.Admin")
 @section("title")
     {{APP_NAME}} Admin panel Addresses
 @endsection
@@ -111,7 +110,7 @@
             <div class="row box my-2 p-2">
                 <div class="col-sm-12 col-lg-10 text-center text-lg-right pr-lg-2"><label for="title text-left py-2">Place on contact us page</label></div>
                 <div class="col-sm-12 col-lg-2 text-center">
-                    <input type="checkbox" name="contactus" @isset($post) @if($post->contactus==1) checked @endif @endisset value="1">
+                    <input type="checkbox" name="contactus" @if($action->request == "contact") checked @else @isset($post) @if($post->contactus==1) checked @endif @endisset @endif value="1">
                 </div>
             </div>
 

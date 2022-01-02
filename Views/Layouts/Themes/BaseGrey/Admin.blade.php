@@ -39,7 +39,7 @@ $auth = new Auth();
                      alt="{{$image->name}}" class="profile_pic">
             @endif
             <a href="{{$url->make("account.home")}}" class="py-1 px-2">{{ucfirst($auth->getusername())}}</a>
-{{--                <a href="{{$url->make("logout")}}" class="py-1 px-2">Logout</a>--}}
+            {{--                <a href="{{$url->make("logout")}}" class="py-1 px-2">Logout</a>--}}
         </div>
     </div>
 </div>
@@ -49,16 +49,17 @@ $auth = new Auth();
             <div class="col-sm-12 px-0 mx-0 col-md-4 col-lg-2 d-none d-lg-block" id="navbar">
                 <div class="row  my-1 mx-0 px-0">
                     <div class="col-sm-12 head py-2 pl-lg-1 pl-lg-1">Account Options</div>
-                    <div class="col-sm-6 text-center ml-lg-auto px-0"><a href="{{$url->make("account.home")}}" class="py-2 d-block"> My Account</a>
+                    <div class="col-sm-6 text-center ml-lg-auto px-0"><a href="{{$url->make("account.home")}}"
+                                                                         class="py-2 d-block"> My Account</a>
                     </div>
                     <div class="col-sm-6 text-center mr-lg-auto px-0">
                         <a href="{{$url->make("logout")}}" class="d-block py-2">Logout</a>
                     </div>
                 </div>
                 <div class="row my-1 pb-1 mx-0">
-                        <div class="col-sm-12 px-0">
-                            <a class="d-block py-2" href="{{$url->make("auth.admin.home")}}">Admin home</a>
-                        </div>
+                    <div class="col-sm-12 px-0">
+                        <a class="d-block py-2" href="{{$url->make("auth.admin.home")}}">Admin home</a>
+                    </div>
 
                 </div>
 
@@ -71,62 +72,66 @@ $auth = new Auth();
                         <a href="{{$url->make("auth.admin.users.new")}}"
                            class="d-block py-2 ">Create a new User</a>
                     </div>
-{{--                    <div class="col-sm-12 px-0">--}}
-{{--                        <a href="#"--}}
-{{--                           class="d-block py-2 ">Roles and Permissons</a>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="col-sm-12 px-0">--}}
+                    {{--                        <a href="#"--}}
+                    {{--                           class="d-block py-2 ">Roles and Permissons</a>--}}
+                    {{--                    </div>--}}
                 </div>
 
                 <div class="row  my-1 pb-1 mx-0">
                     <div class="col-sm-12 head py-2 pl-lg-1 pl-lg-1">Article Manager
+                    </div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.articles.home")}}"
+                                                   class="d-block py-2">List
+                            Articles</a></div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.articles.new")}}"
+                                                   class="d-block py-2">Add New Article</a></div>
                 </div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.articles.home")}}" class="d-block py-2">List
-                        Articles</a></div>
-                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.articles.new")}}" class="d-block py-2">Add New Article</a></div>
-            </div>
 
-            <div class="row  my-1 pb-1 mx-0">
-                <div class="col-sm-12 head py-2 pl-lg-1">Charter Manager</div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.charters.home")}}" class="d-block py-2">List
-                        Charters</a></div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.charters.create")}}" class="d-block py-2">Add New
-                        Charter</a></div>
-            </div>
+                <div class="row  my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1">Charter Manager</div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.charters.home")}}"
+                                                   class="d-block py-2">List
+                            Charters</a></div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.charters.create")}}"
+                                                   class="d-block py-2">Add New
+                            Charter</a></div>
+                </div>
 
-            <div class="row  my-1 pb-1 mx-0">
-                <div class="col-sm-12 head py-2 pl-lg-1">Events Manager</div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.events.home")}}" class="d-block py-2">List
-                        Events
-                        Events</a></div>
-            </div>
+                <div class="row  my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1">Events Manager</div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.events.home")}}" class="d-block py-2">List
+                            Events</a></div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.events.new")}}" class="d-block py-2">Create
+                            Event</a></div>
+                </div>
 
-            <div class="row  my-1 pb-1 mx-0">
-                <div class="col-sm-12 head py-2 pl-lg-1">Image Manager</div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.images.home")}}"
-                                               class="d-block py-2">List Images Uploads</a></div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.featured.home")}}" class="d-block py-2">
-                        Featured Image Request</a></div>
-            </div>
+                <div class="row  my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1">Image Manager</div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.images.home")}}"
+                                                   class="d-block py-2">List Images Uploads</a></div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.featured.home")}}"
+                                                   class="d-block py-2">
+                            Featured Image Request</a></div>
+                </div>
 
-            <div class="row  my-1 pb-1 mx-0">
-                <div class="col-sm-12 head py-2 pl-lg-1">Other Management Tools</div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.settings.home")}}" class="d-block py-2">Update
-                        Site Settings</a></div>
-                <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.resources.home")}}" class="d-block py-2">Manage External Resources</a></div>
-            </div>
-
-
+                <div class="row  my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1">Other Management Tools</div>
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.settings.home")}}"
+                                                   class="d-block py-2">Update
+                            Site Settings</a></div>
+                </div>
 
 
                 <div class="footer py-2">
                     {{$_ENV["APP_NAME"]}} &copy; {{date("Y")}}
                 </div>
-        </div>
-        <div class="col-sm-12 col-lg-10" id="content">
-            @yield("content")
+            </div>
+            <div class="col-sm-12 col-lg-10" id="content">
+                @yield("content")
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 

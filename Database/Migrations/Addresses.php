@@ -13,7 +13,8 @@ class Addresses
         Capsule::schema()->create("addresses", function ($table) {
             $table->id();
             $table->biginteger("user_id");
-            $table->integer("contactus");
+            $table->string("entity_name");
+            $table->biginteger("entity_id");
             $table->string("title");
             $table->string("slug");
             $table->string("name");

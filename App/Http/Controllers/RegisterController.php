@@ -36,8 +36,6 @@ class RegisterController
 
     public function __construct(Validate $validate)
     {
-
-        $this->entity_name = "register_request";
         $this->status = false;
         $this->showform = false;
         $this->expired = false;
@@ -54,7 +52,6 @@ class RegisterController
             $this->token = $validate->Post("token_hex");
             $this->token_key = $validate->Post("token_key");
         }
-
     }
 
     public function index(Url $url, $token_hex = null)
@@ -80,7 +77,6 @@ class RegisterController
                 } else {
                     $this->error = "Registration is closed";
                 }
-
             }
         } else {
             if ($token_hex != null) {
@@ -102,21 +98,35 @@ class RegisterController
     public function Store(Url $url, Validate $validate)
     {
 //
+        $validkey = true;
+        $settings = $this->SiteSettings()->where("open_registration", 0)->get();
+        $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $this->token)->get();
 
+        if ((($this->token != null)) && ($this->token_key != null)) {
+            if ($settings->count() == 1) {
+                $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $this->token)->get();
 
-        if ((!is_null($this->token)) && (!is_null($this->token_key))) {
-            $settings = $this->SiteSettings()->where("open_registration", 0)->count();
-            $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $this->token)->where("token_key", $this->token_key);
-            if (($settings == 1) && ($this->request->count() == 1)) {
+                if ($this->request->count() == 1) {
+                    $this->request = $this->request->first();
+                    $user = $this->request->User->id;
+                    if ($this->token_key == $this->request->token_key) {
+                        $this->status = true;
+                        $validkey = true;
+                        echo "this key matches";
+                    } else {
+                        $validkey = false;
+                    }
 
-                if (date("Y-m-d H:i:s") > date("Y-m-d H:i:s", strtotime($this->request->get()->first()->expires))) {
-                    $this->expired = true;
-                } else {
-                    $this->status = true;
+                    if (date("Y-m-d H:i:s") > date("Y-m-d H:i:s", strtotime($this->request->expires))) {
+                        $this->expired = true;
+                    } else {
+                        $this->status = true;
+                    }
                 }
-
-            } else {
-                $this->status = false;
+                else
+                {
+                    $this->status = false;
+                }
             }
         } else {
             $this->status = false;
@@ -147,12 +157,13 @@ class RegisterController
         } else {
             if ((User::where("email", $this->email)->count()) == 1 && ($this->request->count() == 0)) {
                 $this->error = "Email ALready exists in our database";
-            } elseif ($this->status == true && $this->request->get()->first()->tokex_key != $this->token_key) {
-                $this->error = "Token Key does not match";
+            } elseif ($validkey == false)
+            {
+                $this->error = "Invalid token Key";
             } elseif (User::where("username", $this->username)->count() == 1) {
                 $this->error = "Username already Exists";
             } else {
-                $this->status == true ? $user = User::find($this->request->first()->User->id) : $user = new User();
+                $this->status == true ? $user = User::find($this->request->User->id) : $user = new User();
                 $user->username = $this->username;
                 $user->email = $this->email;
                 $user->password = password_hash($this->password, PASSWORD_DEFAULT);
@@ -227,7 +238,7 @@ class RegisterController
     }
 
 
-    public function activate(Url $url, $token_hex=null)
+    public function activate(Url $url, $token_hex = null)
     {
         $this->entity_name = "request/activation";
         $this->request = Token::where("entity_name", $this->entity_name)->where("token_hex", $token_hex);
@@ -249,8 +260,7 @@ class RegisterController
                     redirect($url->make("login"));
                 }
             }
-        }
-        else {
+        } else {
             if (!is_null($token_hex)) {
                 $this->error = "No Request found";
             } else {
@@ -262,24 +272,17 @@ class RegisterController
         echo TemplateEngine::View("Pages.Auth.Activation.index", ["url" => $url, "request" => $this]);
     }
 
-    public function resend_activation(Url $url,Validate $validate)
+    public function resend_activation(Url $url, Validate $validate)
     {
 //        Override the entity_name;
 
-        if(empty($this->email))
-        {
+        if (empty($this->email)) {
             $this->error = "Your email address is empty";
-        }
-        elseif(!filter_var($this->email,FILTER_VALIDATE_EMAIL))
-        {
+        } elseif (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
             $this->error = "Must be in a valide email format";
-        }
-        elseif($validate->Recaptcha(1,0.5,"activate") == false)
-        {
+        } elseif ($validate->Recaptcha(1, 0.5, "activate") == false) {
             $this->error = $validate->captchaerror;
-        }
-        else
-        {
+        } else {
             $this->entity_name = "request/activation";
             $users = User::where("email", $this->email)->where("status", 1)->get();
             if ($users->count() == 1) {
@@ -325,9 +328,7 @@ class RegisterController
                     $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
                     $mail->send();
                     redirect($url->make("login"));
-                }
-
-                catch (Exception $e) {
+                } catch (Exception $e) {
                     $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
 
