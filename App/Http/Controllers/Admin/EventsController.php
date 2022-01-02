@@ -6,11 +6,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Models\Address;
-use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
+use App\Http\Models\Address;
 use App\Http\Models\Event;
 use App\Http\Models\Image;
+use mbamber1986\Authclient\Auth;
 use mbamber1986\Filemanager\Filemanager;
 use MiladRahimi\PhpRouter\Url;
 
@@ -23,9 +23,12 @@ class EventsController
 
 //    Post methods
 
+    public $id;
     public $title;
     public $description;
     public $upload_thumb;
+    public $request;
+
 
     public function __construct(Validate $validate)
     {
@@ -33,8 +36,12 @@ class EventsController
 //        todo rewrite variables
         $this->error = [];
 
-        $this->title = $validate->Post("title");
-        $this->description = $validate->Post("content");
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $this->id = $validate->Post("id");
+            $this->title = $validate->Post("title");
+            $this->description = $validate->Post("content");
+        } else {
+        }
     }
 
     public function index(Url $url, $message = null)
@@ -49,7 +56,7 @@ class EventsController
 
     public function create(Url $url)
     {
-        $addresses = Address::where("contactus",0)->get();
+        $addresses = Address::where("contactus", 0)->get();
         echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses]);
     }
 
@@ -142,20 +149,19 @@ class EventsController
 
     public function update(Validate $validate, Auth $auth, Url $url, Csrf $csrf, Filemanager $filemanager)
     {
+
+//        Variables
+        $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
         if ($csrf->Verify() == true) {
-
-            $id = $validate->Post("id");
-            $event = Event::where("id", $id)->get()->first();
-
-            if ($validate->Post("update_thumb") == 1) {
-                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-
+            $this->request = Event::where("id", $this->id)->get();
+            if ($this->request->count() == 1) {
+                $this->request = $this->request->first();
                 if ($filemanager->success == true) {
 //            destroy the current image
-                    if ($event->image()->count() == 1) {
-                        Image::destroy($event->image->id);
+                    if ($this->request->image()->count() == 1) {
+                        Image::destroy($this->request->image->id);
 //            Unlink the file
-                        unlink(UPLOAD_DIR . "/" . $event->image->name);
+                        unlink(UPLOAD_DIR . "/" . $this->request->image->name);
                     }
 
 //            instantiate a new image
@@ -169,11 +175,52 @@ class EventsController
                         $image->size = $filemanager->GetFile("size");
                         $image->type = $filemanager->GetFile("type");
                         $image->description = $this->description;
+                        $image->save();
                         $this->thumbnail = true;
                     }
+                    else
+                    {
+                        $this->error = "image upload failed";
+                        echo $this->error . $filemanager->GetFile("error");
+                        exit();
+                    }
 
+
+                    $this->request->slug = slug($this->request->title);
+                    $this->thumbnail == true ? $this->request->thumbnail = $image->id : false;
+//                    $this->request->cover = $cover->id;
+                    $this->request->content = $validate->Post("content");
+                    if ($validate->Post("ms") == 1) {
+                        $this->request->start_at = $validate->Required("start")->Post();
+                    }
+                    if ($validate->Post("me") == 1) {
+                        $this->request->end_at = $validate->Required("end")->Post();
+                    }
+//                Meet_id;
+                    $this->request->meet_id = $validate->Post("meet_id");
+//            Dest_id
+                    $this->request->dest_id = $validate->Post("dest_id");
+                    $this->request->map_url = $validate->Post("map_url");
+                    $this->request->save();
+                    redirect($url->make("auth.admin.events.home"));
                 }
+
+            } else {
+                $this->error = "No Results found";
             }
+        }
+        else
+        {
+            $this->error = "Csrf Token is invalid";
+        }
+
+        echo $this->error;
+        exit();
+        if ($csrf->Verify() == true) {
+
+
+            $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
+
 
             if ($validate->Post("update_cover") == 1) {
                 $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
@@ -243,14 +290,14 @@ class EventsController
                         if ($event->image()->count() == 1) {
                             Image::destroy($event->image->id);
                             if (unlink(UPLOAD_DIR . "/" . $event->image->name) == false) {
-                                $$this->error[] =  "image could not be delete";
+                                $$this->error[] = "image could not be delete";
                             }
                         }
 
                         if ($event->Cover()->count() == 1) {
                             Image::destroy($event->Cover->id);
                             if (unlink(UPLOAD_DIR . "/covers/" . $event->Cover->name) == false) {
-                              $this->error[] = "Cover could not be deleted";
+                                $this->error[] = "Cover could not be deleted";
                             }
                         }
 
@@ -266,7 +313,7 @@ class EventsController
         }
 
         $events = Event::all();
-        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url,"error"=>$this->error]);
+        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url, "error" => $this->error]);
     }
 
 }
