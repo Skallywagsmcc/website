@@ -49,7 +49,7 @@
     </div>
 
 
-    {{--    foreach ($category->Resources() as $resource)--}}
+    {{--    foreach ($category->Resource_manager() as $resource)--}}
     {{--    {--}}
     {{--    if($this->ValidateVar($resource->value,FILTER_VALIDATE_URL) == true)--}}
     {{--    {--}}

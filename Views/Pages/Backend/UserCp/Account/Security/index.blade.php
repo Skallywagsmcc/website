@@ -1,4 +1,4 @@
-@extends("Layouts.backend")
+@extends("Layouts.main")
 
 @section("title")
     Security Home

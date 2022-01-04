@@ -1,5 +1,4 @@
-@extends("Layouts.main")
-
+@extends("Layouts.Themes.BaseGrey.Account")
 @section("title")
     Account Manager : About
 @endsection

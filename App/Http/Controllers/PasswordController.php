@@ -70,7 +70,6 @@ class PasswordController
 
     public function store(Url $url, Validate $validate)
     {
-
         $validate->AddRequired(["email"]);
 
         if ($validate->Allowed() == false) {

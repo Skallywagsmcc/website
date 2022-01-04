@@ -1,5 +1,4 @@
-@extends("Layouts.Themes.Backend.default")
-
+@extends("Layouts.Themes.BaseGrey.Account")
 @section("title")
     Backend Control panel : Home
 @endsection

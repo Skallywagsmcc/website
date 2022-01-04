@@ -6,13 +6,16 @@ body {
   height: 100%;
   font-size: 16px;
 }
+body a {
+  color: white;
+}
 
 .wrap {
   min-height: 95vh;
 }
 
 .footer {
-  border-top: #353535 2px solid;
+  border-top: #ce1126 2px solid;
   color: white;
   text-align: center;
   min-height: 50px;
@@ -25,12 +28,13 @@ body {
 }
 
 #topbar {
-  background-color: #353535;
+  background-color: #00247d;
+  border-bottom: #ce1126 2px solid;
   color: #fff;
 }
 #topbar a {
   color: #fff;
-  background-color: #515151;
+  background-color: #263238;
   border-radius: 20px;
 }
 #topbar a:hover {
@@ -49,7 +53,7 @@ body {
 
 .box {
   color: #fff;
-  background-color: #515151;
+  background-color: #263238;
 }
 .box a {
   color: #fff;
@@ -57,28 +61,42 @@ body {
   text-indent: 4px;
 }
 .box .head {
-  background-color: #353535;
-  border-bottom: solid 1px #ffff;
+  background-color: #263238;
+  border-bottom: solid 2px #ce1126;
   font-size: 18px;
   font-weight: bolder;
   text-indent: 2px;
 }
 
 .profile_pic {
-  border: 2px solid red;
+  border: 2px solid #ce1126;
   height: 30px;
   border-radius: 50%;
   clip: auto;
   width: 30px;
 }
 
+.newbtn a {
+  color: white;
+  background-color: #263238;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bolder;
+  font-size: 1.1rem;
+}
+.newbtn a:hover {
+  text-decoration: underline;
+  background-color: white;
+  color: black;
+}
+
 @media (min-width: 998.91px) {
   #navbar {
-    border-right: solid 1px #fff;
+    border-right: solid 1px #ce1126;
     min-height: 100vh;
   }
   #navbar .head {
-    border-bottom: solid 1px #fff;
+    border-bottom: solid 1px #ce1126;
     color: #fff;
     font-weight: bolder;
     text-indent: 1px;
@@ -114,12 +132,13 @@ body {
     top: 0px;
     left: 0px;
     z-index: 1;
-    width: 75%;
+    width: 98%;
     min-height: 100vh;
+    border-right: solid 3px #ce1126;
     background-color: #222d32;
   }
   #navbar .head {
-    border-bottom: solid 1px #fff;
+    border-bottom: solid 1px #ce1126;
     color: #fff;
     font-weight: bolder;
     text-indent: 1px;

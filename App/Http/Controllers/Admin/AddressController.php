@@ -6,23 +6,29 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Models\Address;
-use App\Libraries\Filemanager;
-use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Pagination\LaravelPaginator;
-use App\Http\Models\Image;
-use App\Http\Models\Article;
+use App\Http\Models\Address;
 use Laminas\Diactoros\ServerRequest;
-use Migrations\Images;
+use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
+use Plugins\Address_manager\AddressBook;
 
 
 class AddressController
 {
 
-    public $title;
     public $user_id;
+    public $entity_name;
+    public $error;
+    public $required;
+    public $address;
+    public $showform;
+    public $id;
+
+
+//    Linked to Address book
+    public $title;
     public $slug;
     public $name;
     public $street;
@@ -30,31 +36,31 @@ class AddressController
     public $city;
     public $county;
     public $postcode;
-    public $contactus;
-    public $error;
-    public $required;
-    private $entity_name;
-    public $request;
 
-    public function __construct(Validate $validate)
+//    End Address Book
+
+
+    public function __construct(Validate $validate,AddressBook $addressBook)
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $this->title = $validate->Post("title");
-            $this->slug = slug($validate->Post("title"));
-            $this->name = $validate->Post("name");
-            $this->street = $validate->Post("street");
-            $this->street_2 = $validate->Post("street_2");
-            $this->city = $validate->Post("city");
-            $this->county = $validate->Post("county");
-            $this->postcode = $validate->Post("postcode");
-            $this->contactus = $validate->Post("contactus");
+            $this->title = $addressBook->title;
+            $this->slug = $addressBook->slug;
+            $this->name = $addressBook->name;
+            $this->street = $addressBook->street;
+            $this->street_2 = $addressBook->street_2;
+            $this->city = $addressBook->city;
+            $this->county = $addressBook->county;
+            $this->postcode = $addressBook->postcode;
         }
+
         $this->entity_name = "address/general";
+        $this->error = $addressBook->error;
+        $this->showform = true;
     }
 
     public function index(Url $url)
     {
-        $address = Address::where("entity_name",$this->entity_name)->orderBy("id", "ASC");
+        $address = Address::orderBy("id", "ASC");
         $paginator = new LaravelPaginator("10", "page");
         $address = $paginator->paginate($address);
         $links = $paginator->page_links();
@@ -64,19 +70,18 @@ class AddressController
     public function show(Url $url, $id)
     {
         $id = base64_decode($id);
-        $address = Address::where("id", $id)->get();
+        $this->address = Address::where("id", $id)->get();
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.view", ["url" => $url, "address" => $address,]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.view", ["url" => $url, "request"=>$this]);
     }
 
-    public function create(Url $url,ServerRequest $request)
+    public function create(Url $url, ServerRequest $request)
     {
-        $this->request = $request->getQueryParams()["action"];
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url,"action"=>$this]);
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url, "action" => $this]);
     }
 
 
-    public function store(Url $url, Csrf $csrf, Auth $auth, Validate $validate)
+    public function store(Url $url, Csrf $csrf, Auth $auth, Validate $validate, AddressBook $addressBook)
     {
 
         if ($csrf->Verify() == true) {
@@ -85,93 +90,79 @@ class AddressController
                 $this->error = "The Following Fields have been left empty and are Required";
                 $this->required = $validate->is_required;
             } else {
-                $address = new Address();
-                $address->user_id = $auth->id();
-                $this->contactus == 1 ? $address->entity_name = $this->entity_name : $address->contactus = 0;
-                $address->title = $this->title;
-                $address->slug = $this->slug;
-                $address->name = $this->name;
-                $address->street = $this->street;
-                $address->street_2 = $this->street_2;
-                $address->city = $this->city;
-                $address->county = $this->county;
-                $address->postcode = $this->postcode;
-                if($address->save())
+                $addressBook->new($this->entity_name);
+                if ($addressBook->status == true) {
+                    redirect($url->make("auth.admin.addresses.home"));
+                }
+                else
+                {
+                    $this->error = "Address Creation Failed";
+                }
+            }
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url, "request"=>$this]);
+    }
+
+    public function edit($id, Url $url)
+    {
+        $this->id = base64_decode($id);
+        $this->address = Address::where("entity_name",$this->entity_name)->where("id",$this->id)->get();
+        if($this->address->count() == 0)
+        {
+//            $this->address = $this->address->first();
+            $this->error = "Request not found";
+            $this->showform = false;
+        }
+        else
+        {
+            $this->address = $this->address->first();
+            $this->showform = true;
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.edit", ["url" => $url, "request"=>$this]);
+    }
+
+    public function update($id, Url $url, Csrf $csrf, Auth $auth, Validate $validate,AddressBook $addressBook)
+    {
+//        instantiate the csrf token
+
+        $this->id = base64_decode($id);
+        if ($csrf->Verify() == true) {
+            $validate->AddRequired(["title", "name", "street", "city", "county", "postcode"]);
+
+            if ($validate->Allowed() == false) {
+                $this->error = "The Following Fields have been left empty and are Required";
+                $this->required = $validate->is_required;
+            } else {
+                $addressBook->edit($this->id,$this->entity_name);
+                if($addressBook->status == true)
                 {
                     redirect($url->make("auth.admin.addresses.home"));
                 }
                 else
                 {
-                    $this->error = "An Error Occurred when Saving";
+                    $this->error = "Address Creation Failed";
                 }
             }
+            //            Display the template
         }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url,"post"=>$this,"error"=>$this->error,"required"=>$this->required]);
+        else
+        {
+            $this->error = "csrf token is invalid";
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.edit", ["url" => $url,"request"=>$this]);
     }
 
-    public function edit($id, Url $url)
+    public function delete(Url $url, $id,AddressBook $addressBook)
     {
-        $id = base64_decode($id);
-        $address = Address::where("id", $id)->get();
-        if ($address->count() == 1) {
-            $address = $address->first();
-        }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.edit", ["url" => $url, "address" => $address]);
-    }
-
-    public function update($id, Url $url, Csrf $csrf, Auth $auth, Validate $validate)
-    {
-//        instantiate the csrf token
-        if ($csrf->Verify() == true) {
-            $id = base64_decode($id);
-            $address = Address::where("id", $id)->get();
-            if ($address->count() == 1) {
-//                Instantiate requirement
-        $address = $address->first();
-                $validate->AddRequired(["title", "name", "street", "city", "county", "postcode"]);
-//                Check if validation is false;
-                if ($validate->Allowed() == false) {
-                    $this->error = "The Following Fields have been left empty and are Required";
-                    $this->required = $validate->is_required;
-                } else {
-//                    Update the settings
-
-                    $address->user_id = $auth->id();
-                    $address->title = $this->title;
-                    $address->contactus = $this->contactus;
-                    $address->slug = slug($this->title);
-                    $address->name = $this->name;
-                    $address->street = $this->street;
-                    $address->street_2 = $this->street_2;
-                    $address->city = $this->city;
-                    $address->county = $this->county;
-                    $address->postcode = $this->postcode;
-
-//                    DO the save and redired
-                    if ($address->save()) {
-                        redirect($url->make("auth.admin.addresses.home"));
-                    }
-                    else
-                    {
-//                        Throw and error
-                        $this->error = "Update Failed";
-                    }
-                }
-            }
-//            Display the template
-            echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.edit", ["url" => $url, "address" => $address, "post" => $this, "error" => $this->error, "required" => $this->required]);
-        }
-    }
-
-    public function delete(Url $url, $id)
-    {
-        $id = base64_decode($id);
-        $address = Address::where("id", $id);
-        if ($address->count() == 1) {
-            $address->delete();
+        $this->id = base64_decode($id);
+        $addressBook->delete($this->id);
+        if($addressBook->status == true)
+        {
             redirect($url->make("auth.admin.addresses.home"));
-        } else {
-            exit("An Error occurred");
+        }
+        else
+        {
+         exit("Request could not be found or deleted : <a href='".$url->make("auth.admin.addresses.home")."'>Click here </a> to Go Back");
         }
     }
 }

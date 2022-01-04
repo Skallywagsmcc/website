@@ -101,12 +101,12 @@ class SettingsController
     {
 
         if($csrf->Verify() == true) {
-            if ($auth->RequirePassword($this->password) == false) {
-                $error = "Password Cannot be empty";
-            } else {
                 $loader->install();
                 redirect($url->make("auth.admin.settings.home"));
-            }
+        }
+        else
+        {
+            $error = "csrf token is invalid";
         }
         echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url, "error" => $error]);
     }

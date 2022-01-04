@@ -1,4 +1,4 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Account")
 @section("title")
     Security : Change Email
 @endsection

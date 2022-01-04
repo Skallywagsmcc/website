@@ -1,4 +1,5 @@
-@extends("Layouts.backend")
+@extends("Layouts.Themes.BaseGrey.Account")
+
 
 @section("title")
     Security : Two Factor Authentication

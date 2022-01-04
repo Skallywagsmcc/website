@@ -24,6 +24,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Members;
 use App\Http\Controllers\Profile\GalleryController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\SearchController;
 use App\Http\Libraries\SqlInstaller\Base;
 use App\Http\Middleware;
@@ -45,10 +46,9 @@ $router->group(["prefix" => "", "middleware" => [Middleware\Installer::class, Mi
     $router->get("/contact-us/thank-you", [ContactController::class, 'sent'], "contact-sent");
 
 
-    $router->group(["prefix"=>"/resources"],function (Router $router)
-    {
-        $router->get("/?",[\App\Http\Controllers\ResourceController::class,"index"],"resources.home");
-        $router->get("/?view/{slug}",[\App\Http\Controllers\ResourceController::class,"view"],"resources.view");
+    $router->group(["prefix" => "/resources"], function (Router $router) {
+        $router->get("/?", [ResourceController::class, "index"], "resources.home");
+        $router->get("/?view/{slug}", [ResourceController::class, "view"], "resources.view");
     });
 
     $router->group(["prefix" => "/search"], function (Router $router) {
@@ -56,7 +56,6 @@ $router->group(["prefix" => "", "middleware" => [Middleware\Installer::class, Mi
         $router->get("/view", [SearchController::class, 'view'], "search.view");
         $router->get("/view/{type}", [SearchController::class, 'viewtype'], "search.view.type");
     });
-
 
 
     $router->group(["prefix" => "/secure/tfa", "middleware" => [Middleware\Installer::class, Middleware\UserLogin::class]], function (Router $router) {
@@ -114,8 +113,8 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
     $router->post("/login", [LoginController::class, 'store'], "login.store");
     $router->get("/register/?{token_hex}?", [RegisterController::class, 'index'], "register");
     $router->post("/register/store", [RegisterController::class, 'store'], "register.store");
-    $router->get("/activate/account/?{token_hex}?",[RegisterController::class,"activate"],"activate.home");
-    $router->post("/activate/resent",[RegisterController::class,"resend_activation"],"activate.resend");
+    $router->get("/activate/account/?{token_hex}?", [RegisterController::class, "activate"], "activate.home");
+    $router->post("/activate/resent", [RegisterController::class, "resend_activation"], "activate.resend");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 
     $router->group(["prefix" => "/tfa", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class]], function (Router $router) {
@@ -152,6 +151,28 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
         $router->post("/update", [EventsController::class, "update"], "auth.admin.events.update");
         $router->post("/delete", [EventsController::class, "delete"], "auth.admin.events.delete");
 
+    });
+
+    $router->group(["prefix" => "/contact-form"], function (Router $router) {
+        $router->get("/?", [\App\Http\Controllers\Admin\ContactController::class, "index"], "auth.admin.contact.home");
+
+        $router->group(["prefix"=>"/address"],function (Router $router)
+        {
+            $router->get("/new", [\App\Http\Controllers\Admin\ContactController::class, "address_new"], "auth.admin.contact.address.new");
+            $router->post("/new", [\App\Http\Controllers\Admin\ContactController::class, "address_store"], "auth.admin.contact.address.store");
+            $router->get("/edit/{id}", [\App\Http\Controllers\Admin\ContactController::class, "address_edit"], "auth.admin.contact.address.edit");
+            $router->post("/edit/{id}", [\App\Http\Controllers\Admin\ContactController::class, "address_update"], "auth.admin.contact.address.update");
+            $router->get("/delete/{id}", [\App\Http\Controllers\Admin\ContactController::class, "address_delete"], "auth.admin.contact.address.delete");
+        });
+    $router->group(["prefix"=>"/resources"],function (Router $router)
+        {
+            $router->get("/new", [\App\Http\Controllers\Admin\ContactController::class, "resource_new"], "auth.admin.contact.resources.new");
+            $router->post("/new/form", [\App\Http\Controllers\Admin\ContactController::class, "resource_store"], "auth.admin.contact.resources.store");
+            $router->get("/edit/{id}", [\App\Http\Controllers\Admin\ContactController::class, "resource_edit"], "auth.admin.contact.resources.edit");
+            $router->post("/edit/{id}", [\App\Http\Controllers\Admin\ContactController::class, "resource_update"], "auth.admin.contact.resources.update");
+            $router->get("/delete/{id}", [\App\Http\Controllers\Admin\ContactController::class, "resource_delete"], "auth.admin.contact.resources.delete");
+        });
+        $router->get("/resources", [\App\Http\Controllers\Admin\ContactController::class, "index"], "auth.admin.contact.home");
     });
 
     /*User manager Controlled By Admins*/
@@ -249,7 +270,7 @@ $router->group(["prefix" => "/My-Account", "middleware" => [Middleware\Installer
         $router->get("/manage/email", [EmailController::class, 'index'], "security.email.home");
         $router->post("/manage/email/store", [EmailController::class, 'store'], "security.email.store");
         $router->get("/manage/two-factor-authentication", [TfaController::class, 'index'], "security.tfa.home");
-        $router->get("/?", [\App\Http\Controllers\Account\Security\Homecontroller::class, "index"], "security.home");
+        $router->get("/?", [EmailController::class, "index"], "security.home");
     });
 
 //    Manage Image Manager

@@ -46,6 +46,7 @@
         </div>
 
         <form action="{{$url->make("auth.admin.settings.database.store")}}" method="post">
+            {{csrf()}}
         <div class="row my-2 box">
             <div class="col-sm-12 py-2 head text-center text-lg-left pl-lg-2">Drop Databases</div>
             <div class="col-sm-12 col-lg-6 py-2 pr-lg-2 text-center text-lg-right">
@@ -57,7 +58,6 @@
         </div>
             <div class="row my-2 box">
                 <div class="col-sm-12 head py-2 pl-lg-1 text-center text-lg-left">Please Enter your password</div>
-
                 <input type="password" class="form-control my-2" name="password">
                 <button class="btn btn-primary btn-block my-2">Reinstall Database</button>
             </div>

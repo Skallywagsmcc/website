@@ -116,10 +116,44 @@ $auth = new Auth();
                 </div>
 
                 <div class="row  my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1">Contact form Manager</div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.home")}}"
+                                                   class="d-block py-2">List Addresses and resources</a></div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.address.new")}}"
+                                                   class="d-block py-2">Add New Address</a></div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.resources.new")}}"
+                                                   class="d-block py-2">Add New resource</a></div>
+                </div>
+
+                <div class="row  my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head py-2 pl-lg-1">Address Book Manager</div>
+
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.addresses.home")}}"
+                                                   class="d-block py-2">List All Addresses</a></div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.addresses.new")}}"
+                                                   class="d-block py-2">Add New Address</a></div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.resources.new")}}"
+                                                   class="d-block py-2">Add New resource</a></div>
+                </div>
+
+                <div class="row  my-1 pb-1 mx-0">
                     <div class="col-sm-12 head py-2 pl-lg-1">Other Management Tools</div>
                     <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.settings.home")}}"
                                                    class="d-block py-2">Update
                             Site Settings</a></div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.addresses.home")}}"
+                                                   class="d-block py-2">Manage Addresses</a></div>
+
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.home")}}"
+                                                   class="d-block py-2">Modify Contact form</a></div>
+
                 </div>
 
 

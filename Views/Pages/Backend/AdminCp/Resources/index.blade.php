@@ -7,7 +7,7 @@
 
 @section("content")
 
-    <div class="container my-2">
+    <div class="container-fluid my-2">
         <div class="row box mx-0 my-2">
             <div class="col-sm-12 head py-2 text-left">Add a new Resource</div>
         </div>
@@ -31,7 +31,7 @@
     </div>
 
     @isset($categories)
-        <div class="container my-2">
+        <div class="container-fluid my-2">
             <div class="row box mt-2">
                 <div class="col-sm-12 head py-2 text-left">Resource Categories</div>
             </div>

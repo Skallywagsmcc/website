@@ -1,7 +1,10 @@
+
 @extends("Layouts.Themes.BaseGrey.Admin")
+
 @section("title")
-    {{APP_NAME}} Admin panel Addresses
+    Manage Contact form
 @endsection
+
 
 @section("content")
 
@@ -22,24 +25,22 @@
             </div>
         </div>
     @endisset
-    <div class="container-fluid">
-
-        <div class="row box my-2">
-            <div class="col-sm-12 text-center text-lg-left head pl-lg-2">Add new address</div>
+    <div class="container-fluid my-2">
+        <div class="row box">
+            <div class="col-sm-12 head py-2">Create A New Resource</div>
         </div>
-        <form action="{{$url->make("auth.admin.addresses.store")}}" method="post">
+
+        <form action="{{$url->make("auth.admin.contact.resources.store")}}" method="post">
             {{csrf()}}
+            @include("Includes.Forms.Resources.new")
 
-            @include("Includes.Forms.Addresses.new")
 
-            <div class="row  my-2 p-2">
+            <div class="row">
                 <div class="col-sm-12">
-                    <button class="btn btn-block btn-primary">Save Address</button>
+                    <button class="btn btn-block btn-primary">Save</button>
                 </div>
             </div>
-
-
-
         </form>
     </div>
+
 @endsection
