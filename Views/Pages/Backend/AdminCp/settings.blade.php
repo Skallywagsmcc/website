@@ -45,28 +45,11 @@
             </div>
 
             <div class="row box my-2">
-                <div class="col-sm-12 py-2 head">Site Settings : Contact Address</div>
+                <div class="col-sm-12 py-2 head">Site Settings : Manage Address</div>
             </div>
-            @if($addresses->count() == 0)
-                <div class="row box">
-                    <div class="col-sm-12 text-center py-2">
-                        No Addresses Have Been created yet <a href="{{$url->make("auth.admin.addresses.new")}}?action=contact">Add new Address</a>
-                    </div>
-                </div>
-            @else
-                <div class="row box">
-                    <div class="col-sm-12 text-center py-2 text-center text-lg-right pr-lg-2">
-                        <a href="{{$url->make("auth.admin.addresses.new")}}?action=contact">Add new Address</a>
-                    </div>
-                </div>
-                @foreach($addresses as $address)
-                <div class="row box my-2">
-                    <div class="col-sm-12 col-lg-8 py-2 text">{{$address->title}}</div>
-                    <div class="col-sm-12 col-lg-4 py-2 text-center"><a class="d-block" href="{{$url->make("auth.admin.addresses.view",["id"=>base64_encode($address->id)])}}">View Address</a></div>
-                </div>
-                @endforeach
-            @endif
+
             <div class="row box m-2">
+                <div class="col-sm-12 py-2 text-center"><a href="{{$url->make("auth.admin.addresses.home")}}" class="d-block">Manage Contact form Addresses</a></div>
             </div>
             <div class="row my-2 box">
                 <div class="col-sm-12 head py-2">Site Settings : maintainence Status</div>

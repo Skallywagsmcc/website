@@ -12,7 +12,7 @@ use App\Http\Models\Address;
 use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
-use Plugins\Address_manager\AddressBook;
+use Plugins\Managers\AddressBook;
 
 
 class AddressController

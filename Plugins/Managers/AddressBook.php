@@ -73,6 +73,7 @@ class AddressBook
             default;
                 break;
         }
+    }
 
 
     public function __construct(Validate $validate)

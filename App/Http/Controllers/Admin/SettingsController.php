@@ -63,7 +63,6 @@ class SettingsController
     public function index(Url $url)
     {
         $settings = SiteSettings::find(1);
-        $addresses = Address::where("entity_name","address/contact")->get();
         echo TemplateEngine::View("Pages.Backend.AdminCp.settings", ["url" => $url, "settings" => $settings,"addresses"=>$addresses,"post" => $this]);
     }
 
@@ -74,7 +73,6 @@ class SettingsController
         if ($csrf->Verify() == true) {
 
             $this->settings = SiteSettings::where("id", 1)->get();
-            $addresses = Address::where("contactus",1)->get();
             if ($this->settings->count() == 1) {
                 $this->settings = $this->settings->first();
                     $this->settings->contact_email = $this->email;
