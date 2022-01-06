@@ -3,6 +3,8 @@
 namespace Plugins\Managers;
 
 use App\Http\Functions\Validate;
+use App\Http\Models\Resources;
+use MiladRahimi\PhpRouter\Url;
 
 class ResourceManager
 {
@@ -13,6 +15,14 @@ class ResourceManager
     public $resource;
     public $status;
 
+
+    /*
+     *
+     * pages/contact
+     * addresses/general
+     * */
+
+
     public function __construct(Validate $validate)
     {
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -22,9 +32,24 @@ class ResourceManager
         }
     }
 
+    public function push(Url $url, $entity_name)
+    {
+        switch ($entity_name) {
+            case "page/contact";
+                redirect($url->make("auth.admin.contact.home"));
+                break;
+                case "address/general";
+                    redirect($url->make("auth.admin.addresses.home"));
+                break;
+            default;
+                break;
+        }
+    }
+
+
     public function new($entity_name)
     {
-        $this->resource = new \App\Http\Models\Resources();
+        $this->resource = new Resources();
         $this->resource->entity_name = $entity_name;
         $this->resource->name = $this->name;
         $this->resource->type = $this->type;
@@ -40,7 +65,7 @@ class ResourceManager
     public function edit($id, $entity_name)
     {
 
-        $this->resource = \App\Http\Models\Resources::where("id", $id)->get();
+        $this->resource = Resources::where("id", $id)->get();
         if ($this->resource->count() == 1) {
             $this->resource->entity_name = $entity_name;
             $this->resource->name = $this->name;
@@ -65,16 +90,13 @@ class ResourceManager
     public function delete($id)
     {
 
-        $this->resource = \App\Http\Models\Resources::where("id", $id);
-            if($this->resource->count() == 1)
-            {
-                $this->resource->delete();
-                $this->status = true;
-            }
-            else
-            {
-                $this->status = false;
-            }
+        $this->resource = Resources::where("id", $id);
+        if ($this->resource->count() == 1) {
+            $this->resource->delete();
+            $this->status = true;
+        } else {
+            $this->status = false;
+        }
     }
 
 

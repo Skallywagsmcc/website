@@ -84,10 +84,10 @@
         </div>
             @foreach($requests as $request)
                 <div class="row box my-2 text-center">
-                    <div class="col-sm-12 col-lg-6 py-2">{{$request->email}}</div>
+                    echo {{$request}}
+                    <div class="col-sm-12 col-lg-6 py-2">{{$request->user->email}}</div>
                     <div class="col-sm-12 col-lg-3 py-2">Email Account request</div>
                     <div class="col-sm-12 col-lg-3 py-2">Delete Request</div>
-
                 </div>
             @endforeach
         </div>

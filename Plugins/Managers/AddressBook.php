@@ -3,6 +3,7 @@ namespace Plugins\Managers;
 
 use App\Http\Functions\Validate;
 use App\Http\Models\Address;
+use MiladRahimi\PhpRouter\Url;
 
 class AddressBook
 {
@@ -58,6 +59,20 @@ class AddressBook
     public $status;
     public $error;
     public $type;
+
+
+    public function push(Url $url, $entity_name)
+    {
+        switch ($entity_name) {
+            case "page/contact";
+                redirect($url->make("auth.admin.contact.home"));
+                break;
+            case "address/general";
+                redirect($url->make("auth.admin.addresses.home"));
+                break;
+            default;
+                break;
+        }
 
 
     public function __construct(Validate $validate)

@@ -14,8 +14,9 @@ class Galleries
         Capsule::schema()->create("galleries", function ($table) {
             $table->id();
             $table->string("entry_name");
-            $table->integer("entry_id");
+            $table->integer("entry_id"); // do not confuse this with image id they are different
             $table->foreignId('user_id');
+            $table->biginteger("image_id")
             $table->timestamps();
         });
     }

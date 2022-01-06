@@ -20,6 +20,7 @@ class ContactController
     public $resources;
     public $required;
     public $entity_name;
+    public $showform;
 
 
 //    Address book
@@ -56,6 +57,7 @@ class ContactController
             $this->postcode = $validate->Post("postcode");
             $this->type = $validate->Post("type");
         }
+        $this->showform = true;
         $this->type = $addressBook->type;
     }
 
@@ -170,6 +172,7 @@ class ContactController
             }
         } else {
             $this->error = "csrf token is invalid";
+            $this->showform = false;
         }
         echo TemplateEngine::View("Pages.Backend.AdminCp.Contactus.Resources.new", ["url" => $url, "request" => $this]);
     }
@@ -177,11 +180,23 @@ class ContactController
     public function resource_edit($id,Url $url,ResourceManager $resourceManager, Csrf $csrf , Validate $validate)
     {
         $this->id = base64_decode($id);
+        $this->resources = Resources::where("id",$this->id)->get();
+        if($this->resources->count() == 1)
+        {
+            $this->resources = $this->resources->first();
+        }
+        else
+        {
+            $this->error = "Resource cannot be found";
+            $this->showform = false;
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Contactus.Resources.edit", ["url" => $url, "request" => $this]);
     }
 
     public function resource_update($id,Url $url,ResourceManager $resourceManager, Csrf $csrf , Validate $validate)
     {
         $this->id = base64_decode($id);
+        echo $this->id;
     }
 
 
