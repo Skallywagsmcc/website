@@ -218,6 +218,13 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
         $router->post("/edit/{id}", [UsersController::class, "update"], "auth.admin.users.update");
         $router->get("/search", [UsersController::class, "search"], "auth.admin.users.search");
         $router->get("/delete/{user_id}/{token_hex}/{token_key}", [UsersController::class, "deleterequest"], "auth.admin.users.delete.request");
+
+        $router->group(["prefix"=>"/banning"],function(Router $router)
+        {
+            $router->get("/?",[\App\Http\Controllers\Admin\BanController::class,"index"],  "auth.admin.users.ban.home");
+            $router->get("/view/[username]",[\App\Http\Controllers\Admin\BanController::class,"show"],"auth.admin.users.ban.show");
+            $router->post("/ban/{username}",[\App\Http\Controllers\Admin\BanController::class,"store"],  "auth.admin.users.ban.store");
+        });
     });
 
     $router->group(["prefix" => "/articles"], function (Router $router) {
@@ -249,7 +256,7 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
 });
 
 //Account
-$router->group(["prefix" => "/My-Account", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\UserLogin::class]], function (Router $router) {
+$router->group(["prefix" => "/account", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\UserLogin::class]], function (Router $router) {
 
     $router->group(["prefix" => "/account"], function (Router $router) {
         $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "account.home");

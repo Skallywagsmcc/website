@@ -11,7 +11,7 @@ namespace App\Http\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bans extends Model
+class BanHistory extends Model
 {
 
 }

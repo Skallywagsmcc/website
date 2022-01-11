@@ -28,6 +28,7 @@ class EventsController
     public $description;
     public $upload_thumb;
     public $request;
+    public $entity_name;
 
 
     public function __construct(Validate $validate)
@@ -41,13 +42,14 @@ class EventsController
             $this->title = $validate->Post("title");
             $this->description = $validate->Post("content");
         } else {
+            $this->entity_name = "page/events";
         }
     }
 
     public function index(Url $url, $message = null)
     {
         $events = Event::all();
-        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url]);
+        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url,"request"=>$this]);
     }
 
     public function show(Url $url)
@@ -56,8 +58,8 @@ class EventsController
 
     public function create(Url $url)
     {
-        $addresses = Address::where("contactus", 0)->get();
-        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses]);
+        $addresses = Address::where("entity_name", $this->entity_name)->get();
+        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses,"request"=>$this]);
     }
 
     public function store(Url $url, Auth $auth, Validate $validate, Csrf $csrf, Filemanager $filemanager)

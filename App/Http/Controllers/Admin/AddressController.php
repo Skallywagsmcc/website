@@ -37,6 +37,8 @@ class AddressController
     public $county;
     public $postcode;
 
+    public $param;
+
 //    End Address Book
 
 
@@ -77,13 +79,22 @@ class AddressController
 
     public function create(Url $url, ServerRequest $request)
     {
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url, "action" => $this]);
+        $this->param = base64_decode($request->getQueryParams()["entity_name"]);
+        if($this->param == true)
+        {
+            $this->entity_name = $_SESSION['entity_name'] = $this->param;
+        }
+        else
+        {
+            unset($_SESSION['entity_name']);
+        }
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Addresses.new", ["url" => $url, "request" => $this]);
     }
 
 
-    public function store(Url $url, Csrf $csrf, Auth $auth, Validate $validate, AddressBook $addressBook)
+    public function store(Url $url, Csrf $csrf, Auth $auth, Validate $validate, AddressBook $addressBook,ServerRequest $request)
     {
-
+       isset($_SESSION['entity_name']) ? $this->entity_name = $_SESSION['entity_name'] : false;
         if ($csrf->Verify() == true) {
             $validate->AddRequired(["title", "name", "street", "city", "county", "postcode"]);
             if ($validate->Allowed() == false) {
@@ -92,6 +103,7 @@ class AddressController
             } else {
                 $addressBook->new($this->entity_name);
                 if ($addressBook->status == true) {
+                    unset($_SESSION['entity_name']);
                     redirect($url->make("auth.admin.addresses.home"));
                 }
                 else

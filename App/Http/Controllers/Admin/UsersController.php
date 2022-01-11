@@ -7,18 +7,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Libraries\Pagination\LaravelPaginator;
+use App\Http\Models\Bans;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
-use App\Http\Models\RegisterRequest;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\Token;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
+use App\Http\traits\Ban_manager;
 use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
-use Migrations\Register_Requests;
 use MiladRahimi\PhpRouter\Url;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -41,7 +40,13 @@ class UsersController
     public $required;
 
 
+    public $user_groups;
+    public $users;
+    public $status_type;
+    public $showform;
     public $status;
+    public $banning;
+    public $expires;
     private $user_exists;
     private $entity_name;
 
@@ -64,19 +69,45 @@ class UsersController
             $this->is_crew = $validate->Post("is_crew");
             $this->is_admin = $validate->Post("is_admin");
         }
+        $this->showform = true;
 
     }
 
     public function index(Url $url)
     {
-        $id = User::orderBy("id", "desc")->limit(1)->get()->first();
-        $users = User::all();
-        $latest = User::orderBy("id", "DESC")->take(5)->get();
-        $requests = Token::orderBy("entity_name", "desc");
-        $pagination = new LaravelPaginator("10", "request_per_page");
-        $requests = $pagination->paginate($requests);
 
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest" => $latest, "settings" => SiteSettings::where("id", 1), "url" => $url, "id" => $id, "requests" => $requests]);
+//        Find all users by status group
+
+        $this->user_groups = User::Groupby("status")->limit(5)->get();
+
+
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.index", ["users" => $users, "latest" => $latest, "settings" => SiteSettings::where("id", 1), "url" => $url, "id" => $id, "request" => $this]);
+    }
+
+    public function statustype($status)
+    {
+        $status = $this->getuser($status)->first()->status;
+        switch ($status) {
+            case 0 :
+                $status = "Guest Accounts";
+                break;
+            case 1 :
+                $status = "Pending User accounts";
+                break;
+            case 2 :
+                $status = "Banned User Accounts";
+                break;
+            case 3 :
+                $status = "Active User Accounts";
+                break;
+        }
+
+        return $status;
+    }
+
+    public function getuser($status)
+    {
+        return $this->users = User::where("status", $status)->get();
     }
 
     public function create(URL $url)
@@ -97,93 +128,86 @@ class UsersController
 //        Step 1 Verify the csrf token
 
         if ($csrf->Verify() == true) {
-
-//            check if email exisits for account.
-
-//            if no send create the user, Profile, and usersettings
-
-//            Send the request to the tokens database
-
-//            Email the user
             if ($this->user_exists == true) {
                 $this->error = "It seems the email you are trying to register is linked to another account.";
             } else {
-
 //                Create the user;
 
-                    $user = new User();
-                    $user->email = $this->email;
-                    $this->is_admin == 1 ? $user->is_admin = 1 : $user->admin = 0;
-                    $user->save();
+                $user = new User();
+                $user->email = $this->email;
+                $this->is_admin == 1 ? $user->is_admin = 1 : $user->admin = 0;
+                $user->save();
 
 //create profile and settings
-                    $profile = new Profile();
-                    $profile->user_id = $user->id;
-                    $profile->first_name = $this->first_name;
-                    $profile->last_name = $this->last_name;
-                    $this->is_crew == 1 ? $profile->is_crew = 1 : $profile->is_crew = 0;
-                    $profile->save();
+                $profile = new Profile();
+                $profile->user_id = $user->id;
+                $profile->first_name = $this->first_name;
+                $profile->last_name = $this->last_name;
+                $this->is_crew == 1 ? $profile->is_crew = 1 : $profile->is_crew = 0;
+                $profile->save();
 
-                    $settings = new UserSettings();
-                    $settings->save();
+                $settings = new UserSettings();
+                $settings->save();
+
+                $this->status = true;
 
 //                Send the registration request here
 
-                    if ($this->status == true) {
-                        $request = Token::where("entity_name")->where("user_id", $user->id)->get();
+                if ($this->status == true) {
+                    $request = Token::where("entity_name")->where("user_id", $user->id)->get();
 
-                        if ($request->count() == 1) {
-                            $request->first();
-                        } else {
-                            $request = new Token();
-                        }
-                        $request->user_id = $user->id;
-                        $request->entity_name = $this->entity_name;
-                        $request->token_hex = $validate->RequestHexKey();
-                        $request->token_key = rand(000001, 999999);
-                        $request->expires = date("Y-m-d H:i:s", strtotime("+24 hours"));
-                        $request->save();
+                    if ($request->count() == 1) {
+                        $request->first();
+                    } else {
+                        $request = new Token();
+                    }
+                    $request->user_id = $user->id;
+                    $request->entity_name = $this->entity_name;
+                    $request->token_hex = $validate->RequestHexKey();
+                    $request->token_key = rand(000001, 999999);
+                    $request->expires = date("Y-m-d H:i:s", strtotime("+24 hours"));
+                    $request->save();
 
 //                   Send the email out
 
-                        $mail = new PHPMailer(true);
+                    $mail = new PHPMailer(true);
 
-                        try {
-                            //Server settings
-                            $mail->SMTPDebug = SMTP::DEBUG_OFF;         //Enable verbose debug output
-                            $mail->isSMTP();                                            //Send using SMTP
-                            $mail->Host = $_ENV['SMTP_HOST'];          //Set the SMTP server to send through
-                            $mail->SMTPAuth = true;                                   //Enable SMTP authentication
-                            $mail->Username = $_ENV['SMTP_USERNAME'];    //SMTP username
-                            $mail->Password = $_ENV['SMTP_PASSWORD'];    //SMTP password
+                    try {
+                        //Server settings
+                        $mail->SMTPDebug = SMTP::DEBUG_OFF;         //Enable verbose debug output
+                        $mail->isSMTP();                                            //Send using SMTP
+                        $mail->Host = $_ENV['SMTP_HOST'];          //Set the SMTP server to send through
+                        $mail->SMTPAuth = true;                                   //Enable SMTP authentication
+                        $mail->Username = $_ENV['SMTP_USERNAME'];    //SMTP username
+                        $mail->Password = $_ENV['SMTP_PASSWORD'];    //SMTP password
 //                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-                            $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+                        $mail->Port = 587;        //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
-                            //Recipients
-                            $mail->setFrom("no-reply@skallywags.club", "no reply");
-                            $mail->addAddress($user->email, $user->Profile->first_name . " " . $user->Profile->last_name);     //Add a recipient
+                        //Recipients
+                        $mail->setFrom("no-reply@skallywags.club", "no reply");
+                        $mail->addAddress($user->email, $user->Profile->first_name . " " . $user->Profile->last_name);     //Add a recipient
 
-                            //Content
-                            $mail->isHTML(true);                                  //Set email format to HTML
-                            $mail->Subject = "Welcome to the club : Your Account request";
-                            $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
-                            $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
-                            $mail->Body .= "Thank you for joining our site as this is a closed Registration you will be required to join using a token and key request system Please follow the instructions below<hr>";
-                            $mail->Body .= "Step 1: Copy this token_key <strong>" . $request->token_key . "</strong><br>";
-                            $mail->Body .= "Step 2: Click on link the below to be taken to the registration page<br>";
-                            $mail->Body .= "Step 3: Continue to fill our the remainder of  your account using the form <br>";
-                            $mail->Body .= "Step 4: Paste your token key into the box token_key input field <br>";
-                            $mail->Body .= "Step 5: Submit your request and welcome to the comunity <hr>";
-                            $mail->Body .= "Continue your registration : <a href='" . $_ENV['DOMAIN'] . $url->make("register", ["token_hex" => $request->token_hex]) . "'>Click Here</a> <br><br>";
-                            $mail->Body .= "If your think this was sent in error please disregard this email and continue to <a href='" . $_ENV['DOMAIN'] . $url->make("auth.admin.users.delete.request", ["user_id" => $user->id, "token_hex" => $request->token_hex, "token_key" => $request->token_key]) . "'>Cancel this request</a> and this account will be deleted<hr>";
-                            $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
-                            $mail->send();
-                            $this->status = true;
-                            redirect($url->make("login"));
-                        } catch (Exception $e) {
-                            $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-                        }
+                        //Content
+                        $mail->isHTML(true);                                  //Set email format to HTML
+                        $mail->Subject = "Welcome to the club : Your Account request";
+                        $mail->Body = "<div><img src='" . $_ENV['LOGO'] . "' alt='logo' height='100' width='100'/></div>";
+                        $mail->Body .= "Hello " . $user->Profile->first_name . "<hr>";
+                        $mail->Body .= "Thank you for joining our site as this is a closed Registration you will be required to join using a token and key request system Please follow the instructions below<hr>";
+                        $mail->Body .= "Step 1: Copy this token_key <strong>" . $request->token_key . "</strong><br>";
+                        $mail->Body .= "Step 2: Click on link the below to be taken to the registration page<br>";
+                        $mail->Body .= "Step 3: Continue to fill our the remainder of  your account using the form <br>";
+                        $mail->Body .= "Step 4: Paste your token key into the box token_key input field <br>";
+                        $mail->Body .= "Step 5: Submit your request and welcome to the comunity <hr>";
+                        $mail->Body .= "Continue your registration : <a href='" . $_ENV['DOMAIN'] . $url->make("register", ["token_hex" => $request->token_hex]) . "'>Click Here</a> <br><br>";
+                        $mail->Body .= "If your think this was sent in error please disregard this email and continue to <a href='" . $_ENV['DOMAIN'] . $url->make("auth.admin.users.delete.request", ["user_id" => $user->id, "token_hex" => $request->token_hex, "token_key" => $request->token_key]) . "'>Cancel this request</a> and this account will be deleted<hr>";
+                        $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
+                        $mail->send();
+                        $this->status = true;
+                        redirect($url->make("login"));
+                    } catch (Exception $e) {
+                        $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }
+                }
 
             }
 
@@ -215,14 +239,20 @@ class UsersController
     public function edit($id, Url $url)
     {
         $id = base64_decode($id);
-        $user = User::where("id", $id)->get();
-
-        if ($user->count() == 1) {
-            echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["user" => $user->first(), "url" => $url]);
-        } else {
-            echo "user} doesnt exisit";
+        $this->user = User::where("id", $id)->get();
+        $this->banning = Bans::where("user_id", $id)->get();
+        $this->status = $this->user->first()->status;
+        if ($this->banning->count() == 1) {
+            $this->banning = $this->banning->first();
         }
 
+        if ($this->user->count() == 1) {
+            $this->user = $this->user->first();
+            echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["url" => $url, "request" => $this]);
+        } else {
+            $this->error = "User does not exisit";
+            $this->showform = false;
+        }
 
     }
 
@@ -264,8 +294,20 @@ class UsersController
 
     }
 
+    public function applyban($id)
+    {
+        $this->id = base64_decode($id);
+
+//        Ban code will go here
+
+//        Redirect here
+
+
+    }
+
     public function delete($id, Url $url)
     {
+
         $user = User::where("id", $id);
         if ($user->count() == 1) {
             UserSettings::where("user_id", $id)->delete();
@@ -280,12 +322,17 @@ class UsersController
                     Image::find($image->id)->delete();
                     FeaturedImage::where("image_id", $image_id)->delete();
                 }
+//                When Applied into the code will need to delete the users gallery.
+
+//                Delete any csrf tokens by user.
             }
 //            finally delete the users account;
             $user->delete();
         } else {
             echo "no user found";
         }
+
+//        if user is deleted by an Admin Email and username must be added to a rejection list preventing the email to be used again.
         redirect($url->make("auth.admin.users.home"));
 
     }

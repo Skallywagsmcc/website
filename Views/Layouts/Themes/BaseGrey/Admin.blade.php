@@ -100,7 +100,7 @@ $auth = new Auth();
 
                 <div class="row  my-1 pb-1 mx-0">
                     <div class="col-sm-12 head py-2 pl-lg-1">Events Manager</div>
-                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.events.home")}}" class="d-block py-2">List
+                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.events.home")}}charter" class="d-block py-2">List
                             Events</a></div>
                     <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.events.new")}}" class="d-block py-2">Create
                             Event</a></div>

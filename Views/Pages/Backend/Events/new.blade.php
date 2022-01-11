@@ -151,7 +151,7 @@
                             <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Not Enough Addresses</div>
                             <div class="col-sm-12 text-center py-2">Sorry in order to add a new Event a Minimum of 2
                                 addresses must be added Before you can create a new event <a
-                                        href="{{$url->make("auth.admin.addresses.home")}}">Add a new
+                                        href="{{$url->make("auth.admin.addresses.new")}}?entity_name={{base64_encode($request->entity_name)}}">Add a new
                                     Address</a></div>
                         </div>
                     </div>

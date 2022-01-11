@@ -27,7 +27,7 @@
         <div class="row box my-2">
             <div class="col-sm-12 text-center text-lg-left head pl-lg-2">Add new address</div>
         </div>
-        <form action="{{$url->make("auth.admin.addresses.store")}}" method="post">
+        <form action="{{$url->make("auth.admin.addresses.store")}}@isset($request->param)?entity_name={{$request->param}}@endisset" method="post">
             {{csrf()}}
 
             @include("Includes.Forms.Addresses.new")
