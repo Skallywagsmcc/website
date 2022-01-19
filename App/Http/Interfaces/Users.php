@@ -9,9 +9,8 @@
 namespace App\Http\Interfaces;
 
 
-interface bannings
+interface Users
 {
 
-    public function CheckBan();
 
 }

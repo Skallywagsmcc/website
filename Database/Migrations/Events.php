@@ -14,7 +14,6 @@ class Events
         Capsule::schema()->create("events",function($table)
         {
             $table->id();
-            $table->string("entry_name");
             $table->biginteger('user_id');
             $table->biginteger("thumbnail")->nullable();
             $table->biginteger("cover")->nullable();

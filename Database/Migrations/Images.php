@@ -8,16 +8,17 @@ class Images
     {
         Capsule::schema()->create("images", function ($table) {
             $table->id();
-            $table->string("entry_name");
-            $table->foreignId('user_id');
-            $table->integer("nvtug");//Not visable to user gallery
-            $table->string("title");
-            $table->text("description");
+            $table->biginteger('user_id')->nullable();
+            $table->string("entity_name");
+            $table->biginteger("entity_id");
+            $table->string("imagetype");
             $table->string("name");
             $table->string("size");
             $table->string("type");
             $table->timestamps();
         });
+
+//        Will add a  new ImageDescription table in a new version of site
     }
 
     public function down()

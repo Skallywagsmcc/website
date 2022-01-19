@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="form-row">
+                <div class="form-row">homeView
                     <div class="col-sm-12 mx-3">
                         <label for="email">Email</label>
                     </div>
@@ -65,7 +65,15 @@
                 </div>
 
 
+
+
                 <div class="form-row">
+                    <div class="col-sm-12">
+                        <label for="policy">Your Password Requires the following in order to follow our strong password Policy</label>
+                        @foreach($request->ListPolicy() as $policy)
+                            <div class="col-sm-12 text-left pl-lg-2">{{$policy}}</div>
+                        @endforeach
+                    </div>
                     <div class="col-sm-12 col-lg-6">
                         <div class="col-sm-12">
                             <label for="password">Password</label>

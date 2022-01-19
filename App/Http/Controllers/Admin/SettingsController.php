@@ -104,9 +104,9 @@ class SettingsController
         }
         else
         {
-            $error = "csrf token is invalid";
+            echo "csrf token is invalid";
         }
-        echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url, "error" => $error]);
+//        echo TemplateEngine::View("Pages.Backend.AdminCp.Settings.Database.index", ["url" => $url, "error" => $error]);
     }
 
 

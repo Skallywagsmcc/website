@@ -11,6 +11,7 @@ use App\Http\Models\SiteSettings;
 use App\Http\Models\Token;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
+use App\Http\traits\Passwords;
 use MiladRahimi\PhpRouter\Url;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -18,6 +19,8 @@ use PHPMailer\PHPMailer\SMTP;
 
 class RegisterController
 {
+
+    use Passwords;
 
     public $username;
     public $email;

@@ -118,11 +118,12 @@
                 <div class="row mx-2 my-3">
                     <div class="col-sm-12 lb2 head">Latest Members</div>
                     @foreach($members as $member)
-                        <div class="col-sm-12 text-center mx-0">
-                            <a href="{{$url->make("profile.view",["username"=>$member->user->username])}}"
-                               class="d-block py-2 mx-0 px-0">{{$member->first_name}} {{$member->last_name}}</a>
-                        </div>
-
+                        @if($member->user->status == 3)
+                            <div class="col-sm-12 text-center mx-0">
+                                <a href="{{$url->make("profile.view",["username"=>$member->user->username])}}"
+                                   class="d-block py-2 mx-0 px-0">{{$member->first_name}} {{$member->last_name}}</a>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>

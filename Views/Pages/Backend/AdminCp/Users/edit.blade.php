@@ -4,6 +4,7 @@
 
 @section("content")
 
+
     @isset($request)
         @isset($request->error)
             <div class="container my-2">
@@ -96,8 +97,12 @@
                 </div>
 
 {{--                Ban will need to be added to a ban history--}}
-                @if(($request->banning->count()))
+
+
+
+                @if($request->disableform == false)
                 <form action="{{$url->make("auth.admin.users.ban.store",["username"=>$request->user->username])}}"  method="post" class="row my-2 box">
+                    {{csrf()}}
                         <div class="col-sm-12 head py-2"> Banning options for  {{$request->user->Profile->first_name}} (currently not in use)</div>
                         <div class="col-sm-12 py-2">
                             <label for="expire">How Long to ban for </label>
@@ -117,25 +122,28 @@
                             <label for="reason">Reason for Banning {{$request->user->Profile->first_name}}</label>
                             <textarea name="reason" id="" cols="30" rows="10" class="form-control"></textarea>
                         </div>
-                        <input type="password" class="form-control py-1" name="password"></div>
+                        <input type="password" class="form-control py-1" name="admin_pw"></div>
                         <div class="col-sm-12 text-right pr-lg-right">
                             <button class="btn btn btn-primary">Apply Ban</button>
                         </div>
+
                 </form>
                     @else
                     <div class="row box">
                         <div class="col-sm-12 head py-2">Banning in progress</div>
-                        <div class="col-sm-12">{{$request->user->Profile->first_name}} has recently been banned, this ban expires on : {{date("d/m/Y H:i:s",strtotime($request->banning->first()->expires))}}</div>
+                        <div class="col-sm-12">{{$request->user->Profile->first_name}} has recently been banned, this ban expires on : {{date("d/m/Y H:i:s",strtotime($request->BanExpires()))}}</div>
+                        or click here to cancel ban <a href="{{$url->make("auth.admin.users.ban.delete",["id"=>base64_encode($request->user->id)])}}">Remove ban</a>
                     </div>
-                    @endif
+                @endif
             </div>
+
 
         @elseif($request->user->status == 1)
             <div class="container my-2">
                 <div class="row box">
                     <div class="col-sm-12 head py-2 mb-1">Account Management For
                         : {{$request->user->Profile->first_name}} {{$request->user->Profile->last_name}}</div>
-                    <div class="col-sm-12">This account is Still Set as pending</div>
+                    <div class="col-sm-12">This account is Still Set as pending and cannot be modified</div>
                 </div>
             </div>
         @elseif($request->user->status == 0)

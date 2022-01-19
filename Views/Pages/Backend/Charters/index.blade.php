@@ -32,12 +32,19 @@
                         </div>
                         <div class="col-sm-12 col-lg-3"><a href="{{$url->make("auth.admin.charters.edit",["id"=>base64_encode($charter->id)])}}">Edit Charter</a></div>
                         <div class="col-sm-12 col-lg-3"><a href="{{$url->make("auth.admin.charters.delete",["id"=>base64_encode($charter->id)])}}">Delete Article</a></div>
-
                     </div>
                 @endforeach
 
             </form>
 
     </div>
+
+    @if($request->AllResources($request->entity_name)->count() == 0)
+        No Resources Found
+            @else
+                @foreach($requests->AllResources($request->entity_name) as $resources)
+                    {{$resources->value}}
+                @endforeach
+        @endif
 
 @endsection

@@ -8,13 +8,20 @@
 @section("content")
 
 
+    @isset($request->error)
     <div class="container-fluid my-2">
         <div class="row box">
             <div class="col-sm-12 head py-2">An Error occurred</div>
-            {{$request->error}}
+                {{$request->error}}
+            @isset($request->required)
+                <div class="col-sm-12">MIssing fields</div>
+                @foreach($request->required as $required)
+                    {{$required}}
+                @endforeach
+                @endisset
         </div>
     </div>
-
+@endisset
     <div class="container-fluid my-2">
         <div class="row box">
             <div class="col-sm-12 head py-2">Add a New Charter</div>
@@ -42,12 +49,9 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="url">Charter Url</label>
-                        <div class="col-sm-12">
-                            <input type="url" name="url" @isset($request->url)value="{{$request->url}}"@endisset placeholder="url to charter group">
-                        </div>
-                    </div>
+
+                    {{--                    Add Resources Button Here use jquery to add value --}}
+
                 </div>
                 <div class="col-sm-12 col-lg-3">
 
@@ -60,20 +64,12 @@
                         </div>
                     </div>
 
-
                     <div class="row px-0 mx-0 my-2 box">
-                        <div class="col-sm-12 head">Add a cover image
-                        </div>
-                        <div class="col-sm-12 text-center">
-                            <input type="file" name="cover">
-                        </div>
-                    </div>
-
-                    <div class="row px-0 mx-0 my-2 box">
-                        <button class="btn tld-button  btn-primary btn-block">Save</button>
+                        <button class="btn tld-button  btn-primary btn-block">Save and Continue</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+
 @endsection

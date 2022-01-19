@@ -9,7 +9,7 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Auth;
 use App\Http\Models\Address;
 use App\Http\Models\SiteSettings;
-use Illuminate\Support\Facades\Mail;
+use App\Http\traits\Resources;
 use MiladRahimi\PhpRouter\Url;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -18,6 +18,7 @@ use Plugins\Mailer\Mailer;
 
 class ContactController
 {
+
 
     public $email;
     public $first_name;
@@ -29,13 +30,16 @@ class ContactController
     public $rmf;
     public $error;
     public $clubmember;
+    public $resources;
     public $settings;
     public $address;
-    private  $entity_name;
+    public $entity_name;
+
+    use Resources;
 
     public function __construct(Validate $validate)
     {
-        if($_SERVER['REQUEST_METHOD'] == "POST") {
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->email = $validate->Post("email");
             $this->first_name = $validate->Post("first_name");
             $this->last_name = $validate->Post("last_name");
@@ -47,34 +51,30 @@ class ContactController
 
         }
         $this->settings = $this->SiteSettings();
-        $this->entity_name = "address/contact-us";
+        $this->entity_name = "page/contact";
     }
 
 
     public function SiteSettings()
     {
-        return SiteSettings::where("id",1)->get();
+        return SiteSettings::where("id", 1)->get();
     }
 
-    public function index(Url $url,Validate $validate,Mailer $mailer)
+    public function index(Url $url, Validate $validate, Mailer $mailer)
     {
-
         $settings = $this->SiteSettings()->first();
-        $address = Address::where("entity_name",$this->entity_name)->get();
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"requests" => $this,"address"=>$address]);
+        $address = Address::where("entity_name", $this->entity_name)->get();
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "requests" => $this, "address" => $address]);
     }
 
-    public function store(Url $url, Validate $validate,Mailer $mailer)
+    public function store(Url $url, Validate $validate, Mailer $mailer)
     {
-        if(($this->settings->count() == 1 ) && ($this->settings->first()->lock_subumssions == 1))
-        {
+        if (($this->settings->count() == 1) && ($this->settings->first()->lock_subumssions == 1)) {
             $this->error = "Submissions Are locked";
-        }
-        else {
-            $validate->AddRequired(["first_name","last_name","message","subject"]);
+        } else {
+            $validate->AddRequired(["first_name", "last_name", "message", "subject"]);
 
-            if($this->clubmember == 1)
-            {
+            if ($this->clubmember == 1) {
                 $validate->AddRequired("club");
             }
 
@@ -82,7 +82,7 @@ class ContactController
                 $this->error = "The Following Missing fields are required";
                 $this->rmf = $validate->is_required;
             } else {
-                if($validate->Recaptcha("1",0.5,"contactus")){
+                if ($validate->Recaptcha("1", 0.5, "contactus")) {
                     $mail = new PHPMailer();
                     try {
                         //Server settings
@@ -97,26 +97,26 @@ class ContactController
                         $mail->isHTML(true);
                         //Recipients
                         $mail->setFrom('no-reply@skallywags.club', 'Martin Bamber');
-                        $mail->addAddress("mail@skallywags.club","skallywags Mail");
-                        $mail->addReplyTo($this->email,$this->first_name." ". $this->last_name);
+                        $mail->addAddress("mail@skallywags.club", "skallywags Mail");
+                        $mail->addReplyTo($this->email, $this->first_name . " " . $this->last_name);
                         //Content
-                            $mail->Subject = $this->subject;
+                        $mail->Subject = $this->subject;
 
 //                   completed:      Manage the logo
                         $mail->Body = $mailer->logo();
 ////
 //////                      todo  Setup First and last name
-                        $mail->Body .= "You have recieved an message from : ".$this->first_name . " ". $this->last_name . "<br><hr>";
+                        $mail->Body .= "You have recieved an message from : " . $this->first_name . " " . $this->last_name . "<br><hr>";
 
 //                TODO   topic : general question or membership Question
 
                         $mail->Body .= "Reason for contact : " . $this->subject . "<br><br>";
-                        $mail->Body .= "Are they already in a club : ". $this->clubmember = 0 ? "No":"Yes" . "<br><br>";
-                        $mail->Body .= $this->clubmember = 1 ? "Clubname : " . $this->club."" : "";
+                        $mail->Body .= "Are they already in a club : " . $this->clubmember = 0 ? "No" : "Yes" . "<br><br>";
+                        $mail->Body .= $this->clubmember = 1 ? "Clubname : " . $this->club . "" : "";
                         $mail->Body .= "<br><br>";
 
 //                        Submit message
-                        $mail->Body .= "Message from ". $this->first_name . "<br><br>" . $this->message;
+                        $mail->Body .= "Message from " . $this->first_name . "<br><br>" . $this->message;
 
                         $mail->send();
                         redirect($url->make("contact-sent"));
@@ -128,12 +128,12 @@ class ContactController
                 }
             }
         }
-        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url,"requests" => $this, "error" => $this->error, "rmf"=>$this->rmf]);
+        echo TemplateEngine::View("Pages.Frontend.Contact.index", ["url" => $url, "requests" => $this, "error" => $this->error, "rmf" => $this->rmf]);
     }
 
     public function sent(Url $url)
     {
-        echo TemplateEngine::View("Pages.Frontend.Contact.sent",["url"=>$url]);
+        echo TemplateEngine::View("Pages.Frontend.Contact.sent", ["url" => $url]);
 
     }
 

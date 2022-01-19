@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Models\Bans;
 use App\Http\Models\FeaturedImage;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
@@ -16,6 +15,8 @@ use App\Http\Models\Token;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
 use App\Http\traits\Ban_manager;
+use App\Http\traits\Passwords;
+use App\Http\traits\Users;
 use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
@@ -23,8 +24,13 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 
-class UsersController
+class UsersController implements \App\Http\Interfaces\Users
 {
+
+    use Ban_manager;
+    use Users;
+    use Passwords;
+
 
     public $id;
     public $email;
@@ -50,8 +56,11 @@ class UsersController
     private $user_exists;
     private $entity_name;
 
+    private $admin_pw;
+
     public function __construct(Validate $validate)
     {
+
 
         $this->status = false;
         $this->user_exists = false;
@@ -68,6 +77,8 @@ class UsersController
             $this->confirm_password = $validate->Post("confirm");
             $this->is_crew = $validate->Post("is_crew");
             $this->is_admin = $validate->Post("is_admin");
+
+            $this->admin_pw = $validate->Post("admin_pw");
         }
         $this->showform = true;
 
@@ -239,21 +250,22 @@ class UsersController
     public function edit($id, Url $url)
     {
         $id = base64_decode($id);
-        $this->user = User::where("id", $id)->get();
-        $this->banning = Bans::where("user_id", $id)->get();
-        $this->status = $this->user->first()->status;
-        if ($this->banning->count() == 1) {
-            $this->banning = $this->banning->first();
-        }
-
-        if ($this->user->count() == 1) {
+        $this->user = $this->findusers($id);
+        if($this->user->count() == 1)
+        {
             $this->user = $this->user->first();
-            echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["url" => $url, "request" => $this]);
-        } else {
-            $this->error = "User does not exisit";
+//            Instantiate the Ban
+            $this->load($this->user->id);
+            $this->banconfirmed() == true ? $this->disableform = true : $this->disableform = false;
+
+        }
+        else
+        {
             $this->showform = false;
+            $this->error = "User Cannot be found in database";
         }
 
+        echo TemplateEngine::View("Pages.Backend.AdminCp.Users.edit", ["url" => $url, "request" => $this]);
     }
 
     public function update($id, Url $url, Csrf $csrf, Validate $validate, Auth $auth)
@@ -261,7 +273,7 @@ class UsersController
 //Get validation
         if ($csrf->Verify() == true) {
             $id = base64_decode($id);
-            $user = User::where("id", $id)->get();
+            $user = $this->findusers($id);
             if ($user->count() == 1) {
                 $user = $user->first();
                 $validate->AddRequired(["username", "email", "first_name", "last_name"]);
@@ -269,7 +281,8 @@ class UsersController
                 if ($validate->Allowed() == false) {
                     $error = "Some Missing fields are required";
                     $required = $validate->is_required;
-                } else {
+                }
+                else {
                     if (!$auth->RequirePassword($this->admin_password)) {
                         $error = "Your User Password does not match the record";
                     } else {
@@ -294,61 +307,16 @@ class UsersController
 
     }
 
-    public function applyban($id)
-    {
-        $this->id = base64_decode($id);
-
-//        Ban code will go here
-
-//        Redirect here
-
-
-    }
 
     public function delete($id, Url $url)
     {
-
-        $user = User::where("id", $id);
-        if ($user->count() == 1) {
-            UserSettings::where("user_id", $id)->delete();
-            Profile::where("user_id", $id)->delete();
-
-
-//        FInd Images and delete them
-            $images = Image::where("user_id", $id);
-            if ($images->count() >= 1) {
-                foreach ($images as $image) {
-                    unlink(__DIR__ . "/../../../../img/uploads/$image->image_name");
-                    Image::find($image->id)->delete();
-                    FeaturedImage::where("image_id", $image_id)->delete();
-                }
-//                When Applied into the code will need to delete the users gallery.
-
-//                Delete any csrf tokens by user.
-            }
-//            finally delete the users account;
-            $user->delete();
-        } else {
-            echo "no user found";
-        }
-
-//        if user is deleted by an Admin Email and username must be added to a rejection list preventing the email to be used again.
-        redirect($url->make("auth.admin.users.home"));
+        $id = base64_decode($id);
 
     }
 
     public function deleterequest(Url $url, $user_id, $token_hex, $token_key)
     {
-        $request = Token::where("user_id", $user_id)->where("entity_name", $this->entity_name)->where("token_hex", $token_hex)->where("token_key", $token_key);
-        if ($request->count() == 1) {
-            Profile::where("user_id", $user_id)->delete();
-            UserSettings::where("user_id", $user_id)->delete();
-            User::where("id", $user_id)->delete();
-            $request->delete();
-
-            redirect($url->make("homepage"));
-        }
-//        Delete all data from requests
+        $this->DeleteUserRequest($user_id, $token_hex, $token_key) == true ? redirect($_SERVER['HTTP_REFERER']) : exit("An Error Occurred : Deletion Failed");
     }
 
 

@@ -12,7 +12,6 @@ class Articles
     {
         Capsule::schema()->create("articles", function ($table) {
             $table->id();
-            $table->string("entry_name");
             $table->integer("user_id");
             $table->string("title");
             $table->string("slug");

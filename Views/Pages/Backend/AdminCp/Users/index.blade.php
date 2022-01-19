@@ -99,7 +99,10 @@
                             {{$user->username}}
                         @endif
                     </div>
-                    <div class="col-sm-12 col-lg-6 text-center py-2"><a href="{{$url->make("auth.admin.users.edit",["id"=>base64_encode($user->id)])}}">Manager User Accounts</a></div>
+                    <div class="col-sm-12 col-lg-3 text-center py-2"><a href="{{$url->make("auth.admin.users.edit",["id"=>base64_encode($user->id)])}}">Manager User Accounts</a></div>
+                @if($user->status == 1)
+                    <div class="col-sm-12 col-lg-3 text-center py-2"><a href="{{$url->make("auth.admin.users.delete.request",["user_id"=>$user->id,"token_hex"=>$user->Token->token_hex,"token_key"=>$user->Token->token_key])}}">Delete pending Request</a></div>
+                    @endif
                 @endforeach
             </div>
         </div>

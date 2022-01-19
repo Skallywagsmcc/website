@@ -48,6 +48,14 @@
             @endisset
 
 
+            @if($requests->AllResources($requests->entity_name)->count() == 0)
+                No Resources found
+                @else
+           @foreach($requests->AllResources($requests->entity_name) as $resources)
+{{$resources->value}}
+               @endforeach
+           @endif
+
             <div class="container my-2">
                 <div class="row mx-1">
                     <div class="col-sm-12 col-md-8">
