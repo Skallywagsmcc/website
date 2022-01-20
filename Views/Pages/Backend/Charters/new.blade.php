@@ -9,19 +9,19 @@
 
 
     @isset($request->error)
-    <div class="container-fluid my-2">
-        <div class="row box">
-            <div class="col-sm-12 head py-2">An Error occurred</div>
+        <div class="container-fluid my-2">
+            <div class="row box">
+                <div class="col-sm-12 head py-2">An Error occurred</div>
                 {{$request->error}}
-            @isset($request->required)
-                <div class="col-sm-12">MIssing fields</div>
-                @foreach($request->required as $required)
-                    {{$required}}
-                @endforeach
+                @isset($request->required)
+                    <div class="col-sm-12">MIssing fields</div>
+                    @foreach($request->required as $required)
+                        {{$required}}
+                    @endforeach
                 @endisset
+            </div>
         </div>
-    </div>
-@endisset
+    @endisset
     <div class="container-fluid my-2">
         <div class="row box">
             <div class="col-sm-12 head py-2">Add a New Charter</div>
@@ -32,11 +32,12 @@
         <div class="container my-2">
             {{csrf()}}
             <div class="row">
-                <div class="col-sm-12 col-lg-9">
+                <div class="col-sm-12 col-lg-8">
                     <div class="row px-0 mx-0 my-2 box">
                         <div class="col-sm-12">
                             <label for="title">Charter Name</label>
-                            <input type="text" name="title" class="form-control tld-input" @isset($request->title)value="{{$request->title}}"@endisset>
+                            <input type="text" name="title" class="form-control tld-input"
+                                   @isset($request->title)value="{{$request->title}}"@endisset>
                         </div>
                     </div>
 
@@ -48,19 +49,24 @@
 
                         </div>
                     </div>
-
-
                     {{--                    Add Resources Button Here use jquery to add value --}}
 
                 </div>
-                <div class="col-sm-12 col-lg-3">
+                <div class="col-sm-12 col-lg-4">
 
 
                     <div class="row px-0 mx-0 my-2 box">
                         <div class="col-sm-12 head">Add a thumbnail
                         </div>
-                        <div class="col-sm-12">
-                            <input type="file"  name="thumb">
+                        <div class="col-sm-12 my-1">
+                            <input type="file" name="thumb">
+                        </div>
+                    </div>
+
+                    <div class="row px-0 mx-0 my-2 box">
+                        <div class="col-sm-12 head">Add Cover Image (Optional)</div>
+                        <div class="col-sm-12 my-1">
+                            <input type="file" name="cover">
                         </div>
                     </div>
 

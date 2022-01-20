@@ -248,19 +248,8 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
         $router->get("/new", [ChartersController::class, 'create'], "auth.admin.charters.create");
         $router->post("/create/save", [ChartersController::class, 'store'], "auth.admin.charters.store");
 
-        $router->group(["prefix"=>"/edit/{id}"],function (Router $router)
-        {
-
-            $router->get("/?", [ChartersController::class, 'edit'], "auth.admin.charters.edit");
-            $router->post("/update/save", [ChartersController::class, 'update'], "auth.admin.charters.update");
-
-            $router->get("/thumbnail/?", [ChartersController::class, 'edit_thumb'], "auth.admin.charters.thumb.home");
-            $router->post("/thumbnail/save", [ChartersController::class, 'update_thumb'], "auth.admin.charters.thumb.update");
-
-
-            $router->get("/cover", [ChartersController::class, 'edit_cover'], "auth.admin.charters.cover.home");
-            $router->post("/cover/save", [ChartersController::class, 'update_cover'], "auth.admin.charters.cover.update");
-        });
+        $router->get("/edit/{id}", [ChartersController::class, 'edit'], "auth.admin.charters.edit");
+        $router->post("/update/save", [ChartersController::class, 'update'], "auth.admin.charters.update");
 
 
         $router->get("/delete/{id}", [ChartersController::class, 'delete'], "auth.admin.charters.delete");

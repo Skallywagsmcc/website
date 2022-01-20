@@ -43,23 +43,10 @@ trait FileManager
         return $this->upload_dir;
     }
 
-    //Acce
-    public function AcceptedTypes($overwrite=null)
-    {
-        if(is_null($overwrite))
-        {
-            $values = ["jpg","jpeg","png"];
-        }
-        else
-        {
-            $values = $overwrite;
-        }
-        return $values;
-    }
 
     
 //    Check for Required file type return true or false
-    private function Required($name,$vales)
+    private function IsSupported($name,$vales)
     {
         $file = $_FILES[$name]["name"];
         $ext = $this->pathparts($file)["extension"];
@@ -73,19 +60,7 @@ trait FileManager
 
 
 //    Along with  Upload Dir this will start the upload process a new one is require per upload. need to  find a better way to run this
-    public function processUpload($name)
-    {
-//        Instantiate
-        $this->SetFile($name);
-//       return values;
-        $this->filename = $this->GetFile("name");
-        $this->MakeUnique($this->filename);
-        $this->filesize = $this->GetFile("size");
-        $this->filetype = $this->GetFile("type");
-//
-//       echo $this->filetype  . " | ". $this->filename  . " | ".$this->filesize  . " | ". $this->fileerror;
 
-    }
 
 
 //    this is a setter to replicate $_FILES['name']['type']
@@ -115,9 +90,9 @@ trait FileManager
     }
 
 //    Set Name to a unique name
-    public function fileerror($name)
+    public function EmptyFIle($name)
     {
-        return $_FILES[$name]["error"] != 4 ? true : false;
+        return $_FILES[$name]["error"] == 4 ? true : false;
     }
 
 
@@ -137,25 +112,29 @@ trait FileManager
         }
     }
     //unlink file
-    public function removeimage($name)
-    {
-        unlink(implode("",$this->upload_dir) . $name);
-    }
+
 
 
     //this function moved the image from temp folder to upload
-    private function upload()
+    private function upload($name)
     {
-        if (move_uploaded_file($this->GetFile("tmp_name"), $this->upload_dir . $this->hashed_name)) {
-            $this->success = true;
-            return true;
 
-        } else {
-            $this->success = false;
-            return false;
+        $this->SetFile($name);
+//       return values;
+        $this->filename = $this->GetFile("name");
+        $this->MakeUnique($this->filename);
+        $this->filesize = $this->GetFile("size");
+        $this->filetype = $this->GetFile("type");
 
-        }
+        return move_uploaded_file($this->GetFile("tmp_name"), UPLOAD_DIR ."/". $this->hashed_name) ? true : false;
     }
+
+
+    public function rmfile($filename)
+    {
+        return unlink(UPLOAD_DIR."/".$filename);
+    }
+
 
 
 }

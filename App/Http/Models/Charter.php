@@ -14,7 +14,7 @@ class Charter extends Controller
         return $this->belongsTo(User::class);
     }
 
-    public function image()
+    public function Image()
     {
         return $this->hasOne(Image::class,"id","thumbnail");
     }
