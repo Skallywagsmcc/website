@@ -10,12 +10,17 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Address;
 use App\Http\Models\Event;
 use App\Http\Models\Image;
+use App\Http\traits\Resources;
+use App\Http\traits\Users;
 use mbamber1986\Authclient\Auth;
 use mbamber1986\Filemanager\Filemanager;
 use MiladRahimi\PhpRouter\Url;
 
 class EventsController
 {
+    use Resources;
+    use \App\Http\traits\FileManager;
+    use Users;
 
     public $thumbnail;
     public $error;
@@ -41,15 +46,14 @@ class EventsController
             $this->id = $validate->Post("id");
             $this->title = $validate->Post("title");
             $this->description = $validate->Post("content");
-        } else {
-            $this->entity_name = "page/events";
         }
+        $this->entity_name = "page/events";
     }
 
     public function index(Url $url, $message = null)
     {
         $events = Event::all();
-        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url,"request"=>$this]);
+        echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url, "request" => $this]);
     }
 
     public function show(Url $url)
@@ -59,78 +63,93 @@ class EventsController
     public function create(Url $url)
     {
         $addresses = Address::where("entity_name", $this->entity_name)->get();
-        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses,"request"=>$this]);
+        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "addresses" => $addresses, "request" => $this]);
     }
 
-    public function store(Url $url, Auth $auth, Validate $validate, Csrf $csrf, Filemanager $filemanager)
+    public function store(Url $url, Auth $auth, Validate $validate, Csrf $csrf)
     {
         $addresses = Address::all();
+        $validate->AddRequired(["title", "content"]);
+        $this->UploadDir();
+
         if ($csrf->Verify() == true) {
-//            Do a verification
-            $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-            if ($filemanager->success == true) {
-                if ($filemanager->GetFile("error") != 4) {
-                    $image = new Image();
-                    $image->user_id = $auth->id();
-                    $image->entry_name = "Images";
-                    $image->nvtug = 1;
-                    $image->title = "Event Thumnail : " . str_replace(" ", "-", $this->title);
-                    $image->name = $filemanager->GetUniqueName();
-                    $image->size = $filemanager->GetFile("size");
-                    $image->type = $filemanager->GetFile("type");
-                    $image->description = $this->description;
-                    $this->thumbnail = true;
+            if ($validate->Allowed() == false) {
+                $this->error = "Missing fields";
+                $this->required = $validate->is_required;
+            } elseif ($this->EmptyFIle("thumb") == true) {
+                $this->error = "Thumnbnail has not been uploaded Please add one";
+            } elseif ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false) {
+                $this->error = "It seems you have tried to upload an unsuppored file format as a thumbnail";
+            } //            this will check if the cover is using the correct format
+            elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
+                $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+            } else {
+                $id = Event::all()->last()->id + 1;
+
+                if ($this->EmptyFIle("thumb") == false) {
+                    if ($this->upload("thumb") == true) {
+                        $thumb = new Image();
+                        $thumb->user_id = $auth->id();
+                        $thumb->entity_name = $this->entity_name;
+                        $thumb->entity_id = $id;
+                        $thumb->imagetype = "thumbnail";
+                        $thumb->name = $this->hashed_name;
+                        $thumb->type = $this->GetFile("type");
+                        $thumb->size = $this->GetFile("size");
+                        if ($thumb->save()) {
+                            $this->success = true;
+                        } else {
+                            $this->success = false;
+                        }
+                    } else {
+                        $this->error = "File Upload failed";
+                    }
                 }
-            }
 
+                if ($this->EmptyFIle("cover") == false) {
+                    if ($this->upload("cover") == true) {
+                        $cover = new Image();
+                        $cover->user_id = $auth->id();
+                        $cover->entity_name = $this->entity_name;
+                        $cover->entity_id = $id;
+                        $cover->imagetype = "cover";
+                        $cover->name = $this->hashed_name;
+                        $cover->type = $this->GetFile("type");
+                        $cover->size = $this->GetFile("size");
+                        $cover->save();
+                        $cover_id = $cover->id;
+                    } else {
+                        $cover_id = null;
+                    }
+                }
 
-            $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
-            if ($filemanager->success == true) {
-                $cover = new Image();
-                $cover->user_id = $auth->id();
-                $cover->entry_name = "Images";
-                $cover->nvtug = 1;
-                $cover->title = "Event Thumnail : " . str_replace(" ", "-", $this->title);
-                $cover->name = $filemanager->GetUniqueName();
-                $cover->size = $filemanager->GetFile("size");
-                $cover->type = $filemanager->GetFile("type");
-                $cover->description = $this->description;
-                $this->cover = 1;
-            }
-            $this->Error($this->thumbnail, "ThumbNail Image is empty and required");
-            $this->Error($this->cover, "Cover image cannot be left empty");
-            if ($this->thumbnail == true) {
-//                    Save fields
-                $image->save();
-                $cover->save();
+                if ($this->success == true) {
+                    $event = new Event();
+                    $event->user_id = $auth->id();//
+                    $event->title = ucwords($this->title);
+                    $event->thumbnail = $thumb->id;
+                    $event->cover = $cover_id;
+                    $event->slug = slug($event->title . '-' . microtime());
+                    $event->content = $this->description;
 
-
-                $event = new Event();
-                $event->entry_name = "Events";
-                $event->user_id = $auth->id();
-                $event->title = ucwords($this->title);
-                $event->thumbnail = $image->id;
-                $event->cover = $cover->id;
-                $event->slug = slug($event->title . '-' . microtime());
-                $event->content = $this->description;
-
-                $event->start_at = $validate->Required("start")->Post();
-                $event->end_at = $validate->Required("end")->Post();
+                    $event->start_at = $validate->Required("start")->Post();
+                    $event->end_at = $validate->Required("end")->Post();
 //                Meet_id;
-                $event->meet_id = $validate->Post("meet_id");
+                    $event->meet_id = $validate->Post("meet_id");
 //            Dest_id
-                $event->dest_id = $validate->Post("dest_id");
-                $event->map_url = $validate->Post("map_url");
-                $event->save();
-                redirect($url->make("auth.admin.events.home"));
+                    $event->dest_id = $validate->Post("dest_id");
+                    $event->map_url = $validate->Post("map_url");
+                    $event->save();
+                    redirect($url->make("auth.admin.events.home"));
+                }
+
+
             }
-
-
-//                End else verify
-            echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "validate" => $validate, "values" => Validate::$values, "addresses" => $addresses, "error" => $this->error]);
-
-
+        } else {
+            $this->error = "Csrf token doesnt match";
         }
+        echo TemplateEngine::View("Pages.Backend.Events.new", ["url" => $url, "validate" => $validate, "values" => Validate::$values, "addresses" => $addresses, "error" => $this->error]);
+//        }
     }
 
     public function Error($property, $string)
@@ -142,7 +161,6 @@ class EventsController
 
     public function edit(Url $url, $id, Validate $validate)
     {
-        echo UPLOAD_DIR;
         $id = base64_decode($id);
         $event = Event::find($id);
         $addresses = Address::all();
@@ -152,40 +170,88 @@ class EventsController
     public function update(Validate $validate, Auth $auth, Url $url, Csrf $csrf, Filemanager $filemanager)
     {
 
+        $this->UploadDir();
 //        Variables
-        $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
         if ($csrf->Verify() == true) {
             $this->request = Event::where("id", $this->id)->get();
-            if ($this->request->count() == 1) {
-                $this->request = $this->request->first();
-                if ($filemanager->success == true) {
-//            destroy the current image
-                    if ($this->request->image()->count() == 1) {
-                        Image::destroy($this->request->image->id);
-//            Unlink the file
-                        unlink(UPLOAD_DIR . "/" . $this->request->image->name);
+
+            if ("1+1" == 2) {
+                echo "coool";
+            } else {
+                if ($this->request->count() == 1) {
+                    $this->request = $this->request->first();
+
+
+
+                    if ($this->EmptyFIle("thumb") == false) {
+
+
+                        if ($this->request->Image()->count() == 1) {
+                            if ((file_exists(UPLOAD_DIR . '/' . $this->request->image->name))) {
+                                $this->rmfile($this->request->image->name);
+                            } else {
+                                echo "cover file doesnt exisit";
+                            }
+//                        delete from database regardless of if the item exisits
+                            Image::destroy($this->request->image->id);
+                        }
+
+                        if ($this->upload("thumb") == true) {
+                            $thumb = new Image();
+                            $thumb->user_id = $auth->id();
+                            $thumb->entity_name = $this->entity_name;
+                            $thumb->entity_id = $this->request->id;
+                            $thumb->imagetype = "thumbnail";
+                            $thumb->name = $this->hashed_name;
+                            $thumb->type = $this->GetFile("type");
+                            $thumb->size = $this->GetFile("size");
+                            $thumb->save();
+                        } else {
+                            echo "thum nail upload failed";
+                        }
+
                     }
 
-//            instantiate a new image
-                    if ($filemanager->GetFile("error") != 4) {
-                        $image = new Image();
-                        $image->user_id = $auth->id();
-                        $image->entry_name = "Images";
-                        $image->nvtug = 1;
-                        $image->title = "Event Thumnail : " . str_replace(" ", "-", $this->title);
-                        $image->name = $filemanager->GetUniqueName();
-                        $image->size = $filemanager->GetFile("size");
-                        $image->type = $filemanager->GetFile("type");
-                        $image->description = $this->description;
-                        $image->save();
-                        $this->thumbnail = true;
+
+                    /* 1 check the cover image file is empty
+                    * 2 Check the database record isnt null
+                     * 3 Check the file exisits
+                     * 4 Delete the file from storaage
+                     *  5 delete from Database
+                     *  6 Upload a new thumbnail
+                    */
+                    if ($this->EmptyFIle("cover") == false) {
+
+                        if ($this->request->CoverImage()->count() == 1) {
+                            if (!is_null($this->request->coverimage)) {
+                                if (file_exists(UPLOAD_DIR . '/' . $this->request->coverimage->name)) {
+                                    $this->rmfile($this->request->coverimage->name);
+                                } else {
+                                    echo "cover file doesnt exisit";
+                                }
+//                        delete from database regardless of if the item exisits
+                                Image::destroy($this->request->coverimage->id);
+                            }
+                        }
+
+                        if ($this->upload("cover") == true) {
+                            $cover = new Image();
+                            $cover->user_id = $auth->id();
+                            $cover->entity_name = $this->entity_name;
+                            $cover->entity_id = $this->request->id;
+                            $cover->imagetype = "cover";
+                            $cover->name = $this->hashed_name;
+                            $cover->type = $this->GetFile("type");
+                            $cover->size = $this->GetFile("size");
+                            $cover->save();
+                            $cover_id = $cover->id;
+                        } else {
+                            echo "cover image failed";
+                        }
+                    } else {
+                        $cover_id = null;
                     }
-                    else
-                    {
-                        $this->error = "image upload failed";
-                        echo $this->error . $filemanager->GetFile("error");
-                        exit();
-                    }
+
 
 
                     $this->request->slug = slug($this->request->title);
@@ -205,78 +271,16 @@ class EventsController
                     $this->request->map_url = $validate->Post("map_url");
                     $this->request->save();
                     redirect($url->make("auth.admin.events.home"));
+                } else {
+                    $this->error = "No Results found";
                 }
-
-            } else {
-                $this->error = "No Results found";
             }
-        }
-        else
-        {
+
+        } else {
             $this->error = "Csrf Token is invalid";
         }
 
         echo $this->error;
-        exit();
-        if ($csrf->Verify() == true) {
-
-
-            $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/")->upload("thumb");
-
-
-            if ($validate->Post("update_cover") == 1) {
-                $filemanager->validformat(["png", "jpg", "jpeg"])->AddDir("img/uploads/covers/")->upload("cover");
-
-                if ($filemanager->success == true) {
-//            destroy the current image
-                    if ($event->cover()->count() == 1) {
-                        Image::destroy($event->cover->id);
-//            Unlink the file
-                        unlink(UPLOAD_DIR . "/" . $event->cover->name);
-                    }
-
-//            instantiate a new image
-                    $cover = new Image();
-                    $cover->user_id = $auth->id();
-                    $cover->entry_name = "Images";
-                    $cover->nvtug = 1;
-                    $cover->title = "Event Thumnail : " . str_replace(" ", "-", $event->title);
-                    $cover->name = $filemanager->GetUniqueName();
-                    $cover->size = $filemanager->GetFile("size");
-                    $cover->type = $filemanager->GetFile("type");
-                    $cover->description = "Thumbnail image for event " . $event->title;
-                }
-            }
-
-
-            if ($this->thumbnail == true) {
-                $image->save();
-//                $cover->save();
-
-                $event->title = ucwords($this->title);
-                $event->slug = slug($event->title . '-' . microtime());
-                $event->thumbnail = $image->id;
-                $event->cover = $cover->id;
-                $event->content = $validate->Post("content");
-                if ($validate->Post("ms") == 1) {
-                    $event->start_at = $validate->Required("start")->Post();
-                }
-                if ($validate->Post("me") == 1) {
-                    $event->end_at = $validate->Required("end")->Post();
-                }
-//                Meet_id;
-                $event->meet_id = $validate->Post("meet_id");
-//            Dest_id
-                $event->dest_id = $validate->Post("dest_id");
-                $event->map_url = $validate->Post("map_url");
-                $event->save();
-                redirect($url->make("auth.admin.events.home"));
-            } else {
-                echo "no saving";
-            }
-
-
-        }
     }
 
     public function delete(Url $url, Csrf $csrf, Validate $validate, Auth $auth)

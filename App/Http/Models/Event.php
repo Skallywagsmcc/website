@@ -32,7 +32,7 @@ class Event extends \App\Http\Controllers\Controller
     }
 
 //    this will be linked to the events cover image
-    public function Cover()
+    public function CoverImage()
     {
         return $this->hasOne(Image::class,"id","cover");
     }

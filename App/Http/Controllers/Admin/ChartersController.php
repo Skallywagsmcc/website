@@ -163,14 +163,13 @@ class ChartersController
             if ($validate->Allowed() == false) {
                 $this->error = "Missing fields";
                 $this->required = $validate->is_required;
-            } elseif ($this->EmptyFIle("cover") == false) {
-//                1 check if the file is not empty
-//                2 check if the file follows the supported files policy
-                if ($this->IsSupported("thumb", ["png", "jpg", "jpeg"]) == false) {
-                    $this->error = "File type is unsupported";
-                }
-            }
-            {
+            } elseif ($this->EmptyFIle("thumb") == true) {
+                $this->error = "Thumnbnail has not been uploaded Please add one";
+            } elseif ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false) {
+                $this->error = "It seems you have tried to upload an unsuppored file format as a thumbnail";
+            } elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
+                $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+            } else {
                 if ($charter->count() == 1) {
 
                     $charter = $charter->first();
@@ -179,7 +178,7 @@ class ChartersController
                     if ($this->EmptyFIle("thumb") == false) {
 
 
-                        if($charter->Image()->count() == 1) {
+                        if ($charter->Image()->count() == 1) {
                             if ((file_exists(UPLOAD_DIR . '/' . $charter->image->name))) {
                                 $this->rmfile($charter->image->name);
                             } else {
@@ -199,14 +198,11 @@ class ChartersController
                             $thumb->type = $this->GetFile("type");
                             $thumb->size = $this->GetFile("size");
                             $thumb->save();
-                        }
-                        else
-                        {
+                        } else {
                             echo "thum nail upload failed";
                         }
 
                     }
-
 
 
                     /* 1 check the cover image file is empty
@@ -218,7 +214,7 @@ class ChartersController
                     */
                     if ($this->EmptyFIle("cover") == false) {
 
-                        if($charter->CoverImage()->count() ==1) {
+                        if ($charter->CoverImage()->count() == 1) {
                             if (!is_null($charter->coverimage)) {
                                 if (file_exists(UPLOAD_DIR . '/' . $charter->coverimage->name)) {
                                     $this->rmfile($charter->coverimage->name);
@@ -241,14 +237,10 @@ class ChartersController
                             $cover->size = $this->GetFile("size");
                             $cover->save();
                             $cover_id = $cover->id;
-                        }
-                        else
-                        {
+                        } else {
                             echo "cover image failed";
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $cover_id = null;
                     }
 
@@ -265,7 +257,7 @@ class ChartersController
             }
             redirect($url->make("auth.admin.charters.edit", ["id" => base64_encode($this->id)]));
         } else {
-            $this->error = "Csrf token does Not match";
+            $this->error = "Csrf Vali";
         }
         echo TemplateEngine::View("Pages.Backend.Charters.edit", ["url" => $url, "request" => $this]);
     }

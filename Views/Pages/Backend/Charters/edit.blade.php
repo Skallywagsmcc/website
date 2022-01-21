@@ -33,7 +33,6 @@
                         <textarea name="content" id="" cols="30" rows="10"
                                   class="form-control">{{$request->charter->content}}</textarea>
                     </div>
-
                 </div>
                 <div class="col-sm-12 col-lg-4 text-center">
                     <div class="row px-0 mx-0 my-2 box">
@@ -51,12 +50,11 @@
                             <input type="file" name="cover">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block">Save</button>
+                        <button class="btn btn-primary btn-block">Update charter</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-    >@endsection
+    @endsection
