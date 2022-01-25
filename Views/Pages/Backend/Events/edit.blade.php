@@ -7,16 +7,21 @@
 
 
 @section("content")
-
-    <div class="container my-2">
-        <div class="row box">
-            <div class="col-sm-12">
-                @isset($message)
-                    {{$message}}
-                @endisset()
+    @isset($request->error)
+        @if($request->error == true)
+        <div class="container-fluid my-2">
+            <div class="row box">
+                <div class="col-sm-12 head py-2">An Error occurred</div>
+                {{$request->error}}
+                @isset($request->required)
+                    @foreach($request->required as $required)
+                        {{$required}}
+                    @endforeach
+                @endisset
             </div>
         </div>
-    </div>
+            @endif
+    @endisset
 
 
     <div class="container my-2">
@@ -27,189 +32,111 @@
     </div>
 
 
+{{--    {{$request->HRFS($request->event->Image->size)}}--}}
 
 
+    <form action="{{$url->make("auth.admin.events.update",["id"=>base64_encode($request->event->id)])}}" method="post" class="tld-form"
+          enctype="multipart/form-data">
 
-    <form action="{{$url->make("auth.admin.events.update")}}" method="post" class="tld-form" enctype="multipart/form-data">
-        {{csrf()}}
-
-
-        <div class="container my-2">
-
-            <div class="row box my-2">
-                <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Edit Event : {{$event->title}}</div>
-            </div>
-            <div class="row box">
-                <div class="col-sm-12 d-flex justify-content-center">
-                    <div class="h-25 w-25">
-                        <img src="/img/uploads/{{$event->image->name}}" class="img-fluid"
-                             alt="{{$event->image->title}}">
-
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="file_box">
-                        <input type="file" class="file d-none" name="thumb">
-                        <div class="file_value"></div>
-                        <input type="checkbox" id="update_thumb" class="d-none" name="update_thumb" value="1">
-                        <a href="#" class="addfile">Update Thumbnail</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="container block">
-            <div class="row box my-2">
-                <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Welcome to the Event Editor</div>
-                <div class="col-sm-12 text-center">Welcome to the Event Editor Please use the following Links to
-                    navigate to the next and previous section do not refresh as your content will not be saved
-                </div>
-            </div>
-
-            <div class="row box my-2">
-                <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a>
-                </div>
-                <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="container  block">
-            <div class="row box">
-                <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Event Title</div>
-            </div>
+        <div class="container-fluid my-2">
             <div class="row box px-0">
-                <div class="col-sm-12 p-2">
-                    <input type="text" value="{{$event->id}}" name="id">
+                <div class="col-sm-12 px-2 py-2 px-2">
+                    {{csrf()}}
+                    <input type="text" name="id" value="{{$request->event->id}}">
                     <div class="form-group">
                         <label for="title">Event Title</label>
                         <input type="text" class="form-control tld-input" name="title"
-                               placeholder="Event Title" value="{{$event->title}}">
+                               value="@isset($request->title){{$request->title }}@else{{$request->event->title}}@endisset"
+                               placeholder="Event Title">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-form">
                         <label for="content">About the event</label>
                         <textarea class="form-control tld-input" rows="10" placeholder="About the event"
-                                  name="content">{{$event->content}}</textarea>
+                                  name="content">@isset($request->content){{$request->content}}@else{{$request->event->content}}@endisset</textarea>
                     </div>
-                </div>
-            </div>
-            <div class="row box my-2">
-                <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
-                <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
-            </div>
-        </div>
 
-
-            <div class="container my-2 px-0 block">
-                <div class="row box px-0 my-2">
-                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update start and end time and
-                        date
-                    </div>
-                </div>
-                <div class="row box px-0">
-                    <div class="col-sm 12 p-2">
-                        <div class="my-2">
-                            Change Event Start Date and time : <input type="checkbox" class="toggle_check" name="ms"
-                                                                      value="1">
-                            <hr class="bg-light">
-                            <div class="toggled_content">
-                                <div class="form-group">
-                                    <label for="start">Event Start time</label>
-                                    <input type="datetime-local" class="form-control tld-input" name="start"
-                                           value="{{$event->start}}">
-                                </div>
+                    <div class="form-row">
+                        <div class="col-sm-12 head">Update Event End time</div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12">
+                                <label for="start">Event Start time</label>
+                            </div>
+                            <div class="col-sm-12">
+                                <input type="datetime-local" class="form-control tld-input" name="start_date"
+                                       value="@isset($request->start_date){{$request->start_date}}@else{{date("Y-m-d\TH:s",strtotime($request->event->start_at))}}@endisset">
                             </div>
                         </div>
-                        <div class=we my-2>
-                            Change Event End Date and time : <input type="checkbox" class="toggle_check" name="me"
-                                                                    value="1">
-                            <hr class="bg-light">
-                            <div class="toggled_content">
-                                <div class="form-group">
-                                    <label for="end">Event end time</label>
-                                    <input type="datetime-local" class="form-control tld-input" name="end"
-                                           value="{{$event->end}}">
-                                </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12">
+                                <label for="end">Event end time</label>
                             </div>
-
-
+                            <div class="col-sm-12"><input type="datetime-local" class="form-control tld-input"
+                                                          name="end_date"
+                                                          value="@isset($request->end_date){{$request->end_date}}@else{{date("Y-m-d\TH:s",strtotime($request->event->end_at))}}@endisset">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="row box my-2">
-                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
-                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
-                </div>
             </div>
 
-
-            <div class="container my-2 px-0 block">
-                <div class="container my-2">
-                    @if($addresses->count() == 0)
-                        No Addresses added for events : <a href="{{$url->make("auth.admin.addresses.home")}}">Manage
-                            Addresses</a>
-                    @else
-                        <div class="row box">
-                            <div class="col-sm-12 col-lg-6 pr-lg-2 px-0">
-                                <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Meet up Point</div>
-                                <div class="col-sm-12 p-2 ">
-                                    <select name="meet_id" id="" class="form-control">
-                                        <option value="0">Make a Selection</option>
-                                        @foreach($addresses as $address)
-                                            <option value="{{$address->id}}">{{$address->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12 col-lg-6 px-0 pl-lg-2">
-                                <div class="col-sm-12 head py-2 text-center text-lg-left pl-lg-2">Destination</div>
-                                <div class="col-sm-12 p-2">
-
-                                    <select name="dest_id" id="" class="form-control">
-                                        <option value="0">Make a Selection</option>
-                                        @foreach($addresses as $address)
-                                            <option value="{{$address->id}}">{{$address->title}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                <div class="row box my-2">
-                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
-                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
-                </div>
-            </div>
-
-            <div class="container my-2 block">
-                <div class="row box my-2">
-                    <div class="col-sm-12 head py-2 text-center text-md-left pl-md-1">Update Google Maps Link
-                    </div>
-                </div>
                 <div class="row box">
-                    <div class="col-sm-12"><input type="text" name="map_url" value="{{$event->map_url}}"></div>
-                </div>
+                    <div class="col-sm-12 head py-2">Manage Event Addresses</div>
+                    <div class="col-sm-12 col-lg-6 pr-lg-2 px-0 box my-2">
 
-                <div class="row box my-2">
-                    <div class="col-sm-12 col-md-6 py-2 prevbtn text-center text-md-left pl-md-1"><a href="#" class="py-2">Previous</a></div>
-                    <div class="col-sm-12 col-md-6 py-2 nextbtn text-center text-md-right pr-md-1"><a href="#" class="py-2">next</a></div>
-                </div>
-            </div>
+                        <div class="col-sm-12"><label for="meet_id">Event Meet up</label></div>
+                        <div class="col-sm-12 p-2 ">
+                            <select name="meet_id" id="" class="form-control my-1">#
+{{--                                Add the current selected here--}}
+                                <option value="{{$request->event->meet->id}}">Current  : {{$request->event->meet->title}}</option>
+                                <option value="0">-------------------------------------------</option>
+                                @foreach($addresses as $address)
+                                    <option value="{{$address->id}}">{{$address->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-            <div class="container my-2 px-0">
-                <div class="row box px-0">
-                    <div class="col-sm-12 p-2">
-                        <button class="btn tld-button btn-block">Update Event</button>
+                    <div class="col-sm-12 col-lg-6 px-0 pl-lg-2 box my-2">
+                        <div class="col-sm-12"><label for="dest_id">Event Destination</label></div>
+                        <div class="col-sm-12 p-2">
+                            <select name="dest_id" id="" class="form-control my-1">    Add the current selected here--}}
+                                <option value="{{$request->event->destination->id}}">Current  : {{$request->event->destination->title}}</option>
+                                <option value="0">-------------------------------------------</option>
+                                @foreach($addresses as $address)
+                                    <option value="{{$address->id}}">{{$address->title}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <div class="container-fluid">
+                <div class="row px-0 box">
+                    <div class="col-sm-12 head py-2">Update Event Images</div>
+                    <div class="col-sm-12 col-lg-6 box my-2 px-0">
+                        <div class="col-sm-12"><label for="thumb">Add event thumbnail (required)</label></div>
+                        <div class="col-sm-12 py-2">
+                            <input type="file" class="form-control" name="thumb">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-6 box my-2 px-0">
+                        <div class="col-sm-12"><label for="cover">Add event Cover image</label></div>
+                        <div class="col-sm-12 py-2">
+                            <input type="file" class="form-control" name="cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="container-fluid my-2">
+                <div class="row box p ">
+                    <div class="col-sm-12 py-2 px-2">
+                        <button class="btn tld-button btn-block">Create Event</button>
+                    </div>
+                </div>
+            </div>
     </form>
 
     <script>
@@ -226,7 +153,6 @@
                     $("#update_thumb").prop("checked", true);
                     Filebox.children(".cancelfile").show();
                     $(".file").on("change", function () {
-
 
 
                         $(".file_value").text("Currently Chosen :" + $('.file').val().split('\\').pop())

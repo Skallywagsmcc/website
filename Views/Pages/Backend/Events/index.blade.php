@@ -41,13 +41,13 @@
             <div class="col-sm-12 col-md-2  text-center">delete</div>
         </div>
     </div>
-    @if($events->count() >= 1)
+    @if($request->event->count() >= 1)
     <form action="{{$url->make("auth.admin.events.delete")}}" method="post" class="tld-form">
         <div class="container">
             {{csrf()}}
         </div>
 
-        @foreach($events as $event)
+        @foreach($request->event as $event)
             <div class="container my-2 my-md-0">
                 <div class="row text-center my-md-0 box withhover title">
                     <div class="col-sm-12 col-md-6 title py-2">{{$event->title}}</div>

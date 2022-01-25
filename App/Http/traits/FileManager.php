@@ -18,35 +18,106 @@ trait FileManager
     public $filetype;
     public $validFiles;
 
+    private $MFS = 8000000; //8MB LIMIT
+
 //  Error variables
 
 //  Request variables
     public $success;
+    private  $attached;
     public $is_valid;
-    
+
 //  Success variables
     public $upload_dir;
     private $hashed_name;
     private $file;
 
-    public function UploadDir($dir=null)
+    public function UploadDir($dir = null)
     {
         $root = $_SERVER['DOCUMENT_ROOT'];
-        if(is_null($dir))
-        {
-            $this->upload_dir = $root."/img/uploads/";
-        }
-        else
-        {
+        if (is_null($dir)) {
+            $this->upload_dir = $root . "/img/uploads/";
+        } else {
             $this->upload_dir = $dir;
         }
         return $this->upload_dir;
     }
 
 
-    
 //    Check for Required file type return true or false
-    private function IsSupported($name,$vales)
+
+    public function EmptyFIle($name)
+    {
+        return $_FILES[$name]["error"] == 4 ? true : false;
+    }
+
+
+//    Along with  Upload Dir this will start the upload process a new one is require per upload. need to  find a better way to run this
+
+
+//    this is a setter to replicate $_FILES['name']['type']
+
+
+    public function Filesize($name,$size=null)
+    {
+        $this->SetFile($name);
+//        Allow Overwriting of default size
+
+        if(is_null($size))
+        {
+            $size = $this->MFS;
+        }
+
+        if($this->GetFIle("size") < $size)
+        {
+         return true;
+        }
+        else
+        {
+            $this->MFS = $size;
+            return false;
+        }
+    }
+
+    public function AttachFile($name)
+    {
+        $this->SetFile($name);
+        $this->attached = $this->GetFile("size");
+    }
+
+    function HRFS($bytes=null,$decimals = 2)
+    {
+
+
+            $size = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+            $factor = floor((strlen($bytes) - 1) / 3);
+            return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
+
+    }
+
+//    A function used to replace the need for $_FILES['a name']["type]
+
+    private function SetFile($name)
+    {
+        $this->file = $_FILES[$name];
+    }
+
+//    Create a unique name
+
+    public function GetFile($key)
+    {
+        return $this->file[$key];
+    }
+
+
+//    Set Name to a unique name
+
+    public function rmfile($filename)
+    {
+        return unlink(UPLOAD_DIR . "/" . $filename);
+    }
+
+    private function IsSupported($name, $vales)
     {
         $file = $_FILES[$name]["name"];
         $ext = $this->pathparts($file)["extension"];
@@ -58,64 +129,15 @@ trait FileManager
         }
     }
 
-
-//    Along with  Upload Dir this will start the upload process a new one is require per upload. need to  find a better way to run this
-
-
-
-//    this is a setter to replicate $_FILES['name']['type']
-    private function SetFile($name)
-    {
-        $this->file = $_FILES[$name];
-    }
-
-
-//    A function used to replace the need for $_FILES['a name']["type]
-    public function GetFile($key)
-    {
-        return $this->file[$key];
-    }
-
-//    Create a unique name
-    public function MakeUnique($name)
-    {
-        $this->hashed_name = uniqid(md5($name . '-' . microtime())) . "." . $this->pathparts($this->GetFile("name"))["extension"];
-    }
-
-
     public function pathparts($name)
     {
         $this->extention = pathinfo($name);
         return $this->extention;
     }
 
-//    Set Name to a unique name
-    public function EmptyFIle($name)
-    {
-        return $_FILES[$name]["error"] == 4 ? true : false;
-    }
-
-
-    //Get file size of uploaded image
-    public function getSize($size)
-    {
-        $sizes = ['B', 'KB', 'MB', 'GB'];
-        $count = 0;
-        if ($size < 1024) {
-            return $size . " " . $sizes[$count];
-        } else {
-            while ($size > 1024) {
-                $size = round($size / 1024, 2);
-                $count++;
-            }
-            return $size . " " . $sizes[$count];
-        }
-    }
-    //unlink file
-
-
 
     //this function moved the image from temp folder to upload
+
     private function upload($name)
     {
 
@@ -126,15 +148,13 @@ trait FileManager
         $this->filesize = $this->GetFile("size");
         $this->filetype = $this->GetFile("type");
 
-        return move_uploaded_file($this->GetFile("tmp_name"), UPLOAD_DIR ."/". $this->hashed_name) ? true : false;
+        return move_uploaded_file($this->GetFile("tmp_name"), UPLOAD_DIR . "/" . $this->hashed_name) ? true : false;
     }
 
-
-    public function rmfile($filename)
+    public function MakeUnique($name)
     {
-        return unlink(UPLOAD_DIR."/".$filename);
+        $this->hashed_name = uniqid(md5($name . '-' . microtime())) . "." . $this->pathparts($this->GetFile("name"))["extension"];
     }
-
 
 
 }
