@@ -86,10 +86,16 @@ class EventsController
                 $this->error = "Thumnbnail has not been uploaded Please add one";
             } elseif ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false) {
                 $this->error = "It seems you have tried to upload an unsuppored file format as a thumbnail";
-            } //            this will check if the cover is using the correct format
+            }
+            elseif ($this->Filesize("thumbail") == false) {
+                $this->error = "File upload size for thumbnail image exceeds the value of " . $this->HRFS($this->MFS);
+            }
+            //            this will check if the cover is using the correct format
             elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
                 $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
-            } else {
+            } elseif ($this->Filesize("cover") == false) {
+                $this->error = "File upload size  for cover image exceeds the value of " . $this->HRFS($this->MFS);
+            }else {
                 $id = Event::all()->last()->id + 1;
 
                 if ($this->EmptyFIle("thumb") == false) {
@@ -192,13 +198,24 @@ class EventsController
                     $this->error = "Missing fields";
                     $this->required = str_replace("_", " ", $validate->is_required);
                 } elseif (($this->EmptyFIle("thumb") == false) && ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false)) {
-                    $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
-                } //            this will check if the cover is using the correct format
-                elseif ($this->Filesize("thumb") == false) {
-                    $this->error = "File upload size exceeds the value of " . $this->HRFS($this->MFS);
-                } elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
-                    $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
-                } elseif (($this->meet_id == 0) or ($this->dest_id == 0)) {
+                    if ($this->Filesize("thumb") == false) {
+                        $this->error = "File upload size for thumbnail exceeds the value of " . $this->HRFS($this->MFS);
+                    }
+                    else
+                    {
+                        $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+                    }
+                } //            this will check if the cover is using the correct format and correct file size
+                elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
+                    if ($this->Filesize("cover") == false) {
+                        $this->error = "File upload size  for cover image exceeds the value of " . $this->HRFS($this->MFS);
+                    }
+                    else
+                    {
+                        $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+                    }
+                }
+                elseif (($this->meet_id == 0) or ($this->dest_id == 0)) {
                     $this->error = " One or more Address choices is invalid Please make another selection";
                 } //                End Verification
                 else {
