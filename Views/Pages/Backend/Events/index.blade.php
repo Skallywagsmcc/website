@@ -42,10 +42,6 @@
         </div>
     </div>
     @if($request->event->count() >= 1)
-    <form action="{{$url->make("auth.admin.events.delete")}}" method="post" class="tld-form">
-        <div class="container">
-            {{csrf()}}
-        </div>
 
         @foreach($request->event as $event)
             <div class="container my-2 my-md-0">
@@ -55,23 +51,11 @@
                                 href="{{$url->make("auth.admin.events.edit",["id"=>base64_encode($event->id)])}}">edit this
                             event</a></div>
                     <div class="col-sm-12 col-md-2 py-2 text-center">
-                        <input type="checkbox" name="id[]" value="{{$event->id}}">
+                        <a href="{{$url->make("auth.admin.events.delete",["id"=>base64_encode($event->id)])}}">Delete Event</a>
                     </div>
                 </div>
             </div>
         @endforeach
-
-            <div class="container my-2">
-                <div class="row box">
-                    <div class="col-sm-12"><input type="password" name="password" class="form-control tld-input" placeholder="Please enter your password"></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row box">
-                    <div class="col-sm-12 py-2"><button class="btn btn-block tld-button">Delete selected</button></div>
-                </div>
-            </div>
-    </form>
     @else
         <div class="container my-2">
             <div class="box row">

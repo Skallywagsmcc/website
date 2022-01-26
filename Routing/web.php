@@ -149,7 +149,7 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
         $router->post("/store", [EventsController::class, "store"], "auth.admin.events.store");
         $router->get("/edit/{id}", [EventsController::class, "edit"], "auth.admin.events.edit");
         $router->post("/update/{id}", [EventsController::class, "update"], "auth.admin.events.update");
-        $router->post("/delete", [EventsController::class, "delete"], "auth.admin.events.delete");
+        $router->get("/delete/{id}", [EventsController::class, "delete"], "auth.admin.events.delete");
 
     });
 

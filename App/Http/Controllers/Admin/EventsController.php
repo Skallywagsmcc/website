@@ -139,6 +139,7 @@ class EventsController
                     $this->event = new Event();
                     $this->event->user_id = $auth->id();//
                     $this->event->title = ucwords($this->title);
+                    $this->event->slug = slug($this->title);
                     $this->event->thumbnail = $thumb->id;
                     $this->event->cover = $cover_id;
                     $this->event->slug = slug($event->title);
@@ -149,7 +150,7 @@ class EventsController
 //                Meet_id;
                     $this->event->meet_id = $this->meet_id;
 //            Dest_id
-                    $this->event->dest_id = $this->end_date;
+                    $this->event->dest_id = $this->dest_id;
                     if ($this->event->save()) {
                         redirect($url->make("auth.admin.events.home"));
                     }
@@ -319,42 +320,42 @@ class EventsController
 
     }
 
-    public function delete(Url $url, Csrf $csrf, Validate $validate, Auth $auth)
+    public function delete($id,Url $url, Auth $auth)
     {
-        if ($csrf->Verify() == true) {
-            if ($auth->RequirePassword($validate->Post("password")) == true) {
-                $id = $validate->Post("id");
+        $this->id = base64_decode($id);
+        $events = Event::where("id", $this->id);
 
-                if ($id) {
-                    for ($i = 0; $i < count($id); $i++) {
-                        $event = Event::where("id", $id[$i])->get()->first();
-                        Event::destroy($id[$i]);
-                        if ($event->image()->count() == 1) {
-                            Image::destroy($event->image->id);
-                            if (unlink(UPLOAD_DIR . "/" . $event->image->name) == false) {
-                                $$this->error[] = "image could not be delete";
-                            }
-                        }
+        if ($events->count() == 1)
+        {
+            $event = $events->get()->first();
 
-                        if ($event->Cover()->count() == 1) {
-                            Image::destroy($event->Cover->id);
-                            if (unlink(UPLOAD_DIR . "/covers/" . $event->Cover->name) == false) {
-                                $this->error[] = "Cover could not be deleted";
-                            }
-                        }
-
-                        redirect($url->make("auth.admin.events.home"));
-                    }
-                } else {
-                    $this->error[] = "You must select at least one item";
-
+            //        Delete the thumbnails
+            $thumbs = Image::where("id", $event->thumbnail);
+            if ($thumbs->count() == 1) {
+                $thumb = $thumbs->first();
+                if (file_exists(UPLOAD_DIR . "/" . $thumb->name)) {
+                    $this->rmfile($thumb->name);
                 }
-            } else {
-                $this->error[] = "Your Password Has been entered Wrong, Please try again";
-            }
-        }
+//                            Delete from record either way
+                $thumbs->delete();
 
-        $events = Event::all();
+            }
+
+//        delete Cover images
+            $covers = Image::where("id", $event->cover);
+            if ($covers->count() == 1) {
+                $cover = $covers->first();
+                if (file_exists(UPLOAD_DIR . "/" . $cover->name)) {
+//                                Remove the file;
+                    $this->rmfile($cover->name);
+                }
+//                            Delete from record either way
+                $covers->delete();
+            }
+//        Delete the Event
+            $events->delete();
+        redirect($url->make("auth.admin.events.home"));
+        }
         echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url, "error" => $this->error]);
     }
 

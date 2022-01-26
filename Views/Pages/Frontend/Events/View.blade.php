@@ -8,7 +8,7 @@
 
     <div class="container my-2">
         <div class="row mx-1">
-            <div class="col-sm-12 head">Our Events </div>
+            <div class="col-sm-12 head">Event : {{$event->title}} </div>
         </div>
     </div>
     <div class="container my-2">
@@ -20,7 +20,7 @@
                     @if(is_null($event->cover))
                     <img src="/Assets/img/coverphoto.png" alt=" {{$user->username}} Profile Image">
                     @else
-                    <img src="/img/uploads/{{$event->CoverImage->name}}" alt=" {{$user->username}} Profile Image">
+                    <img src="/img/uploads/{{$event->CoverImage->name}}" alt="Cover image">
                     @endif
                 </div>
                 <div id="profile_image" class=" col-sm-12"><img src="/img/uploads/{{$event->image->name}}" class="profile_pic justify-content-center"
@@ -31,10 +31,13 @@
         </div>
     </div>
 
+
     <div class="container my-2">
-        <div class="row mx-1">
-            <div class="col-sm-12 head">About The event</div>
-            <div class="col-sm-12 lb2 py-2 my-1 text-center">{!!  nl2br($event->content) !!}</div>
+        <div class="row box lb2 mx-1">
+            <div class="col-sm-12 head">Journey Overview</div>
+            <div class="col-sm-12 py-2 text-center col-lg-5">{{$event->meet->title}}</div>
+            <div class="col-sm-12 py-2 text-center col-lg-2"> > </div>
+            <div class="col-sm-12 py-2 col-lg-5 text-center">{{$event->destination->title}}</div>
         </div>
     </div>
 
@@ -58,48 +61,28 @@
                     </div>
                 </div>
             </div>
-            @php
-                $startlocation = explode(",",$event->esl);
-                $endlocation = explode(",",$event->eel);
-            @endphp
             <div class="col-sm-12 col-lg-8">
-                <div class="head">Journey Overview</div>
-                <div class=" my-md-1 py-2">
-                    <div class="row mx-0 text-center">
-                        <div class="col-sm-12 col-lg-5 lb2 my-2 text-center">
-                             From : {{$startlocation[0]}},<br>
-                            {{$startlocation[4]}} </div>
-                        <div class="col-sm-12 col-lg-2 lb2 d-none d-md-block my-2 py-3"> -> </div>
-                        <div class="col-sm-12 col-lg-5 lb2  my-2 text-center">
-                            To : {{ $endlocation[0]}},<br>
-                            {{$endlocation[4]}}</div>
-                    </div>
-                    <div class="lb2 .col-sm-12 my-md-1 text-center py-2">
-                        @if(empty($event->map_url))
-                            No Map Address is linked to this event
-                        @else
-                        <a href="{{$event->map_url}}">View Map</a>
-                            @endif
-                    </div>
+                    <div class="col-sm-12 head">About The event</div>
+                    <div class="col-sm-12 lb2 py-2 my-1 text-center">{!!  nl2br($event->content) !!}</div>
 
-                </div>
 
-                <div class="head mt-2">Meet up Location </div>
+
+                <div class="head mt-2">Meet up Location  {{$event->meet->title}}</div>
                 <div class="lb2 my-md-1 py-2 text-center text-md-left pl-md-3">
-                    House or buildiing Name / number : {{$startlocation[0]}},<br>
-                    Street : {{$startlocation[1]}},<br>
-                    City : {{$startlocation[2]}},<br>
-                    County : {$startlocation[3]}},<br>
-                    Post Code : {{$startlocation[4]}}
+                    House or buildiing Name / number : {{$event->meet->name}}<br>
+                    Street : {{$event->meet->street}},<br>
+                    City : {{$event->meet->city}},<br>
+                    County : {{$event->meet->county}},<br>
+                    Post Code : {{$event->meet->postcode}}
                 </div>
 
-                <div class="head mt-2">Event Destination </div>
+                <div class="head mt-2">Event Destination {{$event->destination->title}}</div>
                 <div class="lb2 my-md-1 py-2 text-center text-md-left  pl-md-3">
-                    House or buildiing Name / number : {{$endlocation[0]}},<br>
-                    Street : {{$endlocation[1]}},<br>
-                    City : {{$endlocation[2]}},<br>
-                    County : {{$endlocation[3]}},<br>
-                    Post Code : {{$endlocation[4]}}
+                    House or buildiing Name / number : {{$event->destination->name}}<br>
+                    Street : {{$event->destination->street}},<br>
+                    City : {{$event->destination->city}},<br>
+                    County : {{$event->destination->county}},<br>
+                    Post Code : {{$event->destination->postcode}}
                 </div>
             </div>
         </div>

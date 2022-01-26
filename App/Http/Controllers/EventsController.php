@@ -14,6 +14,13 @@ use MiladRahimi\PhpRouter\Url;
 class EventsController
 {
 
+    private $entity_name;
+
+    public function __construct()
+    {
+        $this->entity_name = "page/events";
+    }
+
     public function index(Url $url)
     {
 //        this needs redoing

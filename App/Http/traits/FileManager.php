@@ -151,6 +151,7 @@ trait FileManager
         return move_uploaded_file($this->GetFile("tmp_name"), UPLOAD_DIR . "/" . $this->hashed_name) ? true : false;
     }
 
+
     public function MakeUnique($name)
     {
         $this->hashed_name = uniqid(md5($name . '-' . microtime())) . "." . $this->pathparts($this->GetFile("name"))["extension"];
