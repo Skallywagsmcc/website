@@ -11,6 +11,7 @@ use App\Http\Models\SiteSettings;
 use App\Http\Models\Token;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
+use App\Http\traits\Authentication;
 use App\Http\traits\Passwords;
 use MiladRahimi\PhpRouter\Url;
 use PHPMailer\PHPMailer\Exception;
@@ -19,6 +20,8 @@ use PHPMailer\PHPMailer\SMTP;
 
 class RegisterController
 {
+
+    use Authentication;
 
     use Passwords;
 
@@ -59,6 +62,11 @@ class RegisterController
 
     public function index(Url $url, $token_hex = null)
     {
+
+        if($this->isAdmin() == true)
+        {
+            echo "user is an admin";
+        }
 
 //        Variables
 //        Add Lockout

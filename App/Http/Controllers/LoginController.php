@@ -11,11 +11,13 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Authentication\Sessions;
 use App\Http\Models\SiteSettings;
 use App\Http\Models\User;
+use App\Http\traits\Authentication;
 use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Url;
 
 class LoginController
 {
+    use Authentication;
 
     public $username;
     public $password;

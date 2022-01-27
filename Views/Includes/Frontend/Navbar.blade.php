@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg" id="navbar">
     <div class="navbar-brand d-md-none d-block">
         <img src="/img/logo.png" class='d-md-none d-show' alt="Logo">
@@ -43,11 +44,16 @@
                     <a class="nav-link" href="{{$url->make("profile.view",["username"=>$user->username])}}">My Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{$url->make("backend.home")}}">My Account</a>
+                    <a class="nav-link" href="{{$url->make("account.home")}}">My Account</a>
                 </li>
+            @if(User()->is_admin == 1)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{$url->make("auth.admin.home")}}">Admin Panel</a>
+                    </li>
+                @endif
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{$url->make("logout")}}">logout</a>
+                    <a class="nav-link" href="{{$url->make("logout")}}">Logout</a>
                 </li>
             @else
                 <li class="nav-item">

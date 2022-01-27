@@ -51,6 +51,11 @@ $auth = new Auth();
                     <div class="col-sm-12 px-0">
                         <a class="d-block py-2" href="{{$url->make("account.home")}}">Account home</a>
                     </div>
+                    @if(User()->is_admin == 1)
+                        <div class="col-sm-12 px-0">
+                            <a class="d-block py-2" href="{{$url->make("auth.admin.home")}}">Admin Control Panel</a>
+                        </div>
+                        @endif
 
                     <div class="col-sm-12 text-center px-0">
                         <a href="{{$url->make("logout")}}" class="d-block py-2">Logout</a>

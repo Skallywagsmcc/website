@@ -20,15 +20,26 @@ function redirect($location)
 
 function Auth()
 {
-
     return Auth::Loggedin() == true;
+}
+
+//use on bladetemplates
+ function User()
+{
+    $auth = new mbamber1986\AuthClient\Auth();
+    $user = User::where("id",$auth->id())->get();
+    if($user->count() == 1)
+    {
+        $user = $user->first();
+    }
+    return $user;
 }
 
 function LastLogin()
 {
     $auth = new Auth();
     $user = User::find($auth->id());
-    return date("H:i", strtotime($user->updated_at)) . "  " . date("d/m/Y", strtotime($user->updated_at));
+    return  date("d/m/Y H:i", strtotime($user->updated_at));
 }
 
 
