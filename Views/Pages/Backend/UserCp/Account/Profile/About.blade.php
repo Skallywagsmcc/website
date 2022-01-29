@@ -14,8 +14,6 @@
         </div>
     </div>
 
-    @include("Includes.Backend.Error")
-
     <div class="container">
         <div class="row">
             <div class="col-sm-12 box px-0">

@@ -6,55 +6,68 @@ namespace App\Http\Controllers\Account\Profile;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
-use App\Http\Libraries\Authentication\Auth;
 use App\Http\Libraries\Authentication\Csrf;
-use App\Http\Libraries\ImageManager\Images;
+use mbamber1986\Authclient\Auth;
 use App\Http\Models\Image;
 use App\Http\Models\User;
+use App\Http\traits\FileManager;
+use Migrations\Images;
 use MiladRahimi\PhpRouter\Url;
 
 class ProfilePictureController
 {
 
-    public function index(Url $url)
-    {
+    use FileManager;
 
-        $user = User::find(Auth::id());
-        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.Picture", ["user", $user, "url" => $url]);
+    public  $entity_name;
+    public $images;
+
+
+    public function __construct(Validate $validate)
+    {
+        $this->entity_name = "page/profile";
+
+//        if ($_SERVER['REQUEST_METHOD'] == "POST")
+//        {
+//
+//        }
     }
 
 
-    public function create()
+    public function index(Url $url,Auth $auth)
     {
 
+        $user = User::find($auth->id());
+        $this->images =  Image::where("user_id",$user->id)->get();
+        echo TemplateEngine::View("Pages.Backend.UserCp.Account.Profile.Picture", ["user", $user, "url" => $url,"request"=>$this]);
     }
 
-    public function store(Url $url, Validate $validate, Images $images,Csrf $csrf)
+
+    public function store(Url $url, Validate $validate,Csrf $csrf,Auth $auth)
     {
 //        Fixed as of $today
-        if($csrf->Verify()==true) {
-            $user = User::find(Auth::id());
-            $validate = new Validate();
-            $images->upload("upload")->Save($id = $user, function ($id) {
-                $name = Images::Files("name");
-                $tmp = Images::Files("tmp_name");
-                $size = Images::Files("size");
-                $type = Images::Files("type");
-                echo $type;
-                Images::set_hashed_name($name);
-                move_uploaded_file($tmp, Images::$upload_dir . Images::get_hashed_name($name));
-                $image = new  Image();
-                $image->user_id = Auth::id();
-                $image->image_name = Images::get_hashed_name($name);
-                $image->description = "A profile picture";
-                $image->image_size = $size;
-                $image->image_type = $type;
-                $image->save();
+        $this->UploadDir();
 
-                $profile = $id->Profile()->where("user_id", Auth::id())->get()->first();
+        if($csrf->Verify()==true) {
+
+            $user = User::find($auth->id());
+
+            if($this->upload("upload") == true)
+            {
+                $image = new  Image();
+                $image->user_id = $auth->id();
+                $image->entity_name = $this->entity_name;
+                $image->entity_id = $auth->id();
+                $image->imagetype = "Profile Image";
+                $image->name = $this->hashed_name;
+                $image->size = $this->GetFile("size");
+                $image->type = $this->GetFile("type");
+                $image->save();
+            }
+
+                $profile = $user->Profile()->where("user_id", $auth->id())->get()->first();
                 $profile->profile_pic = $image->id;
                 $profile->save();
-            });
             redirect($url->make("account.home"));
         }
     }

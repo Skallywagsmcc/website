@@ -13,8 +13,6 @@ Account Manager : Basic Informatiomn
         </div>
     </div>
 
-    @include("Includes.Backend.Error")
-
     <div class="container my-1">
         <div class="row box">
             <div class="col-sm-12 head py-2">Edit Basic Information</div>

@@ -73,10 +73,7 @@ $auth = new Auth();
                     </div>
 
                     <div class="col-sm-12 px-0">
-                        <a class="d-block py-2" href="{{$url->make("account.about.home")}}">Account Settings</a>
-                    </div>
-                    <div class="col-sm-12 text-center px-0">
-                        <a href="{{$url->make("logout")}}" class="d-block py-2">Logout</a>
+                        <a class="d-block py-2" href="{{$url->make("account.picture.home")}}">Update Profile Image</a>
                     </div>
                 </div>
 
