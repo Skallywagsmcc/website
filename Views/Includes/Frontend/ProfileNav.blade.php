@@ -3,9 +3,8 @@
         <div class="col-sm-12 px-0" id="cover_base">
 
             <div class=" col-sm-12 px-0" id="cover_image">
-                <img src="/img/bike.jpg" alt=" {{$user->username}} Profile Image">
+                <img src="/img/uploads/{{$user->Profile->Cover->name}}" alt=" {{$user->username}} Profile Image">
             </div>
-
             <div id="profile_image" class=" col-sm-12"><img src="/img/uploads/{{$user->Profile->Image->name}}" class="profile_pic justify-content-center"
                                          height="150" width="150" alt=" {{$user->username}} Profile Image"></div>
             <div id="badge" class="p-1 my-2">

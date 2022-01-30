@@ -11,7 +11,12 @@
     </div>
 
 
-    @include("Includes.Backend.Error")
+    @isset($error)
+        <div class="container my-2">
+            <div class="alert-dark">Error says : {{$error}}</div>
+        </div>
+    @endisset
+
 
     <div class="container my-2">
         <div class="row box">

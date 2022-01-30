@@ -32,9 +32,10 @@
                 <div class="row">
                     Users
                     @if($users->count() >=1)
-                        <div class="col-sm-12 head">Results for users</div>
+                        <div class="col-sm-12 head">Results for users today</div>
                         @foreach($users as $user)
-                            {{$user->username}}
+                            <a href="{{$url->make("profile.home",["username"=>$user->username])}}">{{$user->username}}</a>
+
                         @endforeach
                         <div class="col-sm-12 text-center text-lg-right pr-lg-2">
                             {!! $p["users"] !!}
@@ -99,7 +100,7 @@
                 @if($users->count() >=1)
                     <div class="col-sm-12 head">Results for users</div>
                     @foreach($users as $user)
-                        {{$user->username}}
+                        <a href="{{$url->make("profile.home",["username"=>$user->username])}}">{{$user->username}}</a>
 
                     @endforeach
                     @if($users->count() == $limit)

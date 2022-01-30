@@ -8,22 +8,20 @@
     <div class="container my-3">
         <div class="row">
             <div class="col-sm-12 head mx-3 mx-md-0">Gallery</div>
-            @if($count >= 1)
-                @foreach($user->images()->where("nvtug",0)->get() as $gallery)
-                    <div class="col-sm-12 my-2 col-md-4 px sm-1">
-                        <div class="col-sm-12 text-center">
-                            <img class="p-0  my-2" src="/img/uploads/{{$gallery->name}}"  height="200" alt="{{$gallery->name}}">
-                        </div>
-                        <div class="col-sm-12 text-center"><a
-                                    href="{{$url->make("profile.gallery.view",["username"=>$user->username,"id"=>base64_encode($gallery->id)])}}">View
-                                image</a></div>
-                    </div>
+            @if($request->images->count() >= 1)
+                @foreach($request->images  as $image)
+
+                    <img class="m-3" src="/img/uploads/{{$image->name}}" height="200" width="200"
+                         alt="{{$image->image_name}}">
+{{--                    <a href="{{$url->make("gallery.image.view",["username"=>$request->user->username,"id"=>base64_encode($image->id)])}}">--}}
+
+{{--                    </a>--}}
+
                 @endforeach
             @else
-                <div class="col-sm-12 text-center"><h3>Sorry! it seems that no images have been uploaded by this
-                        user</h3></div>
+                echo "No Images have been found";
             @endif
-{{--            <div class="col-sm-12 d-flex justify-content-center">{!! $links !!}</div>--}}
+            <div class="col-sm-12 d-flex justify-content-center">{!! $request->links !!}</div>
 
         </div>
     </div>

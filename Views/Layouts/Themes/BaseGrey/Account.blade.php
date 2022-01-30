@@ -71,13 +71,20 @@ $auth = new Auth();
                     <div class="col-sm-12 px-0">
                         <a class="d-block py-2" href="{{$url->make("account.about.home")}}"> About me</a>
                     </div>
-
-                    <div class="col-sm-12 px-0">
-                        <a class="d-block py-2" href="{{$url->make("account.picture.home")}}">Update Profile Image</a>
-                    </div>
                 </div>
 
 
+                <div class="row my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head">Image Gallery</div>
+                    <div class="col-sm-12 px-0">
+                        <a class="d-block py-2" href="{{$url->make("account.picture.home")}}">View My Gallery</a>
+                    </div>
+
+{{--                    <div class="col-sm-12 px-0">--}}
+{{--                        <a class="d-block py-2" href="{{$url->make("account.picture.home")}}">My Featured Image Requests</a>--}}
+{{--                    </div>--}}
+
+                </div>
 
                 <div class="row my-1 pb-1 mx-0">
                     <div class="col-sm-12 head">Account Security</div>
@@ -89,10 +96,21 @@ $auth = new Auth();
                         <a class="d-block py-2" href="{{$url->make("security.password.home")}}">Change Password</a>
                     </div>
 
+                </div>
+
+                <div class="row my-1 pb-1 mx-0">
+                    <div class="col-sm-12 head">Settings</div>
                     <div class="col-sm-12 px-0">
                         <a class="d-block py-2" href="#">Update Account Settings(coming soon)</a>
                     </div>
 
+                    <div class="col-sm-12 px-0">
+                        <a class="d-block py-2" href="#">My TFA Requests (Coming soon)</a>
+                    </div>
+
+                    <div class="col-sm-12 px-0">
+                        <a class="d-block py-2" href="#">Update Account Settings(coming soon)</a>
+                    </div>
                 </div>
 
 

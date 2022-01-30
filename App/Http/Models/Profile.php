@@ -17,4 +17,8 @@ class Profile extends Controller
     {
         return $this->hasOne(Image::class,"id","profile_pic");
     }
+    public function Cover()
+    {
+        return $this->hasOne(Image::class,"id","cover");
+    }
 }

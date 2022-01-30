@@ -26,6 +26,7 @@ trait FileManager
     public $success;
     private  $attached;
     public $is_valid;
+    public $format;
 
 //  Success variables
     public $upload_dir;
@@ -79,11 +80,6 @@ trait FileManager
         }
     }
 
-    public function AttachFile($name)
-    {
-        $this->SetFile($name);
-        $this->attached = $this->GetFile("size");
-    }
 
     function HRFS($bytes=null,$decimals = 2)
     {
@@ -117,11 +113,12 @@ trait FileManager
         return unlink(UPLOAD_DIR . "/" . $filename);
     }
 
-    private function IsSupported($name, $vales)
+    private function IsSupported($name, $values)
     {
         $file = $_FILES[$name]["name"];
+        $this->format = $values;
         $ext = $this->pathparts($file)["extension"];
-        if (!in_array($ext, $vales)) {
+        if (!in_array($ext, $values)) {
             return false;
         } else {
             $this->is_valid = true;

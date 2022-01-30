@@ -263,12 +263,14 @@ $router->group(["prefix" => "/admin", "middleware" => [Middleware\Installer::cla
 $router->group(["prefix" => "/account", "middleware" => [Middleware\Installer::class, Middleware\ServiceMode::class, Middleware\UserLogin::class]], function (Router $router) {
 
     $router->group(["prefix" => "/account"], function (Router $router) {
-        $router->get("/?", [\App\Http\Controllers\Account\Profile\HomeController::class, 'index'], "account.home");
+        $router->get("/?", [\App\Http\Controllers\Account\HomeController::class, 'index'], "account.home");
         $router->get("/edit/basic", [BasicInfoController::class, 'index'], "account.basic.home");
         $router->post("/edit/basic", [BasicInfoController::class, 'store'], "account.basic.store");
         $router->get("/ICE/about", [AboutController::class, 'index'], "account.about.home");
         $router->post("/edit/about", [AboutController::class, 'store'], "account.about.store");
         $router->get("/edit/picture", [ProfilePictureController::class, 'index'], "account.picture.home");
+        $router->get("/edit/picture/profile/{id}", [ProfilePictureController::class, 'SetProfileImage'], "account.picture.set");
+        $router->get("/edit/picture/delete/{id}", [ProfilePictureController::class, 'DeleteImage'], "account.picture.delete");
         $router->post("/edit/picture", [ProfilePictureController::class, 'store'], "account.picture.store");
         $router->get("/edit/settings", [SettingsController::class, 'index'], "account.settings.home");
         $router->post("/edit/settings", [SettingsController::class, 'store'], "account.settings.store");
