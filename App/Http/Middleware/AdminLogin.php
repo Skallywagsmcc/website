@@ -2,6 +2,7 @@
 
 
 namespace App\Http\Middleware;
+use App\Http\traits\Authentication;
 use mbamber1986\Authclient\Auth;
 use App\Http\Models\User;
 use MiladRahimi\PhpRouter\Router;
@@ -12,12 +13,13 @@ use Closure;
 
 class AdminLogin
 {
+    use Authentication;
     public function handle(ServerRequestInterface $request, Closure $next, Url $url,Auth $auth)
     {
 
+
 //        we will check for roles here
-        $admin = User::where("id",$auth->id())->where("is_admin",1)->get();
-        if($admin->count()==1) {
+        if($this->isAdmin() == true){
             return $next($request);
         }
         else

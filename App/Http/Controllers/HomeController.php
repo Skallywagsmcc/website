@@ -10,6 +10,7 @@ use App\Http\Models\FeaturedImage;
 use App\Http\Models\Article;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
+use App\Http\traits\Activitylog;
 use Laminas\Diactoros\ServerRequest;
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Routing\Route;
@@ -17,9 +18,11 @@ use MiladRahimi\PhpRouter\Url;
 
 class HomeController
 {
+use Activitylog;
 
     public function index(Url $url)
     {
+
         $pages = Article::orderBy("id", "desc")->limit(4)->get();
         $events = Event::where("end_at",">=",date("Y-m-d"))->orderBy("id","asc")->limit(1)->get();
         $profile = Profile::where("is_crew",1)->get();

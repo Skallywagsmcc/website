@@ -15,13 +15,31 @@ use mbamber1986\Authclient\Auth;
 trait Authentication
 {
 
+    public function loggedinuser()
+    {
+        $auth = new Auth();
+        $user = User::where("id",$auth->id())->get();
+        if($user->count() == 1)
+        {
+            $user = $user->first();
+        }
+
+        return $user;
+
+    }
+
     public function isGuest()
     {
-        if ($this->VerifyLogin()) {
-            return true;
-        } else {
-            return false;
-        }
+        $user = User::where("id", $this->VerifyLogin())->get();
+            if($user->count() == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return  true;
+            }
+
     }
 
 //    this will verifu

@@ -10,12 +10,22 @@ namespace App\Http\Controllers\Account;
 
 
 use App\Http\Functions\TemplateEngine;
+use App\Http\Models\ActivityLog;
+use App\Http\traits\Activity_log;
+use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
 
 class HomeController
 {
-    public function index(Url $url)
+
+    public $activity;
+
+
+    use Activity_log;
+
+    public function index(Url $url,Auth $auth)
     {
-        echo TemplateEngine::View("Pages.Backend.UserCp.Home",["url"=>$url]);
+       $this->activity =  $this->UserActivity();
+        echo TemplateEngine::View("Pages.Backend.UserCp.Home",["url"=>$url,"request"=>$this]);
     }
 }
