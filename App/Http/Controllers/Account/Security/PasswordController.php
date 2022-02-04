@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Account\Security;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\traits\Activity_log;
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\User;
@@ -15,6 +16,7 @@ use MiladRahimi\PhpRouter\Url;
 class PasswordController
 {
 
+    use Activity_log;
     public $password;
     public $newpw;
     public $confirm;
@@ -43,6 +45,7 @@ class PasswordController
                     if ($validate->HasStrongPassword($this->newpw) == true) {
                         $user = User::find($auth->id());
                         $user->password = password_hash($this->newpw, PASSWORD_DEFAULT);
+                        $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("security.password.home"))->newactivity("password","update");
                         $user->save();
                         redirect($url->make("logout"));
                     } else {

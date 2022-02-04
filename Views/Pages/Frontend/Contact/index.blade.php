@@ -48,13 +48,7 @@
             @endisset
 
 
-            @if($requests->AllResources($requests->entity_name)->count() == 0)
-                No Resources found
-                @else
-           @foreach($requests->AllResources($requests->entity_name) as $resources)
-{{$resources->value}}
-               @endforeach
-           @endif
+
 
             <div class="container my-2">
                 <div class="row mx-1">
@@ -123,33 +117,33 @@
                             <button class="g-recaptcha btn btn-primary"
                                     data-sitekey="6LcklagdAAAAAAb7fXVtUQAdaJMPWk68K_pqztt4"
                                     data-callback='onSubmit'
-                                    data-action='contactus'>Save</button>
+                                    data-action='contactus'>Save
+                            </button>
                         </form>
 
                     </div>
-                    <div class="col-sm-12 col-lg-4 my-3 my-lg-0">
-                        @isset($requests)
-                            <div class="col-sm-12 head">Contact informtion</div>
-                            <div class="col-sm-12 text-center">
-                                Telehone Number :
-                                @if(!empty($requests->settings->first()->contact_telephone))
-                                    0{{$requests->settings->first()->contact_telephone}}
-                                @else
-                                    Not Provided
-                                @endif
-                            </div>
 
-                            <div class="col-sm-12 head">Email Address</div>
-                            <div class="col-sm-12 text-center">
-                                Email Address :
-                                @if(!empty($requests->settings->first()->contact_email))
-                                    0{{$requests->settings->first()->contact_email}}
-                                @else
-                                    No Email Added
-                                @endif
+                    <div class="col-sm-12 col-lg-4 my-3 my-lg-0">
+                        <div class="col-sm-12 head">Useful Resources</div>
+                        @if($requests->AllResources($requests->entity_name)->count() == 0)
+                            <div class="col-sm-12">
+                                No Resources found
                             </div>
-                        @endisset
+                        @else
+                            @foreach($requests->AllResources($requests->entity_name) as $resources)
+                                <div class="col-sm-12">
+                                    @if($resources->type == "email")
+                                        <a href="mailto:{{$resources->value}}">{{$resources->name}}}</a>
+                                        @elseif($resources->type == "url")
+                                        <a href="http://{{$resources->value}}">{{$resources->name}}</a>
+                                    @elseif($resources->type=="telephone")
+                                       Call :  <a href="tel:{{$resources->value}}">{{$resources->name}}</a>
+                                    @endif
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
+
                 </div>
             </div>
         @endif

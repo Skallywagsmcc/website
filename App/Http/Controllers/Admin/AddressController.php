@@ -9,6 +9,7 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Address;
+use App\Http\traits\Activity_log;
 use Laminas\Diactoros\ServerRequest;
 use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
@@ -17,6 +18,8 @@ use Plugins\Managers\AddressBook;
 
 class AddressController
 {
+
+    use Activity_log;
 
     public $user_id;
     public $entity_name;
@@ -104,6 +107,7 @@ class AddressController
                 $addressBook->new($this->entity_name);
                 if ($addressBook->status == true) {
                     unset($_SESSION['entity_name']);
+                    $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("auth.admin.addresses.home"))->newactivity("address","create",true);
                     redirect($url->make("auth.admin.addresses.home"));
                 }
                 else
@@ -148,6 +152,7 @@ class AddressController
                 $addressBook->edit($this->id,$this->entity_name);
                 if($addressBook->status == true)
                 {
+                    $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("auth.admin.addresses.home"))->newactivity("address","update",true);
                     redirect($url->make("auth.admin.addresses.home"));
                 }
                 else
@@ -170,6 +175,7 @@ class AddressController
         $addressBook->delete($this->id);
         if($addressBook->status == true)
         {
+            $this->newactivity("address","delete",true);
             redirect($url->make("auth.admin.addresses.home"));
         }
         else

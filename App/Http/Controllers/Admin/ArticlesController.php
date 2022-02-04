@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\traits\Activity_log;
 use App\Libraries\Filemanager;
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
@@ -19,6 +20,8 @@ use MiladRahimi\PhpRouter\Url;
 
 class ArticlesController
 {
+
+    use Activity_log;
 
     public $title;
     public $content;
@@ -70,10 +73,10 @@ class ArticlesController
             else {
                 $article = new Article();
                 $article->user_id = $auth->id();
-                $article->entry_name = "Articles";
                 $article->title = $this->title;
                 $article->slug = str_replace(" ", "-", $this->title);
                 $article->content = $this->content;
+                $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("articles.view",["slug"=>$article->slug]))->newactivity("article","create","true");
                 if($article->save())
                 {
                     redirect($url->make("auth.admin.articles.home"));
@@ -124,6 +127,7 @@ class ArticlesController
                 $article->slug = str_replace(" ", "-", $article->title);
                 $article->content = $this->content;
                 $article->save();
+                $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("articles.view",["slug"=>$article->slug]))->newactivity("article","update","true");
                 redirect($url->make("auth.admin.articles.home"));
             }
             echo TemplateEngine::View("Pages.Backend.AdminCp.Articles.edit", ["article" => $article, "count" => $count, "url" => $url,"error"=>$error,"rmf"=>$rmf,"post"=>$this]);
@@ -139,6 +143,7 @@ class ArticlesController
 //        this will later require a passsword from an admin
         $id = base64_decode($id);
         $article = Article::find($id)->delete();
+        $this->newactivity("article","delete","true");
         redirect($url->make("auth.admin.articles.home"));
     }
 

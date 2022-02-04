@@ -110,9 +110,9 @@ $auth = new Auth();
                     <div class="col-sm-12 head py-2 pl-lg-1">Image Manager</div>
                     <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.images.home")}}"
                                                    class="d-block py-2">List Images Uploads</a></div>
-                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.featured.home")}}"
-                                                   class="d-block py-2">
-                            Featured Image Request</a></div>
+{{--                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.featured.home")}}"--}}
+{{--                                                   class="d-block py-2">--}}
+{{--                            Featured Image Request</a></div>--}}
                 </div>
 
                 <div class="row  my-1 pb-1 mx-0">
@@ -137,9 +137,6 @@ $auth = new Auth();
 
                     <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.addresses.new")}}"
                                                    class="d-block py-2">Add New Address</a></div>
-
-                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.resources.new")}}"
-                                                   class="d-block py-2">Add New resource</a></div>
                 </div>
 
                 <div class="row  my-1 pb-1 mx-0">
@@ -147,13 +144,6 @@ $auth = new Auth();
                     <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.settings.home")}}"
                                                    class="d-block py-2">Update
                             Site Settings</a></div>
-
-                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.addresses.home")}}"
-                                                   class="d-block py-2">Manage Addresses</a></div>
-
-                    <div class="col-sm-12 px-0"><a href="{{$url->make("auth.admin.contact.home")}}"
-                                                   class="d-block py-2">Modify Contact form</a></div>
-
                 </div>
 
 

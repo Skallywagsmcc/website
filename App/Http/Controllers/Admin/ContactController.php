@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 
@@ -7,6 +8,7 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Address;
 use App\Http\Models\Resources;
+use App\Http\traits\Activity_log;
 use MiladRahimi\PhpRouter\Url;
 use Plugins\Managers\AddressBook;
 use Plugins\Managers\ResourceManager;
@@ -36,6 +38,7 @@ class ContactController
 
 //end Addressbook
 
+use Activity_log;
 
 //ResourceManager
 
@@ -56,6 +59,8 @@ class ContactController
             $this->county = $validate->Post("county");
             $this->postcode = $validate->Post("postcode");
             $this->type = $validate->Post("type");
+
+            $this->value = $validate->Post("value");
         }
         $this->showform = true;
         $this->type = $addressBook->type;
@@ -155,8 +160,8 @@ class ContactController
     }
 
 
-    public function resource_store(Url $url, Csrf $csrf, Validate $validate,ResourceManager $resourceManager)
-{
+    public function resource_store(Url $url, Csrf $csrf, Validate $validate, ResourceManager $resourceManager)
+    {
         $validate->AddRequired(["name", "type", "value"]);
         if ($csrf->Verify() == true) {
             if ($validate->Allowed() == false) {
@@ -177,40 +182,42 @@ class ContactController
         echo TemplateEngine::View("Pages.Backend.AdminCp.Contactus.Resources.new", ["url" => $url, "request" => $this]);
     }
 
-    public function resource_edit($id,Url $url,ResourceManager $resourceManager, Csrf $csrf , Validate $validate)
+    public function resource_edit($id, Url $url, ResourceManager $resourceManager, Csrf $csrf, Validate $validate)
     {
         $this->id = base64_decode($id);
-        $this->resources = Resources::where("id",$this->id)->get();
-        if($this->resources->count() == 1)
-        {
+        $this->resources = Resources::where("id", $this->id)->get();
+        if ($this->resources->count() == 1) {
             $this->resources = $this->resources->first();
-        }
-        else
-        {
+        } else {
             $this->error = "Resource cannot be found";
             $this->showform = false;
         }
         echo TemplateEngine::View("Pages.Backend.AdminCp.Contactus.Resources.edit", ["url" => $url, "request" => $this]);
     }
 
-    public function resource_update($id,Url $url,ResourceManager $resourceManager, Csrf $csrf , Validate $validate)
+    public function resource_update($id, Url $url, ResourceManager $resourceManager, Csrf $csrf, Validate $validate)
     {
         $this->id = base64_decode($id);
-        echo $this->id;
-    }
-
-
-    public function resource_delete(Url $url,$id,ResourceManager $resourceManager)
-    {
-        $this->id = base64_decode($id);
-        $resourceManager->delete($this->id);
-        if($resourceManager->status == true)
+        if($resourceManager->edit($this->id, $this->entity_name) == true)
         {
             redirect($url->make("auth.admin.contact.home"));
         }
         else
         {
-            $this->error =  "delete failed";
+            echo "Resource edit Failed";
+        }
+
+    }
+
+
+    public function resource_delete(Url $url, $id, ResourceManager $resourceManager)
+    {
+        $this->id = base64_decode($id);
+        $resourceManager->delete($this->id);
+        if ($resourceManager->status == true) {
+            redirect($url->make("auth.admin.contact.home"));
+        } else {
+            $this->error = "delete failed";
         }
     }
 

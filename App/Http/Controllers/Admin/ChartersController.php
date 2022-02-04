@@ -9,6 +9,7 @@ use App\Http\Functions\Validate;
 use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Charter;
 use App\Http\Models\Image;
+use App\Http\traits\Activity_log;
 use App\Http\traits\ErrorHandling;
 use App\Http\traits\FileManager;
 use App\Http\traits\Resources;
@@ -17,6 +18,7 @@ use MiladRahimi\PhpRouter\Url;
 
 class ChartersController
 {
+
 
     public $charter;
 
@@ -38,6 +40,7 @@ class ChartersController
     use Resources;
     use FileManager;
     use ErrorHandling;
+    use Activity_log;
 
     public function __construct(Validate $validate)
     {
@@ -97,6 +100,7 @@ class ChartersController
                     $thumb->type = $this->GetFile("type");
                     $thumb->size = $this->GetFile("size");
                     if ($thumb->save()) {
+
                         $this->success = true;
                     } else {
                         $this->success = false;
@@ -134,6 +138,8 @@ class ChartersController
                     $charter->slug = slug($charter->title);
                     $charter->content = $this->content;
                     $charter->save();
+                    $this->addurl("http://" . $_SERVER['HTTP_HOST'] . $url->make("charters.view", ["slug" => $charter->slug]))->newactivity("charter", "create", true);
+
                     redirect($url->make("auth.admin.charters.home"));
                 } else {
                     $this->error = "An error Occurred: Charter has not been created";
@@ -163,31 +169,39 @@ class ChartersController
             if ($validate->Allowed() == false) {
                 $this->error = "Missing fields";
                 $this->required = $validate->is_required;
-            } elseif ($this->EmptyFIle("thumb") == true) {
-                $this->error = "Thumnbnail has not been uploaded Please add one";
-            } elseif ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false) {
-                $this->error = "It seems you have tried to upload an unsuppored file format as a thumbnail";
-            } elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
-                $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+            } elseif (($this->EmptyFIle("thumb") == false) && ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false)) {
+                if ($this->Filesize("thumb") == false) {
+                    $this->error = "File upload size for thumbnail exceeds the value of " . $this->HRFS($this->MFS);
+                } else {
+                    $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+                }
+            } //            this will check if the cover is using the correct format and correct file size
+            elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
+                if ($this->Filesize("cover") == false) {
+                    $this->error = "File upload size  for cover image exceeds the value of " . $this->HRFS($this->MFS);
+                } else {
+                    $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
+                }
             } else {
                 if ($charter->count() == 1) {
-
                     $charter = $charter->first();
 
-//                    Delete thumb and reupload;
+//                    Upload the image
+
                     if ($this->EmptyFIle("thumb") == false) {
-
-
-                        if ($charter->Image()->count() == 1) {
-                            if ((file_exists(UPLOAD_DIR . '/' . $charter->image->name))) {
-                                $this->rmfile($charter->image->name);
-                            } else {
-                                echo "cover file doesnt exisit";
+//                        Load images and delete the previous one;
+                        $thumbs = Image::where("id", $event->thumbnail);
+                        if ($thumbs->count() == 1) {
+                            $thumb = $thumbs->first();
+                            if (file_exists(UPLOAD_DIR . "/" . $thumb->name)) {
+                                $this->rmfile($thumb->name);
                             }
-//                        delete from database regardless of if the item exisits
-                            Image::destroy($charter->image->id);
+//                            Delete from record either way
+                            $thumbs->delete();
+
                         }
 
+//                            Upload new Image
                         if ($this->upload("thumb") == true) {
                             $thumb = new Image();
                             $thumb->user_id = $auth->id();
@@ -198,33 +212,27 @@ class ChartersController
                             $thumb->type = $this->GetFile("type");
                             $thumb->size = $this->GetFile("size");
                             $thumb->save();
-                        } else {
-                            echo "thum nail upload failed";
+                            $thumbSuccess = true;
                         }
-
                     }
 
 
-                    /* 1 check the cover image file is empty
-                    * 2 Check the database record isnt null
-                     * 3 Check the file exisits
-                     * 4 Delete the file from storaage
-                     *  5 delete from Database
-                     *  6 Upload a new thumbnail
-                    */
-                    if ($this->EmptyFIle("cover") == false) {
+//                    Check Cover photo
 
-                        if ($charter->CoverImage()->count() == 1) {
-                            if (!is_null($charter->coverimage)) {
-                                if (file_exists(UPLOAD_DIR . '/' . $charter->coverimage->name)) {
-                                    $this->rmfile($charter->coverimage->name);
-                                } else {
-                                    echo "cover file doesnt exisit";
-                                }
-//                        delete from database regardless of if the item exisits
-                                Image::destroy($charter->coverimage->id);
+                    if ($this->EmptyFIle("cover") == false) {
+//                        Load images and delete the previous one;
+                        $covers = Image::where("id", $event->cover);
+                        if ($covers->count() == 1) {
+                            $cover = $covers->first();
+                            if (file_exists(UPLOAD_DIR . "/" . $cover->name)) {
+//                                Remove the file;
+                                $this->rmfile($cover->name);
                             }
+//                            Delete from record either way
+                            $covers->delete();
                         }
+
+//                            Upload new Image
 
                         if ($this->upload("cover") == true) {
                             $cover = new Image();
@@ -236,29 +244,103 @@ class ChartersController
                             $cover->type = $this->GetFile("type");
                             $cover->size = $this->GetFile("size");
                             $cover->save();
-                            $cover_id = $cover->id;
-                        } else {
-                            echo "cover image failed";
+                            $coversuccess = true;
                         }
                     } else {
-                        $cover_id = null;
                     }
 
-                    $charter->user_id = $auth->id();
-                    $charter->thumbnail = $thumb->id;
-                    $charter->cover = $cover_id;
-                    $charter->title = ucwords($this->title);
-                    $charter->slug = slug($charter->title);
-                    $charter->content = $this->content;
-                    $charter->save();
-                } else {
-                    echo "Not found";
+//                                End image upload for covers
                 }
+
+                $charter->user_id = $auth->id();
+                $thumbSuccess == true ? $charter->thumbnail = $thumb->id : $event->thumbnail = false;
+                $coversuccess == true ? $charter->cover = $cover->id : false;
+                $charter->title = ucwords($this->title);
+                $charter->slug = slug($charter->title);
+                $charter->content = $this->content;
+                $charter->save();
+                $this->addurl("http://" . $_SERVER['HTTP_HOST'] . $url->make("charters.view", ["slug" => $charter->slug]))->newactivity("charter", "update", true);
+                redirect($url->make("auth.admin.charters.edit", ["id" => base64_encode($this->id)]));
             }
-            redirect($url->make("auth.admin.charters.edit", ["id" => base64_encode($this->id)]));
         } else {
             $this->error = "Csrf Vali";
         }
+
+////                    Delete thumb and reupload;
+//                    if ($this->EmptyFIle("thumb") == false) {
+//
+//
+//                        if ($charter->Image()->count() == 1) {
+//                            if ((file_exists(UPLOAD_DIR . '/' . $charter->image->name))) {
+//                                $this->rmfile($charter->image->name);
+//                            } else {
+//                                echo "cover file doesnt exisit";
+//                            }
+////                        delete from database regardless of if the item exisits
+//                            Image::destroy($charter->image->id);
+//                        }
+//
+//                        if ($this->upload("thumb") == true) {
+//                            $thumb = new Image();
+//                            $thumb->user_id = $auth->id();
+//                            $thumb->entity_name = $this->entity_name;
+//                            $thumb->entity_id = $charter->id;
+//                            $thumb->imagetype = "thumbnail";
+//                            $thumb->name = $this->hashed_name;
+//                            $thumb->type = $this->GetFile("type");
+//                            $thumb->size = $this->GetFile("size");
+//                            $thumb->save();
+//                        } else {
+//                            echo "thumb nail upload failed";
+//                        }
+//
+//                    }
+//
+//
+//                    /* 1 check the cover image file is empty
+//                    * 2 Check the database record isnt null
+//                     * 3 Check the file exisits
+//                     * 4 Delete the file from storaage
+//                     *  5 delete from Database
+//                     *  6 Upload a new thumbnail
+//                    */
+//                    if ($this->EmptyFIle("cover") == false) {
+//
+//                        if ($charter->CoverImage()->count() == 1) {
+//                            if (!is_null($charter->coverimage)) {
+//                                if (file_exists(UPLOAD_DIR . '/' . $charter->coverimage->name)) {
+//                                    $this->rmfile($charter->coverimage->name);
+//                                } else {
+//                                    echo "cover file doesnt exisit";
+//                                }
+////                        delete from database regardless of if the item exisits
+//                                Image::destroy($charter->coverimage->id);
+//                            }
+//                        }
+//
+//                        if ($this->upload("cover") == true) {
+//                            $cover = new Image();
+//                            $cover->user_id = $auth->id();
+//                            $cover->entity_name = $this->entity_name;
+//                            $cover->entity_id = $charter->id;
+//                            $cover->imagetype = "cover";
+//                            $cover->name = $this->hashed_name;
+//                            $cover->type = $this->GetFile("type");
+//                            $cover->size = $this->GetFile("size");
+//                            $cover->save();
+//                            $cover_id = $cover->id;
+//                        } else {
+//                            echo "cover image failed";
+//                        }
+//                    } else {
+//                        $cover_id = null;
+//                    }
+//
+//
+//                } else {
+//                    echo "Not found";
+//                }
+
         echo TemplateEngine::View("Pages.Backend.Charters.edit", ["url" => $url, "request" => $this]);
     }
 
@@ -278,6 +360,8 @@ class ChartersController
             }
             Image::where("entity_name", $this->entity_name)->where("entity_id", $charter->id)->delete();
             $charters->delete();
+            $this->newactivity("charter", "delete", true);
+
             redirect($url->make("auth.admin.charters.home"));
         }
     }

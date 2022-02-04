@@ -21,7 +21,7 @@
             <div class="col-sm-12 px-0" id="cover_base">
 
                 <div class=" col-xs-12 px-0" id="cover_image">
-                    <img src="/img/uploads/covers/{{$charter->CoverImage->name}}"
+                    <img src="/img/uploads/{{$charter->CoverImage->name}}"
                          alt=" {{$user->username}} Profile Image">
                 </div>
 

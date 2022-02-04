@@ -10,6 +10,7 @@ use App\Http\Libraries\Authentication\Csrf;
 use App\Http\Models\Address;
 use App\Http\Models\Event;
 use App\Http\Models\Image;
+use App\Http\traits\Activity_log;
 use App\Http\traits\FileManager;
 use App\Http\traits\Resources;
 use App\Http\traits\Users;
@@ -21,6 +22,7 @@ class EventsController
     use Resources;
     use FileManager;
     use Users;
+    use Activity_log;
 
     public $error;
     public $thumb;
@@ -86,16 +88,14 @@ class EventsController
                 $this->error = "Thumnbnail has not been uploaded Please add one";
             } elseif ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false) {
                 $this->error = "It seems you have tried to upload an unsuppored file format as a thumbnail";
-            }
-            elseif ($this->Filesize("thumbail") == false) {
+            } elseif ($this->Filesize("thumbail") == false) {
                 $this->error = "File upload size for thumbnail image exceeds the value of " . $this->HRFS($this->MFS);
-            }
-            //            this will check if the cover is using the correct format
+            } //            this will check if the cover is using the correct format
             elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
                 $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
             } elseif ($this->Filesize("cover") == false) {
                 $this->error = "File upload size  for cover image exceeds the value of " . $this->HRFS($this->MFS);
-            }else {
+            } else {
                 $id = Event::all()->last()->id + 1;
 
                 if ($this->EmptyFIle("thumb") == false) {
@@ -151,13 +151,13 @@ class EventsController
                     $this->event->meet_id = $this->meet_id;
 //            Dest_id
                     $this->event->dest_id = $this->dest_id;
-                    if ($this->event->save()) {
-                        redirect($url->make("auth.admin.events.home"));
-                    }
+                    if ($this->event->save())
+                        $this->addurl("http://" . $_SERVER['HTTP_HOST'] . $url->make("events.view", ["slug" => $this->event->slug]))->newactivity("event", "create", true);
+                    redirect($url->make("auth.admin.events.home"));
                 }
-
-
             }
+
+
         } else {
             $this->error = "Csrf token doesnt match";
         }
@@ -201,22 +201,17 @@ class EventsController
                 } elseif (($this->EmptyFIle("thumb") == false) && ($this->IsSupported("thumb", ["png", "jpeg", "jpg"]) == false)) {
                     if ($this->Filesize("thumb") == false) {
                         $this->error = "File upload size for thumbnail exceeds the value of " . $this->HRFS($this->MFS);
-                    }
-                    else
-                    {
+                    } else {
                         $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
                     }
                 } //            this will check if the cover is using the correct format and correct file size
                 elseif (($this->EmptyFIle("cover") == false) && ($this->IsSupported("cover", ["png", "jpeg", "jpg"]) == false)) {
                     if ($this->Filesize("cover") == false) {
                         $this->error = "File upload size  for cover image exceeds the value of " . $this->HRFS($this->MFS);
-                    }
-                    else
-                    {
+                    } else {
                         $this->error = "It seems you have tried to upload an unsuppored file format as a cover image";
                     }
-                }
-                elseif (($this->meet_id == 0) or ($this->dest_id == 0)) {
+                } elseif (($this->meet_id == 0) or ($this->dest_id == 0)) {
                     $this->error = " One or more Address choices is invalid Please make another selection";
                 } //                End Verification
                 else {
@@ -284,7 +279,7 @@ class EventsController
                     }
 
 //                                End image upload for covers
-                    }
+                }
 
 
                 if (!$this->error) {
@@ -299,6 +294,8 @@ class EventsController
                     $event->dest_id = $this->dest_id;
 //                    Map url removed in place of Resources
                     $event->save();
+                    $this->addurl("http://" . $_SERVER['HTTP_HOST'] . $url->make("events.view", ["slug" => $event->slug]))->newactivity("event", "update", true);
+
                     redirect($url->make("auth.admin.events.home"));
                 } else {
                     $this->error = "Event Update failed";
@@ -320,13 +317,12 @@ class EventsController
 
     }
 
-    public function delete($id,Url $url, Auth $auth)
+    public function delete($id, Url $url, Auth $auth)
     {
         $this->id = base64_decode($id);
         $events = Event::where("id", $this->id);
 
-        if ($events->count() == 1)
-        {
+        if ($events->count() == 1) {
             $event = $events->get()->first();
 
             //        Delete the thumbnails
@@ -354,7 +350,7 @@ class EventsController
             }
 //        Delete the Event
             $events->delete();
-        redirect($url->make("auth.admin.events.home"));
+            redirect($url->make("auth.admin.events.home"));
         }
         echo TemplateEngine::View("Pages.Backend.Events.index", ["events" => $events, "url" => $url, "error" => $this->error]);
     }

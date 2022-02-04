@@ -14,6 +14,7 @@ use App\Http\Models\SiteSettings;
 use App\Http\Models\Token;
 use App\Http\Models\User;
 use App\Http\Models\UserSettings;
+use App\Http\traits\Activity_log;
 use App\Http\traits\Ban_manager;
 use App\Http\traits\Passwords;
 use App\Http\traits\Users;
@@ -30,6 +31,7 @@ class UsersController implements \App\Http\Interfaces\Users
     use Ban_manager;
     use Users;
     use Passwords;
+    use Activity_log;
 
 
     public $id;
@@ -214,6 +216,7 @@ class UsersController implements \App\Http\Interfaces\Users
                         $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
                         $mail->send();
                         $this->status = true;
+                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home")).$this->newactivity("user","create",true);
                         redirect($url->make("login"));
                     } catch (Exception $e) {
                         $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -296,6 +299,7 @@ class UsersController implements \App\Http\Interfaces\Users
                         $profile->first_name = $this->first_name;
                         $profile->last_name = $this->last_name;
                         $profile->save();
+                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home")).$this->newactivity("user","update",true);
                         redirect($url->make("auth.admin.users.home"));
                     }
                 }
@@ -311,7 +315,6 @@ class UsersController implements \App\Http\Interfaces\Users
     public function delete($id, Url $url)
     {
         $id = base64_decode($id);
-
     }
 
     public function deleterequest(Url $url, $user_id, $token_hex, $token_key)

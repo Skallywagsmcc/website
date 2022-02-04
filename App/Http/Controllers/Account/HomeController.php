@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Account;
 
 
 use App\Http\Functions\TemplateEngine;
+use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\ActivityLog;
 use App\Http\traits\Activity_log;
 use mbamber1986\Authclient\Auth;
@@ -19,13 +20,19 @@ class HomeController
 {
 
     public $activity;
+    public $auth;
+    public $links;
 
 
     use Activity_log;
 
     public function index(Url $url,Auth $auth)
     {
+        $paginator = new LaravelPaginator("15","page");
        $this->activity =  $this->UserActivity();
+       $this->activity = $paginator->paginate($this->activity);
+       $this->links = $paginator->page_links();
+       $this->auth = $auth;
         echo TemplateEngine::View("Pages.Backend.UserCp.Home",["url"=>$url,"request"=>$this]);
     }
 }

@@ -10,15 +10,15 @@ use App\Http\Models\FeaturedImage;
 use App\Http\Models\Article;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
-use App\Http\traits\Activitylog;
 use Laminas\Diactoros\ServerRequest;
+use App\Http\traits\Activity_log;
 use MiladRahimi\PhpRouter\Router;
 use MiladRahimi\PhpRouter\Routing\Route;
 use MiladRahimi\PhpRouter\Url;
 
 class HomeController
 {
-use Activitylog;
+use Activity_log;
 
     public function index(Url $url)
     {

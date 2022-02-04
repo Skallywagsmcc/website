@@ -11,6 +11,7 @@ use App\Http\Libraries\Pagination\LaravelPaginator;
 use App\Http\Models\Image;
 use App\Http\Models\Profile;
 use App\Http\Models\User;
+use App\Http\traits\Activity_log;
 use App\Http\traits\FileManager;
 use mbamber1986\Authclient\Auth;
 use MiladRahimi\PhpRouter\Url;
@@ -28,6 +29,7 @@ class ProfilePictureController
     public $links;
     public $ppic;
 
+    use Activity_log;
 
     public function __construct(Validate $validate)
     {
@@ -90,7 +92,13 @@ class ProfilePictureController
                     $profile = $user->Profile()->where("user_id", $auth->id())->get()->first();
                     $profile->profile_pic = $image->id;
                     $profile->save();
+                        $this->addurl("http://" . $_SERVER["HTTP_HOST"] . "/img/uploads/" . $image->name . "")->newactivity("profile_pic", "upload");
                 }
+                else
+                {
+                    $this->newactivity("image","upload","http://".$_SERVER["HTTP_HOST"]."/img/uploads/".$image->name."");
+                }
+
                 redirect($url->make("account.picture.home"));
             }
         }
@@ -115,6 +123,9 @@ class ProfilePictureController
             $profile->count() ==1 ? $profile = $profile->first() : false;
             $profile->profile_pic = $image->id;
             $profile->save();
+            if($profile->profile_pic != $image->id) {
+                $this->addurl("http://" . $_SERVER["HTTP_HOST"] . "/img/uploads/" . $image->name . "")->newactivity("profile_pic", "set");
+            }
             redirect($url->make("account.picture.home"));
         }
     }
@@ -136,6 +147,7 @@ class ProfilePictureController
                 $this->rmfile($this->image->get()->first()->name);
             }
             $this->image->delete();
+            $this->newactivity("image","delete");
             redirect($url->make("account.picture.home"));
         }
         else

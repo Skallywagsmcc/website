@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Account\Security;
 
 use App\Http\Functions\TemplateEngine;
 use App\Http\Functions\Validate;
+use App\Http\traits\Activity_log;
 use App\Http\traits\Users;
 use mbamber1986\Authclient\Auth;
 use App\Http\Libraries\Authentication\Csrf;
@@ -16,6 +17,7 @@ class EmailController
 {
 
     use Users;
+    use Activity_log;
     public $email;
     public $error;
     public $password;
@@ -38,8 +40,6 @@ class EmailController
 
     public function store(Url $url, Validate $validate, Csrf $csrf, Auth $auth)
     {
-
-
         if ($csrf->Verify() == true) {
             $validate->AddRequired(["email"]);
             $user = $this->findusers($auth->id())->first();
@@ -60,6 +60,7 @@ class EmailController
             } else {
                 $user->email = $this->email;
                 $user->save();
+                $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("security.email.home"))->newactivity("email","update");
                 redirect($url->make("logout"));
             }
         }
@@ -67,7 +68,6 @@ class EmailController
             {
                 $error = "Csrf Token does not match";
             }
-
             echo TemplateEngine::View("Pages.Backend.UserCp.Account.Security.EmailChange", ["user", $user, "error" => $error, "url" => $url, "post" => $this]);
 
     }

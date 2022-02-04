@@ -4,10 +4,13 @@ namespace Plugins\Managers;
 
 use App\Http\Functions\Validate;
 use App\Http\Models\Resources;
+use App\Http\traits\Activity_log;
 use MiladRahimi\PhpRouter\Url;
 
 class ResourceManager
 {
+
+    use Activity_log;
 
     public $name;
     public $type;
@@ -56,6 +59,7 @@ class ResourceManager
         $this->resource->value = $this->value;
         if ($this->resource->save()) {
             $this->status = true;
+            $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("auth.admin.contact.resources.home"))->newactivity("resource","create",true);
         } else {
             $this->status = false;
         }
@@ -67,14 +71,16 @@ class ResourceManager
 
         $this->resource = Resources::where("id", $id)->get();
         if ($this->resource->count() == 1) {
+            $this->resource = $this->resource->first();
             $this->resource->entity_name = $entity_name;
             $this->resource->name = $this->name;
             $this->resource->type = $this->type;
             $this->resource->value = $this->value;
             if ($this->resource->save()) {
-                $this->status = true;
+               return true;
+                $this->addurl("http://".$_SERVER['HTTP_HOST'].$url->make("auth.admin.contact.resources.home"))->newactivity("resource","update",true);
             } else {
-                $this->status = false;
+                return false;
             }
         } else {
             $this->error = "Page not found";
@@ -94,6 +100,7 @@ class ResourceManager
         if ($this->resource->count() == 1) {
             $this->resource->delete();
             $this->status = true;
+            $this->newactivity("resource","delete",true);
         } else {
             $this->status = false;
         }

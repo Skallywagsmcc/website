@@ -113,6 +113,11 @@ body a {
     color: black;
     text-decoration: underline;
   }
+
+  .boxbg {
+    background-color: #2a373e;
+    border: solid 1px #ce1126;
+  }
 }
 @media (max-width: 998.91px) {
   #topbar {
