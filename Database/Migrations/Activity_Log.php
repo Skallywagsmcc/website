@@ -21,7 +21,7 @@ class Activity_Log
             $table->string("type"); //blog event image upload,login, login attempt, Password Reset,
             $table->string("action"); // create edit, delete
             $table->string("url");
-            $table->longtext("reason")->nullable();\
+            $table->longtext("reason")->nullable();
             $table->biginteger("aod"); //Admin only display;
             $table->timestamps();
         });
