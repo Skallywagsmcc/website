@@ -70,7 +70,7 @@ class UsersController implements \App\Http\Interfaces\Users
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $this->id = $validate->Post("id");
-            $this->email = $validate->Post("email");
+            $this->email = str_replace(" ","",$validate->Post("email"));
             $this->username = $validate->Post("username");
             $this->first_name = $validate->Post("first_name");
             $this->last_name = $validate->Post("last_name");
@@ -157,8 +157,8 @@ class UsersController implements \App\Http\Interfaces\Users
 //                Create the user;
 
                 $user = new User();
-                $user->email = str_replace(" ","",$this->email);
-                $this->is_admin == 1 ? $user->is_admin = 1 : $user->admin = 0;
+                $user->email = $this->email;
+                $this->is_admin == 1 ? $user->is_admin = 1 : $user->is_admin = 0;
                 $user->save();
 
 //create profile and settings

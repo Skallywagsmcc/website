@@ -59,9 +59,15 @@
                         <label for="email">Email</label>
                     </div>
                     <div class="col-sm-12 mx-3">
-                        <input type="text" class="form-control tld-input" @if(!is_null($request->token))) readonly
+                        <input type="text" class="form-control tld-input" @if(!is_null($request->token)))
                                @endif  name="email"
-                               value="@isset($request->email){{$request->email}}@else @if(!is_null($request->token)){{$request->request->User->email}}@endif @endisset">
+                               @isset($request)
+                                       @if(!is_null($request->token))
+                               value="{{$request->request->User->email}}"
+                               @else
+                                   value="{{$request->email}}"
+                               @endif
+                               @endisset>
                     </div>
                 </div>
 
