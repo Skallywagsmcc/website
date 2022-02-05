@@ -114,6 +114,7 @@ $router->group(["prefix" => "/auth", "middleware" => [Middleware\Installer::clas
     $router->get("/register/?{token_hex}?", [RegisterController::class, 'index'], "register");
     $router->post("/register/store", [RegisterController::class, 'store'], "register.store");
     $router->get("/activate/account/?{token_hex}?", [RegisterController::class, "activate"], "activate.home");
+    $router->get("/activate/account", [RegisterController::class, "activate"], "activate.request");
     $router->post("/activate/resent", [RegisterController::class, "resend_activation"], "activate.resend");
     $router->get("/logout", [LoginController::class, 'logout'], "logout");
 

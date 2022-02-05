@@ -33,7 +33,7 @@ class LoginController
 
     public function index(Url $url, ServerRequest $request)
     {
-        $request = array("ref" => $request->getQueryParams()["ref"], "access" => $request->getQueryParams()["access"]);
+        $request = array("ref" => $request->getQueryParams()["ref"], "access" => $request->getQueryParams()["access"],"action"=>$request->getQueryParams()["action"]);
         $this->checkopenreg();
         echo TemplateEngine::View("Pages.Auth.Login.index", ["url" => $url, "value" => $this, "request" => $request]);
     }

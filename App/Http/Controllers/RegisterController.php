@@ -33,6 +33,7 @@ class RegisterController
     public $last_name;
     public $status;  //private or public
     public $token;
+    public $token_key;
     public $showform;
     public $request; // true or false
     public $error;
@@ -62,11 +63,6 @@ class RegisterController
 
     public function index(Url $url, $token_hex = null)
     {
-
-        if($this->isAdmin() == true)
-        {
-            echo "user is an admin";
-        }
 
 //        Variables
 //        Add Lockout
@@ -123,7 +119,6 @@ class RegisterController
                     if ($this->token_key == $this->request->token_key) {
                         $this->status = true;
                         $validkey = true;
-                        echo "this key matches";
                     } else {
                         $validkey = false;
                     }
@@ -133,9 +128,7 @@ class RegisterController
                     } else {
                         $this->status = true;
                     }
-                }
-                else
-                {
+                } else {
                     $this->status = false;
                 }
             }
@@ -168,8 +161,7 @@ class RegisterController
         } else {
             if ((User::where("email", $this->email)->count()) == 1 && ($this->request->count() == 0)) {
                 $this->error = "Email ALready exists in our database";
-            } elseif ($validkey == false)
-            {
+            } elseif ($validkey == false) {
                 $this->error = "Invalid token Key";
             } elseif (User::where("username", $this->username)->count() == 1) {
                 $this->error = "Username already Exists";
@@ -189,8 +181,8 @@ class RegisterController
                 $profile->save();
 
 
-                $this->status == true ? $usersettings = UserSettings::where("user_id", $user->id)->get()->first() : $usersettings = new UserSettings();
-//                    Add user settings here
+                $usersettings = UserSettings::where("user_id", $user->id)->get();
+                $usersettings->count() == 1 ? $usersettings = $usersettings->first() : $usersettings = new UserSettings();
                 $usersettings->user_id = $user->id;
                 $usersettings->save();
 
@@ -237,7 +229,7 @@ class RegisterController
                     $mail->send();
 
 
-                    redirect($url->make("login"));
+                    redirect($url->make("login")."?action=activation_pending");
                 } catch (Exception $e) {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
@@ -268,7 +260,7 @@ class RegisterController
                 $user->status = 3;
                 if ($user->save()) {
                     $this->request->delete();
-                    redirect($url->make("login"));
+                    redirect($url->make("login")."?action=activation_success");
                 }
             }
         } else {

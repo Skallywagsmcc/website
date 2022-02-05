@@ -45,7 +45,7 @@
                     </div>
                     @if((!is_null($request->token)))
                         <div class="col-sm-12">
-                            <input type="text" name="token_hex" readonly value="@isset($request){{$request->token}}@endisset">
+                            <input type="hidden" name="token_hex" readonly value="@isset($request){{$request->token}}@endisset">
                         </div>
                     @endif
                     <div class="col-sm-12 mx-3">
@@ -114,6 +114,7 @@
                 </div>
 
                 <div class="row">
+                    <label for="token_key">Token key</label>
                     @if(!is_null($request->token))
                         <div class="col-sm-12"><input type="text" class="form-control tld-input" name="token_key"></div>
                     @endif

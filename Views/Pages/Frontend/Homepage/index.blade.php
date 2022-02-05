@@ -69,25 +69,25 @@
     <div class="container my-2">
         <div class="row mx-2 mx-md-0">
             <div class="col-sm-12 col-lg-9">
-                <div class="row my-3 ">
-                    <div class="col-sm-12 lb2 head">Featured Images</div>
-                    @if($featured->count() >= 1)
-                        @foreach($featured as $image)
-                            <div class="col-sm-12 col-md-4 my-2">
-                                <div class="col-sm-12 text-center">
-                                    <img class="border border-primary profile_pic"
-                                         src="/img/uploads/{{$image->Image->name}}"
-                                         height="150" width="150" alt=""/>
-                                </div>
-                                <div class="col-sm-12 text-sm-center text-right">
-                                    <a href="{{$url->make("profile.gallery.home",["username"=>$image->Image->user->username])}}">{{$image->Image->user->username}}</a>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="col-sm-12">No Featured images added</div>
-                    @endif
-                </div>
+{{--                <div class="row my-3 ">--}}
+{{--                    <div class="col-sm-12 lb2 head">Featured Images</div>--}}
+{{--                    @if($featured->count() >= 1)--}}
+{{--                        @foreach($featured as $image)--}}
+{{--                            <div class="col-sm-12 col-md-4 my-2">--}}
+{{--                                <div class="col-sm-12 text-center">--}}
+{{--                                    <img class="border border-primary profile_pic"--}}
+{{--                                         src="/img/uploads/{{$image->Image->name}}"--}}
+{{--                                         height="150" width="150" alt=""/>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-sm-12 text-sm-center text-right">--}}
+{{--                                    <a href="{{$url->make("profile.gallery.home",["username"=>$image->Image->user->username])}}">{{$image->Image->user->username}}</a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endforeach--}}
+{{--                    @else--}}
+{{--                        <div class="col-sm-12">No Featured images added</div>--}}
+{{--                    @endif--}}
+{{--                </div>--}}
 
                 {{--            Artticles--}}
 

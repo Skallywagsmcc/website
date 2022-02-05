@@ -141,9 +141,19 @@ class UsersController implements \App\Http\Interfaces\Users
 //        Step 1 Verify the csrf token
 
         if ($csrf->Verify() == true) {
-            if ($this->user_exists == true) {
+
+            if(!filter_var($this->email,FILTER_VALIDATE_EMAIL))
+            {
+                $this->error = "not a valid email address";
+            }
+            elseif ($this->user_exists == true) {
                 $this->error = "It seems the email you are trying to register is linked to another account.";
-            } else {
+            }
+            elseif($validate->HasStrongPassword($this->admin_password) == false)
+            {
+                $this->error = "Please  Enter your Account Password to proceed";
+            }
+            else {
 //                Create the user;
 
                 $user = new User();
@@ -216,7 +226,7 @@ class UsersController implements \App\Http\Interfaces\Users
                         $mail->Body .= "Have Any questions please feel free to <a href='" . $_ENV['DOMAIN'] . $url->make("contact-us") . "'>Click here</a> to contact us";
                         $mail->send();
                         $this->status = true;
-                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home")).$this->newactivity("user","create",true);
+//                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home"))->$this->newactivity("user","create",true);
                         redirect($url->make("login"));
                     } catch (Exception $e) {
                         $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
@@ -299,7 +309,7 @@ class UsersController implements \App\Http\Interfaces\Users
                         $profile->first_name = $this->first_name;
                         $profile->last_name = $this->last_name;
                         $profile->save();
-                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home")).$this->newactivity("user","update",true);
+                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home"))->$this->newactivity("user","update",true);
                         redirect($url->make("auth.admin.users.home"));
                     }
                 }
