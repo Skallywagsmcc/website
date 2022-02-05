@@ -157,7 +157,7 @@ class UsersController implements \App\Http\Interfaces\Users
 //                Create the user;
 
                 $user = new User();
-                $user->email = $this->email;
+                $user->email = str_replace(" ","",$this->email);
                 $this->is_admin == 1 ? $user->is_admin = 1 : $user->admin = 0;
                 $user->save();
 
@@ -227,7 +227,7 @@ class UsersController implements \App\Http\Interfaces\Users
                         $mail->send();
                         $this->status = true;
 //                        $this->addurl("http://".$_SERVER["HTTP_HOST"].$url->make("auth.admin.users.home"))->$this->newactivity("user","create",true);
-                        redirect($url->make("login"));
+                        redirect($url->make("auth.admin.users.home"));
                     } catch (Exception $e) {
                         $this->error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                     }

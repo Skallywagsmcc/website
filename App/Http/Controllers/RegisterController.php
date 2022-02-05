@@ -163,12 +163,17 @@ class RegisterController
                 $this->error = "Email ALready exists in our database";
             } elseif ($validkey == false) {
                 $this->error = "Invalid token Key";
-            } elseif (User::where("username", $this->username)->count() == 1) {
+            }
+            elseif(!filter_var($this->email,FILTER_VALIDATE_EMAIL))
+            {
+                $this->error = "Email is not valid Please check for any invalid characters or spaces";
+            }
+            elseif (User::where("username", $this->username)->count() == 1) {
                 $this->error = "Username already Exists";
             } else {
                 $this->status == true ? $user = User::find($this->request->User->id) : $user = new User();
                 $user->username = $this->username;
-                $user->email = $this->email;
+                $user->email = str_replace(" ","",$this->email);
                 $user->password = password_hash($this->password, PASSWORD_DEFAULT);
                 $user->status = 1;
                 $user->save();

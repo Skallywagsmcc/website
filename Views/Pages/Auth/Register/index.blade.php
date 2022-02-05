@@ -61,7 +61,7 @@
                     <div class="col-sm-12 mx-3">
                         <input type="text" class="form-control tld-input" @if(!is_null($request->token))) readonly
                                @endif  name="email"
-                               value="@isset($request->email) {{$request->email}} @else @if(!is_null($request->token)){{$request->request->User->email}}@endif @endisset">
+                               value="@isset($request->email){{$request->email}}@else @if(!is_null($request->token)){{$request->request->User->email}}@endif @endisset">
                     </div>
                 </div>
 

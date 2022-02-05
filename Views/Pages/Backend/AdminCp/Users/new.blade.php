@@ -37,19 +37,19 @@
                                 <div class="form-group col-md-6">
                                     <label for="first_name">First name : </label>
                                     <input type="text" class="form-control tld-input" name="first_name"
-                                           value="@isset($request){{$request->first_name}} @endisset">
+                                           value="@isset($request){{$request->first_name}}@endisset">
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="last_name">Last name : </label>
                                     <input type="text" class="form-control tld-input" name="last_name"
-                                           value="@isset($request){{$request->last_name}} @endisset">
+                                           value="@isset($request){{$request->last_name}}@endisset">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <label for="email">Email Address : </label>
                                 <input type="text" class="form-control tld-input" name="email"
-                                       value="@isset($request){{$request->email}}@endisset"/>
+                                       value="@isset($request->email){{$request->email}}@endisset"/>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
