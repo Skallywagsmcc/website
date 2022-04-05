@@ -98,7 +98,7 @@ class ProfilePictureController
                 {
                     $this->newactivity("image","upload","http://".$_SERVER["HTTP_HOST"]."/img/uploads/".$image->name."");
                 }
-
+micra
                 redirect($url->make("account.picture.home"));
             }
         }
